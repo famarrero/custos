@@ -1,3 +1,7 @@
+import 'package:custos/core/utils/app_error.dart';
+import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/failures.dart';
+import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:custos/presentation/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -37,16 +41,6 @@ extension BuildContextExtension on BuildContext {
   /// Gets the [fullWidth] of the screen.
   double get fullWidth => fullSize.width;
 
-  // /// Displays an internationalized message according to the code passed as a parameter
-  // /// If the code is not found, a generic message is returned.
-  // String localizeError({required Failure failure}) {
-  //   if (failure.code == AppError.invalidToken) {
-  //     return l10n.unknownErrorOccurred;
-  //   } else {
-  //     return '${failure.message}';
-  //   }
-  // }
-
   /// Displays an internationalized message according to the code passed as a parameter
   /// If the code is not found, a generic message is returned.
   String localizeError({required Failure failure}) {
@@ -55,17 +49,7 @@ extension BuildContextExtension on BuildContext {
     } else {
       switch (failure.code) {
         case AppError.unknown:
-          return l10n.unknownErrorOccurred;
-        case AppError.whitMessageFromApi:
-          return failure.message ?? l10n.unknownErrorOccurred;
-        case AppError.nullValue:
-          return l10n.nullValueError;
-        case AppError.notFound:
-          return l10n.notFoundError;
-        case AppError.methodNotAllowed:
-          return l10n.methodNotAllowedError;
-        case AppError.forbidden:
-          return l10n.forbiddenError;
+          return l10n.unknownErrorOccurred;     
       }
     }
   }
@@ -114,130 +98,5 @@ extension BuildContextExtension on BuildContext {
           ),
         ),
       );
-  }
-
-  /// Show a custom ModalBottomSheet
-  void showCustomModalBottomSheet({
-    double? heightFactor,
-    bool isDismissible = true,
-    bool enableDrag = true,
-    required Widget child,
-  }) {
-    showModalBottomSheet<dynamic>(
-      context: this,
-      useSafeArea: true,
-      isDismissible: isDismissible,
-      enableDrag: enableDrag,
-      useRootNavigator: false,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return CustomBottomModalSheet(heightFactor: heightFactor, child: child);
-      },
-    );
-  }
-
-  /// Show confirmation dialog
-  Future showConfirmationDialog({
-    String? title,
-    Widget? child,
-    String? checkBoxTitle,
-    String? labelLeftButton,
-    Color? disabledForegroundColorLeft,
-    Color? disableForegroundColorRight,
-    Color? foregroundColorLeft,
-    Color? backgroundColorLeft,
-    Color? disableBackgroundColorLeft,
-    Color? disableBackgroundColorRight,
-    Function(bool check)? onPressedLeftButton,
-    bool enableLeftButtonOnCheckOnly = false,
-    bool enableRightButtonOnCheckOnly = false,
-    String? labelRightButton,
-    Color? disabledForegroundColorRight,
-    Color? foregroundColorRight,
-    Color? backgroundColorRight,
-    Function(bool check)? onPressedRightButton,
-    bool barrierDismissible = true,
-  }) async => await showGeneralDialog(
-    context: this,
-    barrierLabel: '',
-    barrierDismissible: barrierDismissible,
-    transitionDuration: const Duration(milliseconds: 150),
-    pageBuilder: (context, anim1, anim2) {
-      return ConfirmationDialog(
-        title: title,
-        checkBoxTitle: checkBoxTitle,
-        labelLeftButton: labelLeftButton,
-        disabledForegroundColorLeft: disabledForegroundColorLeft,
-        foregroundColorLeft: foregroundColorLeft,
-        backgroundColorLeft: backgroundColorLeft,
-        disableBackgroundColorLeft: disableBackgroundColorLeft,
-        onPressedLeftButton: onPressedLeftButton,
-        labelRightButton: labelRightButton,
-        disabledForegroundColorRight: disabledForegroundColorRight,
-        foregroundColorRight: foregroundColorRight,
-        disableBackgroundColorRight: disableBackgroundColorRight,
-        backgroundColorRight: backgroundColorRight,
-        onPressedRightButton: onPressedRightButton,
-        enableLeftButtonOnCheckOnly: enableLeftButtonOnCheckOnly,
-        enableRightButtonOnCheckOnly: enableRightButtonOnCheckOnly,
-        child: child,
-      );
-    },
-    transitionBuilder: (context, anim1, anim2, child) {
-      return _DialogAnimation(animation: anim1, child: child);
-    },
-  );
-
-  /// Creates a list of shadows that is uses by [PromotionalText] and wrap [Transfer]
-  List<BoxShadow> get customShadows => [
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.15),
-      blurRadius: 3,
-      offset: const Offset(0, 1),
-      spreadRadius: 1,
-    ),
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.3),
-      blurRadius: 2,
-      offset: const Offset(0, 1),
-      spreadRadius: 0,
-    ),
-  ];
-}
-
-/// A widget that animates its child when shown.
-/// This widget is particularly useful for showing alert dialogs.
-///
-/// * A fade transition that starts with 0 opacity and ends with 1 opacity.
-/// * A slide transition that starts with an offset of (1, 0) and ends with an offset of (0, 0).
-///
-/// This widget uses a fade transition with a `Curves.bounceIn` curve to create a noticeable but smooth appearance.
-/// The slide transition uses a `Curves.easeIn` curve for a more subtle animation.
-///
-/// The `child` parameter specifies the widget to be animated.
-///
-/// The `animation` parameter specifies the animation that drives the animation of the widget.
-class _DialogAnimation extends StatelessWidget {
-  const _DialogAnimation({required this.child, required this.animation});
-
-  final Widget child;
-  final Animation<double> animation;
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: Tween<double>(
-        begin: 0.0,
-        end: 1.0,
-      ).chain(CurveTween(curve: Curves.easeInCubic)).animate(animation),
-      child: SlideTransition(
-        position: Tween(
-          begin: const Offset(0, -0.1),
-          end: Offset.zero,
-        ).chain(CurveTween(curve: Curves.easeIn)).animate(animation),
-        child: child,
-      ),
-    );
   }
 }

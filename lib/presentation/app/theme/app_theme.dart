@@ -1,4 +1,7 @@
+import 'package:custos/core/extensions/theme_mode_extension.dart';
+import 'package:custos/core/utils/constants.dart';
 import 'package:custos/core/utils/device_type.dart';
+import 'package:custos/presentation/app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 
 /// The themes for the app
@@ -91,93 +94,93 @@ class AppTheme extends ThemeExtension<AppTheme> {
       _dialogBorderRadius = kMobileCorner;
       _iconSize = 24;
       _contentPadding = const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
+        horizontal: kMobileHorizontalPadding,
+        vertical: kMobileVerticalPadding,
       );
       _textTheme = const TextTheme(
         // DISPLAY
         displayLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 32.0,
         ),
         displayMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 30.0,
         ),
         displaySmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 28.0,
         ),
 
         // HEAD LINE
         headlineLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w700,
           fontSize: 26.0,
         ),
         headlineMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w700,
           fontSize: 24.0,
         ),
         headlineSmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w700,
           fontSize: 22.0,
         ),
 
         // TITLE
         titleLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w800,
           fontSize: 20.0,
         ),
         titleMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w800,
           fontSize: 18.0,
         ),
         titleSmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w800,
           fontSize: 16.0,
         ),
 
         // BODY
         bodyLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w400,
           fontSize: 18.0,
         ),
         bodyMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w400,
           fontSize: 16.0,
         ),
         bodySmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w400,
           fontSize: 14.0,
         ),
 
         // LABEL
         labelLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w300,
           fontSize: 16.0,
           letterSpacing: 1.5,
         ),
         labelMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w300,
           fontSize: 14.0,
           letterSpacing: 1.5,
         ),
         labelSmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w300,
           fontSize: 12.0,
           letterSpacing: 1.5,
@@ -187,93 +190,93 @@ class AppTheme extends ThemeExtension<AppTheme> {
       _dialogBorderRadius = kMobileCorner;
       _iconSize = 28;
       _contentPadding = const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 18,
+        horizontal: kMobileHorizontalPadding,
+        vertical: kMobileVerticalPadding * 1.2,
       );
       _textTheme = const TextTheme(
         // DISPLAY
         displayLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 57.0,
         ),
         displayMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 45.0,
         ),
         displaySmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 36.0,
         ),
 
         // HEAD LINE
         headlineLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 30.0,
         ),
         headlineMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 28.0,
         ),
         headlineSmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w600,
           fontSize: 26.0,
         ),
 
         // TITLE
         titleLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w800,
           fontSize: 24.0,
         ),
         titleMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w800,
           fontSize: 22.0,
         ),
         titleSmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w800,
           fontSize: 20.0,
         ),
 
         // BODY
         bodyLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w400,
           fontSize: 22.0,
         ),
         bodyMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w400,
           fontSize: 20.0,
         ),
         bodySmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w400,
           fontSize: 18.0,
         ),
 
         // LABEL
         labelLarge: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w300,
           fontSize: 20.0,
           letterSpacing: 1.5,
         ),
         labelMedium: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w300,
           fontSize: 18.0,
           letterSpacing: 1.5,
         ),
         labelSmall: TextStyle(
-          fontFamily: FontFamily.akshar,
+          fontFamily: FontFamily.inter,
           fontWeight: FontWeight.w300,
           fontSize: 16.0,
           letterSpacing: 1.5,

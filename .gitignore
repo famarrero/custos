@@ -43,3 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# FVM Version Cache
+.fvm/
+
+# Generated class
+*.freezed.dart
+*.g.dart
+
+# Ignorar archivos binarios generados por el NDK
+android/app/.cxx/

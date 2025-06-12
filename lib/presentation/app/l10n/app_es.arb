@@ -1,0 +1,7 @@
+{
+  "@@locale": "es",
+  "custos": "Custos",
+  "pageNotFound": "La página no fue encontrada",
+  "unknownErrorOccurred": "Ocurrió un error desconocido",
+  "retry": "Reintentar"
+}
