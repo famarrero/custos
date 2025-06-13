@@ -65,7 +65,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
     if (themeMode.isLightMode) {
       // Color scheme for light mode.
       _colorScheme = const ColorScheme(
-        primary: Color(0xFFF4BD4A),
+        primary: Color.fromARGB(255, 71, 128, 182),
         onPrimary: Color(0xFFFFFFFF),
         primaryContainer: Color(0xFFF4BD4A),
         onPrimaryContainer: Color(0xFF28282C),

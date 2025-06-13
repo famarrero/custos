@@ -19,4 +19,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get retry => 'Reintentar';
+
+  @override
+  String optionalLabel(String label) {
+    return '$label (Opcional)';
+  }
 }

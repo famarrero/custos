@@ -18,5 +18,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unknownErrorOccurred => 'An unknown error occurred';
 
   @override
-  String get retry => 'Reintentar';
+  String get retry => 'Retry';
+
+  @override
+  String optionalLabel(String label) {
+    return '$label (Optional)';
+  }
 }

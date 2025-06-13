@@ -3,5 +3,13 @@
   "custos": "Custos",
   "pageNotFound": "La página no fue encontrada",
   "unknownErrorOccurred": "Ocurrió un error desconocido",
-  "retry": "Reintentar"
+  "retry": "Reintentar",
+  "optionalLabel": "{label} (Opcional)",
+  "@optionalLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  }
 }

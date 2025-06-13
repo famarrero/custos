@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flutter clean",
+      "type": "shell",
+      "command": "flutter clean"
+    },
+    {
+      "label": "Flutter pub get",
+      "type": "shell",
+      "command": "flutter pub get"
+    },
+    {
+      "label": "Flutter build runner",
+      "type": "shell",
+      "command": "dart run build_runner build --delete-conflicting-outputs"
+    },
+    {
+      "label": "Generate l10n",
+      "type": "shell",
+      "command": "flutter gen-l10n"
+    },
+    {
+      "label": "Generate app icons",
+      "type": "shell",
+      "command": "dart run flutter_launcher_icons"
+    },
+    {
+      "label": "Generate native splash",
+      "type": "shell",
+      "command": "dart run flutter_native_splash:create"
+    },
+    {
+      "label": "Build apk prod/release",
+      "type": "shell",
+      "command": "flutter build apk --flavor prod --dart-define=flavor=prod"
+    },
+    {
+      "label": "Build apk prod/debug",
+      "type": "shell",
+      "command": "flutter build apk --flavor prod --dart-define=flavor=prod --debug"
+    },
+    {
+      "label": "Build apk dev/release",
+      "type": "shell",
+      "command": "flutter build apk --flavor dev --dart-define=flavor=dev"
+    },
+    {
+      "label": "Build apk dev/debug",
+      "type": "shell",
+      "command": "flutter build apk --flavor dev --dart-define=flavor=dev --debug"
+    },
+    {
+      "label": "Build APPBUNDLE prod/release",
+      "type": "shell",
+      "command": "flutter build appbundle --flavor prod --dart-define flavor=prod",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build IPA prod/release",
+      "type": "shell",
+      "command": "flutter build ipa --flavor prod --dart-define flavor=prod",
+      "problemMatcher": []
+    },
+    {
+      "label": "Git fetch",
+      "type": "shell",
+      "command": "git fetch; git pull"
+    },
+  ]
+}

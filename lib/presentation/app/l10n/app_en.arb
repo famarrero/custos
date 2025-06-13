@@ -2,5 +2,14 @@
   "@@locale": "en",
   "custos": "Custos",
   "pageNotFound": "Page not found",
-  "unknownErrorOccurred": "An unknown error occurred"
+  "unknownErrorOccurred": "An unknown error occurred",
+  "retry": "Retry",
+  "optionalLabel": "{label} (Optional)",
+  "@optionalLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -121,6 +121,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Reintentar'**
   String get retry;
+
+  /// No description provided for @optionalLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'{label} (Opcional)'**
+  String optionalLabel(String label);
 }
 
 class _AppLocalizationsDelegate

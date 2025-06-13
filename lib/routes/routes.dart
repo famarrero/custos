@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:custos/presentation/pages/main/main_page.dart';
 import 'package:custos/presentation/pages/not_found/not_found_page.dart';
-import 'package:custos/presentation/pages/passwords/passwords_page.dart';
+import 'package:custos/presentation/pages/passwords_entries/passwords_entries_page.dart';
 import 'package:custos/presentation/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,9 +25,9 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 
 @TypedShellRoute<MainRoute>(
   routes: [
-    TypedGoRoute<PasswordsRoute>(
-      path: PasswordsRoute.path,
-      name: PasswordsRoute.name,
+    TypedGoRoute<PasswordsEntriesRoute>(
+      path: PasswordsEntriesRoute.path,
+      name: PasswordsEntriesRoute.name,
       routes: [
         TypedGoRoute<SettingsRoute>(
           path: SettingsRoute.path,
@@ -56,18 +56,18 @@ class MainRoute extends ShellRouteData {
   }
 }
 
-class PasswordsRoute extends GoRouteData {
+class PasswordsEntriesRoute extends GoRouteData {
   static const path = '/';
-  static const name = 'passwords';
+  static const name = 'passwords-entries';
 
-  const PasswordsRoute();
+  const PasswordsEntriesRoute();
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _routeTransition(
       state: state,
       context: context,
-      child: const PasswordsPage(),
+      child: const PasswordsEntriesPage(),
     );
   }
 }
