@@ -3,8 +3,8 @@ import 'package:custos/core/utils/constants.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:custos/presentation/app/theme/app_theme.dart';
+import 'package:custos/presentation/components/custom_bottom_modal_sheet.dart';
 import 'package:flutter/material.dart';
-
 
 /// Extension for [BuildContext] to facilitate access to our [AppLocalizations], [Theme] and others.
 extension BuildContextExtension on BuildContext {
@@ -49,7 +49,7 @@ extension BuildContextExtension on BuildContext {
     } else {
       switch (failure.code) {
         case AppError.unknown:
-          return l10n.unknownErrorOccurred;     
+          return l10n.unknownErrorOccurred;
       }
     }
   }
@@ -98,5 +98,34 @@ extension BuildContextExtension on BuildContext {
           ),
         ),
       );
+  }
+
+  /// Show a custom ModalBottomSheet
+  void showCustomModalBottomSheet({
+    double? heightFactor,
+    String? title,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    bool showScrollBar = false,
+    required Widget child,
+  }) {
+    showModalBottomSheet<dynamic>(
+      context: this,
+      useSafeArea: true,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      constraints: const BoxConstraints(maxWidth: double.infinity),
+      useRootNavigator: false,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return CustomBottomModalSheet(
+          heightFactor: heightFactor,
+          title: title,
+          showScrollBar: showScrollBar,
+          child: child,
+        );
+      },
+    );
   }
 }

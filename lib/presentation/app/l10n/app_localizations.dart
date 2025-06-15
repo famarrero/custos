@@ -122,11 +122,23 @@ abstract class AppLocalizations {
   /// **'Reintentar'**
   String get retry;
 
-  /// No description provided for @optionalLabel.
+  /// No description provided for @requiredField.
   ///
   /// In es, this message translates to:
-  /// **'{label} (Opcional)'**
-  String optionalLabel(String label);
+  /// **'Campo requerido'**
+  String get requiredField;
+
+  /// No description provided for @invalidField.
+  ///
+  /// In es, this message translates to:
+  /// **'Campo inválido'**
+  String get invalidField;
+
+  /// No description provided for @passwordsNotMatch.
+  ///
+  /// In es, this message translates to:
+  /// **'Las contraseñas no coinciden'**
+  String get passwordsNotMatch;
 }
 
 class _AppLocalizationsDelegate

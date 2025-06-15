@@ -4,12 +4,7 @@
   "pageNotFound": "La página no fue encontrada",
   "unknownErrorOccurred": "Ocurrió un error desconocido",
   "retry": "Reintentar",
-  "optionalLabel": "{label} (Opcional)",
-  "@optionalLabel": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  }
+  "requiredField": "Campo requerido",
+  "invalidField": "Campo inválido",
+  "passwordsNotMatch": "Las contraseñas no coinciden"
 }

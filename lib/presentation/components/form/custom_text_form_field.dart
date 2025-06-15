@@ -158,13 +158,19 @@ class CustomTextFormField extends StatelessWidget {
                 _obscureTextNotifier.value
                     ? Icons.visibility
                     : Icons.visibility_off,
-                color: context.colorScheme.onSurface,
+                color: context.colorScheme.secondary,
               ),
             )
             : null);
 
     final decoration = getInputDecoration(
       context,
+      label:
+          label != null
+              ? isRequired
+                  ? '$label*'
+                  : label!
+              : null,
       hint: hint,
       suffixIcon: suffix,
       prefixIcon: prefixIcon,
@@ -177,50 +183,34 @@ class CustomTextFormField extends StatelessWidget {
       Theme.of(context).inputDecorationTheme,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-              padding: const EdgeInsets.only(left: 4.0, bottom: 4.0),
-              child: Text(
-                isRequired ? label! : context.l10n.optionalLabel(label!),
-                style: context.textTheme.titleSmall?.copyWith(
-                  color: context.colorScheme.onSurface,
-                ),
+    return ValueListenableBuilder(
+      valueListenable: _obscureTextNotifier,
+      builder: (context, __, _) {
+        return TextFormField(
+          autofillHints: autofillHints,
+          expands: expands,
+          obscureText: _obscureTextNotifier.value,
+          autocorrect: !obscureText,
+          enableSuggestions: !obscureText,
+          inputFormatters: inputFormatters,
+          validator: validator,
+          maxLines: maxLines,
+          enabled: isEnabled,
+          focusNode: focusNode,
+          controller: controller,
+          keyboardType: textInputType,
+          textInputAction: textInputAction,
+          textCapitalization: textCapitalization,
+          style:
+              textStyle ??
+              context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.onSurface,
               ),
-            )
-            : const SizedBox.shrink(),
-        ValueListenableBuilder(
-          valueListenable: _obscureTextNotifier,
-          builder: (context, __, _) {
-            return TextFormField(
-              autofillHints: autofillHints,
-              expands: expands,
-              obscureText: _obscureTextNotifier.value,
-              autocorrect: !obscureText,
-              enableSuggestions: !obscureText,
-              inputFormatters: inputFormatters,
-              validator: validator,
-              maxLines: maxLines,
-              enabled: isEnabled,
-              focusNode: focusNode,
-              controller: controller,
-              keyboardType: textInputType,
-              textInputAction: textInputAction,
-              textCapitalization: textCapitalization,
-              style:
-                  textStyle ??
-                  context.textTheme.bodyMedium?.copyWith(
-                    color: context.colorScheme.onSurface,
-                  ),
-              decoration: effectiveDecoration,
-              onChanged: onChanged,
-              onFieldSubmitted: onFieldSubmitted,
-            );
-          },
-        ),
-      ],
+          decoration: effectiveDecoration,
+          onChanged: onChanged,
+          onFieldSubmitted: onFieldSubmitted,
+        );
+      },
     );
   }
 }

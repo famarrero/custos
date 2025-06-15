@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 InputDecoration getInputDecoration(
   BuildContext context, {
   bool isEmpty = false,
+  String? label,
   String? hint,
   String? errorText,
   bool enabled = true,
@@ -23,7 +24,7 @@ InputDecoration getInputDecoration(
     borderSide: BorderSide(
       color: borderColor ?? context.colorScheme.primary,
       style: BorderStyle.solid,
-      width: 1.0,
+      width: 0.8,
     ),
   );
 
@@ -37,14 +38,21 @@ InputDecoration getInputDecoration(
     errorBorder: border ?? border0(borderColor: context.colorScheme.error),
     focusedErrorBorder:
         border ?? border0(borderColor: context.colorScheme.error),
-    contentPadding:
-        contentPadding ?? EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+    contentPadding: contentPadding,
     prefixIcon: prefixIcon,
     suffixIcon: suffixIcon,
     counterStyle:
         hideCounterText ? const TextStyle(height: double.minPositive) : null,
     counterText: hideCounterText ? '' : null,
     border: InputBorder.none,
+    floatingLabelBehavior: FloatingLabelBehavior.auto,
+    floatingLabelStyle: context.textTheme.labelLarge?.copyWith(
+      color: context.colorScheme.onSurface,
+    ),
+    labelText: label,
+    labelStyle: context.textTheme.labelLarge?.copyWith(
+      color: context.colorScheme.onSurface,
+    ),
     hintText: hint,
     hintStyle:
         hintStyle ??

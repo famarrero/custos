@@ -21,7 +21,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get retry => 'Reintentar';
 
   @override
-  String optionalLabel(String label) {
-    return '$label (Opcional)';
-  }
+  String get requiredField => 'Campo requerido';
+
+  @override
+  String get invalidField => 'Campo inválido';
+
+  @override
+  String get passwordsNotMatch => 'Las contraseñas no coinciden';
 }

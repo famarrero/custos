@@ -21,7 +21,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Retry';
 
   @override
-  String optionalLabel(String label) {
-    return '$label (Optional)';
-  }
+  String get requiredField => 'Required field';
+
+  @override
+  String get invalidField => 'Invalid field';
+
+  @override
+  String get passwordsNotMatch => 'Passwords not match';
 }

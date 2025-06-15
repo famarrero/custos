@@ -52,9 +52,6 @@ class CustomButton extends StatefulWidget {
   /// Autofocus of button.
   final bool autofocus;
 
-  /// Define if the button is compact height.
-  final bool compact;
-
   /// Button corner.
   final double? corner;
 
@@ -77,7 +74,6 @@ class CustomButton extends StatefulWidget {
     this.backgroundColor,
     this.focusNode,
     this.autofocus = false,
-    this.compact = false,
     this.corner,
     this.fixedWidth,
     this.horizontalTextPadding,
@@ -103,11 +99,12 @@ class _CustomButtonState extends State<CustomButton> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomCircularProgressIndicator(
-                    color: widget.foregroundColor ??
+                    color:
+                        widget.foregroundColor ??
                         (widget.type == CustomTextButtonEnum.filled
                             ? context.colorScheme.onPrimary
                             : context.colorScheme.primary),
-                    strokeWidth: widget.compact ? 8.0 : 6.0,
+                    strokeWidth: 6.0,
                   ),
                 ),
               ),
@@ -126,7 +123,8 @@ class _CustomButtonState extends State<CustomButton> {
                 if (widget.prefixIconData != null) ...[
                   Icon(
                     widget.prefixIconData,
-                    color: widget.foregroundColor ??
+                    color:
+                        widget.foregroundColor ??
                         (widget.type == CustomTextButtonEnum.filled
                             ? context.colorScheme.onPrimary
                             : context.colorScheme.primary),
@@ -141,12 +139,12 @@ class _CustomButtonState extends State<CustomButton> {
                       child: Text(
                         widget.label,
                         style: context.textTheme.titleMedium?.copyWith(
-                          color: widget.type == CustomTextButtonEnum.outlined
-                              ? (widget.foregroundColor ??
-                                  context.colorScheme.secondary)
-                              : (widget.foregroundColor ??
-                                  context.colorScheme.onPrimaryContainer),
-                          height: widget.compact ? 1 : 1.4,
+                          color:
+                              widget.foregroundColor ??
+                              (widget.type == CustomTextButtonEnum.filled
+                                  ? context.colorScheme.onPrimary
+                                  : context.colorScheme.primary),
+                          height: 1.6,
                         ),
                       ),
                     ),
@@ -172,24 +170,26 @@ class _CustomButtonState extends State<CustomButton> {
         ),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: WidgetStatePropertyAll(widget.padding),
-        backgroundColor: isFilled
-            ? WidgetStatePropertyAll(
-                widget.backgroundColor ?? context.colorScheme.primary,
-              )
-            : null,
-        side: isFilled
-            ? null
-            : WidgetStatePropertyAll(
-                BorderSide(
-                  color:
-                      widget.foregroundColor ?? context.colorScheme.primary,
+        backgroundColor:
+            isFilled
+                ? WidgetStatePropertyAll(
+                  widget.backgroundColor ?? context.colorScheme.primary,
+                )
+                : null,
+        side:
+            isFilled
+                ? null
+                : WidgetStatePropertyAll(
+                  BorderSide(
+                    color:
+                        widget.foregroundColor ?? context.colorScheme.primary,
+                  ),
                 ),
-              ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
-                widget.corner ?? (widget.compact ? 8.0 : kMobileCorner),
+                widget.corner ?? kMobileCorner,
               ),
             ),
           ),
@@ -201,7 +201,4 @@ class _CustomButtonState extends State<CustomButton> {
 }
 
 /// Enum that defines the type of [CustomButton].
-enum CustomTextButtonEnum {
-  filled,
-  outlined,
-}
+enum CustomTextButtonEnum { filled, outlined }
