@@ -28,4 +28,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordsNotMatch => 'Passwords not match';
+
+  @override
+  String get incorrectMasterKey => 'Master key is incorrect';
+
+  @override
+  String get masterKeyNotSet => 'Master key not set yet';
 }

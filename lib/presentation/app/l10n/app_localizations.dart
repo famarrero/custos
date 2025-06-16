@@ -139,6 +139,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Las contraseñas no coinciden'**
   String get passwordsNotMatch;
+
+  /// No description provided for @incorrectMasterKey.
+  ///
+  /// In es, this message translates to:
+  /// **'La clave maestra es incorrecta'**
+  String get incorrectMasterKey;
+
+  /// No description provided for @masterKeyNotSet.
+  ///
+  /// In es, this message translates to:
+  /// **'La clave maestra aún no está configurada'**
+  String get masterKeyNotSet;
 }
 
 class _AppLocalizationsDelegate

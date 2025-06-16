@@ -6,5 +6,7 @@
   "retry": "Reintentar",
   "requiredField": "Campo requerido",
   "invalidField": "Campo inválido",
-  "passwordsNotMatch": "Las contraseñas no coinciden"
+  "passwordsNotMatch": "Las contraseñas no coinciden",
+  "incorrectMasterKey": "La clave maestra es incorrecta",
+  "masterKeyNotSet": "La clave maestra aún no está configurada"
 }

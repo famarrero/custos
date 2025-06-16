@@ -28,4 +28,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get passwordsNotMatch => 'Las contraseñas no coinciden';
+
+  @override
+  String get incorrectMasterKey => 'La clave maestra es incorrecta';
+
+  @override
+  String get masterKeyNotSet => 'La clave maestra aún no está configurada';
 }

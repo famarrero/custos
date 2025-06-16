@@ -1,4 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:custos/core/utils/base_state/base_state.dart';
+import 'package:custos/data/repositories/auth/auth_repository.dart';
+import 'package:custos/di_container.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_cubit.freezed.dart';
@@ -6,9 +9,66 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit()
-    : super(AuthState(isUserAuthenticated: false, isMasterKeySet: false));
+    : super(
+        AuthState(
+          isUserAuthenticated: false,
+          isMasterKeySet: false,
+          loginState: BaseState.initial(),
+          registerState: BaseState.initial(),
+        ),
+      );
 
-  void stared() {
-    emit(state.copyWith(isUserAuthenticated: false, isMasterKeySet: false));
+  final AuthRepository authRepository = di();
+
+  Future<void> stared() async {
+    final hasPassword = await authRepository.hasMasterKeyBeenSet();
+
+    if (hasPassword) {
+      // Show login page.
+      emit(state.copyWith(isMasterKeySet: true));
+    } else {
+      // Show register page.
+      emit(state.copyWith(isMasterKeySet: false));
+    }
+  }
+
+  Future<void> login({required String masterKey}) async {
+    emit(state.copyWith(loginState: BaseState.loading()));
+
+    final response = await authRepository.verifyMasterKey(masterKey);
+
+    response.fold(
+      (failure) {
+        emit(state.copyWith(loginState: BaseState.error(failure)));
+      },
+      (login) {
+        emit(
+          state.copyWith(
+            isUserAuthenticated: true,
+            loginState: BaseState.data(true),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> register({required String masterKey}) async {
+    emit(state.copyWith(registerState: BaseState.loading()));
+
+    final response = await authRepository.registerMasterKey(masterKey);
+
+    response.fold(
+      (failure) {
+        emit(state.copyWith(registerState: BaseState.error(failure)));
+      },
+      (register) {
+        emit(
+          state.copyWith(
+            isMasterKeySet: true,
+            registerState: BaseState.data(true),
+          ),
+        );
+      },
+    );
   }
 }

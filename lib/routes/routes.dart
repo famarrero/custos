@@ -59,7 +59,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 class WrapperAppRoutes extends GoRouteData {
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    final AuthCubit authCubit = context.read<AuthCubit>();
+    final AuthCubit authCubit = context.watch<AuthCubit>();
 
     if (authCubit.state.isUserAuthenticated) {
       // If the user is authenticated, redirect to the PasswordsEntriesRoute

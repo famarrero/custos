@@ -9,6 +9,8 @@ import 'package:custos/data/providers/password_entry/password_entry_provider.dar
 import 'package:custos/data/providers/password_entry/password_entry_provider_impl.dart';
 import 'package:custos/data/providers/preferences/preferences_provider.dart';
 import 'package:custos/data/providers/preferences/preferences_provider_impl.dart';
+import 'package:custos/data/repositories/auth/auth_repository.dart';
+import 'package:custos/data/repositories/auth/auth_repository_impl.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/data/repositories/group/group_repository_impl.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
@@ -69,6 +71,9 @@ Future initInjection() async {
   GetIt.I.registerLazySingleton<PreferencesRepository>(
     () => PreferencesRepositoryImpl(),
   );
+
+  /// PreferencesRepository
+  GetIt.I.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
 
   /// GroupRepository
   GetIt.I.registerLazySingleton<GroupRepository>(() => GroupRepositoryImpl());
