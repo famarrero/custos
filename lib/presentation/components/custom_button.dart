@@ -144,7 +144,7 @@ class _CustomButtonState extends State<CustomButton> {
                               (widget.type == CustomTextButtonEnum.filled
                                   ? context.colorScheme.onPrimary
                                   : context.colorScheme.primary),
-                          height: 1.6,
+                          height: 2,
                         ),
                       ),
                     ),

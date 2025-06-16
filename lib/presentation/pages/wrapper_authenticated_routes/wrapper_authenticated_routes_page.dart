@@ -4,8 +4,8 @@ import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
 import 'package:flutter/material.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key, required this.child});
+class WrapperAuthenticatedRoutesPage extends StatelessWidget {
+  const WrapperAuthenticatedRoutesPage({super.key, required this.child});
 
   final Widget child;
 
@@ -18,7 +18,7 @@ class MainPage extends StatelessWidget {
         centerTitle: true,
         actions: [
           CustomIconButton(
-            icon: Icons.add,           
+            icon: Icons.add,
             onTap: () {
               context.showCustomModalBottomSheet(
                 title: 'Add account',
