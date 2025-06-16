@@ -18,19 +18,23 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
 
   final PasswordEntryRepository passwordEntryRepository = di();
 
-  StreamSubscription<List<PasswordEntryEntity>>? _passwordsSubscription;
+  StreamSubscription<List<PasswordEntryEntity>>? _passwordsEntriesSubscription;
 
   Future<void> watchPasswordsEntries() async {
     emit(state.copyWith(passwordsEntries: BaseState.loading()));
 
-    // Cancelar cualquier stream anterior
-    await _passwordsSubscription?.cancel();
+    // Cancel any existing subscription before starting a new one
+    await _passwordsEntriesSubscription?.cancel();
 
-    _passwordsSubscription = passwordEntryRepository
+    _passwordsEntriesSubscription = passwordEntryRepository
         .watchPasswordsEntries()
         .listen(
-          (entries) {
-            emit(state.copyWith(passwordsEntries: BaseState.data(entries)));
+          (passwordsEntries) {
+            emit(
+              state.copyWith(
+                passwordsEntries: BaseState.data(passwordsEntries),
+              ),
+            );
           },
           onError: (e) {
             emit(
@@ -46,7 +50,7 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
 
   @override
   Future<void> close() {
-    _passwordsSubscription?.cancel();
+    _passwordsEntriesSubscription?.cancel();
     return super.close();
   }
 }
