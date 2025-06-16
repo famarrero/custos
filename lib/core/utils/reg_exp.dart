@@ -4,10 +4,14 @@ final regExpValidEmail = RegExp(
 );
 
 /// Validate phone number.
-final regExpValidPhone = RegExp(
-  r'^(?:[+0][1-9])?[0-9]{10,12}$',
-);
+final regExpValidPhone = RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$');
 
 /// Only decimals.
 /// Valid examples 12.34, 0.12, 123.45, 8.1, 89.
 final regExpOnlyDecimal = RegExp(r'^\d*\.?\d{0,2}');
+
+/// Valid URL.
+final regExpValidURL = RegExp(
+  r'^(https?:\/\/)?(www\.)?[\w\-]+(\.[\w\-]+)+([\/\w\-._~:?#\[\]@!$&()*+,;=]*)?$',
+  caseSensitive: false,
+);

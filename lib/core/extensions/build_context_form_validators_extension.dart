@@ -40,6 +40,24 @@ extension BuildContextFormValidatorsExtension on BuildContext {
     return null;
   }
 
+  /// Validate the URL field
+  String? validateURL(String? url, {bool isRequired = false}) {
+    if (isRequired) {
+      if (url == null || url.isEmpty) {
+        return l10n.requiredField;
+      } else if (!url.isValidURL) {
+        return l10n.invalidField;
+      }
+    } else {
+      if (url != null && url.isNotEmpty) {
+        if (!url.isValidURL) {
+          return l10n.invalidField;
+        }
+      }
+    }
+    return null;
+  }
+
   /// Validate that passwords match
   String? validatePassword(String? password) {
     if (password == null || password.isEmpty) {

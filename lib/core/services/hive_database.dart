@@ -1,35 +1,49 @@
-// import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:io';
 
-// abstract class HiveDatabase {
-//   HiveInterface get hive;
+import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/password_entry/password_entry_model.dart';
+import 'package:custos/di_container.dart';
+import 'package:hive_ce/hive.dart';
 
-//   Future<void> init();
+abstract class HiveDatabase {
+  HiveInterface get hive;
 
-//   Box get getFavoritesBox;
-// }
+  Future<void> init();
 
-// const String favoritesBoxKey = 'favoritesBox';
+  Box get getGroupBox;
+  Box get getPasswordEntryBox;
+}
 
-// class HiveDatabaseImpl extends HiveDatabase {
-//   HiveDatabaseImpl(this._hive);
+const String groupBoxKey = 'group';
+const String passwordEntryBoxKey = 'password_entry';
 
-//   final HiveInterface _hive;
+class HiveDatabaseImpl extends HiveDatabase {
+  HiveDatabaseImpl(this._hive);
 
-//   bool _initialized = false;
+  final HiveInterface _hive;
 
-//   @override
-//   Future<void> init() async {
-//     if (_initialized) return;
+  bool _initialized = false;
 
-//     await hive.initFlutter();
-//     await hive.openBox<dynamic>(favoritesBoxKey);
+  @override
+  Future<void> init() async {
+    if (_initialized) return;
 
-//     _initialized = true;
-//   }
+    hive.init(di<Directory>().path);
+    hive.registerAdapter(GroupModelAdapter());
+    await hive.openBox<dynamic>(groupBoxKey);
 
-//   @override
-//   HiveInterface get hive => _hive;
+    hive.registerAdapter(PasswordEntryModelAdapter());
+    await hive.openBox<dynamic>(passwordEntryBoxKey);
 
-//   @override
-//   Box get getFavoritesBox => _hive.box(favoritesBoxKey);
-// }
+    _initialized = true;
+  }
+
+  @override
+  HiveInterface get hive => _hive;
+
+  @override
+  Box get getGroupBox => _hive.box(groupBoxKey);
+
+  @override
+  Box get getPasswordEntryBox => _hive.box(passwordEntryBoxKey);
+}

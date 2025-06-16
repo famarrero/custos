@@ -1,13 +1,13 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/constants.dart';
-import 'package:custos/data/models/password_entry/password_entry_model.dart';
+import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:flutter/material.dart';
 
 class PasswordEntryTile extends StatelessWidget {
-  const PasswordEntryTile({super.key, required this.passwordEntryModel});
+  const PasswordEntryTile({super.key, required this.passwordEntry});
 
-  final PasswordEntryModel passwordEntryModel;
+  final PasswordEntryEntity passwordEntry;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,10 @@ class PasswordEntryTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 2.0,
             children: [
-              Text(passwordEntryModel.name, style: context.textTheme.bodyLarge),
-              if (passwordEntryModel.username.isNotNullAndNotEmpty)
+              Text(passwordEntry.name, style: context.textTheme.bodyLarge),
+              if (passwordEntry.username.isNotNullAndNotEmpty)
                 Text(
-                  passwordEntryModel.username!,
+                  passwordEntry.username!,
                   style: context.textTheme.labelMedium?.copyWith(
                     color: context.colorScheme.primary,
                   ),

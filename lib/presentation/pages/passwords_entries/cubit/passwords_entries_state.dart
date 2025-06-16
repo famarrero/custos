@@ -5,6 +5,6 @@ abstract class PasswordsEntriesState with _$PasswordsEntriesState {
   const PasswordsEntriesState._();
 
   const factory PasswordsEntriesState({
-    required BaseState<List<PasswordEntryModel>> passwordsEntries,
+    required BaseState<List<PasswordEntryEntity>> passwordsEntries,
   }) = _PasswordsEntriesState;
 }

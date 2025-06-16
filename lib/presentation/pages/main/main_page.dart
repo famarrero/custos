@@ -1,7 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
-import 'package:custos/presentation/components/upsert_password_entry.dart';
+import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatelessWidget {

@@ -6,6 +6,10 @@ extension StringExtension on String {
     return regExpValidEmail.hasMatch(this);
   }
 
+  bool get isValidURL {
+    return regExpValidURL.hasMatch(this);
+  }
+
   /// Convert String to double and multiplicate by 100 to convert to int.
   int get fromDecimalStringToInt {
     return (double.parse(this) * 100).toInt();

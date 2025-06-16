@@ -39,9 +39,9 @@ class AppTheme extends ThemeExtension<AppTheme> {
       // Color scheme for light mode.
       _colorScheme = const ColorScheme(
         brightness: Brightness.dark,
-        primary: Color(0xffa6c8ff),
+        primary: Color(0xff90cef4),
         surfaceTint: Color(0xffa6c8ff),
-        onPrimary: Color(0xff01315e),
+        onPrimary: Color(0xff00344a),
         primaryContainer: Color(0xff224876),
         onPrimaryContainer: Color(0xffd4e3ff),
         secondary: Color(0xffbcc7dc),
@@ -91,7 +91,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
       // Color scheme for light mode.
       _colorScheme = const ColorScheme(
         brightness: Brightness.light,
-        primary: Color(0xff3c6090),
+        primary: Color(0xff1d6586),
         surfaceTint: Color(0xff3c6090),
         onPrimary: Color(0xffffffff),
         primaryContainer: Color(0xffd4e3ff),
