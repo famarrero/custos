@@ -151,6 +151,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'La clave maestra aún no está configurada'**
   String get masterKeyNotSet;
+
+  /// No description provided for @masterKeyErrorSet.
+  ///
+  /// In es, this message translates to:
+  /// **'Error configurando la clave maestra'**
+  String get masterKeyErrorSet;
 }
 
 class _AppLocalizationsDelegate

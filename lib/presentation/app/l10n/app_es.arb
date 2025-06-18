@@ -8,5 +8,6 @@
   "invalidField": "Campo inválido",
   "passwordsNotMatch": "Las contraseñas no coinciden",
   "incorrectMasterKey": "La clave maestra es incorrecta",
-  "masterKeyNotSet": "La clave maestra aún no está configurada"
+  "masterKeyNotSet": "La clave maestra aún no está configurada",
+  "masterKeyErrorSet": "Error configurando la clave maestra"
 }

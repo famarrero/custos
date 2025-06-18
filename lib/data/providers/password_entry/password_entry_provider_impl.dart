@@ -1,10 +1,10 @@
-import 'package:custos/core/services/hive_database.dart';
+import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/di_container.dart';
 
 class PasswordEntryProviderImpl implements PasswordEntryProvider {
-  final HiveDatabase hiveDatabase = di();
+  final HiveDatabaseService hiveDatabase = di();
 
   @override
   Future<List<PasswordEntryModel>> getPasswordsEntries() async {

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:custos/core/services/hive_database.dart';
+import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/services/logger_service.dart';
 import 'package:custos/core/services/package_info_service.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
@@ -9,6 +9,8 @@ import 'package:custos/data/providers/password_entry/password_entry_provider.dar
 import 'package:custos/data/providers/password_entry/password_entry_provider_impl.dart';
 import 'package:custos/data/providers/preferences/preferences_provider.dart';
 import 'package:custos/data/providers/preferences/preferences_provider_impl.dart';
+import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
+import 'package:custos/data/providers/secure_storage/secure_storage_provider_impl.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/data/repositories/auth/auth_repository_impl.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
@@ -17,6 +19,7 @@ import 'package:custos/data/repositories/password_entry/password_entry_repositor
 import 'package:custos/data/repositories/password_entry/password_entry_repository_impl.dart';
 import 'package:custos/data/repositories/preferences/preferences_repository.dart';
 import 'package:custos/data/repositories/preferences/preferences_repository_impl.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -37,10 +40,14 @@ Future initInjection() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   di.registerLazySingleton(() => sharedPreferences);
 
+  /// SecureStorage
+  final secureStorage = const FlutterSecureStorage();
+  di.registerLazySingleton(() => secureStorage);
+
   // Hive client
-  final hiveDatabase = HiveDatabaseImpl(Hive);
+  final hiveDatabase = HiveDatabaseServiceImpl(Hive);
   await hiveDatabase.init();
-  di.registerSingleton<HiveDatabase>(hiveDatabase);
+  di.registerSingleton<HiveDatabaseService>(hiveDatabase);
 
   ///-------------------Services--------------------------------///
 
@@ -55,6 +62,11 @@ Future initInjection() async {
   /// PreferencesProvider
   di.registerLazySingleton<PreferencesProvider>(
     () => PreferencesProviderImpl(),
+  );
+
+  /// SecureStorageProvider
+  di.registerLazySingleton<SecureStorageProvider>(
+    () => SecureStorageProviderImpl(),
   );
 
   /// GroupProvider

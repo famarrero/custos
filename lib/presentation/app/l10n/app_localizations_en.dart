@@ -34,4 +34,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get masterKeyNotSet => 'Master key not set yet';
+
+  @override
+  String get masterKeyErrorSet => 'Error creating the master key';
 }

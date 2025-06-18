@@ -8,5 +8,6 @@
   "invalidField": "Invalid field",
   "passwordsNotMatch": "Passwords not match",
   "incorrectMasterKey": "Master key is incorrect",
-  "masterKeyNotSet": "Master key not set yet"
+  "masterKeyNotSet": "Master key not set yet",
+  "masterKeyErrorSet": "Error creating the master key"
 }

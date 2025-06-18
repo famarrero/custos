@@ -34,4 +34,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get masterKeyNotSet => 'La clave maestra aún no está configurada';
+
+  @override
+  String get masterKeyErrorSet => 'Error configurando la clave maestra';
 }

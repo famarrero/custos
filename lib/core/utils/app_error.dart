@@ -3,9 +3,11 @@ enum AppError {
   // Unknown error or an error from a different error domain.
   unknown('unknown'),
 
-  incorrectMasterKey('incorrect_master_key'),
+  errorDerivingEncryptionKey('error_deriving_encryption_key'),
 
-  masterKeyNotSet('master_key_not_set');
+  encryptionKeyNotSet('encryption_key_not_set'),
+
+  incorrectMasterKey('incorrect_master_key');
 
   const AppError(this.code);
 

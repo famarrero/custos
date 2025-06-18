@@ -1,19 +1,19 @@
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:crypto/crypto.dart';
-import 'package:custos/core/services/hive_database.dart';
+import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/utils/app_error.dart';
+import 'package:custos/core/utils/crypto_utils.dart';
 import 'package:custos/core/utils/either.dart';
 import 'package:custos/core/utils/failures.dart';
+import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive_ce_flutter/hive_flutter.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final HiveDatabase hiveDatabase = di();
-  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  final HiveDatabaseService hiveDatabase = di();
+  final SecureStorageProvider secureStorage = di();
+
+  final saltKey = '_salt_';
 
   @override
   Future<bool> hasMasterKeyBeenSet() async {
@@ -21,45 +21,53 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> registerMasterKey(String password) async {
-    final generatedSalt = _generateSalt();
-    final saltEncoded = base64UrlEncode(generatedSalt);
-    await secureStorage.write(key: saltKey, value: saltEncoded);
+  Future<Either<Failure, void>> registerMasterKey(String masterKey) async {
+    try {
+      // Generate a salt
+      final generatedSalt = generateSalt();
 
-    final key = _deriveKey(password, generatedSalt);
-    hiveDatabase.setEncryptionKey(key);
+      // Encode salt in base64
+      final saltEncoded = base64Encode(generatedSalt);
 
-    final checkBox = await hiveDatabase.hive.openBox(
-      checkBoxKey,
-      encryptionCipher: HiveAesCipher(key),
-    );
+      // Save the salt in the secure storage
+      await secureStorage.writeValue(key: saltKey, value: saltEncoded);
 
-    await checkBox.put(checkKey, checkValue);
-    await checkBox.close();
+      // Derive the encrypted key by masterKey and salt
+      final encryptionKey = deriveEncryptionKey(masterKey, generatedSalt);
 
-    return right(null);
+      // Set the encryptionKey in HiveDatabaseService
+      hiveDatabase.setEncryptionKey(encryptionKey);
+
+      await hiveDatabase.setVerificationAuthValue();
+
+      return right(null);
+    } catch (e) {
+      return left(
+        AppFailure(AppError.errorDerivingEncryptionKey, message: e.toString()),
+      );
+    }
   }
 
   @override
-  Future<Either<Failure, void>> verifyMasterKey(String password) async {
-    final salt = await secureStorage.read(key: saltKey);
+  Future<Either<Failure, void>> verifyMasterKey(String masterKey) async {
+    // Read the salt from secure storage
+    final salt = await secureStorage.readValue(key: saltKey);
+
+    // If salt is null means that the master encryptionKey is not set yet
     if (salt == null) {
-      return left(AppFailure(AppError.masterKeyNotSet));
+      return left(AppFailure(AppError.encryptionKeyNotSet));
     }
 
-    final key = _deriveKey(password, base64Url.decode(salt));
-    hiveDatabase.setEncryptionKey(key);
+    // Derive the encrypted key by masterKey and salt
+    final encryptionKey = deriveEncryptionKey(masterKey, base64Decode(salt));
+
+    // Set the encryptionKey in HiveDatabaseService
+    hiveDatabase.setEncryptionKey(encryptionKey);
 
     try {
-      final checkBox = await hiveDatabase.hive.openBox(
-        checkBoxKey,
-        encryptionCipher: HiveAesCipher(key),
-      );
+      final value = await hiveDatabase.verificationAuthIsCorrect;
 
-      final check = checkBox.get(checkKey);
-      await checkBox.close();
-
-      if (check == checkValue) {
+      if (value) {
         await hiveDatabase.openEncryptedBoxes();
         return right(null);
       } else {
@@ -68,32 +76,6 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (_) {
       return left(AppFailure(AppError.incorrectMasterKey));
     }
-  }
-
-  List<int> _generateSalt([int length = 16]) {
-    final rand = Random.secure();
-    return List<int>.generate(length, (_) => rand.nextInt(256));
-  }
-
-  List<int> _deriveKey(String password, List<int> salt) {
-    final hmac = Hmac(sha256, utf8.encode(password));
-    final iterations = 100000;
-
-    var block = hmac.convert(salt + _int32(1)).bytes;
-    var result = List<int>.from(block);
-
-    for (var i = 1; i < iterations; i++) {
-      block = hmac.convert(block).bytes;
-      for (var j = 0; j < result.length; j++) {
-        result[j] ^= block[j];
-      }
-    }
-
-    return result;
-  }
-
-  List<int> _int32(int i) {
-    return [(i >> 24) & 0xff, (i >> 16) & 0xff, (i >> 8) & 0xff, i & 0xff];
   }
 
   @override

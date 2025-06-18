@@ -50,10 +50,12 @@ extension BuildContextExtension on BuildContext {
       switch (failure.code) {
         case AppError.unknown:
           return l10n.unknownErrorOccurred;
+        case AppError.errorDerivingEncryptionKey:
+          return l10n.masterKeyErrorSet;
+        case AppError.encryptionKeyNotSet:
+          return l10n.masterKeyNotSet;
         case AppError.incorrectMasterKey:
           return l10n.incorrectMasterKey;
-        case AppError.masterKeyNotSet:
-          return l10n.masterKeyNotSet;
       }
     }
   }
