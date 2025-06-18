@@ -378,7 +378,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
         ),
       ),
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: _colorScheme.surface,
       surfaceTintColor: _colorScheme.surface,
       shape: RoundedRectangleBorder(
