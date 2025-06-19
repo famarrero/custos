@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:custos/data/repositories/auth/auth_repository.dart';
+import 'package:custos/di_container.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/login/login_page.dart';
-import 'package:custos/presentation/pages/wrapper_authenticated_routes/wrapper_authenticated_routes_page.dart';
+import 'package:custos/presentation/pages/wrapper_main/wrapper_main_page.dart';
 import 'package:custos/presentation/pages/not_found/not_found_page.dart';
 import 'package:custos/presentation/pages/passwords_entries/passwords_entries_page.dart';
 import 'package:custos/presentation/pages/register/register_page.dart';
@@ -15,7 +17,6 @@ part 'routes.g.dart';
 
 final router = GoRouter(
   routes: $appRoutes,
-  initialLocation: LoginRoute().location,
   debugLogDiagnostics: true,
   navigatorKey: _rootNavigatorKey,
   onException: (_, __, router) => router.go(const PageNotFoundRoute().location),
@@ -28,57 +29,40 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'shell',
 );
 
-@TypedGoRoute<WrapperAppRoutes>(
-  path: '/',
+@TypedShellRoute<WrapperMainRoute>(
   routes: [
-    TypedGoRoute<LoginRoute>(path: LoginRoute.path, name: LoginRoute.name),
-    TypedGoRoute<RegisterRoute>(
-      path: RegisterRoute.path,
-      name: RegisterRoute.name,
-    ),
-    TypedShellRoute<WrapperAuthenticatedRoutes>(
+    TypedGoRoute<PasswordsEntriesRoute>(
+      path: PasswordsEntriesRoute.path,
+      name: PasswordsEntriesRoute.name,
       routes: [
-        TypedGoRoute<PasswordsEntriesRoute>(
-          path: PasswordsEntriesRoute.path,
-          name: PasswordsEntriesRoute.name,
-          routes: [
-            TypedGoRoute<SettingsRoute>(
-              path: SettingsRoute.path,
-              name: SettingsRoute.name,
-            ),
-            TypedGoRoute<PageNotFoundRoute>(
-              path: PageNotFoundRoute.path,
-              name: PageNotFoundRoute.name,
-            ),
-          ],
+        TypedGoRoute<LoginRoute>(path: LoginRoute.path, name: LoginRoute.name),
+        TypedGoRoute<RegisterRoute>(
+          path: RegisterRoute.path,
+          name: RegisterRoute.name,
+        ),
+        TypedGoRoute<SettingsRoute>(
+          path: SettingsRoute.path,
+          name: SettingsRoute.name,
+        ),
+        TypedGoRoute<PageNotFoundRoute>(
+          path: PageNotFoundRoute.path,
+          name: PageNotFoundRoute.name,
         ),
       ],
     ),
   ],
 )
-class WrapperAppRoutes extends GoRouteData {
-  @override
-  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    final AuthCubit authCubit = context.watch<AuthCubit>();
+class WrapperMainRoute extends ShellRouteData {
+  const WrapperMainRoute();
 
-    if (authCubit.state.isUserAuthenticated) {
-      // If the user is authenticated, redirect to the PasswordsEntriesRoute
-      return PasswordsEntriesRoute().location;
-    } else if (authCubit.state.isMasterKeySet) {
-      // If the master key is set but the user is not authenticated, redirect to LoginRoute
-      return LoginRoute().location;
-    } else {
-      // If the master key is not set, redirect to RegisterRoute
-      return RegisterRoute().location;
-    }
-  }
+  static final GlobalKey<NavigatorState> $navigatorKey = _shellNavigatorKey;
 
   @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) {
+  Page<void> pageBuilder(context, state, navigator) {
     return _routeTransition(
       state: state,
       context: context,
-      child: const SizedBox.shrink(),
+      child: WrapperMainPage(child: navigator),
     );
   }
 }
@@ -91,6 +75,17 @@ class LoginRoute extends GoRouteData {
       _rootNavigatorKey;
 
   const LoginRoute();
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    // If the user is authenticated in and the current route is the LoginRoute, 
+    // redirect to PasswordsEntriesRoute.
+    if (context.read<AuthCubit>().state.isUserAuthenticated &&
+        state.fullPath == const LoginRoute().location) {
+      return const PasswordsEntriesRoute().location;
+    }
+    return null;
+  }
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
@@ -121,26 +116,33 @@ class RegisterRoute extends GoRouteData {
   }
 }
 
-class WrapperAuthenticatedRoutes extends ShellRouteData {
-  const WrapperAuthenticatedRoutes();
-
-  static final GlobalKey<NavigatorState> $navigatorKey = _shellNavigatorKey;
-
-  @override
-  Page<void> pageBuilder(context, state, navigator) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: WrapperAuthenticatedRoutesPage(child: navigator),
-    );
-  }
-}
-
 class PasswordsEntriesRoute extends GoRouteData {
-  static const path = 'passwords-entries';
+  static const path = '/';
   static const name = 'passwords-entries';
 
   const PasswordsEntriesRoute();
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) async {
+    final AuthRepository authRepository = di();
+    final AuthCubit authCubit = context.read<AuthCubit>();
+    
+    // If the current route is PasswordsEntriesRoute
+    if (state.fullPath == const PasswordsEntriesRoute().location) {
+      // If masterKey is not set
+      if (!(await authRepository.hasMasterKeyBeenSet())) {
+        // Go to RegisterRoute
+        return const RegisterRoute().location;
+        // If masterKey is set and user is not authenticated
+      } else if (await authRepository.hasMasterKeyBeenSet() &&
+          !authCubit.state.isUserAuthenticated) {
+        // Go to LoginRoute
+        return const LoginRoute().location;
+      }
+    }
+
+    return null;
+  }
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {

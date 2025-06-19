@@ -7,6 +7,7 @@ import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -69,6 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: () {
                       if (_formKey.currentState?.validate() == true) {
                         context.read<AuthCubit>().register(
+                          GoRouter.of(context),
                           masterKey: _masterKeyController.text.trim(),
                         );
 

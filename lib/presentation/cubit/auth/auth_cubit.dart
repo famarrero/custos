@@ -2,7 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
+import 'package:custos/routes/routes.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:go_router/go_router.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
@@ -32,7 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> login({required String masterKey}) async {
+  Future<void> login(GoRouter router, {required String masterKey}) async {
     emit(state.copyWith(loginState: BaseState.loading()));
 
     final response = await authRepository.verifyMasterKey(masterKey);
@@ -48,11 +50,12 @@ class AuthCubit extends Cubit<AuthState> {
             loginState: BaseState.data(true),
           ),
         );
+        router.go(PasswordsEntriesRoute().location);
       },
     );
   }
 
-  Future<void> register({required String masterKey}) async {
+  Future<void> register(GoRouter router, {required String masterKey}) async {
     emit(state.copyWith(registerState: BaseState.loading()));
 
     final response = await authRepository.registerMasterKey(masterKey);
@@ -68,6 +71,7 @@ class AuthCubit extends Cubit<AuthState> {
             registerState: BaseState.data(true),
           ),
         );
+        router.go(LoginRoute().location);
       },
     );
   }

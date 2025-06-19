@@ -13,11 +13,19 @@ class AuthRepositoryImpl implements AuthRepository {
   final HiveDatabaseService hiveDatabase = di();
   final SecureStorageProvider secureStorage = di();
 
-  final saltKey = '_salt_';
+  // The key for salt when generate the masterKey encryption
+  final masterKeySaltKey = '_master_key_salt_';
+  // The key for the hashedMasterKey
+  final hashedMasterKey = '_hashed_master_key_';
+
+  // The key for the encryptionKeySalt
+  final encryptionKeySalt = '_encryption_key_salt_';
 
   @override
   Future<bool> hasMasterKeyBeenSet() async {
-    return await secureStorage.containsKey(key: saltKey);
+    return await secureStorage.containsKey(key: masterKeySaltKey) &&
+        await secureStorage.containsKey(key: hashedMasterKey) &&
+        await secureStorage.containsKey(key: encryptionKeySalt);
   }
 
   @override
@@ -30,15 +38,20 @@ class AuthRepositoryImpl implements AuthRepository {
       final saltEncoded = base64Encode(generatedSalt);
 
       // Save the salt in the secure storage
-      await secureStorage.writeValue(key: saltKey, value: saltEncoded);
+      await secureStorage.writeValue(
+        key: encryptionKeySalt,
+        value: saltEncoded,
+      );
 
       // Derive the encrypted key by masterKey and salt
       final encryptionKey = deriveEncryptionKey(masterKey, generatedSalt);
 
-      // Set the encryptionKey in HiveDatabaseService
-      hiveDatabase.setEncryptionKey(encryptionKey);
+      // Save the masterKey in secure storage as PBKDF2
+      _saveMasterKeyPBKDF2(masterKey);
 
-      await hiveDatabase.setVerificationAuthValue();
+      // Set the encryptionKey in HiveDatabaseService
+      // The encryptionKey only saved in temporal memory (RAM)
+      hiveDatabase.setEncryptionKey(encryptionKey);
 
       return right(null);
     } catch (e) {
@@ -51,37 +64,108 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> verifyMasterKey(String masterKey) async {
     // Read the salt from secure storage
-    final salt = await secureStorage.readValue(key: saltKey);
+    final saltEncoded = await secureStorage.readValue(key: encryptionKeySalt);
 
     // If salt is null means that the master encryptionKey is not set yet
-    if (salt == null) {
+    if (saltEncoded == null) {
       return left(AppFailure(AppError.encryptionKeyNotSet));
     }
 
-    // Derive the encrypted key by masterKey and salt
-    final encryptionKey = deriveEncryptionKey(masterKey, base64Decode(salt));
+    // Decode salt from base64
+    final saltDecode = base64Decode(saltEncoded);
 
-    // Set the encryptionKey in HiveDatabaseService
-    hiveDatabase.setEncryptionKey(encryptionKey);
+    // Derive the encrypted key by masterKey and salt
+    final encryptionKey = deriveEncryptionKey(masterKey, saltDecode);
 
     try {
-      final value = await hiveDatabase.verificationAuthIsCorrect;
+      // Verify if the masterKey is correct
+      final value = await _verifyMasterKeyPBKDF2(masterKey);
 
       if (value) {
+        // Set the encryptionKey in HiveDatabaseService
+        hiveDatabase.setEncryptionKey(encryptionKey);
+        // If true open the encrypted boxes
         await hiveDatabase.openEncryptedBoxes();
         return right(null);
       } else {
+        // Set the encryptionKey in HiveDatabaseService to null
+        hiveDatabase.setEncryptionKey(null);
+        // If false means that the master key is incorrect
         return left(AppFailure(AppError.incorrectMasterKey));
       }
-    } catch (_) {
-      return left(AppFailure(AppError.incorrectMasterKey));
+    } catch (e) {
+      // Set the encryptionKey in HiveDatabaseService to null
+      hiveDatabase.setEncryptionKey(null);
+      // If unknown error occurred return failure master key is incorrect
+      return left(
+        AppFailure(AppError.incorrectMasterKey, message: e.toString()),
+      );
     }
   }
 
   @override
   Future<void> logout() async {
+    // Close boxes
     hiveDatabase.getGroupBox.close();
     hiveDatabase.getPasswordEntryBox.close();
+
+    // Set the encryptionKey in HiveDatabaseService to null
     hiveDatabase.setEncryptionKey(null);
+  }
+
+  Future<void> _saveMasterKeyPBKDF2(String masterKey) async {
+    try {
+      // Generate a salt for the masterKey
+      final masterKeySalt = generateSalt();
+
+      // Derive the encrypted masterKey by masterKey and salt
+      final derivedEncryptionMasterKey = deriveEncryptionKey(
+        masterKey,
+        masterKeySalt,
+      );
+      // Save the salt in the secure storage
+      await secureStorage.writeValue(
+        key: masterKeySaltKey,
+        value: base64Encode(masterKeySalt),
+      );
+      // Save the derived encryption masterKey in the secure storage
+      await secureStorage.writeValue(
+        key: hashedMasterKey,
+        value: base64Encode(derivedEncryptionMasterKey),
+      );
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  Future<bool> _verifyMasterKeyPBKDF2(String masterKey) async {
+    try {
+      // Read the masterKeySaltEncoded from secure storage
+      final masterKeySaltEncoded = await secureStorage.readValue(
+        key: masterKeySaltKey,
+      );
+      // Read the hashedMasterKeyEncode from secure storage
+      final hashedMasterKeyEncode = await secureStorage.readValue(
+        key: hashedMasterKey,
+      );
+
+      if (masterKeySaltEncoded == null || hashedMasterKeyEncode == null) {
+        return false;
+      }
+
+      // Decode the masterKeySaltEncoded
+      final masterKeySaltDecode = base64Decode(masterKeySaltEncoded);
+
+      // Derive the encrypted masterKey by masterKey and masterKeySaltDecode
+      final derivedEncryptionMasterKey = deriveEncryptionKey(
+        masterKey,
+        masterKeySaltDecode,
+      );
+
+      // If true the masterKey is correct
+      return hashedMasterKeyEncode == base64Encode(derivedEncryptionMasterKey);
+    } catch (e) {
+      throw Exception();
+    }
   }
 }

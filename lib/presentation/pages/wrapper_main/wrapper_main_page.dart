@@ -4,8 +4,8 @@ import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
 import 'package:flutter/material.dart';
 
-class WrapperAuthenticatedRoutesPage extends StatelessWidget {
-  const WrapperAuthenticatedRoutesPage({super.key, required this.child});
+class WrapperMainPage extends StatelessWidget {
+  const WrapperMainPage({super.key, required this.child});
 
   final Widget child;
 

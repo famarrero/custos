@@ -4,6 +4,7 @@ import 'package:custos/presentation/components/custom_circular_progress_indicato
 import 'package:custos/presentation/components/failure_widget.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
+import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/passwords_entries/components/password_entry_tile.dart';
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
 import 'package:flutter/material.dart';
@@ -15,58 +16,72 @@ class PasswordsEntriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PasswordsEntriesCubit()..watchPasswordsEntries(),
-      child: ScaffoldWidget(
-        padding: EdgeInsets.symmetric(
-          horizontal: kMobileHorizontalPadding,
-          vertical: kMobileVerticalPadding,
-        ),
-        child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
-          builder: (context, state) {
-            if (state.passwordsEntries.isLoading) {
-              return Center(child: CustomCircularProgressIndicator());
-            } else if (state.passwordsEntries.isError) {
-              return Center(
-                child: FailureWidget(failure: state.passwordsEntries.error),
-              );
-            } else {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Search form
-                  CustomTextFormField(
-                    hint: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                  ),
+      create: (context) => PasswordsEntriesCubit(),
+      child:
+      // Check if user authenticated and watchPasswordsEntries
+      BlocListener<AuthCubit, AuthState>(
+        listenWhen:
+            (previous, current) =>
+                previous.isUserAuthenticated != current.isUserAuthenticated &&
+                current.isUserAuthenticated,
+        listener: (context, state) {
+          context.read<PasswordsEntriesCubit>().watchPasswordsEntries();
+        },
+        child: ScaffoldWidget(
+          padding: EdgeInsets.symmetric(
+            horizontal: kMobileHorizontalPadding,
+            vertical: kMobileVerticalPadding,
+          ),
+          child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
+            builder: (context, state) {
+              if (state.passwordsEntries.isLoading) {
+                return Center(child: CustomCircularProgressIndicator());
+              } else if (state.passwordsEntries.isError) {
+                return Center(
+                  child: FailureWidget(failure: state.passwordsEntries.error),
+                );
+              } else if (state.passwordsEntries.isData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Search form
+                    CustomTextFormField(
+                      hint: 'Search',
+                      prefixIcon: Icon(Icons.search),
+                    ),
 
-                  const SizedBox(height: 22.0),
+                    const SizedBox(height: 22.0),
 
-                  Text('Accounts', style: context.textTheme.headlineSmall),
+                    Text('Accounts', style: context.textTheme.headlineSmall),
 
-                  // List of passwords entries
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 22.0),
-                        child: ListView.separated(
-                          separatorBuilder:
-                              (context, index) => SizedBox(height: 18.0),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: state.passwordsEntries.data.length,
-                          itemBuilder: (context, index) {
-                            return PasswordEntryTile(
-                              passwordEntry: state.passwordsEntries.data[index],
-                            );
-                          },
+                    // List of passwords entries
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 22.0),
+                          child: ListView.separated(
+                            separatorBuilder:
+                                (context, index) => SizedBox(height: 18.0),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.passwordsEntries.data.length,
+                            itemBuilder: (context, index) {
+                              return PasswordEntryTile(
+                                passwordEntry:
+                                    state.passwordsEntries.data[index],
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            }
-          },
+                  ],
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
         ),
       ),
     );
