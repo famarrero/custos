@@ -1,8 +1,9 @@
-import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
-import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
+import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class WrapperMainPage extends StatelessWidget {
   const WrapperMainPage({super.key, required this.child});
@@ -18,12 +19,9 @@ class WrapperMainPage extends StatelessWidget {
         centerTitle: true,
         actions: [
           CustomIconButton(
-            icon: Icons.add,
+            icon: Icons.exit_to_app,
             onTap: () {
-              context.showCustomModalBottomSheet(
-                title: 'Add account',
-                child: UpsertPasswordEntry(),
-              );
+              context.read<AuthCubit>().logout(GoRouter.of(context));
             },
           ),
         ],

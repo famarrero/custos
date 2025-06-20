@@ -104,13 +104,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> logout() async {
-    // Close boxes
-    hiveDatabase.getGroupBox.close();
-    hiveDatabase.getPasswordEntryBox.close();
+  Future<Either<Failure, void>> logout() async {
+    try {
+      // Close boxes
+      hiveDatabase.getGroupBox.close();
+      hiveDatabase.getPasswordEntryBox.close();
 
-    // Set the encryptionKey in HiveDatabaseService to null
-    hiveDatabase.setEncryptionKey(null);
+      // Set the encryptionKey in HiveDatabaseService to null
+      hiveDatabase.setEncryptionKey(null);
+
+      return right(null);
+    } catch (e) {
+      return left(AppFailure(AppError.unknown, message: e.toString()));
+    }
   }
 
   Future<void> _saveMasterKeyPBKDF2(String masterKey) async {

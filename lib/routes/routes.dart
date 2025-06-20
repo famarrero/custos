@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:custos/data/repositories/auth/auth_repository.dart';
-import 'package:custos/di_container.dart';
+// import 'package:custos/data/repositories/auth/auth_repository.dart';
+// import 'package:custos/di_container.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/login/login_page.dart';
 import 'package:custos/presentation/pages/wrapper_main/wrapper_main_page.dart';
@@ -78,9 +78,9 @@ class LoginRoute extends GoRouteData {
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    // If the user is authenticated in and the current route is the LoginRoute, 
+    // If the user is authenticated in and the current route is the LoginRoute,
     // redirect to PasswordsEntriesRoute.
-    if (context.read<AuthCubit>().state.isUserAuthenticated &&
+    if (context.read<AuthCubit>().state.loginState.dataOrNull == true &&
         state.fullPath == const LoginRoute().location) {
       return const PasswordsEntriesRoute().location;
     }
@@ -124,18 +124,13 @@ class PasswordsEntriesRoute extends GoRouteData {
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) async {
-    final AuthRepository authRepository = di();
+    // final AuthRepository authRepository = di();
     final AuthCubit authCubit = context.read<AuthCubit>();
-    
+
     // If the current route is PasswordsEntriesRoute
     if (state.fullPath == const PasswordsEntriesRoute().location) {
-      // If masterKey is not set
-      if (!(await authRepository.hasMasterKeyBeenSet())) {
-        // Go to RegisterRoute
-        return const RegisterRoute().location;
-        // If masterKey is set and user is not authenticated
-      } else if (await authRepository.hasMasterKeyBeenSet() &&
-          !authCubit.state.isUserAuthenticated) {
+      // If user is not authenticated
+      if (!authCubit.state.isUserAuthenticated) {
         // Go to LoginRoute
         return const LoginRoute().location;
       }

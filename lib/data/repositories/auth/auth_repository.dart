@@ -8,5 +8,5 @@ abstract class AuthRepository {
 
   Future<Either<Failure, void>> verifyMasterKey(String password);
 
-  Future<void> logout();
+  Future<Either<Failure, void>> logout();
 }

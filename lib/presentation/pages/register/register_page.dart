@@ -5,6 +5,7 @@ import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   /// Create a global key to uniquely identify the Form widget for validation
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _profileNameController = TextEditingController();
 
   final TextEditingController _masterKeyController = TextEditingController();
 
@@ -38,6 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return ScaffoldWidget(
+            appBar: AppBar(),
             padding: EdgeInsets.symmetric(
               vertical: kMobileVerticalPadding,
               horizontal: kMobileHorizontalPadding,
@@ -48,6 +52,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 24.0,
                 children: [
+                  CustomTextFormField(
+                    controller: _profileNameController,
+                    label: 'Profile name',
+                    isRequired: true,
+                    validator: context.validateRequired,
+                  ),
                   CustomTextFormField(
                     controller: _masterKeyController,
                     label: 'Master key',
@@ -65,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                   ),
                   CustomButton(
-                    label: 'Register',
+                    label: 'Create profile',
                     infiniteWidth: true,
                     onPressed: () {
                       if (_formKey.currentState?.validate() == true) {

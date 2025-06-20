@@ -9,6 +9,8 @@ import 'package:custos/data/providers/password_entry/password_entry_provider.dar
 import 'package:custos/data/providers/password_entry/password_entry_provider_impl.dart';
 import 'package:custos/data/providers/preferences/preferences_provider.dart';
 import 'package:custos/data/providers/preferences/preferences_provider_impl.dart';
+import 'package:custos/data/providers/profiles/profiles_provider.dart';
+import 'package:custos/data/providers/profiles/profiles_provider_impl.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider_impl.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
@@ -19,6 +21,8 @@ import 'package:custos/data/repositories/password_entry/password_entry_repositor
 import 'package:custos/data/repositories/password_entry/password_entry_repository_impl.dart';
 import 'package:custos/data/repositories/preferences/preferences_repository.dart';
 import 'package:custos/data/repositories/preferences/preferences_repository_impl.dart';
+import 'package:custos/data/repositories/profiles/profiles_repository.dart';
+import 'package:custos/data/repositories/profiles/profiles_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
@@ -69,6 +73,9 @@ Future initInjection() async {
     () => SecureStorageProviderImpl(),
   );
 
+  /// ProfilesProvider
+  di.registerLazySingleton<ProfilesProvider>(() => ProfilesProviderImpl());
+
   /// GroupProvider
   di.registerLazySingleton<GroupProvider>(() => GroupProviderImpl());
 
@@ -86,6 +93,11 @@ Future initInjection() async {
 
   /// PreferencesRepository
   GetIt.I.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+
+  /// ProfilesRepository
+  GetIt.I.registerLazySingleton<ProfilesRepository>(
+    () => ProfilesRepositoryImpl(),
+  );
 
   /// GroupRepository
   GetIt.I.registerLazySingleton<GroupRepository>(() => GroupRepositoryImpl());

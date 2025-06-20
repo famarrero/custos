@@ -128,7 +128,7 @@ class _CustomButtonState extends State<CustomButton> {
                         (widget.type == CustomTextButtonEnum.filled
                             ? context.colorScheme.onPrimary
                             : context.colorScheme.primary),
-                    size: 18,
+                    size: 24,
                   ),
                   const SizedBox(width: 4.0),
                 ],
@@ -188,9 +188,7 @@ class _CustomButtonState extends State<CustomButton> {
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(
-                widget.corner ?? kMobileCorner,
-              ),
+              Radius.circular(widget.corner ?? kMobileCorner),
             ),
           ),
         ),

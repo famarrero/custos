@@ -1,11 +1,13 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
 import 'package:custos/core/utils/constants.dart';
+import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/custom_button.dart';
-import 'package:custos/presentation/components/form/custom_text_form_field.dart';
+import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
-import 'package:flutter/widgets.dart';
+import 'package:custos/presentation/pages/login/cubit/login_cubit.dart';
+import 'package:custos/routes/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,11 +19,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  /// Create a global key to uniquely identify the Form widget for validation
-  final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _masterKeyController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -32,45 +29,51 @@ class _LoginPageState extends State<LoginPage> {
           message: context.localizeError(failure: state.loginState.error),
         );
       },
-      child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) {
-          return ScaffoldWidget(
-            padding: EdgeInsets.symmetric(
-              vertical: kMobileVerticalPadding,
-              horizontal: kMobileHorizontalPadding,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 24.0,
+      child: BlocProvider(
+        create: (context) => LoginCubit()..watchProfiles(),
+        child: ScaffoldWidget(
+          padding: EdgeInsets.symmetric(
+            vertical: kMobileVerticalPadding,
+            horizontal: kMobileHorizontalPadding,
+          ),
+          child: BlocBuilder<LoginCubit, LoginState>(
+            builder: (context, state) {
+              return Column(
                 children: [
-                  CustomTextFormField(
-                    controller: _masterKeyController,
-                    label: 'Master key',
-                    isRequired: true,
-                    validator: context.validatePassword,
+                  Flexible(
+                    child: BaseStateUi(
+                      state: state.profiles,
+                      onRetryPressed:
+                          () => context.read<LoginCubit>().watchProfiles(),
+                      noDataWidget: NoDataWidget(
+                        iconData: Icons.person,
+                        title: 'No profile yet',
+                        subtitle:
+                            'When you create a profile they will appear here. Clink in Create profile button to add.',
+                      ),
+                      onDataChild: (profiles) {
+                        return ListView.builder(
+                          itemCount: profiles.length,
+                          itemBuilder: (context, index) {
+                            return Text(profiles[index].name);
+                          },
+                        );
+                      },
+                    ),
                   ),
                   CustomButton(
-                    label: 'Login',
-                    isLoading: state.loginState.isLoading,
+                    prefixIconData: Icons.person_add,
+                    label: 'Create profile',
                     infiniteWidth: true,
                     onPressed: () {
-                      if (_formKey.currentState?.validate() == true) {
-                        context.read<AuthCubit>().login(
-                          GoRouter.of(context),
-                          masterKey: _masterKeyController.text.trim(),
-                        );
-
-                        FocusManager.instance.primaryFocus?.unfocus();
-                      }
+                      context.push(RegisterRoute().location);
                     },
                   ),
                 ],
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

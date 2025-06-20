@@ -4,6 +4,7 @@ import 'package:custos/presentation/components/custom_circular_progress_indicato
 import 'package:custos/presentation/components/failure_widget.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
+import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/passwords_entries/components/password_entry_tile.dart';
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
@@ -22,12 +23,21 @@ class PasswordsEntriesPage extends StatelessWidget {
       BlocListener<AuthCubit, AuthState>(
         listenWhen:
             (previous, current) =>
-                previous.isUserAuthenticated != current.isUserAuthenticated &&
-                current.isUserAuthenticated,
+                previous.loginState != current.loginState &&
+                current.loginState.dataOrNull == true,
         listener: (context, state) {
           context.read<PasswordsEntriesCubit>().watchPasswordsEntries();
         },
         child: ScaffoldWidget(
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              context.showCustomModalBottomSheet(
+                title: 'Add account',
+                child: UpsertPasswordEntry(),
+              );
+            },
+          ),
           padding: EdgeInsets.symmetric(
             horizontal: kMobileHorizontalPadding,
             vertical: kMobileVerticalPadding,

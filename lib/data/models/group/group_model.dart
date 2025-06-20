@@ -5,7 +5,7 @@ part 'group_model.freezed.dart';
 part 'group_model.g.dart';
 
 @freezed
-@HiveType(typeId: 2)
+@HiveType(typeId: 3)
 abstract class GroupModel with _$GroupModel {
   const GroupModel._();
 

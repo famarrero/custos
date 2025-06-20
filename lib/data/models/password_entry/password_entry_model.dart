@@ -7,7 +7,7 @@ part 'password_entry_model.freezed.dart';
 part 'password_entry_model.g.dart';
 
 @freezed
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 abstract class PasswordEntryModel with _$PasswordEntryModel {
   const PasswordEntryModel._();
 
@@ -30,6 +30,7 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
       username: username,
       password: password,
       note: note,
+      // TODO: fix this
       group: GroupModel(id: '', name: '', color: ''),
     );
   }

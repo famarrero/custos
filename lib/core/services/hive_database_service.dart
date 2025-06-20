@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:custos/data/models/group/group_model.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
+import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/di_container.dart';
 import 'package:hive_ce/hive.dart';
 
@@ -14,12 +15,15 @@ abstract class HiveDatabaseService {
 
   Future<void> openEncryptedBoxes();
 
+  Box get getProfileBox;
+
   Box get getGroupBox;
 
   Box get getPasswordEntryBox;
 }
 
 // Box keys
+const String profileBoxKey = 'profile';
 const String groupBoxKey = 'group';
 const String passwordEntryBoxKey = 'password_entry';
 
@@ -36,8 +40,13 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
   Future<void> init() async {
     _hive.init(di<Directory>().path);
 
+    _hive.registerAdapter(ProfileModelAdapter());
     _hive.registerAdapter(GroupModelAdapter());
     _hive.registerAdapter(PasswordEntryModelAdapter());
+
+    if (!_hive.isBoxOpen(profileBoxKey)) {
+      await _hive.openBox<dynamic>(profileBoxKey);
+    }
   }
 
   @override
@@ -62,6 +71,11 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
         encryptionCipher: HiveAesCipher(_encryptionKey!),
       );
     }
+  }
+
+  @override
+  Box get getProfileBox {
+    return _hive.box(profileBoxKey);
   }
 
   @override
