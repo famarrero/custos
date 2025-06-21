@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
+import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/routes/routes.dart';
@@ -13,59 +14,52 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit()
     : super(
         AuthState(
-          isMasterKeySet: false,
-          registerState: BaseState.initial(),
           loginState: BaseState.initial(),
+          deleteProfile: BaseState.initial(),
           logoutState: BaseState.initial(),
         ),
       );
 
   final AuthRepository authRepository = di();
 
-  Future<void> stared() async {
-    final hasPassword = await authRepository.hasMasterKeyBeenSet();
-
-    if (hasPassword) {
-      // Show login page.
-      emit(state.copyWith(isMasterKeySet: true));
-    } else {
-      // Show register page.
-      emit(state.copyWith(isMasterKeySet: false));
-    }
-  }
-
-  Future<void> login(GoRouter router, {required String masterKey}) async {
+  Future<void> login(
+    GoRouter router, {
+    required ProfileModel profile,
+    required String masterKey,
+  }) async {
     emit(state.copyWith(loginState: BaseState.loading()));
 
-    final response = await authRepository.verifyMasterKey(masterKey);
+    final response = await authRepository.verifyProfileByMasterKey(
+      profileId: profile.id,
+      masterKey: masterKey,
+    );
 
     response.fold(
       (failure) {
         emit(state.copyWith(loginState: BaseState.error(failure)));
       },
       (login) {
-        emit(state.copyWith(loginState: BaseState.data(true)));
+        emit(state.copyWith(loginState: BaseState.data(profile)));
         router.go(PasswordsEntriesRoute().location);
       },
     );
   }
 
-  Future<void> register(GoRouter router, {required String masterKey}) async {
-    emit(state.copyWith(registerState: BaseState.loading()));
+  Future<void> deleteProfile(GoRouter router) async {
+    if (!state.loginState.isData) return;
 
-    final response = await authRepository.registerMasterKey(masterKey);
+    emit(state.copyWith(deleteProfile: BaseState.loading()));
+
+    final response = await authRepository.deleteProfileAndMasterKey(
+      profileId: state.loginState.data.id,
+    );
 
     response.fold(
       (failure) {
-        emit(state.copyWith(registerState: BaseState.error(failure)));
+        emit(state.copyWith(deleteProfile: BaseState.error(failure)));
       },
       (register) {
-        emit(
-          state.copyWith(
-            isMasterKeySet: true,
-            registerState: BaseState.data(true),
-          ),
-        );
+        emit(state.copyWith(deleteProfile: BaseState.data(true)));
         router.go(LoginRoute().location);
       },
     );

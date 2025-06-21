@@ -157,6 +157,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Error configurando la clave maestra'**
   String get masterKeyErrorSet;
+
+  /// No description provided for @sureWantPerformThisAction.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Estás seguro que deseas realizar esta acción?'**
+  String get sureWantPerformThisAction;
 }
 
 class _AppLocalizationsDelegate

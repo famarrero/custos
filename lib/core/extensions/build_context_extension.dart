@@ -3,6 +3,7 @@ import 'package:custos/core/utils/constants.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:custos/presentation/app/theme/app_theme.dart';
+import 'package:custos/presentation/components/confirmation_dialog.dart';
 import 'package:custos/presentation/components/custom_bottom_modal_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +76,7 @@ extension BuildContextExtension on BuildContext {
     ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(
+        SnackBar(          
           // Set the duration of the SnackBar
           duration: const Duration(seconds: 3),
 
@@ -132,6 +133,94 @@ extension BuildContextExtension on BuildContext {
           child: child,
         );
       },
+    );
+  }
+
+  /// Show confirmation dialog
+  Future showConfirmationDialog({
+    String? title,
+    Widget? child,
+    String? checkBoxTitle,
+    String? labelLeftButton,
+    Color? disabledForegroundColorLeft,
+    Color? disableForegroundColorRight,
+    Color? foregroundColorLeft,
+    Color? backgroundColorLeft,
+    Color? disableBackgroundColorLeft,
+    Color? disableBackgroundColorRight,
+    Function(bool check)? onPressedLeftButton,
+    bool enableLeftButtonOnCheckOnly = false,
+    bool enableRightButtonOnCheckOnly = false,
+    String? labelRightButton,
+    Color? disabledForegroundColorRight,
+    Color? foregroundColorRight,
+    Color? backgroundColorRight,
+    Function(bool check)? onPressedRightButton,
+    bool barrierDismissible = true,
+  }) async => await showGeneralDialog(
+    context: this,
+    barrierLabel: '',
+    barrierDismissible: barrierDismissible,
+    transitionDuration: const Duration(milliseconds: 150),
+    pageBuilder: (context, anim1, anim2) {
+      return ConfirmationDialog(
+        title: title,
+        checkBoxTitle: checkBoxTitle,
+        labelLeftButton: labelLeftButton,
+        disabledForegroundColorLeft: disabledForegroundColorLeft,
+        foregroundColorLeft: foregroundColorLeft,
+        backgroundColorLeft: backgroundColorLeft,
+        disableBackgroundColorLeft: disableBackgroundColorLeft,
+        onPressedLeftButton: onPressedLeftButton,
+        labelRightButton: labelRightButton,
+        disabledForegroundColorRight: disabledForegroundColorRight,
+        foregroundColorRight: foregroundColorRight,
+        disableBackgroundColorRight: disableBackgroundColorRight,
+        backgroundColorRight: backgroundColorRight,
+        onPressedRightButton: onPressedRightButton,
+        enableLeftButtonOnCheckOnly: enableLeftButtonOnCheckOnly,
+        enableRightButtonOnCheckOnly: enableRightButtonOnCheckOnly,
+        child: child,
+      );
+    },
+    transitionBuilder: (context, anim1, anim2, child) {
+      return _DialogAnimation(animation: anim1, child: child);
+    },
+  );
+}
+
+/// A widget that animates its child when shown.
+/// This widget is particularly useful for showing alert dialogs.
+///
+/// * A fade transition that starts with 0 opacity and ends with 1 opacity.
+/// * A slide transition that starts with an offset of (1, 0) and ends with an offset of (0, 0).
+///
+/// This widget uses a fade transition with a `Curves.bounceIn` curve to create a noticeable but smooth appearance.
+/// The slide transition uses a `Curves.easeIn` curve for a more subtle animation.
+///
+/// The `child` parameter specifies the widget to be animated.
+///
+/// The `animation` parameter specifies the animation that drives the animation of the widget.
+class _DialogAnimation extends StatelessWidget {
+  const _DialogAnimation({required this.child, required this.animation});
+
+  final Widget child;
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).chain(CurveTween(curve: Curves.easeInCubic)).animate(animation),
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(0, -0.1),
+          end: Offset.zero,
+        ).chain(CurveTween(curve: Curves.easeIn)).animate(animation),
+        child: child,
+      ),
     );
   }
 }

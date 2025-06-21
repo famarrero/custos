@@ -22,7 +22,7 @@ class ProfilesRepositoryImpl implements ProfilesRepository {
   }
 
   @override
-  Future<int> upsertProfile({required ProfileModel profileModel}) async {
+  Future<ProfileModel> upsertProfile({required ProfileModel profileModel}) async {
     return profilesProvider.upsertProfile(profileModel: profileModel);
   }
 

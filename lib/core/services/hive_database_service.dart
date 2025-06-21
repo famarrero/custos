@@ -11,7 +11,7 @@ abstract class HiveDatabaseService {
 
   Future<void> init();
 
-  void setEncryptionKey(List<int>? key);
+  void setEncryptionKey(List<int>? key, String? profileId);
 
   Future<void> openEncryptedBoxes();
 
@@ -23,15 +23,17 @@ abstract class HiveDatabaseService {
 }
 
 // Box keys
-const String profileBoxKey = 'profile';
-const String groupBoxKey = 'group';
-const String passwordEntryBoxKey = 'password_entry';
+final String profileBoxKey = 'profile';
+
+String groupBoxKey(String profileId) => '${profileId}_group';
+String passwordEntryBoxKey(String profileId) => '${profileId}_password_entry';
 
 class HiveDatabaseServiceImpl extends HiveDatabaseService {
   HiveDatabaseServiceImpl(this._hive);
 
   final HiveInterface _hive;
   List<int>? _encryptionKey;
+  String? _profileId;
 
   @override
   HiveInterface get hive => _hive;
@@ -50,24 +52,25 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
   }
 
   @override
-  void setEncryptionKey(List<int>? key) {
+  void setEncryptionKey(List<int>? key, String? profileId) {
     _encryptionKey = key;
+    _profileId = profileId;
   }
 
   @override
   Future<void> openEncryptedBoxes() async {
     _checkKey();
 
-    if (!_hive.isBoxOpen(groupBoxKey)) {
+    if (!_hive.isBoxOpen(groupBoxKey(_profileId!))) {
       await _hive.openBox<dynamic>(
-        groupBoxKey,
+        groupBoxKey(_profileId!),
         encryptionCipher: HiveAesCipher(_encryptionKey!),
       );
     }
 
-    if (!_hive.isBoxOpen(passwordEntryBoxKey)) {
+    if (!_hive.isBoxOpen(passwordEntryBoxKey(_profileId!))) {
       await _hive.openBox<dynamic>(
-        passwordEntryBoxKey,
+        passwordEntryBoxKey(_profileId!),
         encryptionCipher: HiveAesCipher(_encryptionKey!),
       );
     }
@@ -81,17 +84,17 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
   @override
   Box get getGroupBox {
     _checkKey();
-    return _hive.box(groupBoxKey);
+    return _hive.box(groupBoxKey(_profileId!));
   }
 
   @override
   Box get getPasswordEntryBox {
     _checkKey();
-    return _hive.box(passwordEntryBoxKey);
+    return _hive.box(passwordEntryBoxKey(_profileId!));
   }
 
   void _checkKey() {
-    if (_encryptionKey == null) {
+    if (_encryptionKey == null || _profileId == null) {
       throw Exception(
         'Master key has not been set. '
         'Please call setEncryptionKey() before accessing the boxes.',

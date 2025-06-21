@@ -7,7 +7,7 @@ abstract class ProfilesRepository {
 
   Future<ProfileModel> getProfile({required String id});
 
-  Future<int> upsertProfile({required ProfileModel profileModel});
+  Future<ProfileModel> upsertProfile({required ProfileModel profileModel});
 
   Future<void> deleteProfile({required String id});
 }

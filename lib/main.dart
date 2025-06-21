@@ -45,7 +45,7 @@ void main() async {
             BlocProvider(
               create: (_) => AppCubit(themeMode: themeMode, locale: locale),
             ),
-            BlocProvider(create: (_) => AuthCubit()..stared()),
+            BlocProvider(create: (_) => AuthCubit()),
           ],
           child: const CustosApp(),
         ),
@@ -54,7 +54,7 @@ void main() async {
   } catch (e) {
     runApp(
       CustosErrorApp(
-        failure: AppFailure(AppError.unknown, message: e.toString()),
+        failure: AppFailure(AppError.unknown, message: e.toString()),  
       ),
     );
   }

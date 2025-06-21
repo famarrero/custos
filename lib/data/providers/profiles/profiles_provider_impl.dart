@@ -25,8 +25,11 @@ class ProfilesProviderImpl implements ProfilesProvider {
   }
 
   @override
-  Future<int> upsertProfile({required ProfileModel profileModel}) async {
-    return hiveDatabase.getProfileBox.add(profileModel);
+  Future<ProfileModel> upsertProfile({
+    required ProfileModel profileModel,
+  }) async {
+    await hiveDatabase.getProfileBox.put(profileModel.id, profileModel);
+    return profileModel;
   }
 
   @override

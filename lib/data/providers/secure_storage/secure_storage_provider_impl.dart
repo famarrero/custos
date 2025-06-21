@@ -14,6 +14,10 @@ class SecureStorageProviderImpl extends SecureStorageProvider {
       await flutterSecureStorage.write(key: key, value: value);
 
   @override
+  Future<void> deleteValue({required String key}) async =>
+      await flutterSecureStorage.delete(key: key);
+
+  @override
   Future<bool> containsKey({required String key}) async =>
       await flutterSecureStorage.containsKey(key: key);
 }

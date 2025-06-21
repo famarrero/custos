@@ -5,32 +5,35 @@ import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/crypto_utils.dart';
 import 'package:custos/core/utils/either.dart';
 import 'package:custos/core/utils/failures.dart';
+import 'package:custos/core/utils/secure_storages_access_keys.dart';
+import 'package:custos/data/models/profile/profile_model.dart';
+import 'package:custos/data/providers/profiles/profiles_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
+import 'package:uuid/uuid.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final HiveDatabaseService hiveDatabase = di();
   final SecureStorageProvider secureStorage = di();
-
-  // The key for salt when generate the masterKey encryption
-  final masterKeySaltKey = '_master_key_salt_';
-  // The key for the hashedMasterKey
-  final hashedMasterKey = '_hashed_master_key_';
-
-  // The key for the encryptionKeySalt
-  final encryptionKeySalt = '_encryption_key_salt_';
+  final ProfilesProvider profilesProvider = di();
 
   @override
-  Future<bool> hasMasterKeyBeenSet() async {
-    return await secureStorage.containsKey(key: masterKeySaltKey) &&
-        await secureStorage.containsKey(key: hashedMasterKey) &&
-        await secureStorage.containsKey(key: encryptionKeySalt);
-  }
-
-  @override
-  Future<Either<Failure, void>> registerMasterKey(String masterKey) async {
+  Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
+    required String profileName,
+    required String masterKey,
+  }) async {
     try {
+      final profileId = Uuid().v4();
+
+      final profile = ProfileModel(
+        id: profileId,
+        name: profileName.trim(),
+        masterKeySalt: masterKeySaltSecureStorageAccessKey(profileId),
+        masterKeyHash: masterKeyHashSecureStorageAccessKey(profileId),
+        createdAt: DateTime.now(),
+      );
+
       // Generate a salt
       final generatedSalt = generateSalt();
 
@@ -39,7 +42,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       // Save the salt in the secure storage
       await secureStorage.writeValue(
-        key: encryptionKeySalt,
+        key: encryptionKeySaltSecureStorageAccessKey(profileId),
         value: saltEncoded,
       );
 
@@ -47,13 +50,21 @@ class AuthRepositoryImpl implements AuthRepository {
       final encryptionKey = deriveEncryptionKey(masterKey, generatedSalt);
 
       // Save the masterKey in secure storage as PBKDF2
-      _saveMasterKeyPBKDF2(masterKey);
+      _saveMasterKeyPBKDF2(
+        masterKeySaltSecureStorageAccessKey:
+            masterKeySaltSecureStorageAccessKey(profileId),
+        masterKeyHashSecureStorageAccessKey:
+            masterKeyHashSecureStorageAccessKey(profileId),
+        masterKey: masterKey,
+      );
 
       // Set the encryptionKey in HiveDatabaseService
       // The encryptionKey only saved in temporal memory (RAM)
-      hiveDatabase.setEncryptionKey(encryptionKey);
+      hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
 
-      return right(null);
+      await profilesProvider.upsertProfile(profileModel: profile);
+
+      return right(profile);
     } catch (e) {
       return left(
         AppFailure(AppError.errorDerivingEncryptionKey, message: e.toString()),
@@ -62,9 +73,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> verifyMasterKey(String masterKey) async {
+  Future<Either<Failure, void>> verifyProfileByMasterKey({
+    required String profileId,
+    required String masterKey,
+  }) async { 
     // Read the salt from secure storage
-    final saltEncoded = await secureStorage.readValue(key: encryptionKeySalt);
+    final saltEncoded = await secureStorage.readValue(
+      key: encryptionKeySaltSecureStorageAccessKey(profileId),
+    );
 
     // If salt is null means that the master encryptionKey is not set yet
     if (saltEncoded == null) {
@@ -79,27 +95,56 @@ class AuthRepositoryImpl implements AuthRepository {
 
     try {
       // Verify if the masterKey is correct
-      final value = await _verifyMasterKeyPBKDF2(masterKey);
+      final value = await _verifyMasterKeyPBKDF2(
+        masterKeySaltSecureStorageAccessKey:
+            masterKeySaltSecureStorageAccessKey(profileId),
+        masterKeyHashSecureStorageAccessKey:
+            masterKeyHashSecureStorageAccessKey(profileId),
+        masterKey: masterKey,
+      );
 
       if (value) {
         // Set the encryptionKey in HiveDatabaseService
-        hiveDatabase.setEncryptionKey(encryptionKey);
+        hiveDatabase.setEncryptionKey(encryptionKey, profileId);
         // If true open the encrypted boxes
         await hiveDatabase.openEncryptedBoxes();
         return right(null);
       } else {
         // Set the encryptionKey in HiveDatabaseService to null
-        hiveDatabase.setEncryptionKey(null);
+        hiveDatabase.setEncryptionKey(null, null);
         // If false means that the master key is incorrect
         return left(AppFailure(AppError.incorrectMasterKey));
       }
     } catch (e) {
       // Set the encryptionKey in HiveDatabaseService to null
-      hiveDatabase.setEncryptionKey(null);
+      hiveDatabase.setEncryptionKey(null, null);
       // If unknown error occurred return failure master key is incorrect
       return left(
         AppFailure(AppError.incorrectMasterKey, message: e.toString()),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteProfileAndMasterKey({
+    required String profileId,
+  }) async {
+    try {
+      await secureStorage.deleteValue(
+        key: masterKeySaltSecureStorageAccessKey(profileId),
+      );
+      await secureStorage.deleteValue(
+        key: masterKeyHashSecureStorageAccessKey(profileId),
+      );
+      await secureStorage.deleteValue(
+        key: encryptionKeySaltSecureStorageAccessKey(profileId),
+      );
+
+      await profilesProvider.deleteProfile(id: profileId);
+
+      return right(null);
+    } catch (e) {
+      return left(AppFailure(AppError.unknown, message: e.toString()));
     }
   }
 
@@ -111,7 +156,7 @@ class AuthRepositoryImpl implements AuthRepository {
       hiveDatabase.getPasswordEntryBox.close();
 
       // Set the encryptionKey in HiveDatabaseService to null
-      hiveDatabase.setEncryptionKey(null);
+      hiveDatabase.setEncryptionKey(null, null);
 
       return right(null);
     } catch (e) {
@@ -119,7 +164,11 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<void> _saveMasterKeyPBKDF2(String masterKey) async {
+  Future<void> _saveMasterKeyPBKDF2({
+    required String masterKeySaltSecureStorageAccessKey,
+    required String masterKeyHashSecureStorageAccessKey,
+    required String masterKey,
+  }) async {
     try {
       // Generate a salt for the masterKey
       final masterKeySalt = generateSalt();
@@ -131,12 +180,12 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       // Save the salt in the secure storage
       await secureStorage.writeValue(
-        key: masterKeySaltKey,
+        key: masterKeySaltSecureStorageAccessKey,
         value: base64Encode(masterKeySalt),
       );
       // Save the derived encryption masterKey in the secure storage
       await secureStorage.writeValue(
-        key: hashedMasterKey,
+        key: masterKeyHashSecureStorageAccessKey,
         value: base64Encode(derivedEncryptionMasterKey),
       );
     } catch (e) {
@@ -144,15 +193,19 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<bool> _verifyMasterKeyPBKDF2(String masterKey) async {
+  Future<bool> _verifyMasterKeyPBKDF2({
+    required String masterKeySaltSecureStorageAccessKey,
+    required String masterKeyHashSecureStorageAccessKey,
+    required String masterKey,
+  }) async {
     try {
       // Read the masterKeySaltEncoded from secure storage
       final masterKeySaltEncoded = await secureStorage.readValue(
-        key: masterKeySaltKey,
+        key: masterKeySaltSecureStorageAccessKey,
       );
       // Read the hashedMasterKeyEncode from secure storage
       final hashedMasterKeyEncode = await secureStorage.readValue(
-        key: hashedMasterKey,
+        key: masterKeyHashSecureStorageAccessKey,
       );
 
       if (masterKeySaltEncoded == null || hashedMasterKeyEncode == null) {

@@ -24,7 +24,7 @@ class PasswordsEntriesPage extends StatelessWidget {
         listenWhen:
             (previous, current) =>
                 previous.loginState != current.loginState &&
-                current.loginState.dataOrNull == true,
+                current.isUserAuthenticated,
         listener: (context, state) {
           context.read<PasswordsEntriesCubit>().watchPasswordsEntries();
         },

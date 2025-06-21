@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
+import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
@@ -7,7 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginProfileWidget extends StatefulWidget {
-  const LoginProfileWidget({super.key});
+  const LoginProfileWidget({super.key, required this.profile});
+
+  final ProfileModel profile;
 
   @override
   State<LoginProfileWidget> createState() => _LoginProfileWidgetState();
@@ -44,6 +47,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                   if (_formKey.currentState?.validate() == true) {
                     context.read<AuthCubit>().login(
                       GoRouter.of(context),
+                      profile: widget.profile,
                       masterKey: _masterKeyController.text.trim(),
                     );
 

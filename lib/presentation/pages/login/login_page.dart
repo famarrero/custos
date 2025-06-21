@@ -5,6 +5,7 @@ import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
+import 'package:custos/presentation/pages/login/components/profile_tile.dart';
 import 'package:custos/presentation/pages/login/cubit/login_cubit.dart';
 import 'package:custos/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,9 @@ class _LoginPageState extends State<LoginPage> {
                         return ListView.builder(
                           itemCount: profiles.length,
                           itemBuilder: (context, index) {
-                            return Text(profiles[index].name);
+                            return ProfileTile(
+                              profile: profiles[index],                            
+                            );
                           },
                         );
                       },

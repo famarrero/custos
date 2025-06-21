@@ -9,5 +9,6 @@
   "passwordsNotMatch": "Las contraseñas no coinciden",
   "incorrectMasterKey": "La clave maestra es incorrecta",
   "masterKeyNotSet": "La clave maestra aún no está configurada",
-  "masterKeyErrorSet": "Error configurando la clave maestra"
+  "masterKeyErrorSet": "Error configurando la clave maestra",
+  "sureWantPerformThisAction": "¿Estás seguro que deseas realizar esta acción?"
 }

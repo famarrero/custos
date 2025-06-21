@@ -37,4 +37,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get masterKeyErrorSet => 'Error configurando la clave maestra';
+
+  @override
+  String get sureWantPerformThisAction =>
+      '¿Estás seguro que deseas realizar esta acción?';
 }

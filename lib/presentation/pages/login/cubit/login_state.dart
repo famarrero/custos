@@ -6,6 +6,5 @@ abstract class LoginState with _$LoginState {
 
   const factory LoginState({
     required BaseState<List<ProfileModel>> profiles,
-    required BaseState<bool> addProfile,
   }) = _LoginState;
 }

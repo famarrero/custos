@@ -17,7 +17,6 @@ class LoginCubit extends Cubit<LoginState> {
     : super(
         LoginState(
           profiles: BaseState.initial(),
-          addProfile: BaseState.initial(),
         ),
       );
 
@@ -50,24 +49,6 @@ class LoginCubit extends Cubit<LoginState> {
         );
       },
     );
-  }
-
-  Future<void> addProfile({required ProfileModel profile}) async {
-    try {
-      emit(state.copyWith(addProfile: BaseState.loading()));
-
-      await profilesRepository.upsertProfile(profileModel: profile);
-
-      emit(state.copyWith(addProfile: BaseState.data(true)));
-    } catch (e) {
-      emit(
-        state.copyWith(
-          addProfile: BaseState.error(
-            AppFailure(AppError.unknown, message: e.toString()),
-          ),
-        ),
-      );
-    }
   }
 
   @override
