@@ -7,12 +7,22 @@ class GroupRepositoryImpl implements GroupRepository {
   final GroupProvider groupProvider = di();
 
   @override
+  Future<List<GroupModel>> getGroups() async {
+    return await groupProvider.getGroups();
+  }
+
+  @override
+  Stream<List<GroupModel>> watchGroups() {
+    return groupProvider.watchGroups();
+  }
+
+  @override
   Future<GroupModel> getGroup({required String id}) async {
     return groupProvider.getGroup(id: id);
   }
 
   @override
-  Future<int> upsertGroup({required GroupModel group}) async {
+  Future<GroupModel> upsertGroup({required GroupModel group}) async {
     return groupProvider.upsertGroup(group: group);
   }
 

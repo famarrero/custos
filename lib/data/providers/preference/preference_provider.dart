@@ -1,4 +1,4 @@
-abstract class PreferencesProvider {
+abstract class PreferenceProvider {
   /// Get an int value
   Future<int?> getInt({required String key});
 
@@ -10,10 +10,10 @@ abstract class PreferencesProvider {
 
   /// Save an string value
   Future<void> setString({required String value, required String key});
-  
+
   /// Save an bool value
   Future<bool?> getBool({required String key});
-  
+
   /// Get an bool value
   Future<void> setBool({required bool value, required String key});
 

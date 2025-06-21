@@ -7,7 +7,7 @@ abstract class PasswordEntryRepository {
 
   Future<PasswordEntryEntity> getPasswordEntry({required String id});
 
-  Future<int> upsertPasswordEntry({required PasswordEntryEntity passwordEntry});
+  Future<PasswordEntryEntity> upsertPasswordEntry({required PasswordEntryEntity passwordEntry});
 
   Future<void> deletePasswordEntry({required String id});
 }

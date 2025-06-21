@@ -12,7 +12,8 @@ abstract class GroupModel with _$GroupModel {
   const factory GroupModel({
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required String? color,
+    @HiveField(2) required String? icon,
+    @HiveField(3) required String? color,
   }) = _GroupModel;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) =>

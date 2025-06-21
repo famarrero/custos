@@ -11,6 +11,7 @@ import 'package:custos/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -47,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                       onRetryPressed:
                           () => context.read<LoginCubit>().watchProfiles(),
                       noDataWidget: NoDataWidget(
-                        iconData: Icons.person,
+                        iconData: HugeIcons.strokeRoundedUser02,
                         title: 'No profile yet',
                         subtitle:
                             'When you create a profile they will appear here. Clink in Create profile button to add.',
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   CustomButton(
-                    prefixIconData: Icons.person_add,
+                    prefixIconData: HugeIcons.strokeRoundedUserAdd01,
                     label: 'Create profile',
                     infiniteWidth: true,
                     onPressed: () {

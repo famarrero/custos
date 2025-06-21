@@ -5,9 +5,8 @@ import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/crypto_utils.dart';
 import 'package:custos/core/utils/either.dart';
 import 'package:custos/core/utils/failures.dart';
-import 'package:custos/core/utils/secure_storages_access_keys.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
-import 'package:custos/data/providers/profiles/profiles_provider.dart';
+import 'package:custos/data/providers/profile/profile_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
@@ -16,7 +15,7 @@ import 'package:uuid/uuid.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final HiveDatabaseService hiveDatabase = di();
   final SecureStorageProvider secureStorage = di();
-  final ProfilesProvider profilesProvider = di();
+  final ProfileProvider profilesProvider = di();
 
   @override
   Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
@@ -29,8 +28,10 @@ class AuthRepositoryImpl implements AuthRepository {
       final profile = ProfileModel(
         id: profileId,
         name: profileName.trim(),
-        masterKeySalt: masterKeySaltSecureStorageAccessKey(profileId),
-        masterKeyHash: masterKeyHashSecureStorageAccessKey(profileId),
+        masterKeySaltSecureStorageAccessKey: '${profileId}_master_key_salt',
+        masterKeyHashSecureStorageAccessKey: '${profileId}_master_key_hash',
+        encryptionKeySaltSecureStorageAccessKey:
+            '${profileId}_encryption_key_salt',
         createdAt: DateTime.now(),
       );
 
@@ -42,7 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       // Save the salt in the secure storage
       await secureStorage.writeValue(
-        key: encryptionKeySaltSecureStorageAccessKey(profileId),
+        key: profile.encryptionKeySaltSecureStorageAccessKey,
         value: saltEncoded,
       );
 
@@ -52,9 +53,9 @@ class AuthRepositoryImpl implements AuthRepository {
       // Save the masterKey in secure storage as PBKDF2
       _saveMasterKeyPBKDF2(
         masterKeySaltSecureStorageAccessKey:
-            masterKeySaltSecureStorageAccessKey(profileId),
+            profile.masterKeySaltSecureStorageAccessKey,
         masterKeyHashSecureStorageAccessKey:
-            masterKeyHashSecureStorageAccessKey(profileId),
+            profile.masterKeyHashSecureStorageAccessKey,
         masterKey: masterKey,
       );
 
@@ -74,12 +75,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> verifyProfileByMasterKey({
-    required String profileId,
+    required ProfileModel profile,
     required String masterKey,
-  }) async { 
+  }) async {
     // Read the salt from secure storage
     final saltEncoded = await secureStorage.readValue(
-      key: encryptionKeySaltSecureStorageAccessKey(profileId),
+      key: profile.encryptionKeySaltSecureStorageAccessKey,
     );
 
     // If salt is null means that the master encryptionKey is not set yet
@@ -97,15 +98,15 @@ class AuthRepositoryImpl implements AuthRepository {
       // Verify if the masterKey is correct
       final value = await _verifyMasterKeyPBKDF2(
         masterKeySaltSecureStorageAccessKey:
-            masterKeySaltSecureStorageAccessKey(profileId),
+            profile.masterKeySaltSecureStorageAccessKey,
         masterKeyHashSecureStorageAccessKey:
-            masterKeyHashSecureStorageAccessKey(profileId),
+            profile.masterKeyHashSecureStorageAccessKey,
         masterKey: masterKey,
       );
 
       if (value) {
         // Set the encryptionKey in HiveDatabaseService
-        hiveDatabase.setEncryptionKey(encryptionKey, profileId);
+        hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
         // If true open the encrypted boxes
         await hiveDatabase.openEncryptedBoxes();
         return right(null);
@@ -127,20 +128,20 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> deleteProfileAndMasterKey({
-    required String profileId,
+    required ProfileModel profile,
   }) async {
     try {
       await secureStorage.deleteValue(
-        key: masterKeySaltSecureStorageAccessKey(profileId),
+        key: profile.masterKeySaltSecureStorageAccessKey,
       );
       await secureStorage.deleteValue(
-        key: masterKeyHashSecureStorageAccessKey(profileId),
+        key: profile.masterKeyHashSecureStorageAccessKey,
       );
       await secureStorage.deleteValue(
-        key: encryptionKeySaltSecureStorageAccessKey(profileId),
+        key: profile.encryptionKeySaltSecureStorageAccessKey,
       );
 
-      await profilesProvider.deleteProfile(id: profileId);
+      await profilesProvider.deleteProfile(id: profile.id);
 
       return right(null);
     } catch (e) {

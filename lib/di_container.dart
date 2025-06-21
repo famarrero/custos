@@ -7,10 +7,10 @@ import 'package:custos/data/providers/group/group_provider.dart';
 import 'package:custos/data/providers/group/group_provider_impl.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider_impl.dart';
-import 'package:custos/data/providers/preferences/preferences_provider.dart';
-import 'package:custos/data/providers/preferences/preferences_provider_impl.dart';
-import 'package:custos/data/providers/profiles/profiles_provider.dart';
-import 'package:custos/data/providers/profiles/profiles_provider_impl.dart';
+import 'package:custos/data/providers/preference/preference_provider.dart';
+import 'package:custos/data/providers/preference/preference_provider_impl.dart';
+import 'package:custos/data/providers/profile/profile_provider.dart';
+import 'package:custos/data/providers/profile/profile_provider_impl.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider_impl.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
@@ -19,10 +19,10 @@ import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/data/repositories/group/group_repository_impl.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository_impl.dart';
-import 'package:custos/data/repositories/preferences/preferences_repository.dart';
-import 'package:custos/data/repositories/preferences/preferences_repository_impl.dart';
-import 'package:custos/data/repositories/profiles/profiles_repository.dart';
-import 'package:custos/data/repositories/profiles/profiles_repository_impl.dart';
+import 'package:custos/data/repositories/preference/preference_repository.dart';
+import 'package:custos/data/repositories/preference/preference_repository_impl.dart';
+import 'package:custos/data/repositories/profile/profile_repository.dart';
+import 'package:custos/data/repositories/profile/profile_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
@@ -64,9 +64,7 @@ Future initInjection() async {
   ///-------------------Providers--------------------------------///
 
   /// PreferencesProvider
-  di.registerLazySingleton<PreferencesProvider>(
-    () => PreferencesProviderImpl(),
-  );
+  di.registerLazySingleton<PreferenceProvider>(() => PreferenceProviderImpl());
 
   /// SecureStorageProvider
   di.registerLazySingleton<SecureStorageProvider>(
@@ -74,7 +72,7 @@ Future initInjection() async {
   );
 
   /// ProfilesProvider
-  di.registerLazySingleton<ProfilesProvider>(() => ProfilesProviderImpl());
+  di.registerLazySingleton<ProfileProvider>(() => ProfilesProviderImpl());
 
   /// GroupProvider
   di.registerLazySingleton<GroupProvider>(() => GroupProviderImpl());
@@ -87,16 +85,16 @@ Future initInjection() async {
   ///-------------------Repositories--------------------------------///
 
   /// PreferencesRepository
-  GetIt.I.registerLazySingleton<PreferencesRepository>(
-    () => PreferencesRepositoryImpl(),
+  GetIt.I.registerLazySingleton<PreferenceRepository>(
+    () => PreferenceRepositoryImpl(),
   );
 
   /// PreferencesRepository
   GetIt.I.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
 
   /// ProfilesRepository
-  GetIt.I.registerLazySingleton<ProfilesRepository>(
-    () => ProfilesRepositoryImpl(),
+  GetIt.I.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(),
   );
 
   /// GroupRepository

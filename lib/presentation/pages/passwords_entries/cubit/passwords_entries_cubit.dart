@@ -32,7 +32,10 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
           (passwordsEntries) {
             emit(
               state.copyWith(
-                passwordsEntries: BaseState.data(passwordsEntries),
+                passwordsEntries:
+                    passwordsEntries.isEmpty
+                        ? BaseState.empty()
+                        : BaseState.data(passwordsEntries),
               ),
             );
           },

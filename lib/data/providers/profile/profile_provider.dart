@@ -1,6 +1,6 @@
 import 'package:custos/data/models/profile/profile_model.dart';
 
-abstract class ProfilesRepository {
+abstract class ProfileProvider {
   Future<List<ProfileModel>> getProfiles();
 
   Stream<List<ProfileModel>> watchProfiles();

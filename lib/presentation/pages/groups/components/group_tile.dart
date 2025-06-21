@@ -1,14 +1,13 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/constants.dart';
-import 'package:custos/data/models/password_entry/password_entry_entity.dart';
+import 'package:custos/data/models/group/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class PasswordEntryTile extends StatelessWidget {
-  const PasswordEntryTile({super.key, required this.passwordEntry});
+class GroupTile extends StatelessWidget {
+  const GroupTile({super.key, required this.group});
 
-  final PasswordEntryEntity passwordEntry;
+  final GroupModel group;
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +29,9 @@ class PasswordEntryTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 2.0,
-            children: [
-              Text(passwordEntry.name, style: context.textTheme.bodyLarge),
-              if (passwordEntry.username.isNotNullAndNotEmpty)
-                Text(
-                  passwordEntry.username!,
-                  style: context.textTheme.labelMedium?.copyWith(
-                    color: context.colorScheme.primary,
-                  ),
-                ),
-            ],
+            children: [Text(group.name, style: context.textTheme.bodyLarge)],
           ),
         ),
-        Icon(HugeIcons.strokeRoundedCopy01, color: Colors.grey),
       ],
     );
   }

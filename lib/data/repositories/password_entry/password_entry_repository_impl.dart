@@ -8,16 +8,18 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
 
   @override
   Future<List<PasswordEntryEntity>> getPasswordsEntries() async {
-    return (await passwordEntryProvider.getPasswordsEntries())
-        .map((e) => e.toEntity())
-        .toList();
+    final models = await passwordEntryProvider.getPasswordsEntries();
+    final entities = await Future.wait(models.map((e) => e.toEntity()));
+    return entities;
   }
 
   @override
   Stream<List<PasswordEntryEntity>> watchPasswordsEntries() {
-    return passwordEntryProvider.watchPasswordsEntries().map(
-      (models) => models.map((e) => e.toEntity()).toList(),
-    );
+    return passwordEntryProvider.watchPasswordsEntries().asyncMap((
+      models,
+    ) async {
+      return await Future.wait(models.map((e) => e.toEntity()));
+    });
   }
 
   @override
@@ -26,12 +28,12 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
   }
 
   @override
-  Future<int> upsertPasswordEntry({
+  Future<PasswordEntryEntity> upsertPasswordEntry({
     required PasswordEntryEntity passwordEntry,
   }) async {
-    return passwordEntryProvider.upsertPasswordEntry(
+    return (await passwordEntryProvider.upsertPasswordEntry(
       passwordEntry: passwordEntry.toModel(),
-    );
+    )).toEntity();
   }
 
   @override

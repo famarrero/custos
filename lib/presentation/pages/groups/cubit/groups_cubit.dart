@@ -5,50 +5,19 @@ import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/data/models/group/group_model.dart';
-import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
-import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'upsert_password_entry_cubit.freezed.dart';
-part 'upsert_password_entry_state.dart';
+part 'groups_cubit.freezed.dart';
+part 'groups_state.dart';
 
-class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
-  UpsertPasswordEntryCubit()
-    : super(
-        UpsertPasswordEntryState(
-          upsertPasswordEntryState: BaseState.initial(),
-          groups: BaseState.initial(),
-        ),
-      );
+class GroupsCubit extends Cubit<GroupsState> {
+  GroupsCubit() : super(GroupsState(groups: BaseState.initial()));
 
-  final PasswordEntryRepository passwordEntryRepository = di();
   final GroupRepository groupRepository = di();
 
   StreamSubscription<List<GroupModel>>? _groupsSubscription;
-
-  Future<void> upsertPasswordEntry({
-    required PasswordEntryEntity passwordEntry,
-  }) async {
-    try {
-      emit(state.copyWith(upsertPasswordEntryState: BaseState.loading()));
-
-      await passwordEntryRepository.upsertPasswordEntry(
-        passwordEntry: passwordEntry,
-      );
-
-      emit(state.copyWith(upsertPasswordEntryState: BaseState.data(true)));
-    } catch (e) {
-      emit(
-        state.copyWith(
-          upsertPasswordEntryState: BaseState.error(
-            AppFailure(AppError.unknown, message: e.toString()),
-          ),
-        ),
-      );
-    }
-  }
 
   Future<void> watchGroups() async {
     emit(state.copyWith(groups: BaseState.loading()));
@@ -60,7 +29,7 @@ class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
       (groups) {
         emit(
           state.copyWith(
-            groups: BaseState.data(groups.isNotEmpty ? groups : []),
+            groups: groups.isEmpty ? BaseState.empty() : BaseState.data(groups),
           ),
         );
       },

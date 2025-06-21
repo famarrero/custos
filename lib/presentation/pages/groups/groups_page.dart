@@ -1,0 +1,61 @@
+import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/constants.dart';
+import 'package:custos/presentation/components/base_state_ui.dart';
+import 'package:custos/presentation/components/no_data_widget.dart';
+import 'package:custos/presentation/components/scaffold_widget.dart';
+import 'package:custos/presentation/components/upsert_group/upsert_group.dart';
+import 'package:custos/presentation/pages/groups/components/group_tile.dart';
+import 'package:custos/presentation/pages/groups/cubit/groups_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hugeicons/hugeicons.dart';
+
+class GroupsPage extends StatelessWidget {
+  const GroupsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => GroupsCubit()..watchGroups(),
+      child: ScaffoldWidget(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(HugeIcons.strokeRoundedAdd01),
+          onPressed: () {
+            context.showCustomModalBottomSheet(
+              title: 'Add group',
+              child: UpsertGroup(),
+            );
+          },
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: kMobileHorizontalPadding,
+          vertical: kMobileVerticalPadding,
+        ),
+        child: BlocBuilder<GroupsCubit, GroupsState>(
+          builder: (context, state) {
+            return BaseStateUi(
+              state: state.groups,
+              onRetryPressed: () => context.read<GroupsCubit>().watchGroups(),
+              noDataWidget: NoDataWidget(
+                iconData: HugeIcons.strokeRoundedGroup01,
+                title: 'No groups found',
+                subtitle: 'Create a group to manage your users and resources.',
+              ),
+              onDataChild: (groups) {
+                return ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: 18.0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.groups.data.length,
+                  itemBuilder: (context, index) {
+                    return GroupTile(group: state.groups.data[index]);
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

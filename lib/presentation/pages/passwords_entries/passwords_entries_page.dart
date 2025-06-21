@@ -1,8 +1,8 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/constants.dart';
-import 'package:custos/presentation/components/custom_circular_progress_indicator.dart';
-import 'package:custos/presentation/components/failure_widget.dart';
+import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
+import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
@@ -10,6 +10,7 @@ import 'package:custos/presentation/pages/passwords_entries/components/password_
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class PasswordsEntriesPage extends StatelessWidget {
   const PasswordsEntriesPage({super.key});
@@ -30,7 +31,7 @@ class PasswordsEntriesPage extends StatelessWidget {
         },
         child: ScaffoldWidget(
           floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
+            child: Icon(HugeIcons.strokeRoundedAdd01),
             onPressed: () {
               context.showCustomModalBottomSheet(
                 title: 'Add account',
@@ -44,52 +45,49 @@ class PasswordsEntriesPage extends StatelessWidget {
           ),
           child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
             builder: (context, state) {
-              if (state.passwordsEntries.isLoading) {
-                return Center(child: CustomCircularProgressIndicator());
-              } else if (state.passwordsEntries.isError) {
-                return Center(
-                  child: FailureWidget(failure: state.passwordsEntries.error),
-                );
-              } else if (state.passwordsEntries.isData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Search form
-                    CustomTextFormField(
-                      hint: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                    ),
+              return BaseStateUi(
+                state: state.passwordsEntries,
+                onRetryPressed:
+                    () =>
+                        context
+                            .read<PasswordsEntriesCubit>()
+                            .watchPasswordsEntries(),
+                noDataWidget: NoDataWidget(
+                  iconData: HugeIcons.strokeRoundedKey01,
+                  title: 'No passwords found',
+                  subtitle: 'Create a password entry to manage your accounts.',
+                ),
+                onDataChild: (groups) {
+                  return Column(
+                    children: [
+                      // Search form
+                      CustomTextFormField(
+                        hint: 'Search',
+                        prefixIcon: Icon(HugeIcons.strokeRoundedSearch01),
+                      ),
 
-                    const SizedBox(height: 22.0),
+                      const SizedBox(height: 22.0),
 
-                    Text('Accounts', style: context.textTheme.headlineSmall),
+                      Text('Accounts', style: context.textTheme.headlineSmall),
 
-                    // List of passwords entries
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 22.0),
-                          child: ListView.separated(
-                            separatorBuilder:
-                                (context, index) => SizedBox(height: 18.0),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.passwordsEntries.data.length,
-                            itemBuilder: (context, index) {
-                              return PasswordEntryTile(
-                                passwordEntry:
-                                    state.passwordsEntries.data[index],
-                              );
-                            },
-                          ),
+                      Expanded(
+                        child: ListView.separated(
+                          separatorBuilder:
+                              (context, index) => SizedBox(height: 18.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.passwordsEntries.data.length,
+                          itemBuilder: (context, index) {
+                            return PasswordEntryTile(
+                              passwordEntry: state.passwordsEntries.data[index],
+                            );
+                          },
                         ),
                       ),
-                    ),
-                  ],
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
+                    ],
+                  );
+                },
+              );
             },
           ),
         ),

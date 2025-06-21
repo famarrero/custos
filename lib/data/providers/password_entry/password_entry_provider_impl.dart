@@ -29,10 +29,11 @@ class PasswordEntryProviderImpl implements PasswordEntryProvider {
   }
 
   @override
-  Future<int> upsertPasswordEntry({
+  Future<PasswordEntryModel> upsertPasswordEntry({
     required PasswordEntryModel passwordEntry,
   }) async {
-    return hiveDatabase.getPasswordEntryBox.add(passwordEntry);
+    await hiveDatabase.getPasswordEntryBox.put(passwordEntry.id, passwordEntry);
+    return passwordEntry;
   }
 
   @override

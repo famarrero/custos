@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:custos/core/app_environment.dart';
-import 'package:custos/data/repositories/preferences/preferences_repository.dart';
+import 'package:custos/data/repositories/preference/preference_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,7 +19,7 @@ class AppCubit extends Cubit<AppState> {
         ),
       );
 
-  final PreferencesRepository _preferencesRepository = di();
+  final PreferenceRepository _preferencesRepository = di();
 
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;

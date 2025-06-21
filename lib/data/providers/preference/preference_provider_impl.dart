@@ -1,8 +1,8 @@
-import 'package:custos/data/providers/preferences/preferences_provider.dart';
+import 'package:custos/data/providers/preference/preference_provider.dart';
 import 'package:custos/di_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PreferencesProviderImpl extends PreferencesProvider {
+class PreferenceProviderImpl extends PreferenceProvider {
   final SharedPreferences sharedPreferences = di();
 
   @override

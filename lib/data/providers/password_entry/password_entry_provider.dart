@@ -7,7 +7,7 @@ abstract class PasswordEntryProvider {
 
   Future<PasswordEntryModel> getPasswordEntry({required String id});
 
-  Future<int> upsertPasswordEntry({required PasswordEntryModel passwordEntry});
+  Future<PasswordEntryModel> upsertPasswordEntry({required PasswordEntryModel passwordEntry});
 
   Future<void> deletePasswordEntry({required String id});
 }

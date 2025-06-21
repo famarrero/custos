@@ -44,17 +44,17 @@ class NoDataWidget extends StatelessWidget {
             iconData != null
                 ? Icon(iconData, size: 30)
                 : const SizedBox.shrink(),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8.0),
             Text(
               title ?? '',
               style: titleStyle ?? context.textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
             if (subtitle.isNotNullAndNotEmpty) ...[
-              const SizedBox(height: 2.0),
+              const SizedBox(height: 8.0),
               Text(
                 subtitle!,
-                style: context.textTheme.bodyMedium,
+                style: context.textTheme.labelMedium,
                 textAlign: TextAlign.center,
               ),
             ],

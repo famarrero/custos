@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class CustomCloseButton extends StatelessWidget {
   const CustomCloseButton({
@@ -19,7 +20,7 @@ class CustomCloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomIconButton(
-      icon: Icons.close,
+      icon: HugeIcons.strokeRoundedCancel01,
       iconColor: iconColor ?? Colors.white,
       backgroundColor:
           backgroundColor ??

@@ -30,7 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(loginState: BaseState.loading()));
 
     final response = await authRepository.verifyProfileByMasterKey(
-      profileId: profile.id,
+      profile: profile,
       masterKey: masterKey,
     );
 
@@ -51,7 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(deleteProfile: BaseState.loading()));
 
     final response = await authRepository.deleteProfileAndMasterKey(
-      profileId: state.loginState.data.id,
+      profile: state.loginState.data,
     );
 
     response.fold(

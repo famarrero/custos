@@ -1,12 +1,14 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/go_router_extension.dart';
 import 'package:custos/presentation/components/custom_circular_progress_indicator.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
+import 'package:custos/presentation/components/custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class WrapperMainPage extends StatelessWidget {
   const WrapperMainPage({super.key, required this.child});
@@ -18,7 +20,7 @@ class WrapperMainPage extends StatelessWidget {
     return ScaffoldWidget(
       safeAreaTop: true,
       appBar: AppBar(
-        title: Text('Passwords'),
+        title: Text(context.router.appBarTitle),
         centerTitle: true,
         actions: [
           BlocBuilder<AuthCubit, AuthState>(
@@ -27,7 +29,7 @@ class WrapperMainPage extends StatelessWidget {
                 return CustomCircularProgressIndicator(dimension: 24);
               } else {
                 return CustomIconButton(
-                  icon: FluentIcons.delete_20_regular,
+                  icon: HugeIcons.strokeRoundedDelete02,
                   onTap: () {
                     context.showConfirmationDialog(
                       title:
@@ -52,10 +54,10 @@ class WrapperMainPage extends StatelessWidget {
             },
           ),
 
-          const SizedBox(width: 14.0),
+          const SizedBox(width: 18.0),
 
           CustomIconButton(
-            icon: FluentIcons.arrow_exit_20_regular,
+            icon: HugeIcons.strokeRoundedLogout02,
             onTap: () {
               context.read<AuthCubit>().logout(GoRouter.of(context));
             },
@@ -63,6 +65,7 @@ class WrapperMainPage extends StatelessWidget {
         ],
         actionsPadding: EdgeInsets.all(14.0),
       ),
+      bottomNavigationBar: CustomNavigationBar(),
       child: child,
     );
   }

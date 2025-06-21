@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:custos/data/providers/preferences/preferences_provider.dart';
-import 'package:custos/data/repositories/preferences/preferences_repository.dart';
+import 'package:custos/data/providers/preference/preference_provider.dart';
+import 'package:custos/data/repositories/preference/preference_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-class PreferencesRepositoryImpl implements PreferencesRepository {
-  final PreferencesProvider preferencesProvider = di();
+class PreferenceRepositoryImpl implements PreferenceRepository {
+  final PreferenceProvider preferencesProvider = di();
 
   /// Key use to access to saved theme mode
   static const String _themeMode = 'theme_mode';

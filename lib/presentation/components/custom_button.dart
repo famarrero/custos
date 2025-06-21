@@ -128,9 +128,9 @@ class _CustomButtonState extends State<CustomButton> {
                         (widget.type == CustomTextButtonEnum.filled
                             ? context.colorScheme.onPrimary
                             : context.colorScheme.primary),
-                    size: 24,
+                    size: 22,
                   ),
-                  const SizedBox(width: 4.0),
+                  const SizedBox(width: 8.0),
                 ],
                 SizedBox(
                   width: widget.fixedWidth,

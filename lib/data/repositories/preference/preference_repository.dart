@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class PreferencesRepository {
+abstract class PreferenceRepository {
   /// Get the ThemeMode saved
   Future<ThemeMode?> getThemeMode();
 

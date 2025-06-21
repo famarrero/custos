@@ -6,6 +6,7 @@ import 'package:custos/presentation/app/theme/app_theme.dart';
 import 'package:custos/presentation/components/confirmation_dialog.dart';
 import 'package:custos/presentation/components/custom_bottom_modal_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// Extension for [BuildContext] to facilitate access to our [AppLocalizations], [Theme] and others.
 extension BuildContextExtension on BuildContext {
@@ -14,6 +15,9 @@ extension BuildContextExtension on BuildContext {
 
   /// Get the current language locale
   String get languageCode => Localizations.localeOf(this).languageCode;
+
+  /// Get the current route instance
+  GoRouter get router => GoRouter.of(this);
 
   /// Get the current locale used on app.
   Locale get locale => Localizations.localeOf(this);
@@ -76,7 +80,7 @@ extension BuildContextExtension on BuildContext {
     ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(          
+        SnackBar(
           // Set the duration of the SnackBar
           duration: const Duration(seconds: 3),
 

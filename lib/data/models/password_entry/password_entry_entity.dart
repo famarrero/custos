@@ -10,6 +10,7 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
   const PasswordEntryEntity._();
 
   const factory PasswordEntryEntity({
+    required String id,
     required String name,
     required String? url,
     required String? username,
@@ -23,6 +24,7 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
 
   PasswordEntryModel toModel() {
     return PasswordEntryModel(
+      id: id,
       name: name,
       url: url,
       username: username,

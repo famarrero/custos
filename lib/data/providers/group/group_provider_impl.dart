@@ -7,13 +7,27 @@ class GroupProviderImpl implements GroupProvider {
   final HiveDatabaseService hiveDatabase = di();
 
   @override
+  Future<List<GroupModel>> getGroups() async {
+    return hiveDatabase.getGroupBox.values.cast<GroupModel>().toList();
+  }
+
+  @override
+  Stream<List<GroupModel>> watchGroups() async* {
+    final box = hiveDatabase.getGroupBox;
+    yield box.values.cast<GroupModel>().toList();
+
+    yield* box.watch().map((_) => box.values.cast<GroupModel>().toList());
+  }
+
+  @override
   Future<GroupModel> getGroup({required String id}) async {
     return hiveDatabase.getGroupBox.get(id);
   }
 
   @override
-  Future<int> upsertGroup({required GroupModel group}) async {
-    return hiveDatabase.getGroupBox.add(group);
+  Future<GroupModel> upsertGroup({required GroupModel group}) async {
+    await hiveDatabase.getGroupBox.put(group.id, group);
+    return group;
   }
 
   @override

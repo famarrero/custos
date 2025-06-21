@@ -1,14 +1,18 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
+import 'package:custos/data/models/group/group_model.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/form/custom_dropdown.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
+import 'package:custos/presentation/components/upsert_group/upsert_group.dart';
 import 'package:custos/presentation/components/upsert_password_entry/cubit/upsert_password_entry_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:uuid/uuid.dart';
 
 class UpsertPasswordEntry extends StatefulWidget {
   const UpsertPasswordEntry({super.key});
@@ -31,7 +35,7 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UpsertPasswordEntryCubit(),
+      create: (context) => UpsertPasswordEntryCubit()..watchGroups(),
       child: BlocConsumer<UpsertPasswordEntryCubit, UpsertPasswordEntryState>(
         listener: (context, state) {
           if (state.upsertPasswordEntryState.isData &&
@@ -102,7 +106,7 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
                       ),
                     ),
                     CustomIconButton(
-                      icon: Icons.key,
+                      icon: HugeIcons.strokeRoundedKey01,
                       iconColor: context.colorScheme.onPrimary,
                       backgroundColor: context.colorScheme.primary,
                       onTap: () {},
@@ -112,19 +116,36 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
                 Row(
                   spacing: 8.0,
                   children: [
-                    Expanded(
-                      child: CustomDropdown<String>(
-                        label: 'Group',
-                        options: () => ['Social Networks', 'Work'],
-                        itemBuilder: (item) => Text(item),
-                        onValueUpdate: (value) {},
+                    if (state.groups.isLoading)
+                      const CircularProgressIndicator()
+                    else if (state.groups.isError)
+                      CustomButton(
+                        type: CustomTextButtonEnum.outlined,
+                        label: 'Retry',
+                        onPressed:
+                            () =>
+                                context
+                                    .read<UpsertPasswordEntryCubit>()
+                                    .watchGroups(),
+                      )
+                    else if (state.groups.isData)
+                      Expanded(
+                        child: CustomDropdown<GroupModel>(
+                          label: 'Group',
+                          options: () => state.groups.data,
+                          itemBuilder: (item) => Text(item.name),
+                          onValueUpdate: (value) {},
+                        ),
                       ),
-                    ),
                     CustomIconButton(
-                      icon: Icons.add,
+                      icon: HugeIcons.strokeRoundedAdd01,
                       iconColor: context.colorScheme.onPrimary,
                       backgroundColor: context.colorScheme.primary,
-                      onTap: () {},
+                      onTap: () {
+                        context.showCustomModalBottomSheet(
+                          child: UpsertGroup(),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -169,6 +190,7 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
     if (_formKey.currentState?.validate() == true) {
       context.read<UpsertPasswordEntryCubit>().upsertPasswordEntry(
         passwordEntry: PasswordEntryEntity(
+          id: Uuid().v4(),
           name: _nameController.text,
           url: _urlController.text,
           username: _usernameController.text,

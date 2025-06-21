@@ -3,6 +3,7 @@ import 'dart:async';
 // import 'package:custos/data/repositories/auth/auth_repository.dart';
 // import 'package:custos/di_container.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
+import 'package:custos/presentation/pages/groups/groups_page.dart';
 import 'package:custos/presentation/pages/login/login_page.dart';
 import 'package:custos/presentation/pages/wrapper_main/wrapper_main_page.dart';
 import 'package:custos/presentation/pages/not_found/not_found_page.dart';
@@ -39,6 +40,10 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
         TypedGoRoute<RegisterRoute>(
           path: RegisterRoute.path,
           name: RegisterRoute.name,
+        ),
+        TypedGoRoute<GroupsRoute>(
+          path: GroupsRoute.path,
+          name: GroupsRoute.name,
         ),
         TypedGoRoute<SettingsRoute>(
           path: SettingsRoute.path,
@@ -80,7 +85,7 @@ class LoginRoute extends GoRouteData {
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
     // If the user is authenticated in and the current route is the LoginRoute,
     // redirect to PasswordsEntriesRoute.
-    if (context.read<AuthCubit>().state.loginState.dataOrNull == true &&
+    if (context.read<AuthCubit>().state.isUserAuthenticated &&
         state.fullPath == const LoginRoute().location) {
       return const PasswordsEntriesRoute().location;
     }
@@ -145,6 +150,22 @@ class PasswordsEntriesRoute extends GoRouteData {
       state: state,
       context: context,
       child: const PasswordsEntriesPage(),
+    );
+  }
+}
+
+class GroupsRoute extends GoRouteData {
+  static const path = 'groups';
+  static const name = 'groups';
+
+  const GroupsRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _routeTransition(
+      state: state,
+      context: context,
+      child: const GroupsPage(),
     );
   }
 }

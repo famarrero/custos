@@ -9,11 +9,11 @@ abstract class AuthRepository {
   });
 
   Future<Either<Failure, void>> verifyProfileByMasterKey({
-    required String profileId,
+    required ProfileModel profile,
     required String masterKey,
   });
 
-  Future<Either<Failure, void>> deleteProfileAndMasterKey({required String profileId});
+  Future<Either<Failure, void>> deleteProfileAndMasterKey({required ProfileModel profile});
 
   Future<Either<Failure, void>> logout();
 }

@@ -1,5 +1,7 @@
 import 'package:custos/data/models/group/group_model.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
+import 'package:custos/data/repositories/group/group_repository.dart';
+import 'package:custos/di_container.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
@@ -12,26 +14,33 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
   const PasswordEntryModel._();
 
   const factory PasswordEntryModel({
-    @HiveField(0) required String name,
-    @HiveField(1) required String? url,
-    @HiveField(2) required String? username,
-    @HiveField(3) required String password,
-    @HiveField(4) required String? note,
-    @HiveField(5) required String? groupId,
+    @HiveField(0) required String id,
+    @HiveField(1) required String name,
+    @HiveField(2) required String? url,
+    @HiveField(3) required String? username,
+    @HiveField(4) required String password,
+    @HiveField(5) required String? note,
+    @HiveField(6) required String? groupId,
   }) = _PasswordEntryModel;
 
   factory PasswordEntryModel.fromJson(Map<String, dynamic> json) =>
       _$PasswordEntryModelFromJson(json);
 
-  PasswordEntryEntity toEntity() {
+  Future<PasswordEntryEntity> toEntity() async {
+    // Get group by id
+    GroupModel? group =
+        groupId != null
+            ? await di<GroupRepository>().getGroup(id: groupId!)
+            : null;
+
     return PasswordEntryEntity(
+      id: id,
       name: name,
       url: url,
       username: username,
       password: password,
       note: note,
-      // TODO: fix this
-      group: GroupModel(id: '', name: '', color: ''),
+      group: group,
     );
   }
 }

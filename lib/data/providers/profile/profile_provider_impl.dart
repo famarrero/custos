@@ -1,9 +1,9 @@
 import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
-import 'package:custos/data/providers/profiles/profiles_provider.dart';
+import 'package:custos/data/providers/profile/profile_provider.dart';
 import 'package:custos/di_container.dart';
 
-class ProfilesProviderImpl implements ProfilesProvider {
+class ProfilesProviderImpl implements ProfileProvider {
   final HiveDatabaseService hiveDatabase = di();
 
   @override

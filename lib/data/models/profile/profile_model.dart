@@ -12,9 +12,10 @@ abstract class ProfileModel with _$ProfileModel {
   const factory ProfileModel({
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required String masterKeySalt,
-    @HiveField(3) required String masterKeyHash,
-    @HiveField(4) required DateTime createdAt,
+    @HiveField(2) required String masterKeySaltSecureStorageAccessKey,
+    @HiveField(3) required String masterKeyHashSecureStorageAccessKey,
+    @HiveField(4) required String encryptionKeySaltSecureStorageAccessKey,
+    @HiveField(5) required DateTime createdAt,
   }) = _ProfileModel;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
