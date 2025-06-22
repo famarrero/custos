@@ -333,12 +333,6 @@ class AppTheme extends ThemeExtension<AppTheme> {
         ),
       );
     }
-
-    // Applying the color scheme to the text theme.
-    _textTheme = _textTheme.apply(
-      displayColor: _colorScheme.onPrimaryContainer,
-      bodyColor: _colorScheme.onSurface,
-    );
   }
 
   ThemeData toThemeData() => ThemeData(

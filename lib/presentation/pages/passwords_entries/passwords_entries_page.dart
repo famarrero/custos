@@ -70,6 +70,8 @@ class PasswordsEntriesPage extends StatelessWidget {
 
                       Text('Accounts', style: context.textTheme.headlineSmall),
 
+                      const SizedBox(height: 4.0),
+
                       Expanded(
                         child: ListView.separated(
                           separatorBuilder:

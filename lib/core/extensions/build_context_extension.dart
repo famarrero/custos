@@ -5,6 +5,7 @@ import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:custos/presentation/app/theme/app_theme.dart';
 import 'package:custos/presentation/components/confirmation_dialog.dart';
 import 'package:custos/presentation/components/custom_bottom_modal_sheet.dart';
+import 'package:custos/presentation/components/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -189,6 +190,19 @@ extension BuildContextExtension on BuildContext {
     },
     transitionBuilder: (context, anim1, anim2, child) {
       return _DialogAnimation(animation: anim1, child: child);
+    },
+  );
+
+  /// Show general dialog
+  Future showCustomGeneralDialog({
+    String? title,
+    required Widget child,
+  }) async => await showDialog(
+    context: this,
+    barrierLabel: '',
+    barrierDismissible: true,
+    builder: (context) {
+      return CustomDialog(title: title, child: child);
     },
   );
 }

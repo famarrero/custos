@@ -1,9 +1,11 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
 import 'package:custos/core/utils/constants.dart';
+import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
+import 'package:custos/presentation/components/warning_widget.dart';
 import 'package:custos/presentation/pages/register/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: BlocBuilder<RegisterCubit, RegisterState>(
           builder: (context, state) {
             return ScaffoldWidget(
-              appBar: AppBar(),
+              appBar: CustomAppBar(),
               padding: EdgeInsets.symmetric(
                 vertical: kMobileVerticalPadding,
                 horizontal: kMobileHorizontalPadding,
@@ -60,31 +62,61 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 24.0,
                   children: [
-                    CustomTextFormField(
-                      controller: _profileNameController,
-                      label: 'Profile name',
-                      isRequired: true,
-                      validator: context.validateRequired,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 24.0,
+                          children: [
+                            Text(
+                              'Create a new profile',
+                              style: context.textTheme.headlineLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              'Please enter the profile name and master key to create a new profile.',
+                              style: context.textTheme.bodySmall,
+                              textAlign: TextAlign.center,
+                            ),
+                            CustomTextFormField(
+                              controller: _profileNameController,
+                              label: 'Profile name',
+                              isRequired: true,
+                              validator: context.validateRequired,
+                            ),
+                            CustomTextFormField(
+                              controller: _masterKeyController,
+                              label: 'Master key',
+                              isRequired: true,
+                              obscureText: true,
+                              validator: context.validatePassword,
+                            ),
+                            CustomTextFormField(
+                              controller: _repeatMasterKeyController,
+                              label: 'Repeat master key',
+                              isRequired: true,
+                              obscureText: true,
+                              validator:
+                                  (value) => context.validatePasswordMatch(
+                                    _masterKeyController.text.trim(),
+                                    value,
+                                  ),
+                            ),
+                            WarningWidget(
+                              text:
+                                  'Please use a complex master key for better security. It is recommended to use at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.',
+                            ),
+                            WarningWidget(
+                              text:
+                                  'If you forget the master key, you will not be able to recover your data.',
+                            ),
+                            const SizedBox(height: 4.0),
+                          ],
+                        ),
+                      ),
                     ),
-                    CustomTextFormField(
-                      controller: _masterKeyController,
-                      label: 'Master key',
-                      isRequired: true,
-                      validator: context.validatePassword,
-                    ),
-                    CustomTextFormField(
-                      controller: _repeatMasterKeyController,
-                      label: 'Repeat master key',
-                      isRequired: true,
-                      validator:
-                          (value) => context.validatePasswordMatch(
-                            _masterKeyController.text.trim(),
-                            value,
-                          ),
-                    ),
+                    const SizedBox(height: 4.0),
                     CustomButton(
                       label: 'Create profile',
                       isLoading: state.addProfile.isLoading,

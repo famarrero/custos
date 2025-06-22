@@ -1,6 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/constants.dart';
-import 'package:custos/presentation/components/custom_button.dart';
+import 'package:custos/presentation/components/custom_text_button.dart';
 import 'package:custos/presentation/components/form/custom_check_box_title.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 /// It can also include a checkbox to manage button states based on user interaction.
 class ConfirmationDialog extends StatefulWidget {
   const ConfirmationDialog({
-    super.key,  
+    super.key,
     this.title,
     this.child,
     this.checkBoxTitle,
@@ -122,14 +122,18 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     /// the button's state will react to the checkbox state.
     /// If the checkbox is not visible (checkBoxValue is null), the button will always be enabled.
 
-    final enableLeftButton = widget.onPressedLeftButton != null &&
+    final enableLeftButton =
+        widget.onPressedLeftButton != null &&
         (widget.enableLeftButtonOnCheckOnly ? checkBoxValue : true);
-    final enableRightButton = widget.onPressedRightButton != null &&
+    final enableRightButton =
+        widget.onPressedRightButton != null &&
         (widget.enableRightButtonOnCheckOnly ? checkBoxValue : true);
 
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: kMobileMaxColumnWidthInDialog),
+        constraints: const BoxConstraints(
+          maxWidth: kMobileMaxColumnWidthInDialog,
+        ),
         margin: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: context.colorScheme.surface,
@@ -144,7 +148,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
               Text(
                 widget.title ?? context.l10n.sureWantPerformThisAction,
                 textAlign: TextAlign.center,
-                style: context.textTheme.bodyLarge?.copyWith(
+                style: context.textTheme.bodySmall?.copyWith(
                   color: context.colorScheme.onSurface,
                 ),
               ),
@@ -163,6 +167,9 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   child: CustomCheckBoxTitle(
                     title: widget.checkBoxTitle!,
                     value: checkBoxValue,
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: context.colorScheme.onSurface,
+                    ),
                     onChanged: (value) {
                       setState(() {
                         checkBoxValue = value;
@@ -180,35 +187,27 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   child: Row(
                     children: [
                       if (widget.labelLeftButton != null) ...[
-                        CustomButton(
-                          type: CustomTextButtonEnum.outlined,
+                        CustomTextButton(
                           label: widget.labelLeftButton!,
-                          onPressed: enableLeftButton
-                              ? () => widget.onPressedLeftButton
-                                  ?.call(checkBoxValue)
-                              : null,
-                          foregroundColor: enableLeftButton
-                              ? widget.foregroundColorLeft
-                              : widget.disabledForegroundColorLeft,
-                          backgroundColor: enableLeftButton
-                              ? widget.backgroundColorLeft
-                              : widget.disableBackgroundColorLeft,
+                          onPressed:
+                              enableLeftButton
+                                  ? () => widget.onPressedLeftButton?.call(
+                                    checkBoxValue,
+                                  )
+                                  : null,
                         ),
                         const SizedBox(width: 24),
                       ],
                       if (widget.labelRightButton != null)
-                        CustomButton(
+                        CustomTextButton(
                           label: widget.labelRightButton!,
-                          onPressed: enableRightButton
-                              ? () => widget.onPressedRightButton
-                                  ?.call(checkBoxValue)
-                              : null,
-                          foregroundColor: enableRightButton
-                              ? widget.foregroundColorRight
-                              : widget.disableForegroundColorRight,
-                          backgroundColor: enableRightButton
-                              ? widget.backgroundColorRight
-                              : widget.disableBackgroundColorRight,
+                          color: context.colorScheme.error,
+                          onPressed:
+                              enableRightButton
+                                  ? () => widget.onPressedRightButton?.call(
+                                    checkBoxValue,
+                                  )
+                                  : null,
                         ),
                     ],
                   ),

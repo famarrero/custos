@@ -45,6 +45,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
           return Form(
             key: _formKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               spacing: 24.0,
               children: [
                 CustomTextFormField(

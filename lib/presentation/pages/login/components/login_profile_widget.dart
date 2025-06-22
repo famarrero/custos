@@ -1,3 +1,4 @@
+import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/presentation/components/custom_button.dart';
@@ -28,15 +29,27 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
       key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         spacing: 24.0,
         children: [
-          Text('Select '),
+          Column(
+            children: [
+              Text('Login in profile', style: context.textTheme.titleMedium),
+              Text(
+                '(${widget.profile.name})',
+                style: context.textTheme.bodyMedium,
+              ),
+            ],
+          ),
+
           CustomTextFormField(
             controller: _masterKeyController,
             label: 'Master key',
             isRequired: true,
+            obscureText: true,
             validator: context.validatePassword,
           ),
+
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               return CustomButton(

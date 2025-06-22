@@ -138,7 +138,7 @@ class _CustomButtonState extends State<CustomButton> {
                     child: FittedBox(
                       child: Text(
                         widget.label,
-                        style: context.textTheme.titleMedium?.copyWith(
+                        style: context.textTheme.bodyLarge?.copyWith(
                           color:
                               widget.foregroundColor ??
                               (widget.type == CustomTextButtonEnum.filled

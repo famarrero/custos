@@ -2,6 +2,7 @@ import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/constants.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
+import 'package:custos/presentation/components/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -31,6 +32,8 @@ class PasswordEntryTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 2.0,
             children: [
+              if (passwordEntry.group != null)
+                CustomBadge(text: passwordEntry.group!.name),
               Text(passwordEntry.name, style: context.textTheme.bodyLarge),
               if (passwordEntry.username.isNotNullAndNotEmpty)
                 Text(

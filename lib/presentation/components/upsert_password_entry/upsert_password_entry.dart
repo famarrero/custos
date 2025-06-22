@@ -31,6 +31,7 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  GroupModel? _selectedGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +135,11 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
                           label: 'Group',
                           options: () => state.groups.data,
                           itemBuilder: (item) => Text(item.name),
-                          onValueUpdate: (value) {},
+                          onValueUpdate: (value) {
+                            setState(() {
+                              _selectedGroup = value;
+                            });
+                          },
                         ),
                       ),
                     CustomIconButton(
@@ -142,7 +147,8 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
                       iconColor: context.colorScheme.onPrimary,
                       backgroundColor: context.colorScheme.primary,
                       onTap: () {
-                        context.showCustomModalBottomSheet(
+                        context.showCustomGeneralDialog(
+                          title: 'Add group',
                           child: UpsertGroup(),
                         );
                       },
@@ -196,7 +202,7 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
           username: _usernameController.text,
           password: _passwordController.text,
           note: _noteController.text,
-          group: null,
+          group: _selectedGroup,
         ),
       );
 

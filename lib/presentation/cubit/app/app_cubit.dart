@@ -21,22 +21,9 @@ class AppCubit extends Cubit<AppState> {
 
   final PreferenceRepository _preferencesRepository = di();
 
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  // GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-
-  // void openDrawable() {
-  //   if (_scaffoldKey.currentState != null) {
-  //     _scaffoldKey.currentState!.openEndDrawer();
-  //   }
-  // }
-
-  // void closeDrawable() {
-  //   if (_scaffoldKey.currentState != null) {
-  //     _scaffoldKey.currentState!.closeEndDrawer();
-  //   }
-  // }
-
-  void onThemeChanged({required ThemeMode themeMode}) async {
+  void onThemeChanged() async {
+    ThemeMode themeMode =
+        state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     await _preferencesRepository.setThemeMode(themeMode: themeMode);
     emit(state.copyWith(themeMode: themeMode));
   }

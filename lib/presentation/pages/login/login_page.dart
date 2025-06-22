@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/constants.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
+import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocProvider(
         create: (context) => LoginCubit()..watchProfiles(),
         child: ScaffoldWidget(
+          appBar: CustomAppBar(leading: const SizedBox.shrink()),
           padding: EdgeInsets.symmetric(
             vertical: kMobileVerticalPadding,
             horizontal: kMobileHorizontalPadding,
@@ -42,6 +44,18 @@ class _LoginPageState extends State<LoginPage> {
             builder: (context, state) {
               return Column(
                 children: [
+                  Text(
+                    'Welcome back!',
+                    style: context.textTheme.headlineLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24.0),
+                  Text(
+                    'Select a profile',
+                    style: context.textTheme.bodySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24.0),
                   Flexible(
                     child: BaseStateUi(
                       state: state.profiles,
@@ -54,17 +68,29 @@ class _LoginPageState extends State<LoginPage> {
                             'When you create a profile they will appear here. Clink in Create profile button to add.',
                       ),
                       onDataChild: (profiles) {
-                        return ListView.builder(
+                        return ListView.separated(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0,
+                            vertical: 2.0,
+                          ),
                           itemCount: profiles.length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 24);
+                          },
                           itemBuilder: (context, index) {
-                            return ProfileTile(
-                              profile: profiles[index],                            
-                            );
+                            return ProfileTile(profile: profiles[index]);
                           },
                         );
                       },
                     ),
                   ),
+                  const SizedBox(height: 24.0),
+                  Text(
+                    'Or create one',
+                    style: context.textTheme.bodySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24.0),
                   CustomButton(
                     prefixIconData: HugeIcons.strokeRoundedUserAdd01,
                     label: 'Create profile',

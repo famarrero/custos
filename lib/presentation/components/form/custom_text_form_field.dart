@@ -4,6 +4,7 @@ import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/components/form/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 /// Custom TextFormField widget for use throughout the app.
 ///
@@ -150,16 +151,22 @@ class CustomTextFormField extends StatelessWidget {
     final suffix =
         suffixIcon ??
         (obscureText
-            ? IconButton(
-              onPressed:
-                  () =>
-                      _obscureTextNotifier.value = !_obscureTextNotifier.value,
-              icon: Icon(
-                _obscureTextNotifier.value
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                color: context.colorScheme.secondary,
-              ),
+            ? ValueListenableBuilder(
+              valueListenable: _obscureTextNotifier,
+              builder: (context, value, _) {
+                return IconButton(
+                  onPressed:
+                      () =>
+                          _obscureTextNotifier.value =
+                              !_obscureTextNotifier.value,
+                  icon: Icon(
+                    value
+                        ? HugeIcons.strokeRoundedViewOff
+                        : HugeIcons.strokeRoundedEye,
+                    color: context.colorScheme.secondary,
+                  ),
+                );
+              },
             )
             : null);
 
