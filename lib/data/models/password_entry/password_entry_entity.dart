@@ -14,6 +14,8 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
     required String name,
     required String? url,
     required String? username,
+    required String? email,
+    required String? phone,
     required String password,
     required String? note,
     required GroupEntity? group,
@@ -22,12 +24,28 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
   factory PasswordEntryEntity.fromJson(Map<String, dynamic> json) =>
       _$PasswordEntryEntityFromJson(json);
 
+  static PasswordEntryEntity empty() {
+    return PasswordEntryEntity(
+      id: '',
+      name: '',
+      url: null,
+      username: null,
+      email: null,
+      phone: null,
+      password: '',
+      note: null,
+      group: null,
+    );
+  }
+
   PasswordEntryModel toModel() {
     return PasswordEntryModel(
       id: id,
       name: name,
       url: url,
       username: username,
+      email: email,
+      phone: phone,
       password: password,
       note: note,
       groupId: group?.id,

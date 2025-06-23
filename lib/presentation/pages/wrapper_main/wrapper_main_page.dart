@@ -20,7 +20,7 @@ class WrapperMainPage extends StatelessWidget {
     return ScaffoldWidget(
       safeAreaTop: true,
       appBar: CustomAppBar(
-        title: Text(context.router.appBarTitle),
+        titleString: context.router.appBarTitle,
         actions: [
           CustomIconButton(
             icon: HugeIcons.strokeRoundedLogout02,

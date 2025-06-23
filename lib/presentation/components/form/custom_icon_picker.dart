@@ -120,17 +120,12 @@ Future<IconData?> showIconPickerDialog(
   return await showDialog<IconData>(
     context: context,
     barrierDismissible: true,
-    builder: (context) {
+    useRootNavigator: false,
+    builder: (innerContext) {
       return StatefulBuilder(
-        builder: (context, setState) {
+        builder: (innerContext, setState) {
           return PopScope(
             canPop: true,
-            onPopInvokedWithResult: (didPop, _) {
-              // Ensures the selected icon is returned if user dismisses the dialog by tapping outside or pressing back.
-              if (didPop && Navigator.of(context).canPop()) {
-                Navigator.of(context).pop(selectedIcon);
-              }
-            },
             child: AlertDialog(
               title: title,
               content: SizedBox(
@@ -162,13 +157,16 @@ Future<IconData?> showIconPickerDialog(
                                       : Colors.transparent,
                               borderRadius: BorderRadius.circular(
                                 kMobileCorner,
-                              ),                     
+                              ),
                             ),
                             padding: const EdgeInsets.all(6),
                             child: Icon(
                               iconData.icon,
                               size: 32,
-                              color: isSelected ? context.colorScheme.onPrimary : context.colorScheme.blackAndWith,
+                              color:
+                                  isSelected
+                                      ? context.colorScheme.onPrimary
+                                      : context.colorScheme.blackAndWith,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -188,11 +186,11 @@ Future<IconData?> showIconPickerDialog(
               ),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(initialIcon),
+                  onPressed: () => Navigator.of(innerContext).pop(initialIcon),
                   child: const Text('Cancelar'),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(selectedIcon),
+                  onPressed: () => Navigator.of(innerContext).pop(selectedIcon),
                   child: const Text('Ok'),
                 ),
               ],

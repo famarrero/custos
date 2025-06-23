@@ -1,12 +1,21 @@
+import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, this.leading, this.title, this.actions});
+  const CustomAppBar({
+    super.key,
+    this.leading,
+    this.title,
+    this.titleString,
+    this.actions,
+  });
 
   final Widget? leading;
   final Widget? title;
+  final String? titleString;
   final List<Widget>? actions;
 
   @override
@@ -22,7 +31,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 },
               )
               : null),
-      title: title,
+      title:
+          titleString.isNotNullAndNotEmpty
+              ? Text(titleString!, style: context.textTheme.titleMedium)
+              : title,
       centerTitle: true,
       elevation: 0.0,
       scrolledUnderElevation: 0.0,

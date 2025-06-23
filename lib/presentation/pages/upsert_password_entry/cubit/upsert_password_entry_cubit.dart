@@ -14,39 +14,33 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'upsert_password_entry_cubit.freezed.dart';
 part 'upsert_password_entry_state.dart';
 
+
+
 class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
-  UpsertPasswordEntryCubit()
+  UpsertPasswordEntryCubit({required String id})
     : super(
         UpsertPasswordEntryState(
-          upsertPasswordEntryState: BaseState.initial(),
           groups: BaseState.initial(),
+          getPasswordEntryState: BaseState.initial(),
+          upsertPasswordEntryState: BaseState.initial(),
         ),
-      );
+      ) {
+    _stared(id: id);
+  }
+
+  static String addUserId = 'add';
 
   final PasswordEntryRepository passwordEntryRepository = di();
   final GroupRepository groupRepository = di();
 
   StreamSubscription<List<GroupEntity>>? _groupsSubscription;
 
-  Future<void> upsertPasswordEntry({
-    required PasswordEntryEntity passwordEntry,
-  }) async {
-    try {
-      emit(state.copyWith(upsertPasswordEntryState: BaseState.loading()));
-
-      await passwordEntryRepository.upsertPasswordEntry(
-        passwordEntry: passwordEntry,
-      );
-
-      emit(state.copyWith(upsertPasswordEntryState: BaseState.data(true)));
-    } catch (e) {
-      emit(
-        state.copyWith(
-          upsertPasswordEntryState: BaseState.error(
-            AppFailure(AppError.unknown, message: e.toString()),
-          ),
-        ),
-      );
+  Future<void> _stared({required String? id}) async {
+    watchGroups();
+    if (id == addUserId) {
+      emit(state.copyWith(getPasswordEntryState: BaseState.data(PasswordEntryEntity.empty())));
+    } else {
+      getPasswordEntry(id: id!);
     }
   }
 
@@ -74,6 +68,46 @@ class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
         );
       },
     );
+  }
+
+  Future<void> getPasswordEntry({required String id}) async {
+    try {
+      emit(state.copyWith(getPasswordEntryState: BaseState.loading()));
+
+      final response = await passwordEntryRepository.getPasswordEntry(id: id);
+
+      emit(state.copyWith(getPasswordEntryState: BaseState.data(response)));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          getPasswordEntryState: BaseState.error(
+            AppFailure(AppError.unknown, message: e.toString()),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> upsertPasswordEntry({
+    required PasswordEntryEntity passwordEntry,
+  }) async {
+    try {
+      emit(state.copyWith(upsertPasswordEntryState: BaseState.loading()));
+
+      await passwordEntryRepository.upsertPasswordEntry(
+        passwordEntry: passwordEntry,
+      );
+
+      emit(state.copyWith(upsertPasswordEntryState: BaseState.data(true)));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          upsertPasswordEntryState: BaseState.error(
+            AppFailure(AppError.unknown, message: e.toString()),
+          ),
+        ),
+      );
+    }
   }
 
   @override

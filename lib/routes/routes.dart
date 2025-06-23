@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/groups/groups_page.dart';
 import 'package:custos/presentation/pages/login/login_page.dart';
+import 'package:custos/presentation/pages/upsert_password_entry/upsert_password_entry_page.dart';
 import 'package:custos/presentation/pages/wrapper_main/wrapper_main_page.dart';
 import 'package:custos/presentation/pages/not_found/not_found_page.dart';
 import 'package:custos/presentation/pages/passwords_entries/passwords_entries_page.dart';
@@ -48,6 +49,10 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
         TypedGoRoute<SettingsRoute>(
           path: SettingsRoute.path,
           name: SettingsRoute.name,
+        ),
+        TypedGoRoute<UpsertPasswordEntryRoute>(
+          path: UpsertPasswordEntryRoute.path,
+          name: UpsertPasswordEntryRoute.name,
         ),
         TypedGoRoute<PageNotFoundRoute>(
           path: PageNotFoundRoute.path,
@@ -182,6 +187,27 @@ class SettingsRoute extends GoRouteData {
       state: state,
       context: context,
       child: const SettingsPage(),
+    );
+  }
+}
+
+class UpsertPasswordEntryRoute extends GoRouteData {
+  static const path = 'upsert-password-entry/:id';
+  static const name = 'upsert-password-entry';
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      _rootNavigatorKey;
+
+  const UpsertPasswordEntryRoute({required this.id});
+
+  final String id;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _routeTransition(
+      state: state,
+      context: context,
+      child: UpsertPasswordEntryPage(id: id),
     );
   }
 }

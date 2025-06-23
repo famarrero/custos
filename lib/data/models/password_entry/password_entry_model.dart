@@ -18,9 +18,11 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
     @HiveField(1) required String name,
     @HiveField(2) required String? url,
     @HiveField(3) required String? username,
-    @HiveField(4) required String password,
-    @HiveField(5) required String? note,
-    @HiveField(6) required String? groupId,
+    @HiveField(4) required String? email,
+    @HiveField(5) required String? phone,
+    @HiveField(6) required String password,
+    @HiveField(7) required String? note,
+    @HiveField(8) required String? groupId,
   }) = _PasswordEntryModel;
 
   factory PasswordEntryModel.fromJson(Map<String, dynamic> json) =>
@@ -38,6 +40,8 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
       name: name,
       url: url,
       username: username,
+      email: email,
+      phone: phone,
       password: password,
       note: note,
       group: group,

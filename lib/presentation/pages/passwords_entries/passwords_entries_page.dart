@@ -4,12 +4,14 @@ import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
-import 'package:custos/presentation/components/upsert_password_entry/upsert_password_entry.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/passwords_entries/components/password_entry_tile.dart';
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
+import 'package:custos/presentation/pages/upsert_password_entry/cubit/upsert_password_entry_cubit.dart';
+import 'package:custos/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class PasswordsEntriesPage extends StatelessWidget {
@@ -33,9 +35,10 @@ class PasswordsEntriesPage extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             child: Icon(HugeIcons.strokeRoundedAdd01),
             onPressed: () {
-              context.showCustomModalBottomSheet(
-                title: 'Add account',
-                child: UpsertPasswordEntry(),
+              context.push(
+                UpsertPasswordEntryRoute(
+                  id: UpsertPasswordEntryCubit.addUserId,
+                ).location,
               );
             },
           ),

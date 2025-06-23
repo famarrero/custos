@@ -21,7 +21,7 @@ class GroupsPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: Icon(HugeIcons.strokeRoundedAdd01),
           onPressed: () {
-            context.showCustomModalBottomSheet(
+            context.showCustomGeneralDialog(
               title: 'Add group',
               child: UpsertGroup(),
             );
