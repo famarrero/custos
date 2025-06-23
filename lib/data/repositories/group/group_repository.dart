@@ -1,13 +1,13 @@
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 
 abstract class GroupRepository {
-  Future<List<GroupModel>> getGroups();
+  Future<List<GroupEntity>> getGroups();
 
-  Stream<List<GroupModel>> watchGroups();
+  Stream<List<GroupEntity>> watchGroups();
 
-  Future<GroupModel> getGroup({required String id});
+  Future<GroupEntity> getGroup({required String id});
 
-  Future<GroupModel> upsertGroup({required GroupModel group});
+  Future<GroupEntity> upsertGroup({required GroupEntity group});
 
   Future<void> deleteGroup({required String id});
 }

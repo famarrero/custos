@@ -1,6 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/constants.dart';
-import 'package:custos/presentation/components/custom_text_button.dart';
 import 'package:custos/presentation/components/form/custom_check_box_title.dart';
 import 'package:flutter/material.dart';
 
@@ -167,7 +166,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   child: CustomCheckBoxTitle(
                     title: widget.checkBoxTitle!,
                     value: checkBoxValue,
-                    style: context.textTheme.labelSmall?.copyWith(
+                    style: context.textTheme.labelLarge?.copyWith(
                       color: context.colorScheme.onSurface,
                     ),
                     onChanged: (value) {
@@ -187,27 +186,26 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   child: Row(
                     children: [
                       if (widget.labelLeftButton != null) ...[
-                        CustomTextButton(
-                          label: widget.labelLeftButton!,
+                        TextButton(
                           onPressed:
                               enableLeftButton
                                   ? () => widget.onPressedLeftButton?.call(
                                     checkBoxValue,
                                   )
                                   : null,
+                          child: Text(widget.labelLeftButton!),
                         ),
                         const SizedBox(width: 24),
                       ],
                       if (widget.labelRightButton != null)
-                        CustomTextButton(
-                          label: widget.labelRightButton!,
-                          color: context.colorScheme.error,
+                        TextButton(
                           onPressed:
                               enableRightButton
                                   ? () => widget.onPressedRightButton?.call(
                                     checkBoxValue,
                                   )
                                   : null,
+                          child: Text(widget.labelRightButton!),
                         ),
                     ],
                   ),

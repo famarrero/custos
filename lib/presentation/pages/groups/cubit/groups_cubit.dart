@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/core/utils/failures.dart';
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,7 +17,7 @@ class GroupsCubit extends Cubit<GroupsState> {
 
   final GroupRepository groupRepository = di();
 
-  StreamSubscription<List<GroupModel>>? _groupsSubscription;
+  StreamSubscription<List<GroupEntity>>? _groupsSubscription;
 
   Future<void> watchGroups() async {
     emit(state.copyWith(groups: BaseState.loading()));

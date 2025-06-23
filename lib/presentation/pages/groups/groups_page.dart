@@ -43,9 +43,7 @@ class GroupsPage extends StatelessWidget {
               ),
               onDataChild: (groups) {
                 return ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 18.0),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) => SizedBox(height: 18.0),           
                   itemCount: state.groups.data.length,
                   itemBuilder: (context, index) {
                     return GroupTile(group: state.groups.data[index]);

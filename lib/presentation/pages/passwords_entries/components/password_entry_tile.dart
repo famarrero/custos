@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/color_scheme_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/constants.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
@@ -18,22 +19,33 @@ class PasswordEntryTile extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: context.colorScheme.primary.withValues(alpha: 0.2),
+            color:
+                passwordEntry.group?.color?.withValues(alpha: 0.6) ??
+                context.colorScheme.primary.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(kMobileCorner),
           ),
-          padding: EdgeInsets.all(12.0),
-          child: Icon(
-            HugeIcons.strokeRoundedHome01,
-            color: Colors.black.withValues(alpha: 0.8),
+          child: SizedBox.square(
+            dimension: 44.0,
+            child: Center(
+              child: Text(
+                passwordEntry.name.firstLetterToUpperCase,
+                style: context.textTheme.titleMedium?.copyWith(
+                  color: context.colorScheme.blackAndWith,
+                ),
+              ),
+            ),
           ),
         ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 2.0,
             children: [
               if (passwordEntry.group != null)
-                CustomBadge(text: passwordEntry.group!.name),
+                CustomBadge(
+                  icon: passwordEntry.group!.icon,
+                  text: passwordEntry.group!.name,
+                  color: passwordEntry.group!.color,
+                ),
               Text(passwordEntry.name, style: context.textTheme.bodyLarge),
               if (passwordEntry.username.isNotNullAndNotEmpty)
                 Text(

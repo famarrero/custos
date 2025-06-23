@@ -187,6 +187,14 @@ class _CustomButtonState extends State<CustomButton> {
                 ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
+            side:
+                isFilled
+                    ? BorderSide.none
+                    : BorderSide(
+                      color:
+                          widget.foregroundColor ?? context.colorScheme.primary,
+                      width: kMobileBorderSideWidth,
+                    ),
             borderRadius: BorderRadius.all(
               Radius.circular(widget.corner ?? kMobileCorner),
             ),

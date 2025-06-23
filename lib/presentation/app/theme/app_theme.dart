@@ -351,7 +351,12 @@ class AppTheme extends ThemeExtension<AppTheme> {
     ),
     textButtonTheme: TextButtonThemeData(
       // There must be at least one style from even if it is empty
-      style: TextButton.styleFrom(),
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kMobileCorner),
+        ),
+      ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       // There must be at least one style from even if it is empty

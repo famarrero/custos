@@ -1,4 +1,4 @@
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,7 +16,7 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
     required String? username,
     required String password,
     required String? note,
-    required GroupModel? group,
+    required GroupEntity? group,
   }) = _PasswordEntryEntity;
 
   factory PasswordEntryEntity.fromJson(Map<String, dynamic> json) =>

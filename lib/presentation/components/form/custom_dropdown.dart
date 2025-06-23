@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/components/form/input_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 /// Custom DropdownButton to use across the app.
 class CustomDropdown<T> extends StatelessWidget {
@@ -85,7 +86,7 @@ class CustomDropdown<T> extends StatelessWidget {
       suffixIcon:
           hideDefaultIcon
               ? const SizedBox.shrink()
-              : Icon(Icons.expand_more, color: context.colorScheme.secondary),
+              : Icon(HugeIcons.strokeRoundedArrowDown01, color: context.colorScheme.secondary),
       errorText: errorText,
     );
 

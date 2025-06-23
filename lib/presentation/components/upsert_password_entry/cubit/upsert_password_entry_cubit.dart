@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/core/utils/failures.dart';
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
@@ -26,7 +26,7 @@ class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
   final PasswordEntryRepository passwordEntryRepository = di();
   final GroupRepository groupRepository = di();
 
-  StreamSubscription<List<GroupModel>>? _groupsSubscription;
+  StreamSubscription<List<GroupEntity>>? _groupsSubscription;
 
   Future<void> upsertPasswordEntry({
     required PasswordEntryEntity passwordEntry,

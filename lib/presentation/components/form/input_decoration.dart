@@ -24,7 +24,7 @@ InputDecoration getInputDecoration(
     borderSide: BorderSide(
       color: borderColor ?? context.colorScheme.primary,
       style: BorderStyle.solid,
-      width: 0.8,
+      width: kMobileBorderSideWidth,
     ),
   );
 

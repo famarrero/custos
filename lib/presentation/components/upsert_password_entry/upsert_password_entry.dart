@@ -1,6 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
@@ -8,6 +8,7 @@ import 'package:custos/presentation/components/form/custom_dropdown.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/upsert_group/upsert_group.dart';
 import 'package:custos/presentation/components/upsert_password_entry/cubit/upsert_password_entry_cubit.dart';
+import 'package:custos/presentation/pages/groups/components/group_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +32,7 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  GroupModel? _selectedGroup;
+  GroupEntity? _selectedGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -131,10 +132,11 @@ class _UpsertPasswordEntryState extends State<UpsertPasswordEntry> {
                       )
                     else if (state.groups.isData)
                       Expanded(
-                        child: CustomDropdown<GroupModel>(
+                        child: CustomDropdown<GroupEntity>(
                           label: 'Group',
                           options: () => state.groups.data,
-                          itemBuilder: (item) => Text(item.name),
+                          itemBuilder:
+                              (item) => GroupTile(group: item, compact: true),
                           onValueUpdate: (value) {
                             setState(() {
                               _selectedGroup = value;

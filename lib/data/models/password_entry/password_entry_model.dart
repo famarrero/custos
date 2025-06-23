@@ -1,4 +1,4 @@
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/di_container.dart';
@@ -28,7 +28,7 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
 
   Future<PasswordEntryEntity> toEntity() async {
     // Get group by id
-    GroupModel? group =
+    GroupEntity? group =
         groupId != null
             ? await di<GroupRepository>().getGroup(id: groupId!)
             : null;

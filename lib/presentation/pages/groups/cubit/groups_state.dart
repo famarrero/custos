@@ -5,6 +5,6 @@ abstract class GroupsState with _$GroupsState {
   const GroupsState._();
 
   const factory GroupsState({
-    required BaseState<List<GroupModel>> groups,
+    required BaseState<List<GroupEntity>> groups,
   }) = _GroupsState;
 }

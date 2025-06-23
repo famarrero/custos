@@ -9,9 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = context.watch<AppCubit>().state.themeMode.isDarkMode;
@@ -29,6 +34,7 @@ class SettingsPage extends StatelessWidget {
               subtitle: 'Choose between light and dark mode.',
               onTap: () {
                 context.read<AppCubit>().onThemeChanged();
+                setState(() {});
               },
             ),
 
@@ -57,7 +63,7 @@ class SettingsPage extends StatelessWidget {
               onTap: () {
                 context.showConfirmationDialog(
                   title:
-                      '¿Estás seguro que deseas eliminar este perfil? ¡Esta acción no se puede deshacer!',
+                      '¿Estás seguro que deseas eliminar este perfil? Esta acción no se puede deshacer.',
                   labelLeftButton: 'Cancel',
                   onPressedLeftButton: (_) => context.pop(),
                   labelRightButton: 'Delete',
@@ -70,7 +76,7 @@ class SettingsPage extends StatelessWidget {
                       context.pop();
                     }
                   },
-                  checkBoxTitle: '¡Sí, estoy seguro!',
+                  checkBoxTitle: '¡Estoy seguro!',
                 );
               },
             ),

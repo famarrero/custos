@@ -43,8 +43,30 @@ class $AssetsFontsGen {
   ];
 }
 
+class $AssetsMdGen {
+  const $AssetsMdGen();
+
+  /// Directory path: assets/md/privacy_policy
+  $AssetsMdPrivacyPolicyGen get privacyPolicy =>
+      const $AssetsMdPrivacyPolicyGen();
+}
+
+class $AssetsMdPrivacyPolicyGen {
+  const $AssetsMdPrivacyPolicyGen();
+
+  /// File path: assets/md/privacy_policy/en.md
+  String get en => 'assets/md/privacy_policy/en.md';
+
+  /// File path: assets/md/privacy_policy/es.md
+  String get es => 'assets/md/privacy_policy/es.md';
+
+  /// List of all assets
+  List<String> get values => [en, es];
+}
+
 class Assets {
   const Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsMdGen md = $AssetsMdGen();
 }

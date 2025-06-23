@@ -6,6 +6,6 @@ abstract class UpsertPasswordEntryState with _$UpsertPasswordEntryState {
 
   const factory UpsertPasswordEntryState({
     required BaseState<bool> upsertPasswordEntryState,
-    required BaseState<List<GroupModel>> groups,
+    required BaseState<List<GroupEntity>> groups,
   }) = _UpsertPasswordEntryState;
 }

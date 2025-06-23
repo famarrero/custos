@@ -1,7 +1,9 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
-import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/presentation/components/custom_button.dart';
+import 'package:custos/presentation/components/form/custom_color_picker.dart';
+import 'package:custos/presentation/components/form/custom_icon_picker.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/upsert_group/cubit/upsert_group_cubit.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,8 @@ class _UpsertGroupState extends State<UpsertGroup> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
+  Color? _color;
+  IconData? _icon;
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +61,25 @@ class _UpsertGroupState extends State<UpsertGroup> {
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.text,
                 ),
-                CustomTextFormField(
-                  label: 'Icon',
-                  validator: context.validateURL,
-                  textCapitalization: TextCapitalization.none,
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.url,
+
+                CustomIconPicker(
+                  label: 'Select icon for group',
+                  selectedIcon: _icon,
+                  onIconSelected: (icon) {
+                    setState(() {
+                      _icon = icon;
+                    });
+                  },
                 ),
-                CustomTextFormField(
-                  label: 'Color',
-                  textCapitalization: TextCapitalization.none,
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.text,
+
+                CustomColorPicker(
+                  label: 'Select color for group',
+                  selectedColor: _color,
+                  onColorSelected: (color) {
+                    setState(() {
+                      _color = color;
+                    });
+                  },
                 ),
 
                 Row(
@@ -101,11 +112,11 @@ class _UpsertGroupState extends State<UpsertGroup> {
   void _upsertGroup(BuildContext context) {
     if (_formKey.currentState?.validate() == true) {
       context.read<UpsertGroupCubit>().upsertPasswordEntry(
-        group: GroupModel(
+        group: GroupEntity(
           id: Uuid().v4(),
           name: _nameController.text,
-          icon: '',
-          color: '',
+          icon: _icon,
+          color: _color,
         ),
       );
 
