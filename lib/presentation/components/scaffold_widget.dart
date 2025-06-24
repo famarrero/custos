@@ -68,22 +68,26 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
       color: context.colorScheme.primary,
       child: SafeArea(
         top: widget.safeAreaTop,
-        child: Scaffold(
-          key: widget.scaffoldKey,
-          drawer: widget.drawer,
-          endDrawer: widget.endDrawer,
-          extendBody: widget.extendBody,
-          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-          appBar: widget.appBar,
-          floatingActionButton: widget.floatingActionButton,
-          floatingActionButtonLocation: widget.floatingActionButtonLocation,
-          bottomNavigationBar:
-              showBottomBar
-                  ? widget.bottomNavigationBar
-                  : const SizedBox.shrink(),
-          body: Padding(
-            padding: widget.padding ?? EdgeInsets.zero,
-            child: widget.child,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          behavior: HitTestBehavior.opaque,
+          child: Scaffold(
+            key: widget.scaffoldKey,
+            drawer: widget.drawer,
+            endDrawer: widget.endDrawer,
+            extendBody: widget.extendBody,
+            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+            appBar: widget.appBar,
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            bottomNavigationBar:
+                showBottomBar
+                    ? widget.bottomNavigationBar
+                    : const SizedBox.shrink(),
+            body: Padding(
+              padding: widget.padding ?? EdgeInsets.zero,
+              child: widget.child,
+            ),
           ),
         ),
       ),

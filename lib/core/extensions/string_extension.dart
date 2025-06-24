@@ -17,10 +17,14 @@ extension StringExtension on String {
   int get fromDecimalStringToInt {
     return (double.parse(this) * 100).toInt();
   }
-
+  
+  /// Get the first character of String and convert to UpperCase.
   String get firstLetterToUpperCase {
     return this[0].toUpperCase();
   }
+
+  /// Replaces each character in the string with an asterisk (*).
+  String get masked => '*' * length;
 
   /// Convert String to IconData.
   IconData? get toIconData {

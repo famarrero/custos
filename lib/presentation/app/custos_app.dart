@@ -7,6 +7,7 @@ import 'package:custos/routes/routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 /// Main app widget in charge of creating [MaterialApp] along with localization delegates, routes and theme.
@@ -41,6 +42,7 @@ class _CustosAppState extends State<CustosApp> {
           locale: state.locale,
           localizationsDelegates: const [
             ...AppLocalizations.localizationsDelegates,
+            LocaleNamesLocalizationsDelegate(),
           ],
           supportedLocales: AppLocalizations.supportedLocales,
           theme:

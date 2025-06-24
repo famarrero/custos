@@ -118,15 +118,15 @@ extension BuildContextExtension on BuildContext {
   }
 
   /// Show a custom ModalBottomSheet
-  void showCustomModalBottomSheet({
+  Future<T?> showCustomModalBottomSheet<T>({
     double? heightFactor,
     String? title,
     bool isDismissible = true,
     bool enableDrag = true,
     bool showScrollBar = false,
     required Widget child,
-  }) {
-    showModalBottomSheet<dynamic>(
+  }) async {
+    return await showModalBottomSheet<T>(
       context: this,
       useSafeArea: true,
       isDismissible: isDismissible,

@@ -84,10 +84,15 @@ class PasswordEntryDetail extends StatelessWidget {
           label: 'Password',
           data: passwordEntry.password,
           enableCopy: true,
+          occultData: true,
         ),
-
         if (passwordEntry.note.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Note', data: passwordEntry.note!),
+          _infoItem(
+            context,
+            label: 'Note',
+            data: passwordEntry.note!,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
       ],
     );
   }
@@ -97,12 +102,14 @@ class PasswordEntryDetail extends StatelessWidget {
     required String label,
     required String data,
     bool enableCopy = false,
+    bool occultData = false,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: crossAxisAlignment,
         children: [
           Expanded(
             child: Text(
@@ -115,7 +122,7 @@ class PasswordEntryDetail extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              data,
+              occultData ? data.masked : data,
               style: context.textTheme.bodyMedium,
               textAlign: TextAlign.right,
             ),

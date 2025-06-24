@@ -9,6 +9,7 @@ import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/form/custom_dropdown.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
+import 'package:custos/presentation/components/password_generator/password_generator_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/components/upsert_group/upsert_group.dart';
 import 'package:custos/presentation/pages/upsert_password_entry/cubit/upsert_password_entry_cubit.dart';
@@ -173,7 +174,17 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     iconColor: context.colorScheme.onPrimary,
                                     backgroundColor:
                                         context.colorScheme.primary,
-                                    onTap: () {},
+                                    onTap: () async {
+                                      final generatedPassword = await context
+                                          .showCustomModalBottomSheet<String>(
+                                            title: 'Generate password',
+                                            child:
+                                                const PasswordGeneratorWidget(),
+                                          );
+                                      if (generatedPassword == null) return;
+                                      _passwordController.text =
+                                          generatedPassword;
+                                    },
                                   ),
                                 ],
                               ),
