@@ -5,7 +5,7 @@ abstract class PasswordEntryProvider {
 
   Stream<List<PasswordEntryModel>> watchPasswordsEntries();
 
-  Future<PasswordEntryModel> getPasswordEntry({required String id});
+  Future<PasswordEntryModel?> getPasswordEntry({required String id});
 
   Future<PasswordEntryModel> upsertPasswordEntry({required PasswordEntryModel passwordEntry});
 

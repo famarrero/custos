@@ -163,6 +163,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¿Estás seguro que deseas realizar esta acción?'**
   String get sureWantPerformThisAction;
+
+  /// No description provided for @contentNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido no encontrado'**
+  String get contentNotFound;
 }
 
 class _AppLocalizationsDelegate

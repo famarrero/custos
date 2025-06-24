@@ -23,8 +23,8 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
   }
 
   @override
-  Future<PasswordEntryEntity> getPasswordEntry({required String id}) async {
-    return (await passwordEntryProvider.getPasswordEntry(id: id)).toEntity();
+  Future<PasswordEntryEntity?> getPasswordEntry({required String id}) async {
+    return (await passwordEntryProvider.getPasswordEntry(id: id))?.toEntity();
   }
 
   @override

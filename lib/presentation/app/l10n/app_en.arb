@@ -10,5 +10,6 @@
   "incorrectMasterKey": "Master key is incorrect",
   "masterKeyNotSet": "Master key not set yet",
   "masterKeyErrorSet": "Error creating the master key",
-  "sureWantPerformThisAction": "Sure want perform this action?"
+  "sureWantPerformThisAction": "Sure want perform this action?",
+  "contentNotFound": "Content not found"
 }

@@ -5,7 +5,7 @@ abstract class PasswordEntryRepository {
 
   Stream<List<PasswordEntryEntity>> watchPasswordsEntries();
 
-  Future<PasswordEntryEntity> getPasswordEntry({required String id});
+  Future<PasswordEntryEntity?> getPasswordEntry({required String id});
 
   Future<PasswordEntryEntity> upsertPasswordEntry({required PasswordEntryEntity passwordEntry});
 

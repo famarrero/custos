@@ -65,6 +65,8 @@ extension BuildContextExtension on BuildContext {
           return l10n.masterKeyNotSet;
         case AppError.incorrectMasterKey:
           return l10n.incorrectMasterKey;
+        case AppError.contentNotFound:
+          return l10n.contentNotFound;
       }
     }
   }

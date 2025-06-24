@@ -14,8 +14,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'upsert_password_entry_cubit.freezed.dart';
 part 'upsert_password_entry_state.dart';
 
-
-
 class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
   UpsertPasswordEntryCubit({required String id})
     : super(
@@ -38,7 +36,11 @@ class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
   Future<void> _stared({required String? id}) async {
     watchGroups();
     if (id == addUserId) {
-      emit(state.copyWith(getPasswordEntryState: BaseState.data(PasswordEntryEntity.empty())));
+      emit(
+        state.copyWith(
+          getPasswordEntryState: BaseState.data(PasswordEntryEntity.empty()),
+        ),
+      );
     } else {
       getPasswordEntry(id: id!);
     }
@@ -75,6 +77,17 @@ class UpsertPasswordEntryCubit extends Cubit<UpsertPasswordEntryState> {
       emit(state.copyWith(getPasswordEntryState: BaseState.loading()));
 
       final response = await passwordEntryRepository.getPasswordEntry(id: id);
+
+      if (response == null) {
+        emit(
+          state.copyWith(
+            getPasswordEntryState: BaseState.error(
+              AppFailure(AppError.contentNotFound),
+            ),
+          ),
+        );
+        return;
+      }
 
       emit(state.copyWith(getPasswordEntryState: BaseState.data(response)));
     } catch (e) {

@@ -7,7 +7,9 @@ enum AppError {
 
   encryptionKeyNotSet('encryption_key_not_set'),
 
-  incorrectMasterKey('incorrect_master_key');
+  incorrectMasterKey('incorrect_master_key'),
+
+  contentNotFound('content_not_found');
 
   const AppError(this.code);
 

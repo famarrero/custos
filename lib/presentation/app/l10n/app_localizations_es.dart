@@ -41,4 +41,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get sureWantPerformThisAction =>
       '¿Estás seguro que deseas realizar esta acción?';
+
+  @override
+  String get contentNotFound => 'Contenido no encontrado';
 }

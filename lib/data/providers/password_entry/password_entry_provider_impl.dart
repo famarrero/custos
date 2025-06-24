@@ -24,7 +24,7 @@ class PasswordEntryProviderImpl implements PasswordEntryProvider {
   }
 
   @override
-  Future<PasswordEntryModel> getPasswordEntry({required String id}) async {
+  Future<PasswordEntryModel?> getPasswordEntry({required String id}) async {
     return hiveDatabase.getPasswordEntryBox.get(id);
   }
 
