@@ -21,8 +21,8 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Future<GroupEntity> getGroup({required String id}) async {
-    return (await groupProvider.getGroup(id: id)).toEntity();
+  Future<GroupEntity?> getGroup({required String id}) async {
+    return (await groupProvider.getGroup(id: id))?.toEntity();
   }
 
   @override

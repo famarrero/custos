@@ -5,7 +5,7 @@ abstract class GroupProvider {
 
   Stream<List<GroupModel>> watchGroups();
 
-  Future<GroupModel> getGroup({required String id});
+  Future<GroupModel?> getGroup({required String id});
 
   Future<GroupModel> upsertGroup({required GroupModel group});
 

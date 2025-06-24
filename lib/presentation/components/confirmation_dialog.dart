@@ -143,11 +143,12 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              const SizedBox(height: 10.0),
               // Dialog title
               Text(
                 widget.title ?? context.l10n.sureWantPerformThisAction,
                 textAlign: TextAlign.center,
-                style: context.textTheme.bodySmall?.copyWith(
+                style: context.textTheme.bodyMedium?.copyWith(
                   color: context.colorScheme.onSurface,
                 ),
               ),

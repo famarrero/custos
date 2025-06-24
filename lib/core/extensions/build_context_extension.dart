@@ -1,3 +1,4 @@
+import 'package:custos/core/app_environment.dart';
 import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/constants.dart';
 import 'package:custos/core/utils/failures.dart';
@@ -51,7 +52,9 @@ extension BuildContextExtension on BuildContext {
   /// If the code is not found, a generic message is returned.
   String localizeError({required Failure failure}) {
     if (failure.message != null) {
-      return failure.message!;
+      return AppEnvironment.isDevOrDebugMode
+          ? failure.message!
+          : l10n.unknownErrorOccurred;
     } else {
       switch (failure.code) {
         case AppError.unknown:

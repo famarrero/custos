@@ -20,7 +20,7 @@ class GroupProviderImpl implements GroupProvider {
   }
 
   @override
-  Future<GroupModel> getGroup({required String id}) async {
+  Future<GroupModel?> getGroup({required String id}) async {
     return hiveDatabase.getGroupBox.get(id);
   }
 

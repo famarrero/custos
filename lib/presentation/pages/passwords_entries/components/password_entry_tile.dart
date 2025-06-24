@@ -1,12 +1,11 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/extensions/color_scheme_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
-import 'package:custos/core/utils/constants.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
+import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/custom_badge.dart';
-import 'package:custos/routes/routes.dart';
+import 'package:custos/presentation/pages/passwords_entries/components/password_entry_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class PasswordEntryTile extends StatelessWidget {
@@ -18,30 +17,15 @@ class PasswordEntryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap:
-          () => context.push(
-            UpsertPasswordEntryRoute(id: passwordEntry.id).location,
+          () => context.showCustomModalBottomSheet(
+            child: PasswordEntryDetail(passwordEntry: passwordEntry),
           ),
       child: Row(
         spacing: 22.0,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color:
-                  passwordEntry.group?.color?.withValues(alpha: 0.6) ??
-                  context.colorScheme.primary.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(kMobileCorner),
-            ),
-            child: SizedBox.square(
-              dimension: 44.0,
-              child: Center(
-                child: Text(
-                  passwordEntry.name.firstLetterToUpperCase,
-                  style: context.textTheme.titleMedium?.copyWith(
-                    color: context.colorScheme.blackAndWith,
-                  ),
-                ),
-              ),
-            ),
+          AvatarWidget(
+            color: passwordEntry.group?.color,
+            name: passwordEntry.name,
           ),
           Expanded(
             child: Column(
@@ -64,9 +48,16 @@ class PasswordEntryTile extends StatelessWidget {
               ],
             ),
           ),
-          Icon(HugeIcons.strokeRoundedCopy01, color: Colors.grey),
+          GestureDetector(
+            onTap: () {
+              Clipboard.setData(ClipboardData(text: passwordEntry.password));
+              context.showSnackBar(message: 'Password copy to clipboard');
+            },
+            child: Icon(HugeIcons.strokeRoundedCopy01, color: Colors.grey),
+          ),
         ],
       ),
     );
   }
 }
+

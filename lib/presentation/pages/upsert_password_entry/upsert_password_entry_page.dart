@@ -256,7 +256,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
 
                           // Add/Edit password entry
                           CustomButton(
-                            label: 'Add',
+                            label: _isAdd ? 'Add' : 'Edit',
                             isLoading: state.upsertPasswordEntryState.isLoading,
                             onPressed: () => _upsertPasswordEntry(context),
                           ),

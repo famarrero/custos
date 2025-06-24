@@ -33,7 +33,7 @@ class FailureWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (onRetryPressed != null) ...[
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 14.0),
               CustomButton(
                 infiniteWidth: true,
                 onPressed: onRetryPressed,

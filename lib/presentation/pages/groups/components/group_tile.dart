@@ -1,51 +1,35 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/extensions/color_scheme_extension.dart';
-import 'package:custos/core/extensions/string_extension.dart';
-import 'package:custos/core/utils/constants.dart';
 import 'package:custos/data/models/group/group_entity.dart';
+import 'package:custos/data/repositories/group/group_repository.dart';
+import 'package:custos/di_container.dart';
+import 'package:custos/presentation/components/avatar_widget.dart';
+import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class GroupTile extends StatelessWidget {
-  const GroupTile({super.key, required this.group, this.compact = false});
+  const GroupTile({
+    super.key,
+    required this.group,
+    this.compact = false,
+    this.showDeleteButton = false,
+  });
 
   final GroupEntity group;
   final bool compact;
+  final bool showDeleteButton;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 22.0,
+      spacing: compact ? 12 : 22.0,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color:
-                group.color?.withValues(alpha: 0.6) ??
-                context.colorScheme.primary.withValues(alpha: 0.6),
-            borderRadius: BorderRadius.circular(kMobileCorner),
-          ),
-          child:
-              group.icon == null
-                  ? SizedBox.square(
-                    dimension: compact ? 28.0 : 44.0,
-                    child: Center(
-                      child: Text(
-                        group.name.firstLetterToUpperCase,
-                        style: context.textTheme.titleMedium?.copyWith(
-                          color: context.colorScheme.blackAndWith,
-                        ),
-                      ),
-                    ),
-                  )
-                  : SizedBox.square(
-                    dimension: compact ? 28.0 : 44.0,
-                    child: Center(
-                      child: Icon(
-                        group.icon,
-                        color: context.colorScheme.blackAndWith.withValues(alpha: 0.8),
-                        size: compact ? 18.0 : 24.0,
-                      ),
-                    ),
-                  ),
+        AvatarWidget(
+          color: group.color,
+          name: group.name,
+          icon: group.icon,
+          compact: compact,
         ),
         Expanded(
           child: Text(
@@ -54,6 +38,27 @@ class GroupTile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        if (showDeleteButton)
+          CustomIconButton(
+            icon: HugeIcons.strokeRoundedDelete01,
+            backgroundColor: context.colorScheme.errorContainer,
+            iconColor: context.colorScheme.onErrorContainer,
+            iconSize: 18.0,
+            onTap: () {
+              context.showConfirmationDialog(
+                title: 'Are you sure you want delete this entry?',
+                labelLeftButton: 'Cancel',
+                onPressedLeftButton: (value) {
+                  context.pop();
+                },
+                labelRightButton: 'Delete',
+                onPressedRightButton: (value) {
+                  context.pop();
+                  di<GroupRepository>().deleteGroup(id: group.id);
+                },
+              );
+            },
+          ),
       ],
     );
   }

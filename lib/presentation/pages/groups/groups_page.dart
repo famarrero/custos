@@ -43,10 +43,13 @@ class GroupsPage extends StatelessWidget {
               ),
               onDataChild: (groups) {
                 return ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 18.0),           
+                  separatorBuilder: (context, index) => SizedBox(height: 18.0),
                   itemCount: state.groups.data.length,
                   itemBuilder: (context, index) {
-                    return GroupTile(group: state.groups.data[index]);
+                    return GroupTile(
+                      group: state.groups.data[index],
+                      showDeleteButton: true,
+                    );
                   },
                 );
               },
