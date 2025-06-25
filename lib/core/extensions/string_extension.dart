@@ -23,6 +23,11 @@ extension StringExtension on String {
     return this[0].toUpperCase();
   }
 
+  /// Trim and convert to LowerCase.
+  String get trimToLowerCase {
+    return trim().toLowerCase();
+  }
+
   /// Replaces each character in the string with an asterisk (*).
   String get masked => '*' * length;
 

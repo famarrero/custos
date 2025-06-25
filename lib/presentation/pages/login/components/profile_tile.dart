@@ -1,8 +1,8 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
+import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/pages/login/components/login_profile_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class ProfileTile extends StatelessWidget {
   const ProfileTile({super.key, required this.profile});
@@ -21,7 +21,7 @@ class ProfileTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 16.0,
         children: [
-          Icon(HugeIcons.strokeRoundedUser02, size: 28.0),
+          AvatarWidget(color: Colors.blue, name: profile.name),
           Expanded(
             child: Text(profile.name, style: context.textTheme.bodyLarge),
           ),

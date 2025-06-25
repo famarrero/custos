@@ -1,6 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
-import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,6 +10,7 @@ class NoDataWidget extends StatelessWidget {
     this.title,
     this.subtitle,
     this.onRetryPressed,
+    this.retryLabel,
     this.iconPath,
     this.iconData,
     this.titleStyle,
@@ -22,6 +22,8 @@ class NoDataWidget extends StatelessWidget {
 
   /// Retry function
   final Function()? onRetryPressed;
+
+  final String? retryLabel;
 
   final String? iconPath;
 
@@ -59,11 +61,9 @@ class NoDataWidget extends StatelessWidget {
               ),
             ],
             if (onRetryPressed != null) ...[
-              const SizedBox(height: 12.0),
-              CustomIconButton(
-                onTap: onRetryPressed != null ? onRetryPressed! : () {},
-                icon: Icons.refresh,
-                iconColor: context.colorScheme.secondary,
+              TextButton(
+                onPressed: onRetryPressed != null ? onRetryPressed! : () {},
+                child: Text(retryLabel ?? context.l10n.retry),
               ),
             ],
           ],

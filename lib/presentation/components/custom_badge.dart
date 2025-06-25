@@ -13,6 +13,7 @@ class CustomBadge extends StatelessWidget {
     this.height = 21,
     this.iconSize = 14,
     this.applyAlpha = true,
+    this.hideBackground = false,
     this.margin,
   });
 
@@ -24,6 +25,7 @@ class CustomBadge extends StatelessWidget {
   final double iconSize;
   final TextStyle? style;
   final bool applyAlpha;
+  final bool hideBackground;
   final EdgeInsetsGeometry? margin;
 
   @override
@@ -35,9 +37,18 @@ class CustomBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6.0),
       decoration: BoxDecoration(
         color:
-            color?.withAlpha(alpha) ??
-            context.colorScheme.primary.withAlpha(alpha),
-        borderRadius: BorderRadius.all(Radius.circular(corner ?? kMobileCorner)),
+            hideBackground
+                ? null
+                : (color?.withAlpha(alpha) ??
+                    context.colorScheme.primary.withAlpha(alpha)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(corner ?? kMobileCorner),
+        ),
+        border: Border.all(
+          color:
+              color?.withAlpha(alpha) ??
+              context.colorScheme.primary.withAlpha(alpha),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
