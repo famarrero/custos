@@ -82,13 +82,14 @@ extension BuildContextExtension on BuildContext {
     required String message,
     bool isErrorMessage = false,
     Color? backgroundColor,
+    Duration duration = const Duration(seconds: 3),
   }) {
     ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
           // Set the duration of the SnackBar
-          duration: const Duration(seconds: 3),
+          duration: duration,
 
           // Set the dismiss direction
           dismissDirection: DismissDirection.horizontal,
@@ -132,7 +133,7 @@ extension BuildContextExtension on BuildContext {
       isDismissible: isDismissible,
       enableDrag: enableDrag,
       constraints: const BoxConstraints(maxWidth: double.infinity),
-      useRootNavigator: false,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {

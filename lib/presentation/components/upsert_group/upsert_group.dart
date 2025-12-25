@@ -12,7 +12,9 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 class UpsertGroup extends StatefulWidget {
-  const UpsertGroup({super.key});
+  const UpsertGroup({super.key, this.group});
+
+  final GroupEntity? group;
 
   @override
   State<UpsertGroup> createState() => _UpsertGroupState();
@@ -25,6 +27,17 @@ class _UpsertGroupState extends State<UpsertGroup> {
   final TextEditingController _nameController = TextEditingController();
   Color? _color;
   IconData? _icon;
+
+  @override
+  void initState() {
+    super.initState();
+    final group = widget.group;
+    if (group != null) {
+      _nameController.text = group.name;
+      _color = group.color;
+      _icon = group.icon;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +108,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
 
                     // Add/Edit group
                     CustomButton(
-                      label: 'Add',
+                      label: widget.group == null ? 'Add' : 'Save',
                       isLoading: state.upsertGroupState.isLoading,
                       onPressed: () => _upsertGroup(context),
                     ),
@@ -113,7 +126,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
     if (_formKey.currentState?.validate() == true) {
       context.read<UpsertGroupCubit>().upsertPasswordEntry(
         group: GroupEntity(
-          id: Uuid().v4(),
+          id: widget.group?.id ?? Uuid().v4(),
           name: _nameController.text,
           icon: _icon,
           color: _color,
@@ -122,5 +135,11 @@ class _UpsertGroupState extends State<UpsertGroup> {
 
       FocusManager.instance.primaryFocus?.unfocus();
     }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 }

@@ -38,9 +38,7 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                 previous.loginState != current.loginState &&
                 current.isUserAuthenticated,
         listener: (context, state) {
-          context.read<PasswordsEntriesCubit>()
-            ..watchPasswordsEntries()
-            ..watchGroups();
+          context.read<PasswordsEntriesCubit>().watchGroups();
         },
         child: ScaffoldWidget(
           floatingActionButton: FloatingActionButton(
@@ -58,38 +56,6 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
             builder: (context, state) {
               return Column(
                 children: [
-                  // Search form
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kMobileHorizontalPadding,
-                    ),
-                    child: CustomTextFormField(
-                      controller: _searchController,
-                      hint: 'Search',
-                      prefixIcon: Icon(HugeIcons.strokeRoundedSearch01),
-                      suffixIcon: CustomIconButton(
-                        icon: HugeIcons.strokeRoundedCancel01,
-                        onTap: () {
-                          context
-                              .read<PasswordsEntriesCubit>()
-                              .filterPasswordEntries(
-                                query: null,
-                                group: state.selectedGroup,
-                              );
-                          _searchController.text = '';
-                        },
-                      ),
-                      onChanged: (value) {
-                        context
-                            .read<PasswordsEntriesCubit>()
-                            .filterPasswordEntries(
-                              query: value,
-                              group: state.selectedGroup,
-                            );
-                      },
-                    ),
-                  ),
-
                   Expanded(
                     child: BaseStateUi(
                       state: state.passwordsEntries,
@@ -107,18 +73,60 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                       onDataChild: (passwordsEntries) {
                         return Column(
                           children: [
-                            const SizedBox(height: 22.0),
+                            // Search form
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: kMobileHorizontalPadding,
+                              ),
+                              child: ValueListenableBuilder<TextEditingValue>(
+                                valueListenable: _searchController,
+                                builder: (context, value, _) {
+                                  final hasQuery = value.text.trim().isNotEmpty;
 
-                            Text(
-                              'Accounts',
-                              style: context.textTheme.headlineSmall,
+                                  return CustomTextFormField(
+                                    controller: _searchController,
+                                    hint: 'Search',
+                                    prefixIcon: Icon(
+                                      HugeIcons.strokeRoundedSearch01,
+                                    ),
+                                    suffixIcon:
+                                        hasQuery
+                                            ? CustomIconButton(
+                                              icon:
+                                                  HugeIcons
+                                                      .strokeRoundedCancel01,
+                                              onTap: () {
+                                                context
+                                                    .read<
+                                                      PasswordsEntriesCubit
+                                                    >()
+                                                    .filterPasswordEntries(
+                                                      query: null,
+                                                      group:
+                                                          state.selectedGroup,
+                                                    );
+                                                _searchController.clear();
+                                              },
+                                            )
+                                            : null,
+                                    onChanged: (value) {
+                                      context
+                                          .read<PasswordsEntriesCubit>()
+                                          .filterPasswordEntries(
+                                            query: value,
+                                            group: state.selectedGroup,
+                                          );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
 
-                            const SizedBox(height: 22.0),
+                            const SizedBox(height: 16.0),
 
                             GroupFilters(),
 
-                            const SizedBox(height: 22.0),
+                            const SizedBox(height: 16.0),
 
                             if (passwordsEntries.isEmpty)
                               Expanded(
@@ -131,28 +139,33 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                                         .filterPasswordEntries(
                                           group: PasswordsEntriesCubit.groupAll,
                                         );
+
+                                    _searchController.clear();
                                   },
                                 ),
                               )
                             else
                               Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: kMobileHorizontalPadding,
-                                  ),
-                                  child: ListView.separated(
-                                    separatorBuilder:
-                                        (context, index) =>
-                                            SizedBox(height: 18.0),
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: passwordsEntries.length,
-                                    itemBuilder: (context, index) {
-                                      return PasswordEntryTile(
-                                        passwordEntry: passwordsEntries[index],
-                                      );
-                                    },
+                                child: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: kMobileHorizontalPadding,
+                                    ),
+                                    child: ListView.separated(
+                                      separatorBuilder:
+                                          (context, index) =>
+                                              SizedBox(height: 8.0),
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: passwordsEntries.length,
+                                      itemBuilder: (context, index) {
+                                        return PasswordEntryTile(
+                                          passwordEntry:
+                                              passwordsEntries[index],
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,7 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/color_scheme_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
-import 'package:custos/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -23,9 +22,9 @@ class AvatarWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color:
-            color?.withValues(alpha: 0.6) ??
-            context.colorScheme.primary.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(kMobileCorner),
+            color?.withValues(alpha: 0.2) ??
+            context.colorScheme.primary.withValues(alpha: 0.2),
+        shape: BoxShape.circle,
       ),
       child: Center(
         child:
@@ -36,7 +35,7 @@ class AvatarWidget extends StatelessWidget {
                     child: Text(
                       name.firstLetterToUpperCase,
                       style: context.textTheme.titleMedium?.copyWith(
-                        color: context.colorScheme.blackAndWith,
+                        color: context.colorScheme.blackAndWith.withValues(alpha: 0.8),
                       ),
                     ),
                   ),
@@ -47,7 +46,7 @@ class AvatarWidget extends StatelessWidget {
                     child: Icon(
                       icon,
                       color: context.colorScheme.blackAndWith.withValues(
-                        alpha: 0.8,
+                        alpha: 0.6,
                       ),
                       size: compact ? 18 : 24.0,
                     ),

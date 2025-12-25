@@ -26,6 +26,13 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
+  Stream<GroupEntity?> watchGroupById({required String id}) {
+    return groupProvider.watchGroupById(id: id).asyncMap((model) async {
+      return await model?.toEntity();
+    });
+  }
+
+  @override
   Future<GroupEntity> upsertGroup({required GroupEntity group}) async {
     return (await groupProvider.upsertGroup(group: group.toModel())).toEntity();
   }

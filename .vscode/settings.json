@@ -12,7 +12,7 @@
     "hugeicons",
     "svgs"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.32.4",
+  "dart.flutterSdkPath": ".fvm/versions/3.38.5",
   "search.exclude": {
     "*.g.dart": true,
     "**/*.g.dart": true,

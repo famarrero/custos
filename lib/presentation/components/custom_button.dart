@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/color_scheme_extension.dart';
 import 'package:custos/core/utils/constants.dart';
 import 'package:custos/presentation/components/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,7 @@ class _CustomButtonState extends State<CustomButton> {
                     color:
                         widget.foregroundColor ??
                         (widget.type == CustomTextButtonEnum.filled
-                            ? context.colorScheme.onPrimary
+                            ? Colors.white
                             : context.colorScheme.primary),
                     strokeWidth: 6.0,
                   ),
@@ -126,7 +127,7 @@ class _CustomButtonState extends State<CustomButton> {
                     color:
                         widget.foregroundColor ??
                         (widget.type == CustomTextButtonEnum.filled
-                            ? context.colorScheme.onPrimary
+                            ? Colors.white
                             : context.colorScheme.primary),
                     size: 22,
                   ),
@@ -138,11 +139,11 @@ class _CustomButtonState extends State<CustomButton> {
                     child: FittedBox(
                       child: Text(
                         widget.label,
-                        style: context.textTheme.bodyLarge?.copyWith(
+                        style: context.textTheme.titleSmall?.copyWith(
                           color:
                               widget.foregroundColor ??
                               (widget.type == CustomTextButtonEnum.filled
-                                  ? context.colorScheme.onPrimary
+                                  ? Colors.white
                                   : context.colorScheme.primary),
                           height: 2,
                         ),

@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.compile.JavaCompile
+
 allprojects {
     repositories {
         google()
@@ -11,6 +13,14 @@ rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
+}
+
+// Some Android/Flutter plugin subprojects still compile Java sources with `-source/-target 8`,
+// which triggers noisy warnings on newer JDKs. Suppress only that specific warning.
+subprojects {
+    tasks.withType<JavaCompile>().configureEach {
+        options.compilerArgs.add("-Xlint:-options")
+    }
 }
 subprojects {
     project.evaluationDependsOn(":app")

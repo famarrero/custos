@@ -10,7 +10,7 @@ class CustomBadge extends StatelessWidget {
     this.text,
     this.corner,
     this.style,
-    this.height = 21,
+    this.height = 32,
     this.iconSize = 14,
     this.applyAlpha = true,
     this.hideBackground = false,
@@ -30,7 +30,6 @@ class CustomBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alpha = applyAlpha ? 40 : 255;
     return Container(
       height: height,
       margin: margin ?? const EdgeInsets.symmetric(vertical: 2.0),
@@ -39,15 +38,16 @@ class CustomBadge extends StatelessWidget {
         color:
             hideBackground
                 ? null
-                : (color?.withAlpha(alpha) ??
-                    context.colorScheme.primary.withAlpha(alpha)),
+                : (color ??
+                    context.colorScheme.primary),
         borderRadius: BorderRadius.all(
-          Radius.circular(corner ?? kMobileCorner),
+          Radius.circular(corner ?? kMobileCorner * 0.6),
         ),
         border: Border.all(
           color:
-              color?.withAlpha(alpha) ??
-              context.colorScheme.primary.withAlpha(alpha),
+              color ??
+              context.colorScheme.primary,
+              width: kMobileBorderSideWidth * 0.5,
         ),
       ),
       child: Row(
@@ -58,7 +58,7 @@ class CustomBadge extends StatelessWidget {
             FittedBox(
               child: Icon(
                 icon,
-                color: color ?? context.colorScheme.secondary,
+                color: hideBackground ? color : Colors.white,
                 size: iconSize,
               ),
             ),
@@ -72,7 +72,7 @@ class CustomBadge extends StatelessWidget {
                   style:
                       style ??
                       context.textTheme.labelSmall?.copyWith(
-                        color: color ?? context.colorScheme.primary,
+                        color: hideBackground ? color : Colors.white,
                       ),
                 ),
               ),

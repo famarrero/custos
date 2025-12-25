@@ -22,7 +22,7 @@ InputDecoration getInputDecoration(
   OutlineInputBorder border0({Color? borderColor}) => OutlineInputBorder(
     borderRadius: BorderRadius.circular(corner ?? kMobileCorner),
     borderSide: BorderSide(
-      color: borderColor ?? context.colorScheme.primary,
+      color: borderColor ?? context.colorScheme.primary.withValues(alpha: 0.8),
       style: BorderStyle.solid,
       width: kMobileBorderSideWidth,
     ),
@@ -46,17 +46,17 @@ InputDecoration getInputDecoration(
     counterText: hideCounterText ? '' : null,
     border: InputBorder.none,
     floatingLabelBehavior: FloatingLabelBehavior.auto,
-    floatingLabelStyle: context.textTheme.labelLarge?.copyWith(
+    floatingLabelStyle: context.textTheme.labelMedium?.copyWith(
       color: context.colorScheme.onSurface,
     ),
     labelText: label,
-    labelStyle: context.textTheme.labelLarge?.copyWith(
+    labelStyle: context.textTheme.labelMedium?.copyWith(
       color: context.colorScheme.onSurface,
     ),
     hintText: hint,
     hintStyle:
         hintStyle ??
-        context.textTheme.labelLarge?.copyWith(
+        context.textTheme.labelMedium?.copyWith(
           color: context.colorScheme.onSurface,
         ),
     errorText: errorText,

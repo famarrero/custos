@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/go_router_extension.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
@@ -10,28 +12,89 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class WrapperMainPage extends StatelessWidget {
+class WrapperMainPage extends StatefulWidget {
   const WrapperMainPage({super.key, required this.child});
 
   final Widget child;
 
   @override
+  State<WrapperMainPage> createState() => _WrapperMainPageState();
+}
+
+class _WrapperMainPageState extends State<WrapperMainPage> {
+  DateTime? _lastBackPressedAt;
+  bool _exitArmed = false;
+  Timer? _exitArmTimer;
+
+  void _armExitForTwoSeconds() {
+    _exitArmTimer?.cancel();
+    setState(() => _exitArmed = true);
+    _exitArmTimer = Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      setState(() => _exitArmed = false);
+    });
+  }
+
+  void _onPopInvokedWithResult(bool didPop, Object? result) {
+    // When canPop == true and the pop succeeds, we don't need to do anything.
+    if (didPop) return;
+
+    // If there's anything to pop in the navigation stack, pop it normally.
+    final router = GoRouter.of(context);
+    if (router.canPop()) {
+      router.pop();
+      return;
+    }
+
+    final now = DateTime.now();
+    final last = _lastBackPressedAt;
+    final isOutsideWindow =
+        last == null || now.difference(last) > const Duration(seconds: 3);
+
+    if (isOutsideWindow) {
+      _lastBackPressedAt = now;
+      _armExitForTwoSeconds();
+      context.showSnackBar(message: 'Persione nuevamente para salir del app');
+      return;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ScaffoldWidget(
-      safeAreaTop: true,
-      appBar: CustomAppBar(
-        titleString: context.router.appBarTitle,
-        actions: [
-          CustomIconButton(
-            icon: HugeIcons.strokeRoundedLogout02,
-            onTap: () {
-              context.read<AuthCubit>().logout(GoRouter.of(context));
-            },
-          ),
-        ],
+    return PopScope<Object?>(
+      canPop: _exitArmed,
+      onPopInvokedWithResult: _onPopInvokedWithResult,
+      child: ScaffoldWidget(
+        safeAreaTop: true,
+        appBar: CustomAppBar(
+          titleString: context.router.appBarTitle,
+          actions: [
+            CustomIconButton(
+              icon: HugeIcons.strokeRoundedLogout01,
+              onTap: () {
+                context.showConfirmationDialog(
+                  title: '¿Estás seguro que deseas cerrar sesión?',
+                  labelLeftButton: 'Cancelar',
+                  onPressedLeftButton: (_) => context.pop(),
+                  labelRightButton: 'Salir',
+                  onPressedRightButton: (_) {
+                    context.pop();
+                    context.read<AuthCubit>().logout(GoRouter.of(context));
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: CustomNavigationBar(),
+        child: widget.child,
       ),
-      bottomNavigationBar: CustomNavigationBar(),
-      child: child,
     );
+  }
+
+  @override
+  void dispose() {
+    _exitArmTimer?.cancel();
+    super.dispose();
   }
 }

@@ -49,13 +49,17 @@ class _LoginPageState extends State<LoginPage> {
                     style: context.textTheme.headlineLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 24.0),
+
+                  const SizedBox(height: 12.0),
+
                   Text(
                     'Select a profile',
                     style: context.textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
+
                   const SizedBox(height: 24.0),
+
                   Flexible(
                     child: BaseStateUi(
                       state: state.profiles,
@@ -84,13 +88,17 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
+
                   const SizedBox(height: 24.0),
+
                   Text(
                     'Or create one',
                     style: context.textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
+
                   const SizedBox(height: 24.0),
+
                   CustomButton(
                     prefixIconData: HugeIcons.strokeRoundedUserAdd01,
                     label: 'Create profile',
@@ -99,6 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                       context.push(RegisterRoute().location);
                     },
                   ),
+
+                  const SizedBox(height: 24.0),
                 ],
               );
             },

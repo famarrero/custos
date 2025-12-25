@@ -86,7 +86,10 @@ class CustomDropdown<T> extends StatelessWidget {
       suffixIcon:
           hideDefaultIcon
               ? const SizedBox.shrink()
-              : Icon(HugeIcons.strokeRoundedArrowDown01, color: context.colorScheme.secondary),
+              : Icon(
+                HugeIcons.strokeRoundedArrowDown01,
+                color: context.colorScheme.secondary,
+              ),
       errorText: errorText,
     );
 
@@ -95,7 +98,7 @@ class CustomDropdown<T> extends StatelessWidget {
     );
 
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       validator: validator,
       isExpanded: true,
       isDense: true,

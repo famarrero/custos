@@ -48,6 +48,7 @@ class GroupsPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GroupTile(
                       group: state.groups.data[index],
+                      showEditButton: true,
                       showDeleteButton: true,
                     );
                   },

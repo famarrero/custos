@@ -11,6 +11,7 @@ class CustomTilesOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: tiles.length,
@@ -52,16 +53,16 @@ class CustomSettingTile extends StatelessWidget {
                 height: prefixIconSize,
                 width: prefixIconSize,
                 prefixIconSvgPath!,
-                colorFilter:
-                    prefixIconColor != null
-                        ? ColorFilter.mode(prefixIconColor!, BlendMode.src)
-                        : null,
+                colorFilter: ColorFilter.mode(
+                  prefixIconColor ?? context.colorScheme.primary,
+                  BlendMode.src,
+                ),
               )
               : (prefixIconPath != null
                   ? Icon(
                     prefixIconPath!,
                     size: prefixIconSize,
-                    color: prefixIconColor,
+                    color: prefixIconColor ?? context.colorScheme.primary,
                   )
                   : null),
       title: Text(title, style: context.textTheme.bodyMedium),

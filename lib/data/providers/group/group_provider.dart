@@ -7,6 +7,8 @@ abstract class GroupProvider {
 
   Future<GroupModel?> getGroup({required String id});
 
+  Stream<GroupModel?> watchGroupById({required String id});
+
   Future<GroupModel> upsertGroup({required GroupModel group});
 
   Future<void> deleteGroup({required String id});

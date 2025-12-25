@@ -7,6 +7,8 @@ abstract class GroupRepository {
 
   Future<GroupEntity?> getGroup({required String id});
 
+  Stream<GroupEntity?> watchGroupById({required String id});
+
   Future<GroupEntity> upsertGroup({required GroupEntity group});
 
   Future<void> deleteGroup({required String id});

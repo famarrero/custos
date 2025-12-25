@@ -11,10 +11,17 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class PasswordEntryDetail extends StatelessWidget {
+class PasswordEntryDetail extends StatefulWidget {
   const PasswordEntryDetail({super.key, required this.passwordEntry});
 
   final PasswordEntryEntity passwordEntry;
+
+  @override
+  State<PasswordEntryDetail> createState() => _PasswordEntryDetailState();
+}
+
+class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +35,14 @@ class PasswordEntryDetail extends StatelessWidget {
                 spacing: 8.0,
                 children: [
                   Text(
-                    passwordEntry.name,
+                    widget.passwordEntry.name,
                     style: context.textTheme.titleMedium,
                   ),
-                  if (passwordEntry.group != null)
-                    GroupTile(compact: true, group: passwordEntry.group!),
+                  if (widget.passwordEntry.group != null)
+                    GroupTile(
+                      compact: true,
+                      group: widget.passwordEntry.group!,
+                    ),
                 ],
               ),
             ),
@@ -41,7 +51,9 @@ class PasswordEntryDetail extends StatelessWidget {
               onPressed: () {
                 context.pop();
                 context.push(
-                  UpsertPasswordEntryRoute(id: passwordEntry.id).location,
+                  UpsertPasswordEntryRoute(
+                    id: widget.passwordEntry.id,
+                  ).location,
                 );
               },
             ),
@@ -63,7 +75,7 @@ class PasswordEntryDetail extends StatelessWidget {
                       ..pop()
                       ..pop();
                     di<PasswordEntryRepository>().deletePasswordEntry(
-                      id: passwordEntry.id,
+                      id: widget.passwordEntry.id,
                     );
                   },
                 );
@@ -71,26 +83,30 @@ class PasswordEntryDetail extends StatelessWidget {
             ),
           ],
         ),
-        if (passwordEntry.url.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Url', data: passwordEntry.url!),
-        if (passwordEntry.username.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Username', data: passwordEntry.username!),
-        if (passwordEntry.email.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Email', data: passwordEntry.email!),
-        if (passwordEntry.phone.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Phone', data: passwordEntry.phone!),
+        if (widget.passwordEntry.url.isNotNullAndNotEmpty)
+          _infoItem(context, label: 'Url', data: widget.passwordEntry.url!),
+        if (widget.passwordEntry.username.isNotNullAndNotEmpty)
+          _infoItem(
+            context,
+            label: 'Username',
+            data: widget.passwordEntry.username!,
+          ),
+        if (widget.passwordEntry.email.isNotNullAndNotEmpty)
+          _infoItem(context, label: 'Email', data: widget.passwordEntry.email!),
+        if (widget.passwordEntry.phone.isNotNullAndNotEmpty)
+          _infoItem(context, label: 'Phone', data: widget.passwordEntry.phone!),
         _infoItem(
           context,
           label: 'Password',
-          data: passwordEntry.password,
+          data: widget.passwordEntry.password,
           enableCopy: true,
           occultData: true,
         ),
-        if (passwordEntry.note.isNotNullAndNotEmpty)
+        if (widget.passwordEntry.note.isNotNullAndNotEmpty)
           _infoItem(
             context,
             label: 'Note',
-            data: passwordEntry.note!,
+            data: widget.passwordEntry.note!,
             crossAxisAlignment: CrossAxisAlignment.start,
           ),
       ],
@@ -105,6 +121,17 @@ class PasswordEntryDetail extends StatelessWidget {
     bool occultData = false,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
   }) {
+    Widget actionIcon({required IconData icon, required VoidCallback onTap}) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Icon(icon, color: context.colorScheme.secondary),
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
@@ -122,19 +149,38 @@ class PasswordEntryDetail extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              occultData ? data.masked : data,
-              style: context.textTheme.bodyMedium,
+              (occultData && !_isPasswordVisible) ? data.masked : data,
+              style: context.textTheme.labelLarge,
               textAlign: TextAlign.right,
             ),
           ),
-          if (enableCopy) ...[
+          if (occultData || enableCopy) ...[
             const SizedBox(width: 8.0),
-            GestureDetector(
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: data));
-                context.showSnackBar(message: 'Password copy to clipboard');
-              },
-              child: Icon(HugeIcons.strokeRoundedCopy01),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (occultData)
+                  actionIcon(
+                    icon:
+                        _isPasswordVisible
+                            ? HugeIcons.strokeRoundedEye
+                            : HugeIcons.strokeRoundedViewOff,
+                    onTap: () {
+                      setState(() => _isPasswordVisible = !_isPasswordVisible);
+                    },
+                  ),
+                if (enableCopy)
+                  actionIcon(
+                    icon: HugeIcons.strokeRoundedCopy01,
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: data));
+                      context.showSnackBar(
+                        message: 'Password copy to clipboard',
+                      );
+                    },
+                  ),
+              ],
             ),
           ],
         ],

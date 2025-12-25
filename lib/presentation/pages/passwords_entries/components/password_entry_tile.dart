@@ -3,6 +3,7 @@ import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/custom_badge.dart';
+import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:custos/presentation/pages/passwords_entries/components/password_entry_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +16,7 @@ class PasswordEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return CustomInkWell(
       onTap:
           () => context.showCustomModalBottomSheet(
             child: PasswordEntryDetail(passwordEntry: passwordEntry),
@@ -36,6 +37,8 @@ class PasswordEntryTile extends StatelessWidget {
                     icon: passwordEntry.group!.icon,
                     text: passwordEntry.group!.name,
                     color: passwordEntry.group!.color,
+                    hideBackground: true,
+                    height: 24,
                   ),
                 Text(passwordEntry.name, style: context.textTheme.bodyLarge),
                 if (passwordEntry.username.isNotNullAndNotEmpty)
@@ -60,4 +63,3 @@ class PasswordEntryTile extends StatelessWidget {
     );
   }
 }
-

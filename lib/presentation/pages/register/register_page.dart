@@ -83,6 +83,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               controller: _profileNameController,
                               label: 'Profile name',
                               isRequired: true,
+                              textCapitalization: TextCapitalization.sentences,
+                              textInputAction: TextInputAction.next,
                               validator: context.validateRequired,
                             ),
                             CustomTextFormField(

@@ -26,6 +26,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           (context.canPop()
               ? IconButton(
                 icon: Icon(HugeIcons.strokeRoundedArrowLeft01),
+                iconSize: 34,
+                color: context.colorScheme.primary,
                 onPressed: () {
                   context.pop();
                 },

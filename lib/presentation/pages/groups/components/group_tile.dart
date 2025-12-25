@@ -4,6 +4,7 @@ import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
+import 'package:custos/presentation/components/upsert_group/upsert_group.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -14,11 +15,13 @@ class GroupTile extends StatelessWidget {
     required this.group,
     this.compact = false,
     this.showDeleteButton = false,
+    this.showEditButton = false,
   });
 
   final GroupEntity group;
   final bool compact;
   final bool showDeleteButton;
+  final bool showEditButton;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,19 @@ class GroupTile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        if (showEditButton)
+          CustomIconButton(
+            icon: HugeIcons.strokeRoundedEdit02,
+            backgroundColor: context.colorScheme.secondaryContainer,
+            iconColor: context.colorScheme.onSecondaryContainer,
+            iconSize: 18.0,
+            onTap: () {
+              context.showCustomGeneralDialog(
+                title: 'Edit group',
+                child: UpsertGroup(group: group),
+              );
+            },
+          ),
         if (showDeleteButton)
           CustomIconButton(
             icon: HugeIcons.strokeRoundedDelete01,

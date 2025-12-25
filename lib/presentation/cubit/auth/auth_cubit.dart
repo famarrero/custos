@@ -59,7 +59,15 @@ class AuthCubit extends Cubit<AuthState> {
         emit(state.copyWith(deleteProfile: BaseState.error(failure)));
       },
       (register) {
-        emit(state.copyWith(deleteProfile: BaseState.data(true)));
+        // Clear authenticated state first so route guards/redirects won't keep the user
+        // inside the authenticated shell after deletion.
+        emit(
+          state.copyWith(
+            loginState: BaseState.initial(),
+            deleteProfile: BaseState.data(true),
+            logoutState: BaseState.initial(),
+          ),
+        );
         router.go(LoginRoute().location);
       },
     );

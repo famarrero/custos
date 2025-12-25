@@ -25,6 +25,13 @@ class GroupProviderImpl implements GroupProvider {
   }
 
   @override
+  Stream<GroupModel?> watchGroupById({required String id}) async* {
+    final box = hiveDatabase.getGroupBox;
+    yield box.get(id);
+    yield* box.watch(key: id).map((_) => box.get(id));
+  }
+
+  @override
   Future<GroupModel> upsertGroup({required GroupModel group}) async {
     await hiveDatabase.getGroupBox.put(group.id, group);
     return group;

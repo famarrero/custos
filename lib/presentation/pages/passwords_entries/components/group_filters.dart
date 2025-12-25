@@ -15,26 +15,24 @@ class GroupFilters extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      context
-                          .read<PasswordsEntriesCubit>()
-                          .filterPasswordEntries(
-                            group: PasswordsEntriesCubit.groupAll,
-                          );
-                    },
-                    child: CustomBadge(
-                      text: PasswordsEntriesCubit.groupAll.name,
-                      hideBackground:
-                          state.selectedGroup?.id ==
-                                  PasswordsEntriesCubit.groupAll.id
-                              ? false
-                              : true,
-                    ),
+                const SizedBox(width: 16.0),
+
+                GestureDetector(
+                  onTap: () {
+                    context.read<PasswordsEntriesCubit>().filterPasswordEntries(
+                      group: PasswordsEntriesCubit.groupAll,
+                    );
+                  },
+                  child: CustomBadge(
+                    text: PasswordsEntriesCubit.groupAll.name,
+                    hideBackground:
+                        state.selectedGroup?.id ==
+                                PasswordsEntriesCubit.groupAll.id
+                            ? false
+                            : true,
                   ),
                 ),
+                const SizedBox(width: 4.0),
                 ...state.groups.data.map(
                   (group) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -57,6 +55,7 @@ class GroupFilters extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(width: 16.0),
               ],
             ),
           );

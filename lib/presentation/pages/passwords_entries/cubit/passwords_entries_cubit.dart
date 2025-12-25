@@ -84,6 +84,8 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
             groups: groups.isEmpty ? BaseState.empty() : BaseState.data(groups),
           ),
         );
+
+        watchPasswordsEntries();
       },
       onError: (e) {
         emit(

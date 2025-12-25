@@ -25,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
       child: Container(
         padding:
             backgroundColor != null
-                ? const EdgeInsets.all(6.0)
+                ? const EdgeInsets.all(8.0)
                 : EdgeInsets.zero,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
