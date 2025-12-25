@@ -5,44 +5,131 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 /// Default fallback icon.
-const defaultIcon = HugeIcons.strokeRoundedMoreHorizontalSquare02;
+const defaultIcon = HugeIcons.strokeRoundedUser;
 
 /// A class representing an icon and its corresponding label.
 class IconAndLabel {
   final IconData icon;
-  final String label;
+  final String Function(BuildContext context) labelBuilder;
 
-  const IconAndLabel({required this.icon, required this.label});
+  const IconAndLabel({required this.icon, required this.labelBuilder});
+
+  String label(BuildContext context) => labelBuilder(context);
 
   @override
-  String toString() => 'IconAndLabel(icon: $icon, label: $label)';
+  String toString() => 'IconAndLabel(icon: $icon)';
 }
 
 /// A predefined list of icon options categorized for password groups.
 final List<IconAndLabel> iconOptions = [
-  IconAndLabel(icon: HugeIcons.strokeRoundedHome01, label: 'Hogar'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedKey01, label: 'Seguridad'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedBitcoin02, label: 'Criptomonedas'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedWallet01, label: 'Finanzas'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedUserAccount, label: 'Personal'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedUserMultiple, label: 'Usuarios'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedBriefcase01, label: 'Empresarial'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedAirplane01, label: 'Viajes'),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedHome01,
+    labelBuilder: (context) => context.l10n.iconLabelHome,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedKey01,
+    labelBuilder: (context) => context.l10n.iconLabelSecurity,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedBitcoin02,
+    labelBuilder: (context) => context.l10n.iconLabelCrypto,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedWallet01,
+    labelBuilder: (context) => context.l10n.iconLabelFinance,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedCreditCard,
+    labelBuilder: (context) => context.l10n.iconLabelCards,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedUserAccount,
+    labelBuilder: (context) => context.l10n.iconLabelPersonal,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedUserMultiple,
+    labelBuilder: (context) => context.l10n.iconLabelUsers,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedIdentityCard,
+    labelBuilder: (context) => context.l10n.iconLabelIdentity,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedBriefcase01,
+    labelBuilder: (context) => context.l10n.iconLabelBusiness,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedAirplane01,
+    labelBuilder: (context) => context.l10n.iconLabelTravel,
+  ),
   IconAndLabel(
     icon: HugeIcons.strokeRoundedGroupItems,
-    label: 'Redes sociales',
+    labelBuilder: (context) => context.l10n.iconLabelSocial,
   ),
   IconAndLabel(
     icon: HugeIcons.strokeRoundedWebProgramming,
-    label: 'Sitios webs',
+    labelBuilder: (context) => context.l10n.iconLabelWebsites,
   ),
-  IconAndLabel(icon: HugeIcons.strokeRoundedCloudUpload, label: 'Respaldo'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedShield01, label: 'Protección'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedSettings01, label: 'Configuración'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedChart01, label: 'Estadísticas'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedPackageAdd, label: 'Servicios'),
-  IconAndLabel(icon: HugeIcons.strokeRoundedBank, label: 'Banca'),
-  IconAndLabel(icon: defaultIcon, label: 'Otros'),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedMail01,
+    labelBuilder: (context) => context.l10n.iconLabelEmail,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedBubbleChat,
+    labelBuilder: (context) => context.l10n.iconLabelMessaging,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedShoppingBag01,
+    labelBuilder: (context) => context.l10n.iconLabelShopping,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedGameController01,
+    labelBuilder: (context) => context.l10n.iconLabelGaming,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedSmartPhone01,
+    labelBuilder: (context) => context.l10n.iconLabelMobile,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedWifi01,
+    labelBuilder: (context) => context.l10n.iconLabelWifi,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedCloudUpload,
+    labelBuilder: (context) => context.l10n.iconLabelBackup,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedCloud,
+    labelBuilder: (context) => context.l10n.iconLabelCloud,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedShield01,
+    labelBuilder: (context) => context.l10n.iconLabelProtection,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedSettings01,
+    labelBuilder: (context) => context.l10n.iconLabelConfiguration,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedChart01,
+    labelBuilder: (context) => context.l10n.iconLabelStatistics,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedPackageAdd,
+    labelBuilder: (context) => context.l10n.iconLabelServices,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedCode,
+    labelBuilder: (context) => context.l10n.iconLabelDevelopment,
+  ),
+  IconAndLabel(
+    icon: HugeIcons.strokeRoundedBank,
+    labelBuilder: (context) => context.l10n.iconLabelBanking,
+  ),
+  IconAndLabel(
+    icon: defaultIcon,
+    labelBuilder: (context) => context.l10n.iconLabelOthers,
+  ),
 ];
 
 /// A reusable custom icon picker widget.
@@ -77,7 +164,10 @@ class _CustomIconPickerState extends State<CustomIconPicker> {
       context,
       initialIcon: currentIcon,
       currentIcon: currentIcon,
-      title: Text('Pick an icon', style: context.textTheme.titleMedium),
+      title: Text(
+        context.l10n.iconPickerTitle,
+        style: context.textTheme.titleMedium,
+      ),
     );
 
     if (pickedIcon != null && pickedIcon != currentIcon) {
@@ -127,6 +217,10 @@ Future<IconData?> showIconPickerDialog(
           return PopScope(
             canPop: true,
             child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kMobileCorner),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 4),
               title: title,
               content: SizedBox(
                 width: double.maxFinite,
@@ -137,7 +231,7 @@ Future<IconData?> showIconPickerDialog(
                     crossAxisCount: 4,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.6,
                   ),
                   itemBuilder: (context, index) {
                     final iconData = iconOptions[index];
@@ -145,7 +239,7 @@ Future<IconData?> showIconPickerDialog(
 
                     return InkWell(
                       onTap: () => setState(() => selectedIcon = iconData.icon),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -172,7 +266,7 @@ Future<IconData?> showIconPickerDialog(
                           const SizedBox(height: 2),
                           Expanded(
                             child: Text(
-                              iconData.label,
+                              iconData.label(context),
                               style: context.textTheme.labelSmall,
                               maxLines: 2,
                               textAlign: TextAlign.center,
@@ -187,11 +281,11 @@ Future<IconData?> showIconPickerDialog(
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(innerContext).pop(initialIcon),
-                  child: const Text('Cancelar'),
+                  child: Text(context.l10n.cancel),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(innerContext).pop(selectedIcon),
-                  child: const Text('Ok'),
+                  child: Text(context.l10n.ok),
                 ),
               ],
             ),

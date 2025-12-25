@@ -15,6 +15,7 @@ class CustomInkWell extends StatelessWidget {
     this.splashColor,
     this.highlightColor,
     this.enableFeedback = true,
+    this.hideGradient = false,
   });
 
   final Widget child;
@@ -26,7 +27,7 @@ class CustomInkWell extends StatelessWidget {
   final Color? splashColor;
   final Color? highlightColor;
   final bool enableFeedback;
-
+  final bool hideGradient;
   @override
   Widget build(BuildContext context) {
     final effectiveBorderRadius =
@@ -36,10 +37,11 @@ class CustomInkWell extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: effectiveBorderRadius,
+        splashColor: hideGradient ? Colors.transparent : splashColor,
+        highlightColor: hideGradient ? Colors.transparent : highlightColor,
+        hoverColor: hideGradient ? Colors.transparent : null,
         onTap: onTap,
         onLongPress: onLongPress,
-        splashColor: splashColor,
-        highlightColor: highlightColor,
         enableFeedback: enableFeedback,
         child: Padding(padding: padding, child: child),
       ),

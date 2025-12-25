@@ -36,11 +36,11 @@ class NotFoundPage extends StatelessWidget {
           ),
           const SizedBox(height: 8.0),
           Text(
-            'We couldn\'t find the page you were looking for.',
+            context.l10n.pageNotFoundSubtitle,
             style: context.textTheme.labelMedium?.copyWith(),
           ),
           const SizedBox(height: 12.0),
-          CustomButton(label: 'Go back', onPressed: () => context.pop()),
+          CustomButton(label: context.l10n.goBack, onPressed: () => context.pop()),
         ],
       ),
     );

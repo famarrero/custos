@@ -1,4 +1,6 @@
 import 'package:custos/routes/routes.dart';
+import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 extension GoRouterExtension on GoRouter {
@@ -19,15 +21,15 @@ extension GoRouterExtension on GoRouter {
   bool isMainRouteName(String name) =>
       name == PasswordsEntriesRoute.name || name == SettingsRoute.name;
 
-  /// Return the app bar tile based on the current route.
-  String get appBarTitle {
+  /// Return the app bar title based on the current route.
+  String appBarTitle(BuildContext context) {
     switch (currentRouteName) {
       case PasswordsEntriesRoute.name:
-        return 'Passwords';
+        return context.l10n.navPasswords;
       case GroupsRoute.name:
-        return 'Groups';
+        return context.l10n.navGroups;
       case SettingsRoute.name:
-        return 'Settings';
+        return context.l10n.navSettings;
       default:
         return '';
     }

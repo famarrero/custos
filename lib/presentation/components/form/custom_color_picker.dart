@@ -46,7 +46,7 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
     final Color pickedColor = await showColorPickerDialog(
       context,
       dialogPickerColor,
-      title: Text('Pick a color', style: context.textTheme.titleMedium),
+      title: Text(context.l10n.colorPickerTitle, style: context.textTheme.titleMedium),
     );
 
     if (pickedColor != dialogPickerColor) {
@@ -72,18 +72,20 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
             await colorPickerDialog();
           },
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.label, style: context.textTheme.bodyMedium),
-            Text(
-              ColorTools.materialName(
-                dialogPickerColor,
-                colorSwatchNameMap: ColorTools.primaryColorNames,
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.label, style: context.textTheme.bodyMedium),
+              Text(
+                ColorTools.materialName(
+                  dialogPickerColor,
+                  colorSwatchNameMap: ColorTools.primaryColorNames,
+                ),
+                style: context.textTheme.labelSmall,
               ),
-              style: context.textTheme.labelSmall,
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

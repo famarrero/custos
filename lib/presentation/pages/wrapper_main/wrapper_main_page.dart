@@ -54,7 +54,7 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
     if (isOutsideWindow) {
       _lastBackPressedAt = now;
       _armExitForTwoSeconds();
-      context.showSnackBar(message: 'Persione nuevamente para salir del app');
+      context.showSnackBar(message: context.l10n.pressAgainToExit);
       return;
     }
   }
@@ -67,16 +67,17 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
       child: ScaffoldWidget(
         safeAreaTop: true,
         appBar: CustomAppBar(
-          titleString: context.router.appBarTitle,
+          titleString: context.router.appBarTitle(context),
           actions: [
             CustomIconButton(
               icon: HugeIcons.strokeRoundedLogout01,
+              iconColor: context.colorScheme.primary,
               onTap: () {
                 context.showConfirmationDialog(
-                  title: '¿Estás seguro que deseas cerrar sesión?',
-                  labelLeftButton: 'Cancelar',
+                  title: context.l10n.confirmLogoutTitle,
+                  labelLeftButton: context.l10n.cancel,
                   onPressedLeftButton: (_) => context.pop(),
-                  labelRightButton: 'Salir',
+                  labelRightButton: context.l10n.logoutConfirmButton,
                   onPressedRightButton: (_) {
                     context.pop();
                     context.read<AuthCubit>().logout(GoRouter.of(context));

@@ -9,6 +9,7 @@ import 'package:custos/presentation/components/custom_bottom_modal_sheet.dart';
 import 'package:custos/presentation/components/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 
 /// Extension for [BuildContext] to facilitate access to our [AppLocalizations], [Theme] and others.
 extension BuildContextExtension on BuildContext {
@@ -71,51 +72,49 @@ extension BuildContextExtension on BuildContext {
     }
   }
 
-  /// Displays a custom [SnackBar] hidden the current one
+  /// Displays a custom toast hiding the current one (if any).
   ///
-  /// -`message`: The message to be displayed in the SnackBar.
+  /// -`message`: The message to be displayed in the toast.
   /// -`isErrorMessage` by default `false`: Indicates whether the message is an error. If `true`,
-  /// a [colorScheme.tertiaryContainer] background color will be applied.
-  /// -`adaptiveVariant`: An instance of `AdaptiveVariant` that determines the
-  /// width according to the variant
+  /// a [colorScheme.error] background color will be applied.
   void showSnackBar({
     required String message,
     bool isErrorMessage = false,
     Color? backgroundColor,
     Duration duration = const Duration(seconds: 3),
   }) {
-    ScaffoldMessenger.of(this)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          // Set the duration of the SnackBar
-          duration: duration,
+    // Hide any currently visible toast/snackbar-like notification.
+    toastification.dismissAll(delayForAnimation: false);
 
-          // Set the dismiss direction
-          dismissDirection: DismissDirection.horizontal,
+    final bg =
+        backgroundColor ??
+        (isErrorMessage ? colorScheme.error : colorScheme.secondary);
 
-          // Set the shape of the SnackBar
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-
-          // Set the background color of the SnackBar
-          backgroundColor:
-              backgroundColor ??
-              (isErrorMessage ? colorScheme.error : colorScheme.secondary),
-
-          // Set the behavior of the SnackBar
-          behavior: SnackBarBehavior.floating,
-
-          width: mediaQuery.size.width - kMobileHorizontalPadding * 2,
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-
-          // Set the content of the SnackBar
-          content: Text(
-            message,
-            textAlign: TextAlign.center,
-            style: textTheme.bodyMedium?.copyWith(color: Colors.white),
-          ),
-        ),
-      );
+    toastification.show(
+      context: this,
+      alignment: Alignment.bottomCenter,
+      autoCloseDuration: duration,
+      type: isErrorMessage ? ToastificationType.error : ToastificationType.info,
+      style: ToastificationStyle.flat,
+      showProgressBar: false,
+      showIcon: false,
+      closeOnClick: true,
+      dragToClose: true,
+      margin: const EdgeInsets.only(
+        left: kMobileHorizontalPadding,
+        right: kMobileHorizontalPadding,
+        bottom: 16,
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      borderRadius: BorderRadius.circular(8),
+      backgroundColor: bg,
+      foregroundColor: Colors.white,
+      title: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: textTheme.bodyMedium?.copyWith(color: Colors.white),
+      ),
+    );
   }
 
   /// Show a custom ModalBottomSheet

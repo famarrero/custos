@@ -1,4 +1,5 @@
 import 'package:custos/presentation/components/custom_badge.dart';
+import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,7 @@ class GroupFilters extends StatelessWidget {
                     );
                   },
                   child: CustomBadge(
-                    text: PasswordsEntriesCubit.groupAll.name,
+                    text: context.l10n.allGroups,
                     hideBackground:
                         state.selectedGroup?.id ==
                                 PasswordsEntriesCubit.groupAll.id

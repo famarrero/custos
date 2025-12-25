@@ -30,7 +30,7 @@ class AvatarWidget extends StatelessWidget {
         child:
             icon == null
                 ? SizedBox.square(
-                  dimension: compact ? 28 : 44.0,
+                  dimension: compact ? 28 : 54.0,
                   child: Center(
                     child: Text(
                       name.firstLetterToUpperCase,

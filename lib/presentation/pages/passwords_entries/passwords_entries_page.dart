@@ -66,9 +66,8 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                                   .watchPasswordsEntries(),
                       noDataWidget: NoDataWidget(
                         iconData: HugeIcons.strokeRoundedKey01,
-                        title: 'No passwords found',
-                        subtitle:
-                            'Create a password entry to manage your accounts.',
+                        title: context.l10n.passwordsNoPasswordsTitle,
+                        subtitle: context.l10n.passwordsNoPasswordsSubtitle,
                       ),
                       onDataChild: (passwordsEntries) {
                         return Column(
@@ -85,9 +84,10 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
 
                                   return CustomTextFormField(
                                     controller: _searchController,
-                                    hint: 'Search',
+                                    hint: context.l10n.passwordsSearchHint,
                                     prefixIcon: Icon(
                                       HugeIcons.strokeRoundedSearch01,
+                                      color: context.colorScheme.primary,
                                     ),
                                     suffixIcon:
                                         hasQuery
@@ -95,6 +95,8 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                                               icon:
                                                   HugeIcons
                                                       .strokeRoundedCancel01,
+                                              iconColor:
+                                                  context.colorScheme.primary,
                                               onTap: () {
                                                 context
                                                     .read<
@@ -131,8 +133,10 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                             if (passwordsEntries.isEmpty)
                               Expanded(
                                 child: NoDataWidget(
-                                  subtitle: 'No result for this filters',
-                                  retryLabel: 'Clean filters',
+                                  subtitle:
+                                      context.l10n.passwordsNoResultsSubtitle,
+                                  retryLabel:
+                                      context.l10n.passwordsCleanFilters,
                                   onRetryPressed: () {
                                     context
                                         .read<PasswordsEntriesCubit>()

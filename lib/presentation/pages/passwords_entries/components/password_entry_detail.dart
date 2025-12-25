@@ -47,7 +47,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
               ),
             ),
             TextButton(
-              child: Text('Edit'),
+              child: Text(context.l10n.edit),
               onPressed: () {
                 context.pop();
                 context.push(
@@ -64,12 +64,12 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
               iconSize: 18.0,
               onTap: () {
                 context.showConfirmationDialog(
-                  title: 'Are you sure you want delete this entry?',
-                  labelLeftButton: 'Cancel',
+                  title: context.l10n.confirmDeletePasswordEntryTitle,
+                  labelLeftButton: context.l10n.cancel,
                   onPressedLeftButton: (value) {
                     context.pop();
                   },
-                  labelRightButton: 'Delete',
+                  labelRightButton: context.l10n.delete,
                   onPressedRightButton: (value) {
                     context
                       ..pop()
@@ -84,20 +84,32 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
           ],
         ),
         if (widget.passwordEntry.url.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Url', data: widget.passwordEntry.url!),
+          _infoItem(
+            context,
+            label: context.l10n.fieldUrl,
+            data: widget.passwordEntry.url!,
+          ),
         if (widget.passwordEntry.username.isNotNullAndNotEmpty)
           _infoItem(
             context,
-            label: 'Username',
+            label: context.l10n.fieldUsername,
             data: widget.passwordEntry.username!,
           ),
         if (widget.passwordEntry.email.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Email', data: widget.passwordEntry.email!),
+          _infoItem(
+            context,
+            label: context.l10n.fieldEmail,
+            data: widget.passwordEntry.email!,
+          ),
         if (widget.passwordEntry.phone.isNotNullAndNotEmpty)
-          _infoItem(context, label: 'Phone', data: widget.passwordEntry.phone!),
+          _infoItem(
+            context,
+            label: context.l10n.fieldPhone,
+            data: widget.passwordEntry.phone!,
+          ),
         _infoItem(
           context,
-          label: 'Password',
+          label: context.l10n.fieldPassword,
           data: widget.passwordEntry.password,
           enableCopy: true,
           occultData: true,
@@ -105,7 +117,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
         if (widget.passwordEntry.note.isNotNullAndNotEmpty)
           _infoItem(
             context,
-            label: 'Note',
+            label: context.l10n.fieldNote,
             data: widget.passwordEntry.note!,
             crossAxisAlignment: CrossAxisAlignment.start,
           ),
@@ -176,7 +188,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: data));
                       context.showSnackBar(
-                        message: 'Password copy to clipboard',
+                        message: context.l10n.passwordCopiedToClipboard,
                       );
                     },
                   ),

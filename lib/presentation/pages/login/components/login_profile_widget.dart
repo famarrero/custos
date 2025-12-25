@@ -34,7 +34,10 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
         children: [
           Column(
             children: [
-              Text('Login in profile', style: context.textTheme.titleMedium),
+              Text(
+                context.l10n.loginInProfileTitle,
+                style: context.textTheme.titleMedium,
+              ),
               Text(
                 '(${widget.profile.name})',
                 style: context.textTheme.bodyMedium,
@@ -44,7 +47,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
 
           CustomTextFormField(
             controller: _masterKeyController,
-            label: 'Master key',
+            label: context.l10n.fieldMasterKey,
             isRequired: true,
             obscureText: true,
             validator: context.validatePassword,
@@ -53,7 +56,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               return CustomButton(
-                label: 'Login',
+                label: context.l10n.loginButton,
                 isLoading: state.loginState.isLoading,
                 infiniteWidth: true,
                 onPressed: () {

@@ -67,7 +67,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
               children: [
                 CustomTextFormField(
                   controller: _nameController,
-                  label: 'Group name',
+                  label: context.l10n.upsertGroupNameLabel,
                   isRequired: true,
                   validator: context.validateRequired,
                   textCapitalization: TextCapitalization.sentences,
@@ -76,7 +76,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
                 ),
 
                 CustomIconPicker(
-                  label: 'Select icon for group',
+                  label: context.l10n.upsertGroupSelectIconLabel,
                   selectedIcon: _icon,
                   onIconSelected: (icon) {
                     setState(() {
@@ -86,7 +86,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
                 ),
 
                 CustomColorPicker(
-                  label: 'Select color for group',
+                  label: context.l10n.upsertGroupSelectColorLabel,
                   selectedColor: _color,
                   onColorSelected: (color) {
                     setState(() {
@@ -102,13 +102,16 @@ class _UpsertGroupState extends State<UpsertGroup> {
                     // Cancel
                     CustomButton(
                       type: CustomTextButtonEnum.outlined,
-                      label: 'Cancel',
+                      label: context.l10n.cancel,
                       onPressed: () => context.pop(),
                     ),
 
                     // Add/Edit group
                     CustomButton(
-                      label: widget.group == null ? 'Add' : 'Save',
+                      label:
+                          widget.group == null
+                              ? context.l10n.add
+                              : context.l10n.save,
                       isLoading: state.upsertGroupState.isLoading,
                       onPressed: () => _upsertGroup(context),
                     ),

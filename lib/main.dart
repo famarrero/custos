@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   // Some packages require this in order to be initialized.
@@ -40,21 +41,25 @@ void main() async {
       DeviceOrientation.portraitDown,
     ]).then((_) {
       runApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (_) => AppCubit(themeMode: themeMode, locale: locale),
-            ),
-            BlocProvider(create: (_) => AuthCubit()),
-          ],
-          child: const CustosApp(),
+        ToastificationWrapper(
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => AppCubit(themeMode: themeMode, locale: locale),
+              ),
+              BlocProvider(create: (_) => AuthCubit()),
+            ],
+            child: const CustosApp(),
+          ),
         ),
       );
     });
   } catch (e) {
     runApp(
-      CustosErrorApp(
-        failure: AppFailure(AppError.unknown, message: e.toString()),
+      ToastificationWrapper(
+        child: CustosErrorApp(
+          failure: AppFailure(AppError.unknown, message: e.toString()),
+        ),
       ),
     );
   }

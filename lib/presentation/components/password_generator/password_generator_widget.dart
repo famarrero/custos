@@ -18,14 +18,20 @@ class PasswordGeneratorWidget extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Password length', style: context.textTheme.titleMedium),
+              Text(
+                context.l10n.passwordGeneratorLengthTitle,
+                style: context.textTheme.titleMedium,
+              ),
 
               const SizedBox(height: 16.0),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Characters', style: context.textTheme.bodyMedium),
+                  Text(
+                    context.l10n.passwordGeneratorCharactersLabel,
+                    style: context.textTheme.bodyMedium,
+                  ),
                   Text(
                     state.length.toString(),
                     style: context.textTheme.bodyMedium,
@@ -47,10 +53,13 @@ class PasswordGeneratorWidget extends StatelessWidget {
                 },
               ),
 
-              Text('Include', style: context.textTheme.titleMedium),
+              Text(
+                context.l10n.passwordGeneratorIncludeTitle,
+                style: context.textTheme.titleMedium,
+              ),
 
               CustomCheckBoxTitle(
-                title: 'Uppercase letters',
+                title: context.l10n.passwordGeneratorUppercaseTitle,
                 value: state.includeUppercase,
                 onChanged: (value) {
                   context.read<PasswordGeneratorCubit>().updateValues(
@@ -60,7 +69,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
               ),
 
               CustomCheckBoxTitle(
-                title: 'Lowercase letters',
+                title: context.l10n.passwordGeneratorLowercaseTitle,
                 value: state.includeLowercase,
                 onChanged: (value) {
                   context.read<PasswordGeneratorCubit>().updateValues(
@@ -70,7 +79,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
               ),
 
               CustomCheckBoxTitle(
-                title: 'Numbers',
+                title: context.l10n.passwordGeneratorNumbersTitle,
                 value: state.includeNumbers,
                 onChanged: (value) {
                   context.read<PasswordGeneratorCubit>().updateValues(
@@ -80,7 +89,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
               ),
 
               CustomCheckBoxTitle(
-                title: 'Symbols',
+                title: context.l10n.passwordGeneratorSymbolsTitle,
                 value: state.includeSymbols,
                 onChanged: (value) {
                   context.read<PasswordGeneratorCubit>().updateValues(
@@ -92,7 +101,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
               const SizedBox(height: 16.0),
 
               CustomButton(
-                label: 'Generate Password',
+                label: context.l10n.passwordGeneratorGenerateButton,
                 infiniteWidth: true,
                 onPressed:
                     () =>

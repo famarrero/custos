@@ -70,18 +70,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           spacing: 24.0,
                           children: [
                             Text(
-                              'Create a new profile',
+                              context.l10n.registerCreateProfileTitle,
                               style: context.textTheme.headlineLarge,
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              'Please enter the profile name and master key to create a new profile.',
+                              context.l10n.registerCreateProfileSubtitle,
                               style: context.textTheme.bodySmall,
                               textAlign: TextAlign.center,
                             ),
                             CustomTextFormField(
                               controller: _profileNameController,
-                              label: 'Profile name',
+                              label: context.l10n.fieldProfileName,
                               isRequired: true,
                               textCapitalization: TextCapitalization.sentences,
                               textInputAction: TextInputAction.next,
@@ -89,14 +89,14 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             CustomTextFormField(
                               controller: _masterKeyController,
-                              label: 'Master key',
+                              label: context.l10n.fieldMasterKey,
                               isRequired: true,
                               obscureText: true,
                               validator: context.validatePassword,
                             ),
                             CustomTextFormField(
                               controller: _repeatMasterKeyController,
-                              label: 'Repeat master key',
+                              label: context.l10n.fieldRepeatMasterKey,
                               isRequired: true,
                               obscureText: true,
                               validator:
@@ -107,11 +107,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             WarningWidget(
                               text:
-                                  'Please use a complex master key for better security. It is recommended to use at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.',
+                                  context.l10n.registerWarningComplexMasterKey,
                             ),
                             WarningWidget(
                               text:
-                                  'If you forget the master key, you will not be able to recover your data.',
+                                  context.l10n.registerWarningForgetMasterKey,
                             ),
                             const SizedBox(height: 4.0),
                           ],
@@ -120,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 4.0),
                     CustomButton(
-                      label: 'Create profile',
+                      label: context.l10n.registerCreateProfileButton,
                       isLoading: state.addProfile.isLoading,
                       infiniteWidth: true,
                       onPressed: () {

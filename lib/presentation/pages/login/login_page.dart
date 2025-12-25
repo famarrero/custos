@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               return Column(
                 children: [
                   Text(
-                    'Welcome back!',
+                    context.l10n.loginWelcomeBackTitle,
                     style: context.textTheme.headlineLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 12.0),
 
                   Text(
-                    'Select a profile',
+                    context.l10n.loginSelectProfileSubtitle,
                     style: context.textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
@@ -67,9 +67,9 @@ class _LoginPageState extends State<LoginPage> {
                           () => context.read<LoginCubit>().watchProfiles(),
                       noDataWidget: NoDataWidget(
                         iconData: HugeIcons.strokeRoundedUser02,
-                        title: 'No profile yet',
+                        title: context.l10n.loginNoProfileTitle,
                         subtitle:
-                            'When you create a profile they will appear here. Clink in Create profile button to add.',
+                            context.l10n.loginNoProfileSubtitle,
                       ),
                       onDataChild: (profiles) {
                         return ListView.separated(
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 24.0),
 
                   Text(
-                    'Or create one',
+                    context.l10n.loginOrCreateOne,
                     style: context.textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   CustomButton(
                     prefixIconData: HugeIcons.strokeRoundedUserAdd01,
-                    label: 'Create profile',
+                    label: context.l10n.loginCreateProfileButton,
                     infiniteWidth: true,
                     onPressed: () {
                       context.push(RegisterRoute().location);

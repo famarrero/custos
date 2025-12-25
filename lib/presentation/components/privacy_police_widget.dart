@@ -14,7 +14,7 @@ class PrivacyPoliceWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error loading privacy policy: ${snapshot.error}');
+          return Text(context.l10n.privacyPolicyLoadError(snapshot.error!));
         } else {
           return MarkdownBody(
             data: snapshot.data!,

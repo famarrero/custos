@@ -22,7 +22,7 @@ class GroupsPage extends StatelessWidget {
           child: Icon(HugeIcons.strokeRoundedAdd01),
           onPressed: () {
             context.showCustomGeneralDialog(
-              title: 'Add group',
+              title: context.l10n.groupsAddGroupTitle,
               child: UpsertGroup(),
             );
           },
@@ -38,8 +38,8 @@ class GroupsPage extends StatelessWidget {
               onRetryPressed: () => context.read<GroupsCubit>().watchGroups(),
               noDataWidget: NoDataWidget(
                 iconData: HugeIcons.strokeRoundedGroup01,
-                title: 'No groups found',
-                subtitle: 'Create a group to manage your users and resources.',
+                title: context.l10n.groupsNoGroupsTitle,
+                subtitle: context.l10n.groupsNoGroupsSubtitle,
               ),
               onDataChild: (groups) {
                 return ListView.separated(

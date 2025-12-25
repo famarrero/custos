@@ -49,7 +49,7 @@ class GroupTile extends StatelessWidget {
             iconSize: 18.0,
             onTap: () {
               context.showCustomGeneralDialog(
-                title: 'Edit group',
+                title: context.l10n.groupsEditGroupTitle,
                 child: UpsertGroup(group: group),
               );
             },
@@ -62,12 +62,12 @@ class GroupTile extends StatelessWidget {
             iconSize: 18.0,
             onTap: () {
               context.showConfirmationDialog(
-                title: 'Are you sure you want delete this entry?',
-                labelLeftButton: 'Cancel',
+                title: context.l10n.confirmDeleteGroupTitle,
+                labelLeftButton: context.l10n.cancel,
                 onPressedLeftButton: (value) {
                   context.pop();
                 },
-                labelRightButton: 'Delete',
+                labelRightButton: context.l10n.delete,
                 onPressedRightButton: (value) {
                   context.pop();
                   di<GroupRepository>().deleteGroup(id: group.id);

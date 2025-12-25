@@ -57,8 +57,8 @@ class SettingsPage extends StatelessWidget {
                       isDarkMode
                           ? HugeIcons.strokeRoundedMoon02
                           : HugeIcons.strokeRoundedSun02,
-                  title: 'Theme mode',
-                  subtitle: 'Choose between light and dark mode.',
+                  title: context.l10n.settingsThemeModeTitle,
+                  subtitle: context.l10n.settingsThemeModeSubtitle,
                   onTap: () {
                     context.read<AppCubit>().onThemeChanged();
                   },
@@ -66,11 +66,11 @@ class SettingsPage extends StatelessWidget {
 
                 CustomSettingTile(
                   prefixIconPath: HugeIcons.strokeRoundedLanguageSquare,
-                  title: 'Language',
-                  subtitle: 'Select your preferred language.',
+                  title: context.l10n.settingsLanguageTitle,
+                  subtitle: context.l10n.settingsLanguageSubtitle,
                   onTap: () {
                     context.showCustomModalBottomSheet(
-                      title: 'Change language',
+                      title: context.l10n.settingsChangeLanguageTitle,
                       child: ChangeLanguageWidget(),
                     );
                   },
@@ -78,8 +78,8 @@ class SettingsPage extends StatelessWidget {
 
                 CustomSettingTile(
                   prefixIconPath: HugeIcons.strokeRoundedShield01,
-                  title: 'Privacy policy',
-                  subtitle: 'Review the privacy policy of the app.',
+                  title: context.l10n.settingsPrivacyPolicyTitle,
+                  subtitle: context.l10n.settingsPrivacyPolicySubtitle,
                   onTap: () {
                     context.showCustomModalBottomSheet(
                       child: PrivacyPoliceWidget(),
@@ -89,15 +89,14 @@ class SettingsPage extends StatelessWidget {
 
                 CustomSettingTile(
                   prefixIconPath: HugeIcons.strokeRoundedDelete01,
-                  title: 'Remove profile',
-                  subtitle: 'Delete the current profile.',
+                  title: context.l10n.settingsRemoveProfileTitle,
+                  subtitle: context.l10n.settingsRemoveProfileSubtitle,
                   onTap: () {
                     context.showConfirmationDialog(
-                      title:
-                          '¿Estás seguro que deseas eliminar este perfil? Esta acción no se puede deshacer.',
-                      labelLeftButton: 'Cancel',
+                      title: context.l10n.settingsRemoveProfileConfirmTitle,
+                      labelLeftButton: context.l10n.cancel,
                       onPressedLeftButton: (_) => context.pop(),
-                      labelRightButton: 'Delete',
+                      labelRightButton: context.l10n.delete,
                       backgroundColorRight: context.colorScheme.error,
                       onPressedRightButton: (value) {
                         if (value) {
@@ -107,14 +106,14 @@ class SettingsPage extends StatelessWidget {
                           context.pop();
                         }
                       },
-                      checkBoxTitle: '¡Estoy seguro!',
+                      checkBoxTitle: context.l10n.settingsRemoveProfileConfirmCheckbox,
                     );
                   },
                 ),
 
                 CustomSettingTile(
                   prefixIconPath: HugeIcons.strokeRoundedInformationCircle,
-                  title: 'About us',
+                  title: context.l10n.settingsAboutUsTitle,
                   onTap: () {},
                 ),
               ],
@@ -129,13 +128,15 @@ class SettingsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'custos',
+                  context.l10n.custos,
                   style: context.textTheme.titleLarge?.copyWith(
                     color: context.colorScheme.primary,
                   ),
                 ),
                 Text(
-                  'Versión ${di<PackageInfoService>().getAppVersion()}',
+                  context.l10n.appVersion(
+                    di<PackageInfoService>().getAppVersion(),
+                  ),
                   style: context.textTheme.labelSmall,
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/go_router_extension.dart';
 import 'package:custos/core/utils/constants.dart';
+import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:custos/presentation/components/custom_navigation_bar/cubit/custom_navigation_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,7 +71,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 _bottomBarItem(
                   context: context,
                   path: HugeIcons.strokeRoundedKey01,
-                  label: 'Passwords',
+                  label: context.l10n.navPasswords,
                   isSelected: state.currentPage.$1 == 0,
                   onTap: () {
                     _customNavigationBarCubit.onPageChanged(page: 0);
@@ -79,7 +80,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 _bottomBarItem(
                   context: context,
                   path: HugeIcons.strokeRoundedGroup01,
-                  label: 'Groups',
+                  label: context.l10n.navGroups,
                   isSelected: state.currentPage.$1 == 1,
                   onTap: () {
                     _customNavigationBarCubit.onPageChanged(page: 1);
@@ -88,7 +89,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 _bottomBarItem(
                   context: context,
                   path: HugeIcons.strokeRoundedSettings01,
-                  label: 'Settings',
+                  label: context.l10n.navSettings,
                   isSelected: state.currentPage.$1 == 2,
                   onTap: () {
                     _customNavigationBarCubit.onPageChanged(page: 2);
@@ -110,7 +111,9 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     required bool isSelected,
     required Function()? onTap,
   }) {
-    return GestureDetector(
+    return CustomInkWell(
+      padding: EdgeInsets.zero,
+      hideGradient: true,
       onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
