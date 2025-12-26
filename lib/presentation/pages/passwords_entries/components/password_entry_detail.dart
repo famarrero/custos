@@ -4,8 +4,9 @@ import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/di_container.dart';
+import 'package:custos/presentation/components/custom_badge.dart';
+import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
-import 'package:custos/presentation/pages/groups/components/group_tile.dart';
 import 'package:custos/routes/routes.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -27,28 +28,26 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(widget.passwordEntry.name, style: context.textTheme.titleMedium),
         Row(
+          spacing: context.lg,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: context.m,
-                children: [
-                  Text(
-                    widget.passwordEntry.name,
-                    style: context.textTheme.titleMedium,
-                  ),
-                  if (widget.passwordEntry.group != null)
-                    GroupTile(
-                      compact: true,
-                      group: widget.passwordEntry.group!,
-                    ),
-                ],
+            if (widget.passwordEntry.group != null)
+              CustomBadge(
+                icon: widget.passwordEntry.group!.icon,
+                text: widget.passwordEntry.group!.name,
+                color: widget.passwordEntry.group!.color,
+                height: 38,
+                corner: context.corner() * 0.6,
               ),
-            ),
-            TextButton(
-              child: Text(context.l10n.edit),
+
+            const Spacer(),
+
+            CustomButton(
+              type: CustomTextButtonEnum.filled,
+              label: context.l10n.edit,
               onPressed: () {
                 context.pop();
                 context.push(
@@ -62,7 +61,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
               icon: AppIcons.delete,
               backgroundColor: context.colorScheme.errorContainer,
               iconColor: context.colorScheme.onErrorContainer,
-              iconSize: 18.0,
+              iconSize: 24.0,
               onTap: () {
                 context.showConfirmationDialog(
                   title: context.l10n.confirmDeletePasswordEntryTitle,

@@ -25,7 +25,7 @@ class PasswordEntryTile extends StatelessWidget {
             child: PasswordEntryDetail(passwordEntry: passwordEntry),
           ),
       child: CustomContainer(
-        padding: EdgeInsets.symmetric(vertical: context.xxl, horizontal: context.xl),
+        padding: EdgeInsets.symmetric(vertical: context.xxl, horizontal: context.xxl),
         child: Row(
           spacing: 16.0,
           children: [
