@@ -1,6 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/color_scheme_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -218,19 +218,19 @@ Future<IconData?> showIconPickerDialog(
             canPop: true,
             child: AlertDialog(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(kMobileCorner),
+                borderRadius: BorderRadius.circular(context.corner()),
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+              contentPadding: EdgeInsets.symmetric(horizontal: context.s),
               title: title,
               content: SizedBox(
                 width: double.maxFinite,
                 child: GridView.builder(
                   shrinkWrap: true,
                   itemCount: iconOptions.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
+                    mainAxisSpacing: context.lg,
+                    crossAxisSpacing: context.lg,
                     childAspectRatio: 0.6,
                   ),
                   itemBuilder: (context, index) {
@@ -239,7 +239,7 @@ Future<IconData?> showIconPickerDialog(
 
                     return InkWell(
                       onTap: () => setState(() => selectedIcon = iconData.icon),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(context.m),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -250,10 +250,10 @@ Future<IconData?> showIconPickerDialog(
                                       ? context.colorScheme.primary
                                       : Colors.transparent,
                               borderRadius: BorderRadius.circular(
-                                kMobileCorner,
+                                context.corner(),
                               ),
                             ),
-                            padding: const EdgeInsets.all(6),
+                            padding: EdgeInsets.all(context.sm),
                             child: Icon(
                               iconData.icon,
                               size: 32,
@@ -263,7 +263,7 @@ Future<IconData?> showIconPickerDialog(
                                       : context.colorScheme.blackAndWith,
                             ),
                           ),
-                          const SizedBox(height: 2),
+                          SizedBox(height: context.xs),
                           Expanded(
                             child: Text(
                               iconData.label(context),

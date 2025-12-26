@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/form/custom_check_box_title.dart';
 import 'package:flutter/material.dart';
 
@@ -130,20 +130,18 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
 
     return Center(
       child: Container(
-        constraints: const BoxConstraints(
-          maxWidth: kMobileMaxColumnWidthInDialog,
-        ),
-        margin: const EdgeInsets.all(24),
+        constraints: BoxConstraints(maxWidth: context.dialogWidth()),
+        margin: EdgeInsets.all(context.xxxl),
         decoration: BoxDecoration(
           color: context.colorScheme.surface,
-          borderRadius: BorderRadius.circular(kMobileCorner),
+          borderRadius: BorderRadius.circular(context.corner()),
         ),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(context.xl),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 10.0),
+              SizedBox(height: context.md),
               // Dialog title
               Text(
                 widget.title ?? context.l10n.sureWantPerformThisAction,
@@ -152,12 +150,12 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   color: context.colorScheme.onSurface,
                 ),
               ),
-              const SizedBox(height: 8.0),
+              SizedBox(height: context.m),
 
               // Additional content
               if (widget.child != null) ...[
                 Align(child: widget.child!),
-                const SizedBox(height: 8.0),
+                SizedBox(height: context.m),
               ],
 
               // Checkbox
@@ -177,7 +175,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                     },
                   ),
                 ),
-                const SizedBox(height: 8.0),
+                SizedBox(height: context.m),
               ],
 
               // Buttons
@@ -196,7 +194,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                                   : null,
                           child: Text(widget.labelLeftButton!),
                         ),
-                        const SizedBox(width: 24),
+                        SizedBox(width: context.xxxl),
                       ],
                       if (widget.labelRightButton != null)
                         TextButton(

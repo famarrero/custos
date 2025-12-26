@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 InputDecoration getInputDecoration(
@@ -8,6 +8,8 @@ InputDecoration getInputDecoration(
   String? label,
   String? hint,
   String? errorText,
+  bool? filled,
+  Color? fillColor,
   bool enabled = true,
   bool isDense = true,
   bool isCollapsed = false,
@@ -20,11 +22,11 @@ InputDecoration getInputDecoration(
   TextStyle? hintStyle,
 }) {
   OutlineInputBorder border0({Color? borderColor}) => OutlineInputBorder(
-    borderRadius: BorderRadius.circular(corner ?? kMobileCorner),
+    borderRadius: BorderRadius.circular(corner ?? context.corner()),
     borderSide: BorderSide(
-      color: borderColor ?? context.colorScheme.primary.withValues(alpha: 0.8),
+      color: borderColor ?? context.colorScheme.primary.withValues(alpha: 0.4),
       style: BorderStyle.solid,
-      width: kMobileBorderSideWidth,
+      width: context.border(),
     ),
   );
 
@@ -32,6 +34,8 @@ InputDecoration getInputDecoration(
     enabled: enabled,
     isDense: isDense,
     isCollapsed: isCollapsed,
+    filled: filled ?? true,
+    fillColor: fillColor ?? Colors.white,
     enabledBorder: border ?? border0(),
     disabledBorder: border ?? border0(),
     focusedBorder: border ?? border0(),
@@ -57,7 +61,7 @@ InputDecoration getInputDecoration(
     hintStyle:
         hintStyle ??
         context.textTheme.labelMedium?.copyWith(
-          color: context.colorScheme.onSurface,
+          color: context.colorScheme.onSurface.withValues(alpha: 0.4),
         ),
     errorText: errorText,
     errorStyle: context.textTheme.labelMedium?.copyWith(

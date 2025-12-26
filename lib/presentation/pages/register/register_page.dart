@@ -1,6 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
@@ -56,8 +56,8 @@ class _RegisterPageState extends State<RegisterPage> {
             return ScaffoldWidget(
               appBar: CustomAppBar(),
               padding: EdgeInsets.symmetric(
-                vertical: kMobileVerticalPadding,
-                horizontal: kMobileHorizontalPadding,
+                vertical: context.xxxl,
+                horizontal: context.xxxl,
               ),
               child: Form(
                 key: _formKey,
@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 24.0,
+                          spacing: context.xxxl,
                           children: [
                             Text(
                               context.l10n.registerCreateProfileTitle,
@@ -113,12 +113,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               text:
                                   context.l10n.registerWarningForgetMasterKey,
                             ),
-                            const SizedBox(height: 4.0),
+                            SizedBox(height: context.s),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4.0),
+                    SizedBox(height: context.s),
                     CustomButton(
                       label: context.l10n.registerCreateProfileButton,
                       isLoading: state.addProfile.isLoading,

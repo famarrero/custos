@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/di_container.dart';
@@ -32,7 +33,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8.0,
+                spacing: context.m,
                 children: [
                   Text(
                     widget.passwordEntry.name,
@@ -138,14 +139,14 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: EdgeInsets.all(context.sm),
           child: Icon(icon, color: context.colorScheme.secondary),
         ),
       );
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: EdgeInsets.symmetric(vertical: context.lg),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: crossAxisAlignment,
@@ -167,7 +168,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
             ),
           ),
           if (occultData || enableCopy) ...[
-            const SizedBox(width: 8.0),
+            SizedBox(width: context.m),
             Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,

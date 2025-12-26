@@ -1,8 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/extensions/color_scheme_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -98,7 +97,7 @@ class _CustomButtonState extends State<CustomButton> {
               bottom: 0,
               child: FittedBox(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(context.m),
                   child: CustomCircularProgressIndicator(
                     color:
                         widget.foregroundColor ??
@@ -120,7 +119,7 @@ class _CustomButtonState extends State<CustomButton> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: widget.horizontalTextPadding ?? 12.0),
+                SizedBox(width: widget.horizontalTextPadding ?? context.lg),
                 if (widget.prefixIconData != null) ...[
                   Icon(
                     widget.prefixIconData,
@@ -131,27 +130,30 @@ class _CustomButtonState extends State<CustomButton> {
                             : context.colorScheme.primary),
                     size: 22,
                   ),
-                  const SizedBox(width: 8.0),
+                  SizedBox(width: context.m),
                 ],
                 SizedBox(
                   width: widget.fixedWidth,
                   child: Center(
                     child: FittedBox(
-                      child: Text(
-                        widget.label,
-                        style: context.textTheme.titleSmall?.copyWith(
-                          color:
-                              widget.foregroundColor ??
-                              (widget.type == CustomTextButtonEnum.filled
-                                  ? Colors.white
-                                  : context.colorScheme.primary),
-                          height: 2,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: context.md),
+                        child: Text(
+                          widget.label,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color:
+                                widget.foregroundColor ??
+                                (widget.type == CustomTextButtonEnum.filled
+                                    ? Colors.white
+                                    : context.colorScheme.primary),
+                            height: 2.6,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: widget.horizontalTextPadding ?? 12.0),
+                SizedBox(width: widget.horizontalTextPadding ?? context.lg),
               ],
             ),
           ),
@@ -194,10 +196,10 @@ class _CustomButtonState extends State<CustomButton> {
                     : BorderSide(
                       color:
                           widget.foregroundColor ?? context.colorScheme.primary,
-                      width: kMobileBorderSideWidth,
+                      width: context.border(),
                     ),
             borderRadius: BorderRadius.all(
-              Radius.circular(widget.corner ?? kMobileCorner),
+              Radius.circular(widget.corner ?? context.corner()),
             ),
           ),
         ),

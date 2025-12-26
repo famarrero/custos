@@ -1,5 +1,5 @@
-import 'package:custos/core/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 
 /// Standardized InkWell wrapper that guarantees a [Material] ancestor and
 /// applies padding around the [child].
@@ -9,7 +9,7 @@ class CustomInkWell extends StatelessWidget {
     required this.child,
     this.onTap,
     this.onLongPress,
-    this.padding = const EdgeInsets.symmetric(horizontal: 2.0, vertical: 8.0),
+    this.padding,
     this.corner,
     this.borderRadius,
     this.splashColor,
@@ -21,7 +21,7 @@ class CustomInkWell extends StatelessWidget {
   final Widget child;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final double? corner;
   final BorderRadius? borderRadius;
   final Color? splashColor;
@@ -31,7 +31,9 @@ class CustomInkWell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveBorderRadius =
-        borderRadius ?? BorderRadius.circular(corner ?? kMobileCorner);
+        borderRadius ?? BorderRadius.circular(corner ?? context.corner());
+    final effectivePadding =
+        padding ?? EdgeInsets.symmetric(horizontal: context.xs, vertical: context.m);
 
     return Material(
       color: Colors.transparent,
@@ -43,7 +45,7 @@ class CustomInkWell extends StatelessWidget {
         onTap: onTap,
         onLongPress: onLongPress,
         enableFeedback: enableFeedback,
-        child: Padding(padding: padding, child: child),
+        child: Padding(padding: effectivePadding, child: child),
       ),
     );
   }

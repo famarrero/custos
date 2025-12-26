@@ -1,6 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/go_router_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:custos/presentation/components/custom_navigation_bar/cubit/custom_navigation_bar_cubit.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +55,9 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       },
       builder: (context, state) {
         return ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(kMobileCorner),
-            topLeft: Radius.circular(kMobileCorner),
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(context.corner()),
+            topLeft: Radius.circular(context.corner()),
           ),
           child: BottomAppBar(
             color: Colors.transparent,
@@ -117,30 +117,24 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 4.0,
         children: [
-          Column(
-            spacing: 4.0,
-            children: [
-              Icon(
-                path,
-                color:
-                    isSelected
-                        ? context.colorScheme.primary
-                        : context.colorScheme.onSurface.withValues(alpha: 0.6),
-                size: 24.0,
-              ),
-              Text(
-                label,
-                style: context.textTheme.labelSmall?.copyWith(
-                  color:
-                      isSelected
-                          ? context.colorScheme.primary
-                          : context.colorScheme.onSurface.withValues(
-                            alpha: 0.6,
-                          ),
-                ),
-              ),
-            ],
+          Icon(
+            path,
+            color:
+                isSelected
+                    ? context.colorScheme.primary
+                    : context.colorScheme.onSurface.withValues(alpha: 0.6),
+            size: 24.0,
+          ),
+          Text(
+            label,
+            style: context.textTheme.labelSmall?.copyWith(
+              color:
+                  isSelected
+                      ? context.colorScheme.primary
+                      : context.colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),

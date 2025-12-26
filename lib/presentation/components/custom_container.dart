@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 /// A reusable container with app-default corner radius and an optional primary border.
@@ -29,9 +29,10 @@ class CustomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveCorner = corner ?? kMobileCorner;
-    final effectiveBorderWidth = borderWidth ?? kMobileBorderSideWidth;
-    final effectiveBorderColor = (borderColor ?? context.colorScheme.primary).withValues(alpha: 0.8);
+    final effectiveCorner = corner ?? context.corner();
+    final effectiveBorderWidth = borderWidth ?? context.border();
+    final effectiveBorderColor =
+        (borderColor ?? context.colorScheme.primary).withValues(alpha: 0.8);
 
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(effectiveCorner),

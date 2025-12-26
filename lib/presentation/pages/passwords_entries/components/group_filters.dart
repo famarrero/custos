@@ -1,5 +1,6 @@
 import 'package:custos/presentation/components/custom_badge.dart';
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class GroupFilters extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                const SizedBox(width: 16.0),
+                SizedBox(width: context.xl),
 
                 GestureDetector(
                   onTap: () {
@@ -26,17 +27,17 @@ class GroupFilters extends StatelessWidget {
                   },
                   child: CustomBadge(
                     text: context.l10n.allGroups,
-                    hideBackground:
+                    height:
                         state.selectedGroup?.id ==
                                 PasswordsEntriesCubit.groupAll.id
-                            ? false
-                            : true,
+                            ? 38
+                            : 32,
                   ),
                 ),
-                const SizedBox(width: 4.0),
+                SizedBox(width: context.s),
                 ...state.groups.data.map(
                   (group) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    padding: EdgeInsets.symmetric(horizontal: context.s),
                     child: GestureDetector(
                       onTap: () {
                         context
@@ -50,13 +51,13 @@ class GroupFilters extends StatelessWidget {
                         icon: group.icon,
                         text: group.name,
                         color: group.color,
-                        hideBackground:
-                            state.selectedGroup?.id == group.id ? false : true,
+                        height:
+                            state.selectedGroup?.id == group.id ? 38 : 32,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16.0),
+                SizedBox(width: context.xl),
               ],
             ),
           );

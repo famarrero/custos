@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/theme_mode_extension.dart';
 import 'package:custos/core/services/package_info_service.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
@@ -25,14 +26,17 @@ class SettingsPage extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.xxxl,
+        vertical: context.lg,
+      ),
       child: Column(
         children: [
           if (profileName != null && profileName.trim().isNotEmpty) ...[
             Row(
               children: [
                 AvatarWidget(color: null, name: profileName),
-                const SizedBox(width: 12),
+                SizedBox(width: context.lg),
                 Expanded(
                   child: Text(
                     profileName,
@@ -43,12 +47,12 @@ class SettingsPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: context.xxxl),
           ],
           CustomContainer(
-            padding: const EdgeInsets.symmetric(
-              vertical: 12.0,
-              horizontal: 4.0,
+            padding: EdgeInsets.symmetric(
+              vertical: context.lg,
+              horizontal: context.s,
             ),
             child: CustomTilesOptions(
               tiles: [
@@ -106,7 +110,8 @@ class SettingsPage extends StatelessWidget {
                           context.pop();
                         }
                       },
-                      checkBoxTitle: context.l10n.settingsRemoveProfileConfirmCheckbox,
+                      checkBoxTitle:
+                          context.l10n.settingsRemoveProfileConfirmCheckbox,
                     );
                   },
                 ),
@@ -120,10 +125,10 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 38.0),
+          SizedBox(height: context.space(9.5)),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28.0),
+            padding: EdgeInsets.symmetric(horizontal: context.xxxl + context.s),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

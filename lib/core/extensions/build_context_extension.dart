@@ -1,6 +1,6 @@
 import 'package:custos/core/app_environment.dart';
 import 'package:custos/core/utils/app_error.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:custos/presentation/app/theme/app_theme.dart';
@@ -48,6 +48,19 @@ extension BuildContextExtension on BuildContext {
 
   /// Gets the [fullWidth] of the screen.
   double get fullWidth => fullSize.width;
+
+  /// Default shadow style for search bars / elevated form fields.
+  ///
+  /// Example:
+  /// `CustomTextFormField(boxShadow: context.searchBarShadow, ...)`
+  List<BoxShadow> get searchBarShadow => [
+    BoxShadow(
+      color: colorScheme.shadow.withValues(alpha: 0.12),
+      blurRadius: 14,
+      spreadRadius: 0,
+      offset: const Offset(0, 1),
+    ),
+  ];
 
   /// Displays an internationalized message according to the code passed as a parameter
   /// If the code is not found, a generic message is returned.
@@ -100,13 +113,9 @@ extension BuildContextExtension on BuildContext {
       showIcon: false,
       closeOnClick: true,
       dragToClose: true,
-      margin: const EdgeInsets.only(
-        left: kMobileHorizontalPadding,
-        right: kMobileHorizontalPadding,
-        bottom: 16,
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      borderRadius: BorderRadius.circular(8),
+      margin: EdgeInsets.only(left: xxxl, right: xxxl, bottom: xl),
+      padding: EdgeInsets.symmetric(vertical: lg, horizontal: xl),
+      borderRadius: BorderRadius.circular(m),
       backgroundColor: bg,
       foregroundColor: Colors.white,
       title: Text(

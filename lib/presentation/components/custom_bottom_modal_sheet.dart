@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_close_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -37,12 +37,12 @@ class _CustomBottomModalSheetState extends State<CustomBottomModalSheet> {
                     MediaQuery.of(context).size.height * widget.heightFactor!,
               )
               : null,
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: context.xl),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(kMobileCornerX8),
-          topRight: Radius.circular(kMobileCornerX8),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(context.corner() * 2),
+          topRight: Radius.circular(context.corner() * 2),
         ),
       ),
       child: Column(
@@ -50,11 +50,11 @@ class _CustomBottomModalSheetState extends State<CustomBottomModalSheet> {
         children: <Widget>[
           Row(
             children: [
-              const SizedBox(width: 46.0),
+              SizedBox(width: context.space(11.5)),
               const Spacer(),
               Container(
-                width: 64.0,
-                height: 4,
+                width: context.space(16),
+                height: context.s,
                 decoration: const ShapeDecoration(
                   shape: StadiumBorder(),
                   color: Colors.grey,
@@ -66,13 +66,13 @@ class _CustomBottomModalSheetState extends State<CustomBottomModalSheet> {
                   context.pop();
                 },
               ),
-              const SizedBox(width: 26.0),
+              SizedBox(width: context.space(6.5)),
             ],
           ),
           if (widget.title != null) ...[
-            const SizedBox(height: 18.0),
+            SizedBox(height: context.space(4.5)),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 26.0),
+              padding: EdgeInsets.symmetric(horizontal: context.space(6.5)),
               child: Text(widget.title!, style: context.textTheme.titleMedium),
             ),
           ],
@@ -92,11 +92,11 @@ class _CustomBottomModalSheetState extends State<CustomBottomModalSheet> {
   }
 
   Widget get drawChild => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    padding: EdgeInsets.symmetric(horizontal: context.xxl),
     child: SingleChildScrollView(
       controller: controller,
       child: Padding(
-        padding: const EdgeInsets.only(top: 24.0),
+        padding: EdgeInsets.only(top: context.xxxl),
         child: widget.child,
       ),
     ),

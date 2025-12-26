@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
@@ -37,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
         child: ScaffoldWidget(
           appBar: CustomAppBar(leading: const SizedBox.shrink()),
           padding: EdgeInsets.symmetric(
-            vertical: kMobileVerticalPadding,
-            horizontal: kMobileHorizontalPadding,
+            vertical: context.xxxl,
+            horizontal: context.xxxl,
           ),
           child: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 12.0),
+                  SizedBox(height: context.lg),
 
                   Text(
                     context.l10n.loginSelectProfileSubtitle,
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 24.0),
+                  SizedBox(height: context.xxxl),
 
                   Flexible(
                     child: BaseStateUi(
@@ -68,18 +68,17 @@ class _LoginPageState extends State<LoginPage> {
                       noDataWidget: NoDataWidget(
                         iconData: HugeIcons.strokeRoundedUser02,
                         title: context.l10n.loginNoProfileTitle,
-                        subtitle:
-                            context.l10n.loginNoProfileSubtitle,
+                        subtitle: context.l10n.loginNoProfileSubtitle,
                       ),
                       onDataChild: (profiles) {
                         return ListView.separated(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24.0,
-                            vertical: 2.0,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: context.xxxl,
+                            vertical: context.xs,
                           ),
                           itemCount: profiles.length,
                           separatorBuilder: (context, index) {
-                            return SizedBox(height: 24);
+                            return SizedBox(height: context.xxxl);
                           },
                           itemBuilder: (context, index) {
                             return ProfileTile(profile: profiles[index]);
@@ -89,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 24.0),
+                  SizedBox(height: context.xxxl),
 
                   Text(
                     context.l10n.loginOrCreateOne,
@@ -97,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 24.0),
+                  SizedBox(height: context.xxxl),
 
                   CustomButton(
                     prefixIconData: HugeIcons.strokeRoundedUserAdd01,
@@ -108,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
 
-                  const SizedBox(height: 24.0),
+                  SizedBox(height: context.xxxl),
                 ],
               );
             },

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/form/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -110,6 +111,9 @@ class CustomTextFormField extends StatelessWidget {
   /// If null, no error message is shown.
   final String? errorText;
 
+  /// Optional shadow behind the field (useful for search bars, etc.)
+  final List<BoxShadow>? boxShadow;
+
   CustomTextFormField({
     this.autofillHints,
     this.expands = false,
@@ -138,6 +142,7 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor,
     this.excludeFocusSuffix = false,
     this.errorText,
+    this.boxShadow,
     super.key,
   }) : assert(
          suffixIcon == null || !obscureText,
@@ -148,6 +153,11 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius =
+        border is OutlineInputBorder
+            ? (border as OutlineInputBorder).borderRadius
+            : BorderRadius.circular(context.corner());
+
     final suffix =
         suffixIcon ??
         (obscureText
@@ -172,13 +182,9 @@ class CustomTextFormField extends StatelessWidget {
 
     final decoration = getInputDecoration(
       context,
-      label:
-          label != null
-              ? isRequired
-                  ? '$label*'
-                  : label!
-              : null,
       hint: hint,
+      filled: filled,
+      fillColor: fillColor,
       suffixIcon: suffix,
       prefixIcon: prefixIcon,
       errorText: errorText,
@@ -193,7 +199,7 @@ class CustomTextFormField extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: _obscureTextNotifier,
       builder: (context, __, _) {
-        return TextFormField(
+        final field = TextFormField(
           autofillHints: autofillHints,
           expands: expands,
           obscureText: _obscureTextNotifier.value,
@@ -216,6 +222,37 @@ class CustomTextFormField extends StatelessWidget {
           decoration: effectiveDecoration,
           onChanged: onChanged,
           onFieldSubmitted: onFieldSubmitted,
+        );
+
+        final widget =
+            boxShadow == null
+                ? field
+                : DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    boxShadow: boxShadow,
+                  ),
+                  child: field,
+                );
+
+        final children = <Widget>[
+          if (label != null)
+            Padding(
+              padding: EdgeInsets.only(left: context.xs),
+              child: Text(
+                isRequired ? '$label*' : label!,
+                style: context.textTheme.labelMedium?.copyWith(
+                  color: context.colorScheme.onSurface,
+                ),
+              ),
+            ),
+          widget,
+        ];
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: context.s,
+          children: children,
         );
       },
     );

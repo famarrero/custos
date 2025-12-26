@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
@@ -15,8 +15,8 @@ class NotFoundPage extends StatelessWidget {
       safeAreaTop: true,
       appBar: CustomAppBar(),
       padding: EdgeInsets.symmetric(
-        horizontal: kMobileHorizontalPadding,
-        vertical: kMobileVerticalPadding,
+        horizontal: context.xxxl,
+        vertical: context.xxxl,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,13 +34,16 @@ class NotFoundPage extends StatelessWidget {
             context.l10n.pageNotFound,
             style: context.textTheme.titleSmall?.copyWith(),
           ),
-          const SizedBox(height: 8.0),
+          SizedBox(height: context.m),
           Text(
             context.l10n.pageNotFoundSubtitle,
             style: context.textTheme.labelMedium?.copyWith(),
           ),
-          const SizedBox(height: 12.0),
-          CustomButton(label: context.l10n.goBack, onPressed: () => context.pop()),
+          SizedBox(height: context.lg),
+          CustomButton(
+            label: context.l10n.goBack,
+            onPressed: () => context.pop(),
+          ),
         ],
       ),
     );

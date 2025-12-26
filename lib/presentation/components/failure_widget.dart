@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_error.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class FailureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: context.m),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +34,7 @@ class FailureWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (onRetryPressed != null) ...[
-              const SizedBox(height: 14.0),
+              SizedBox(height: context.lg + context.xs),
               CustomButton(
                 infiniteWidth: true,
                 onPressed: onRetryPressed,

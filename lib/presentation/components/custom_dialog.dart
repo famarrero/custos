@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -11,12 +12,12 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(24.0),
+      insetPadding: EdgeInsets.all(context.xxxl),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(context.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          spacing: 24.0,
+          spacing: context.xxxl,
           children: [
             if (title.isNotNullAndNotEmpty)
               Text(title!, style: context.textTheme.titleMedium),

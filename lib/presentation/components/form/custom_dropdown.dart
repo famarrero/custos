@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/form/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -20,6 +21,7 @@ class CustomDropdown<T> extends StatelessWidget {
     this.contentPadding,
     this.corner,
     this.hideDefaultIcon = false,
+    this.boxShadow,
   });
 
   /// The currently selected value of the dropdown.
@@ -71,17 +73,13 @@ class CustomDropdown<T> extends StatelessWidget {
   /// Hide the default drop dawn icon.
   final bool hideDefaultIcon;
 
+  /// Optional shadow behind the field (useful for search bars, etc.)
+  final List<BoxShadow>? boxShadow;
+
   @override
   Widget build(BuildContext context) {
     final decoration = getInputDecoration(
       context,
-      label:
-          label != null
-              ? isRequired
-                  ? '$label*'
-                  : label!
-              : null,
-      hint: hint,
       corner: corner,
       suffixIcon:
           hideDefaultIcon
@@ -97,12 +95,19 @@ class CustomDropdown<T> extends StatelessWidget {
       Theme.of(context).inputDecorationTheme,
     );
 
-    return DropdownButtonFormField<T>(
+    final dropdown = DropdownButtonFormField<T>(
       initialValue: value,
       validator: validator,
       isExpanded: true,
       isDense: true,
       decoration: effectiveDecoration,
+      hint: Text(
+        hint ?? '',
+        style: context.textTheme.labelMedium?.copyWith(
+          color: context.colorScheme.onSurface.withValues(alpha: 0.4),
+        ),
+      ),
+
       style: context.textTheme.bodyMedium?.copyWith(
         color: context.colorScheme.onSurface,
       ),
@@ -114,6 +119,37 @@ class CustomDropdown<T> extends StatelessWidget {
         onValueUpdate.call(newValue);
       },
       icon: const SizedBox.shrink(),
+    );
+
+    final widget =
+        boxShadow == null
+            ? dropdown
+            : DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(corner ?? context.corner()),
+                boxShadow: boxShadow,
+              ),
+              child: dropdown,
+            );
+
+    final children = <Widget>[
+      if (label != null)
+        Padding(
+          padding: EdgeInsets.only(left: context.xs),
+          child: Text(
+            isRequired ? '$label*' : label!,
+            style: context.textTheme.labelMedium?.copyWith(
+              color: context.colorScheme.onSurface,
+            ),
+          ),
+        ),
+      widget,
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: context.s,
+      children: children,
     );
   }
 }

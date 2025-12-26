@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
@@ -25,6 +26,21 @@ List<int> deriveEncryptionKey(String masterKey, List<int> salt) {
   }
 
   return result;
+}
+
+/// Runs [deriveEncryptionKey] in a background isolate to avoid blocking the UI
+/// isolate with the 100k-iteration HMAC loop.
+Future<List<int>> deriveEncryptionKeyAsync(
+  String masterKey,
+  List<int> salt,
+) async {
+  // Isolates on Web are limited; keep behavior correct (no crash) even if we
+  // can't offload work there.
+  const isWeb = bool.fromEnvironment('dart.library.js_util');
+  if (isWeb) return deriveEncryptionKey(masterKey, salt);
+
+  // Only capture/send isolate-safe values (String + List<int>).
+  return Isolate.run(() => deriveEncryptionKey(masterKey, salt));
 }
 
 List<int> _int32(int i) {

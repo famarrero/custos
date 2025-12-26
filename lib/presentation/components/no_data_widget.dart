@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -46,14 +47,14 @@ class NoDataWidget extends StatelessWidget {
             iconData != null
                 ? Icon(iconData, size: 48)
                 : const SizedBox.shrink(),
-            const SizedBox(height: 8.0),
+            SizedBox(height: context.m),
             Text(
               title ?? '',
               style: titleStyle ?? context.textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
             if (subtitle.isNotNullAndNotEmpty) ...[
-              const SizedBox(height: 8.0),
+              SizedBox(height: context.m),
               Text(
                 subtitle!,
                 style: context.textTheme.labelMedium,

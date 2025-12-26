@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
@@ -51,7 +51,7 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
               );
             },
           ),
-          padding: EdgeInsets.symmetric(vertical: kMobileVerticalPadding),
+          padding: EdgeInsets.symmetric(horizontal: context.xxxl),
           child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
             builder: (context, state) {
               return Column(
@@ -73,62 +73,54 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                         return Column(
                           children: [
                             // Search form
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: kMobileHorizontalPadding,
-                              ),
-                              child: ValueListenableBuilder<TextEditingValue>(
-                                valueListenable: _searchController,
-                                builder: (context, value, _) {
-                                  final hasQuery = value.text.trim().isNotEmpty;
+                            ValueListenableBuilder<TextEditingValue>(
+                              valueListenable: _searchController,
+                              builder: (context, value, _) {
+                                final hasQuery = value.text.trim().isNotEmpty;
 
-                                  return CustomTextFormField(
-                                    controller: _searchController,
-                                    hint: context.l10n.passwordsSearchHint,
-                                    prefixIcon: Icon(
-                                      HugeIcons.strokeRoundedSearch01,
-                                      color: context.colorScheme.primary,
-                                    ),
-                                    suffixIcon:
-                                        hasQuery
-                                            ? CustomIconButton(
-                                              icon:
-                                                  HugeIcons
-                                                      .strokeRoundedCancel01,
-                                              iconColor:
-                                                  context.colorScheme.primary,
-                                              onTap: () {
-                                                context
-                                                    .read<
-                                                      PasswordsEntriesCubit
-                                                    >()
-                                                    .filterPasswordEntries(
-                                                      query: null,
-                                                      group:
-                                                          state.selectedGroup,
-                                                    );
-                                                _searchController.clear();
-                                              },
-                                            )
-                                            : null,
-                                    onChanged: (value) {
-                                      context
-                                          .read<PasswordsEntriesCubit>()
-                                          .filterPasswordEntries(
-                                            query: value,
-                                            group: state.selectedGroup,
-                                          );
-                                    },
-                                  );
-                                },
-                              ),
+                                return CustomTextFormField(
+                                  controller: _searchController,
+                                  hint: context.l10n.passwordsSearchHint,
+                                  boxShadow: context.searchBarShadow,
+                                  prefixIcon: Icon(
+                                    HugeIcons.strokeRoundedSearch01,
+                                    color: context.colorScheme.primary,
+                                  ),
+                                  suffixIcon:
+                                      hasQuery
+                                          ? CustomIconButton(
+                                            icon:
+                                                HugeIcons.strokeRoundedCancel01,
+                                            iconColor:
+                                                context.colorScheme.primary,
+                                            onTap: () {
+                                              context
+                                                  .read<PasswordsEntriesCubit>()
+                                                  .filterPasswordEntries(
+                                                    query: null,
+                                                    group: state.selectedGroup,
+                                                  );
+                                              _searchController.clear();
+                                            },
+                                          )
+                                          : null,
+                                  onChanged: (value) {
+                                    context
+                                        .read<PasswordsEntriesCubit>()
+                                        .filterPasswordEntries(
+                                          query: value,
+                                          group: state.selectedGroup,
+                                        );
+                                  },
+                                );
+                              },
                             ),
 
-                            const SizedBox(height: 16.0),
+                            SizedBox(height: context.xl),
 
                             GroupFilters(),
 
-                            const SizedBox(height: 16.0),
+                            SizedBox(height: context.s),
 
                             if (passwordsEntries.isEmpty)
                               Expanded(
@@ -152,13 +144,11 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                               Expanded(
                                 child: SingleChildScrollView(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: kMobileHorizontalPadding,
-                                    ),
+                                    padding: EdgeInsets.only(top: context.xl),
                                     child: ListView.separated(
                                       separatorBuilder:
                                           (context, index) =>
-                                              SizedBox(height: 8.0),
+                                              SizedBox(height: context.m),
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),

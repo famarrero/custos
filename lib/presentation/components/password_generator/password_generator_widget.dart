@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_check_box_title.dart';
 import 'package:custos/presentation/components/password_generator/cubit/password_generator_cubit.dart';
@@ -23,7 +24,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
                 style: context.textTheme.titleMedium,
               ),
 
-              const SizedBox(height: 16.0),
+              SizedBox(height: context.xl),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +46,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
                 max: 32,
                 divisions: 24,
                 label: state.length.toString(),
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: EdgeInsets.symmetric(vertical: context.xl),
                 onChanged: (value) {
                   context.read<PasswordGeneratorCubit>().updateValues(
                     state: state.copyWith(length: value.toInt()),
@@ -98,7 +99,7 @@ class PasswordGeneratorWidget extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 16.0),
+              SizedBox(height: context.xl),
 
               CustomButton(
                 label: context.l10n.passwordGeneratorGenerateButton,

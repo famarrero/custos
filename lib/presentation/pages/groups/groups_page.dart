@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
@@ -27,10 +27,7 @@ class GroupsPage extends StatelessWidget {
             );
           },
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: kMobileHorizontalPadding,
-          vertical: kMobileVerticalPadding,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: context.xxxl),
         child: BlocBuilder<GroupsCubit, GroupsState>(
           builder: (context, state) {
             return BaseStateUi(
@@ -43,7 +40,8 @@ class GroupsPage extends StatelessWidget {
               ),
               onDataChild: (groups) {
                 return ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 18.0),
+                  separatorBuilder:
+                      (context, index) => SizedBox(height: context.space(4.5)),
                   itemCount: state.groups.data.length,
                   itemBuilder: (context, index) {
                     return GroupTile(

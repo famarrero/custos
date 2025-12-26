@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
@@ -25,10 +26,11 @@ class CustomIconButton extends StatelessWidget {
       child: Container(
         padding:
             backgroundColor != null
-                ? const EdgeInsets.all(8.0)
+                ? EdgeInsets.all(context.m)
                 : EdgeInsets.zero,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(borderRadius ?? context.corner(0.8)),
           color: backgroundColor,
         ),
         child: Icon(icon, color: iconColor, size: iconSize),

@@ -48,10 +48,13 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // Derive the encrypted key by masterKey and salt
-      final encryptionKey = deriveEncryptionKey(masterKey, generatedSalt);
+      final encryptionKey = await deriveEncryptionKeyAsync(
+        masterKey,
+        generatedSalt,
+      );
 
       // Save the masterKey in secure storage as PBKDF2
-      _saveMasterKeyPBKDF2(
+      await _saveMasterKeyPBKDF2(
         masterKeySaltSecureStorageAccessKey:
             profile.masterKeySaltSecureStorageAccessKey,
         masterKeyHashSecureStorageAccessKey:
@@ -88,12 +91,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(AppFailure(AppError.encryptionKeyNotSet));
     }
 
-    // Decode salt from base64
-    final saltDecode = base64Decode(saltEncoded);
-
-    // Derive the encrypted key by masterKey and salt
-    final encryptionKey = deriveEncryptionKey(masterKey, saltDecode);
-
     try {
       // Verify if the masterKey is correct
       final value = await _verifyMasterKeyPBKDF2(
@@ -105,6 +102,15 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       if (value) {
+        // Decode salt from base64
+        final saltDecode = base64Decode(saltEncoded);
+
+        // Derive the encrypted key by masterKey and salt
+        final encryptionKey = await deriveEncryptionKeyAsync(
+          masterKey,
+          saltDecode,
+        );
+
         // Set the encryptionKey in HiveDatabaseService
         hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
         // If true open the encrypted boxes
@@ -175,7 +181,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final masterKeySalt = generateSalt();
 
       // Derive the encrypted masterKey by masterKey and salt
-      final derivedEncryptionMasterKey = deriveEncryptionKey(
+      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(
         masterKey,
         masterKeySalt,
       );
@@ -217,7 +223,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final masterKeySaltDecode = base64Decode(masterKeySaltEncoded);
 
       // Derive the encrypted masterKey by masterKey and masterKeySaltDecode
-      final derivedEncryptionMasterKey = deriveEncryptionKey(
+      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(
         masterKey,
         masterKeySaltDecode,
       );

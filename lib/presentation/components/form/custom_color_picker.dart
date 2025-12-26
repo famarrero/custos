@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +65,7 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
         ColorIndicator(
           width: 44.0,
           height: 44.0,
-          borderRadius: kMobileCorner,
+          borderRadius: context.corner(),
           color: dialogPickerColor,
           onSelectFocus: false,
           onSelect: () async {

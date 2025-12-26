@@ -1,6 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/custom_badge.dart';
@@ -40,7 +40,7 @@ class PasswordEntryTile extends StatelessWidget {
                     color: passwordEntry.group!.color,
                     hideBackground: true,
                     height: 18,
-                    corner: kMobileCorner * 0.4,
+                    corner: context.corner() * 0.4,
                   ),
                 Text(passwordEntry.name, style: context.textTheme.bodyLarge),
                 if (passwordEntry.username.isNotNullAndNotEmpty)

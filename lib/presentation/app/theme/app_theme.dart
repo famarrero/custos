@@ -1,5 +1,5 @@
 import 'package:custos/core/extensions/theme_mode_extension.dart';
-import 'package:custos/core/utils/constants.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/device_type.dart';
 import 'package:custos/presentation/app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +16,11 @@ class AppTheme extends ThemeExtension<AppTheme> {
   /// [DeviceType.tablet] for tablets
   final DeviceType deviceType;
 
-  /// TextTheme according to the variant
-  late TextTheme _textTheme;
-
   /// ColorScheme according to the theme
   late ColorScheme _colorScheme;
+
+  /// TextTheme according to the variant
+  late TextTheme _textTheme;
 
   /// IconSize apply to all [IconButton] depending of the current variant
   late double _iconSize;
@@ -30,16 +30,6 @@ class AppTheme extends ThemeExtension<AppTheme> {
 
   /// Border radius of dialog.
   late double _dialogBorderRadius;
-
-  late double bodyMediumFontSize;
-
-  static const double _defaultTextAlpha = 0.75;
-
-  // Tablet values are derived from mobile base values using these multipliers
-  // to keep the UI visually equivalent across breakpoints.
-  static const double _tabletBodyScale = 20.0 / 14.0; // 14 -> 20
-  static const double _tabletIconScale = 28.0 / 24.0; // 24 -> 28
-  static const double _tabletVerticalPaddingScale = 1.2; // v * 1.2
 
   AppTheme({required this.themeMode, required this.deviceType}) {
     // Initialize variables depending of the current ThemeMode
@@ -147,160 +137,34 @@ class AppTheme extends ThemeExtension<AppTheme> {
       );
     }
 
-    // Set the text theme according to the device type.
-    _configureForDeviceType(
-      baseTextTheme: _buildBaseTextTheme(
-        baseBodyMediumFontSize: 16.0,
-        baseColor: _colorScheme.onSurface.withValues(alpha: _defaultTextAlpha),
-      ),
-      baseDialogBorderRadius: kMobileCorner,
-      baseIconSize: 24.0,
-      baseContentPadding: const EdgeInsets.symmetric(
-        horizontal: kMobileHorizontalPadding,
-        vertical: kMobileVerticalPadding,
-      ),
-      baseBodyMediumFontSize: 16.0,
-    );
-  }
-
-  void _configureForDeviceType({
-    required TextTheme baseTextTheme,
-    required double baseDialogBorderRadius,
-    required double baseIconSize,
-    required EdgeInsets baseContentPadding,
-    required double baseBodyMediumFontSize,
-  }) {
-    final bool isMobile = deviceType == DeviceType.isMobile;
-
-    final double scale = isMobile ? 1.0 : _tabletBodyScale;
-
-    _dialogBorderRadius = baseDialogBorderRadius;
-    _iconSize =
-        isMobile
-            ? baseIconSize
-            : _roundToDouble(baseIconSize * _tabletIconScale, 0);
-    _contentPadding =
-        isMobile
-            ? baseContentPadding
-            : EdgeInsets.fromLTRB(
-              baseContentPadding.left,
-              baseContentPadding.top * _tabletVerticalPaddingScale,
-              baseContentPadding.right,
-              baseContentPadding.bottom * _tabletVerticalPaddingScale,
-            );
-
-    bodyMediumFontSize = _roundToDouble(baseBodyMediumFontSize * scale, 1);
-    _textTheme = _scaleTextTheme(baseTextTheme, scale);
-  }
-
-  TextTheme _buildBaseTextTheme({
-    required double baseBodyMediumFontSize,
-    required Color baseColor,
-  }) {
-    // Mobile is the source-of-truth. Tablet is computed by scaling this theme.
-    final double bm = baseBodyMediumFontSize;
-
-    TextStyle s({
-      required double size,
-      required FontWeight weight,
-      Color? color,
-      double? letterSpacing,
-    }) {
-      return TextStyle(
-        fontFamily: FontFamily.inter,
-        fontWeight: weight,
-        fontSize: size,
-        color: color,
-        letterSpacing: letterSpacing,
+    if (deviceType == DeviceType.isMobile) {
+      // Set the text theme according to the device type.
+      _textTheme = _buildBaseTextTheme(
+        baseBodyMediumFontSize: 14,
+        colorScheme: _colorScheme,
       );
+
+      _iconSize = 24;
+      _contentPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 14);
+      _dialogBorderRadius = AppSpacing.baseCorner;
+    } else {
+      // Set the text theme according to the device type.
+      _textTheme = _buildBaseTextTheme(
+        baseBodyMediumFontSize: 18,
+        colorScheme: _colorScheme,
+      );
+
+      _iconSize = 34;
+      _contentPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 18);
+      _dialogBorderRadius = AppSpacing.baseCorner * 1.2;
     }
-
-    return TextTheme(
-      // DISPLAY
-      displayLarge: s(size: bm + 18, weight: FontWeight.w600),
-      displayMedium: s(size: bm + 16, weight: FontWeight.w600),
-      displaySmall: s(size: bm + 14, weight: FontWeight.w600),
-
-      // HEADLINE
-      headlineLarge: s(size: bm + 12, weight: FontWeight.w700),
-      headlineMedium: s(size: bm + 10, weight: FontWeight.w700),
-      headlineSmall: s(size: bm + 8, weight: FontWeight.w700),
-
-      // TITLE
-      titleLarge: s(size: bm + 6, weight: FontWeight.w800),
-      titleMedium: s(size: bm + 4, weight: FontWeight.w800),
-      titleSmall: s(size: bm + 2, weight: FontWeight.w800),
-
-      // BODY
-      bodyLarge: s(size: bm + 2, weight: FontWeight.w600, color: baseColor),
-      bodyMedium: s(size: bm, weight: FontWeight.w600, color: baseColor),
-      bodySmall: s(size: bm - 2, weight: FontWeight.w600, color: baseColor),
-
-      // LABEL
-      labelLarge: s(
-        size: bm,
-        weight: FontWeight.w600,
-        letterSpacing: 1.5,
-        color: baseColor,
-      ),
-      labelMedium: s(
-        size: bm - 2,
-        weight: FontWeight.w600,
-        letterSpacing: 1.5,
-        color: baseColor,
-      ),
-      labelSmall: s(
-        size: bm - 3,
-        weight: FontWeight.w600,
-        letterSpacing: 1.5,
-        color: baseColor,
-      ),
-    );
-  }
-
-  TextTheme _scaleTextTheme(TextTheme base, double scale) {
-    TextStyle? st(TextStyle? style) {
-      if (style == null) return null;
-      final size = style.fontSize;
-      if (size == null) return style;
-      return style.copyWith(fontSize: _roundToDouble(size * scale, 1));
-    }
-
-    return base.copyWith(
-      displayLarge: st(base.displayLarge),
-      displayMedium: st(base.displayMedium),
-      displaySmall: st(base.displaySmall),
-      headlineLarge: st(base.headlineLarge),
-      headlineMedium: st(base.headlineMedium),
-      headlineSmall: st(base.headlineSmall),
-      titleLarge: st(base.titleLarge),
-      titleMedium: st(base.titleMedium),
-      titleSmall: st(base.titleSmall),
-      bodyLarge: st(base.bodyLarge),
-      bodyMedium: st(base.bodyMedium),
-      bodySmall: st(base.bodySmall),
-      labelLarge: st(base.labelLarge),
-      labelMedium: st(base.labelMedium),
-      labelSmall: st(base.labelSmall),
-    );
-  }
-
-  double _roundToDouble(double value, int decimals) {
-    final factor = switch (decimals) {
-      0 => 1.0,
-      1 => 10.0,
-      2 => 100.0,
-      3 => 1000.0,
-      _ => 10.0,
-    };
-    return (value * factor).roundToDouble() / factor;
   }
 
   ThemeData toThemeData() => ThemeData(
     extensions: [this],
     colorScheme: _colorScheme,
     textTheme: _textTheme,
-    scaffoldBackgroundColor: _colorScheme.surface,
+    scaffoldBackgroundColor: _colorScheme.surfaceContainerLow,
     iconTheme: IconThemeData(color: _colorScheme.primary, size: _iconSize),
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(
@@ -313,9 +177,12 @@ class AppTheme extends ThemeExtension<AppTheme> {
     textButtonTheme: TextButtonThemeData(
       // There must be at least one style from even if it is empty
       style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.baseMobile,
+          vertical: AppSpacing.baseMobile,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kMobileCorner),
+          borderRadius: BorderRadius.circular(AppSpacing.baseCorner),
         ),
       ),
     ),
@@ -333,8 +200,10 @@ class AppTheme extends ThemeExtension<AppTheme> {
       contentPadding: _contentPadding,
       border: WidgetStateInputBorder.resolveWith(
         (states) => OutlineInputBorder(
-          borderSide: BorderSide(color: _colorScheme.secondary, width: 1),
-          borderRadius: const BorderRadius.all(Radius.circular(kMobileCorner)),
+          borderSide: BorderSide(color: _colorScheme.secondary),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(AppSpacing.baseCorner),
+          ),
         ),
       ),
     ),
@@ -370,4 +239,104 @@ class AppTheme extends ThemeExtension<AppTheme> {
     if (other is! AppTheme) return this;
     return AppTheme(themeMode: other.themeMode, deviceType: other.deviceType);
   }
+}
+
+TextTheme _buildBaseTextTheme({
+  required double baseBodyMediumFontSize,
+  required ColorScheme colorScheme,
+}) {
+  return TextTheme(
+    // DISPLAY
+    displayLarge: TextStyle(
+      fontSize: baseBodyMediumFontSize + 18,
+      fontWeight: FontWeight.w600,
+      fontFamily: FontFamily.inter,
+    ),
+    displayMedium: TextStyle(
+      fontSize: baseBodyMediumFontSize + 16,
+      fontWeight: FontWeight.w600,
+      fontFamily: FontFamily.inter,
+    ),
+    displaySmall: TextStyle(
+      fontSize: baseBodyMediumFontSize + 14,
+      fontWeight: FontWeight.w600,
+      fontFamily: FontFamily.inter,
+    ),
+
+    // HEADLINE
+    headlineLarge: TextStyle(
+      fontSize: baseBodyMediumFontSize + 12,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.inter,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: baseBodyMediumFontSize + 10,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.inter,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: baseBodyMediumFontSize + 8,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.inter,
+    ),
+
+    // TITLE
+    titleLarge: TextStyle(
+      fontSize: baseBodyMediumFontSize + 6,
+      fontWeight: FontWeight.w800,
+      fontFamily: FontFamily.inter,
+    ),
+    titleMedium: TextStyle(
+      fontSize: baseBodyMediumFontSize + 4,
+      fontWeight: FontWeight.w800,
+      fontFamily: FontFamily.inter,
+    ),
+    titleSmall: TextStyle(
+      fontSize: baseBodyMediumFontSize + 2,
+      fontWeight: FontWeight.w800,
+      fontFamily: FontFamily.inter,
+    ),
+
+    // BODY
+    bodyLarge: TextStyle(
+      fontSize: baseBodyMediumFontSize + 2,
+      fontWeight: FontWeight.w600,
+      color: colorScheme.onSurface,
+      fontFamily: FontFamily.inter,
+    ),
+    bodyMedium: TextStyle(
+      fontSize: baseBodyMediumFontSize,
+      fontWeight: FontWeight.w600,
+      color: colorScheme.onSurface,
+      fontFamily: FontFamily.inter,
+    ),
+    bodySmall: TextStyle(
+      fontSize: baseBodyMediumFontSize - 2,
+      fontWeight: FontWeight.w600,
+      color: colorScheme.onSurface,
+      fontFamily: FontFamily.inter,
+    ),
+
+    // LABEL
+    labelLarge: TextStyle(
+      fontSize: baseBodyMediumFontSize,
+      fontWeight: FontWeight.w400,
+      letterSpacing: 1.5,
+      color: colorScheme.onSurface.withValues(alpha: 0.6),
+      fontFamily: FontFamily.inter,
+    ),
+    labelMedium: TextStyle(
+      fontSize: baseBodyMediumFontSize - 2,
+      fontWeight: FontWeight.w400,
+      color: colorScheme.onSurface.withValues(alpha: 0.6),
+      fontFamily: FontFamily.inter,
+    ),
+    labelSmall: TextStyle(
+      fontSize: baseBodyMediumFontSize - 3,
+      fontWeight: FontWeight.w400,
+      letterSpacing: 1.5,
+      color: colorScheme.onSurface.withValues(alpha: 0.6),
+      fontFamily: FontFamily.inter,
+    ),
+  );
 }
