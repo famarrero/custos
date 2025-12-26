@@ -1,11 +1,11 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/color_scheme_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 /// Default fallback icon.
-const defaultIcon = HugeIcons.strokeRoundedUser;
+const defaultIcon = AppIcons.groupOthers;
 
 /// A class representing an icon and its corresponding label.
 class IconAndLabel {
@@ -23,107 +23,107 @@ class IconAndLabel {
 /// A predefined list of icon options categorized for password groups.
 final List<IconAndLabel> iconOptions = [
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedHome01,
+    icon: AppIcons.groupHome,
     labelBuilder: (context) => context.l10n.iconLabelHome,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedKey01,
+    icon: AppIcons.groupSecurity,
     labelBuilder: (context) => context.l10n.iconLabelSecurity,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedBitcoin02,
+    icon: AppIcons.groupCrypto,
     labelBuilder: (context) => context.l10n.iconLabelCrypto,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedWallet01,
+    icon: AppIcons.groupFinance,
     labelBuilder: (context) => context.l10n.iconLabelFinance,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedCreditCard,
+    icon: AppIcons.groupCards,
     labelBuilder: (context) => context.l10n.iconLabelCards,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedUserAccount,
+    icon: AppIcons.groupPersonal,
     labelBuilder: (context) => context.l10n.iconLabelPersonal,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedUserMultiple,
+    icon: AppIcons.groupUsers,
     labelBuilder: (context) => context.l10n.iconLabelUsers,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedIdentityCard,
+    icon: AppIcons.groupIdentity,
     labelBuilder: (context) => context.l10n.iconLabelIdentity,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedBriefcase01,
+    icon: AppIcons.groupBusiness,
     labelBuilder: (context) => context.l10n.iconLabelBusiness,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedAirplane01,
+    icon: AppIcons.groupTravel,
     labelBuilder: (context) => context.l10n.iconLabelTravel,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedGroupItems,
+    icon: AppIcons.groupSocial,
     labelBuilder: (context) => context.l10n.iconLabelSocial,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedWebProgramming,
+    icon: AppIcons.groupWebsites,
     labelBuilder: (context) => context.l10n.iconLabelWebsites,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedMail01,
+    icon: AppIcons.groupEmail,
     labelBuilder: (context) => context.l10n.iconLabelEmail,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedBubbleChat,
+    icon: AppIcons.groupMessaging,
     labelBuilder: (context) => context.l10n.iconLabelMessaging,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedShoppingBag01,
+    icon: AppIcons.groupShopping,
     labelBuilder: (context) => context.l10n.iconLabelShopping,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedGameController01,
+    icon: AppIcons.groupGaming,
     labelBuilder: (context) => context.l10n.iconLabelGaming,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedSmartPhone01,
+    icon: AppIcons.groupMobile,
     labelBuilder: (context) => context.l10n.iconLabelMobile,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedWifi01,
+    icon: AppIcons.groupWifi,
     labelBuilder: (context) => context.l10n.iconLabelWifi,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedCloudUpload,
+    icon: AppIcons.groupBackup,
     labelBuilder: (context) => context.l10n.iconLabelBackup,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedCloud,
+    icon: AppIcons.groupCloud,
     labelBuilder: (context) => context.l10n.iconLabelCloud,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedShield01,
+    icon: AppIcons.groupProtection,
     labelBuilder: (context) => context.l10n.iconLabelProtection,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedSettings01,
+    icon: AppIcons.groupConfiguration,
     labelBuilder: (context) => context.l10n.iconLabelConfiguration,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedChart01,
+    icon: AppIcons.groupStatistics,
     labelBuilder: (context) => context.l10n.iconLabelStatistics,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedPackageAdd,
+    icon: AppIcons.groupServices,
     labelBuilder: (context) => context.l10n.iconLabelServices,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedCode,
+    icon: AppIcons.groupDevelopment,
     labelBuilder: (context) => context.l10n.iconLabelDevelopment,
   ),
   IconAndLabel(
-    icon: HugeIcons.strokeRoundedBank,
+    icon: AppIcons.groupBanking,
     labelBuilder: (context) => context.l10n.iconLabelBanking,
   ),
   IconAndLabel(

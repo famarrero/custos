@@ -7,10 +7,10 @@ import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/pages/groups/components/group_tile.dart';
 import 'package:custos/routes/routes.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class PasswordEntryDetail extends StatefulWidget {
   const PasswordEntryDetail({super.key, required this.passwordEntry});
@@ -59,7 +59,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
               },
             ),
             CustomIconButton(
-              icon: HugeIcons.strokeRoundedDelete01,
+              icon: AppIcons.delete,
               backgroundColor: context.colorScheme.errorContainer,
               iconColor: context.colorScheme.onErrorContainer,
               iconSize: 18.0,
@@ -177,15 +177,15 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
                   actionIcon(
                     icon:
                         _isPasswordVisible
-                            ? HugeIcons.strokeRoundedEye
-                            : HugeIcons.strokeRoundedViewOff,
+                            ? AppIcons.visibilityOn
+                            : AppIcons.visibilityOff,
                     onTap: () {
                       setState(() => _isPasswordVisible = !_isPasswordVisible);
                     },
                   ),
                 if (enableCopy)
                   actionIcon(
-                    icon: HugeIcons.strokeRoundedCopy01,
+                    icon: AppIcons.copy,
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: data));
                       context.showSnackBar(

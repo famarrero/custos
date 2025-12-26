@@ -39,7 +39,7 @@ class CustomBadge extends StatelessWidget {
             hideBackground
                 ? null
                 : (color ??
-                    context.colorScheme.primary),
+                    context.colorScheme.primary).withValues(alpha: 0.8),
         borderRadius: BorderRadius.all(
           Radius.circular(corner ?? (context.corner() * 0.6)),
         ),

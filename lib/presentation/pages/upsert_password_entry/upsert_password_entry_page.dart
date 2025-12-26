@@ -14,10 +14,10 @@ import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/components/upsert_group/upsert_group.dart';
 import 'package:custos/presentation/pages/upsert_password_entry/cubit/upsert_password_entry_cubit.dart';
 import 'package:custos/presentation/pages/groups/components/group_tile.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:uuid/uuid.dart';
 
 class UpsertPasswordEntryPage extends StatefulWidget {
@@ -64,10 +64,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                   ? context.l10n.upsertPasswordAddAccountTitle
                   : context.l10n.upsertPasswordEditAccountTitle,
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: context.xxxl,
-          vertical: context.xxxl,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: context.xxxl),
         child: BlocConsumer<UpsertPasswordEntryCubit, UpsertPasswordEntryState>(
           listener: (context, state) {
             if (state.upsertPasswordEntryState.isError) {
@@ -108,26 +105,28 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                 return Form(
                   key: _formKey,
                   child: Column(
-                    spacing: context.xxxl,
                     children: [
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
                             spacing: context.xxl,
                             children: [
-                              CustomTextFormField(
-                                controller: _nameController,
-                                label:
-                                    context
-                                        .l10n
-                                        .upsertPasswordWebOrAppNameLabel,
-                                hint: ' Ej. Gmail',
-                                isRequired: true,
-                                validator: context.validateRequired,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                textInputAction: TextInputAction.next,
-                                textInputType: TextInputType.text,
+                              Padding(
+                                padding: EdgeInsets.only(top: context.xl),
+                                child: CustomTextFormField(
+                                  controller: _nameController,
+                                  label:
+                                      context
+                                          .l10n
+                                          .upsertPasswordWebOrAppNameLabel,
+                                  hint: ' Ej. Gmail',
+                                  isRequired: true,
+                                  validator: context.validateRequired,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  textInputAction: TextInputAction.next,
+                                  textInputType: TextInputType.text,
+                                ),
                               ),
                               CustomTextFormField(
                                 controller: _urlController,
@@ -185,7 +184,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                   Padding(
                                     padding: EdgeInsets.only(top: context.xl),
                                     child: CustomIconButton(
-                                      icon: HugeIcons.strokeRoundedKey01,
+                                      icon: AppIcons.key,
                                       iconColor: context.colorScheme.onPrimary,
                                       backgroundColor:
                                           context.colorScheme.primary,
@@ -246,13 +245,14 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                   Padding(
                                     padding: EdgeInsets.only(top: context.xl),
                                     child: CustomIconButton(
-                                      icon: HugeIcons.strokeRoundedAdd01,
+                                      icon: AppIcons.add,
                                       iconColor: context.colorScheme.onPrimary,
                                       backgroundColor:
                                           context.colorScheme.primary,
                                       onTap: () {
                                         context.showCustomGeneralDialog(
-                                          title: context.l10n.groupsAddGroupTitle,
+                                          title:
+                                              context.l10n.groupsAddGroupTitle,
                                           child: const UpsertGroup(),
                                         );
                                       },
@@ -260,22 +260,26 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                   ),
                                 ],
                               ),
-                              CustomTextFormField(
-                                controller: _noteController,
-                                label: context.l10n.fieldNote,
-                                hint: 'Ej. Esta es mi contraseña para Gmail',
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                maxLines: 4,
-                                textInputAction: TextInputAction.done,
-                                textInputType: TextInputType.multiline,
-                                onFieldSubmitted:
-                                    (p0) => _upsertPasswordEntry(context),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: context.xxl),
+                                child: CustomTextFormField(
+                                  controller: _noteController,
+                                  label: context.l10n.fieldNote,
+                                  hint: 'Ej. Esta es mi contraseña para Gmail',
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  maxLines: 4,
+                                  textInputAction: TextInputAction.done,
+                                  textInputType: TextInputType.multiline,
+                                  onFieldSubmitted:
+                                      (p0) => _upsertPasswordEntry(context),
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
+                      SizedBox(height: context.s),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -297,6 +301,8 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                           ),
                         ],
                       ),
+
+                      SizedBox(height: context.xl),
                     ],
                   ),
                 );

@@ -1,8 +1,9 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
+import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -24,11 +25,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading:
           leading ??
           (context.canPop()
-              ? IconButton(
-                icon: Icon(HugeIcons.strokeRoundedArrowLeft01),
-                iconSize: 34,
-                color: context.colorScheme.primary,
-                onPressed: () {
+              ? CustomIconButton(
+                icon: AppIcons.back,
+                onTap: () {
                   context.pop();
                 },
               )

@@ -1,4 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
+import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,7 +12,11 @@ class CustomTilesOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) => Divider(
+        height: 1,
+        color: context.colorScheme.secondary.withValues(alpha: 0.2),
+      ),
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -70,6 +76,11 @@ class CustomSettingTile extends StatelessWidget {
           subtitle != null
               ? Text(subtitle!, style: context.textTheme.labelSmall)
               : null,
+      trailing: CustomIconButton(
+        icon: AppIcons.chevronRight,
+        iconColor: context.colorScheme.primary.withValues(alpha: 0.4),
+        onTap: onTap,
+      ),
     );
   }
 }

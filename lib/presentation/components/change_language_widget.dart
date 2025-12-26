@@ -1,11 +1,11 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:custos/presentation/cubit/app/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 class ChangeLanguageWidget extends StatelessWidget {
@@ -42,7 +42,7 @@ class ChangeLanguageWidget extends StatelessWidget {
                       style: context.textTheme.bodyMedium,
                     ),
                     if (currentLocale == locale)
-                      Icon(HugeIcons.strokeRoundedCheckmarkCircle01),
+                      Icon(AppIcons.success),
                   ],
                 ),
               ),

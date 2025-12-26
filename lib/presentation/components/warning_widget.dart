@@ -1,7 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/color_scheme_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class WarningWidget extends StatelessWidget {
   const WarningWidget({super.key, this.icon, required this.text});
@@ -15,7 +15,7 @@ class WarningWidget extends StatelessWidget {
       spacing: 12.0,
       children: [
         Icon(
-          icon ?? HugeIcons.strokeRoundedAlert02,
+          icon ?? AppIcons.warning,
           color: context.colorScheme.waring,
           size: 28.0,
         ),

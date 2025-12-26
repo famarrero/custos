@@ -35,7 +35,11 @@ InputDecoration getInputDecoration(
     isDense: isDense,
     isCollapsed: isCollapsed,
     filled: filled ?? true,
-    fillColor: fillColor ?? Colors.white,
+    fillColor:
+        fillColor ??
+        (Theme.of(context).brightness == Brightness.light
+            ? context.colorScheme.surfaceContainerLowest
+            : context.colorScheme.surfaceContainerHigh),
     enabledBorder: border ?? border0(),
     disabledBorder: border ?? border0(),
     focusedBorder: border ?? border0(),

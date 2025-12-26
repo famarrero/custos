@@ -68,6 +68,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
                 CustomTextFormField(
                   controller: _nameController,
                   label: context.l10n.upsertGroupNameLabel,
+                  hint: ' Ej.  Finanzas, Trabajo, etc...',
                   isRequired: true,
                   validator: context.validateRequired,
                   textCapitalization: TextCapitalization.sentences,

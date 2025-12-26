@@ -11,10 +11,10 @@ import 'package:custos/presentation/pages/passwords_entries/components/password_
 import 'package:custos/presentation/pages/passwords_entries/cubit/passwords_entries_cubit.dart';
 import 'package:custos/presentation/pages/upsert_password_entry/cubit/upsert_password_entry_cubit.dart';
 import 'package:custos/routes/routes.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class PasswordsEntriesPage extends StatefulWidget {
   const PasswordsEntriesPage({super.key});
@@ -42,7 +42,7 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
         },
         child: ScaffoldWidget(
           floatingActionButton: FloatingActionButton(
-            child: Icon(HugeIcons.strokeRoundedAdd01),
+            child: Icon(AppIcons.add),
             onPressed: () {
               context.push(
                 UpsertPasswordEntryRoute(
@@ -51,7 +51,6 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
               );
             },
           ),
-          padding: EdgeInsets.symmetric(horizontal: context.xxxl),
           child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
             builder: (context, state) {
               return Column(
@@ -65,7 +64,7 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                                   .read<PasswordsEntriesCubit>()
                                   .watchPasswordsEntries(),
                       noDataWidget: NoDataWidget(
-                        iconData: HugeIcons.strokeRoundedKey01,
+                        iconData: AppIcons.key,
                         title: context.l10n.passwordsNoPasswordsTitle,
                         subtitle: context.l10n.passwordsNoPasswordsSubtitle,
                       ),
@@ -73,50 +72,57 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                         return Column(
                           children: [
                             // Search form
-                            ValueListenableBuilder<TextEditingValue>(
-                              valueListenable: _searchController,
-                              builder: (context, value, _) {
-                                final hasQuery = value.text.trim().isNotEmpty;
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.xl,
+                              ),
+                              child: ValueListenableBuilder<TextEditingValue>(
+                                valueListenable: _searchController,
+                                builder: (context, value, _) {
+                                  final hasQuery = value.text.trim().isNotEmpty;
 
-                                return CustomTextFormField(
-                                  controller: _searchController,
-                                  hint: context.l10n.passwordsSearchHint,
-                                  boxShadow: context.searchBarShadow,
-                                  prefixIcon: Icon(
-                                    HugeIcons.strokeRoundedSearch01,
-                                    color: context.colorScheme.primary,
-                                  ),
-                                  suffixIcon:
-                                      hasQuery
-                                          ? CustomIconButton(
-                                            icon:
-                                                HugeIcons.strokeRoundedCancel01,
-                                            iconColor:
-                                                context.colorScheme.primary,
-                                            onTap: () {
-                                              context
-                                                  .read<PasswordsEntriesCubit>()
-                                                  .filterPasswordEntries(
-                                                    query: null,
-                                                    group: state.selectedGroup,
-                                                  );
-                                              _searchController.clear();
-                                            },
-                                          )
-                                          : null,
-                                  onChanged: (value) {
-                                    context
-                                        .read<PasswordsEntriesCubit>()
-                                        .filterPasswordEntries(
-                                          query: value,
-                                          group: state.selectedGroup,
-                                        );
-                                  },
-                                );
-                              },
+                                  return CustomTextFormField(
+                                    controller: _searchController,
+                                    hint: context.l10n.passwordsSearchHint,
+                                    boxShadow: context.searchBarShadow,
+                                    prefixIcon: Icon(
+                                      AppIcons.search,
+                                      color: context.colorScheme.primary,
+                                    ),
+                                    suffixIcon:
+                                        hasQuery
+                                            ? CustomIconButton(
+                                              icon: AppIcons.close,
+                                              iconColor:
+                                                  context.colorScheme.primary,
+                                              onTap: () {
+                                                context
+                                                    .read<
+                                                      PasswordsEntriesCubit
+                                                    >()
+                                                    .filterPasswordEntries(
+                                                      query: null,
+                                                      group:
+                                                          state.selectedGroup,
+                                                    );
+                                                _searchController.clear();
+                                              },
+                                            )
+                                            : null,
+                                    onChanged: (value) {
+                                      context
+                                          .read<PasswordsEntriesCubit>()
+                                          .filterPasswordEntries(
+                                            query: value,
+                                            group: state.selectedGroup,
+                                          );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
 
-                            SizedBox(height: context.xl),
+                            SizedBox(height: context.xxxl),
 
                             GroupFilters(),
 
@@ -144,19 +150,25 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                               Expanded(
                                 child: SingleChildScrollView(
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: context.xl),
-                                    child: ListView.separated(
-                                      separatorBuilder:
-                                          (context, index) =>
-                                              SizedBox(height: context.m),
+                                    padding: EdgeInsets.only(
+                                      top: context.xl,
+                                      left: context.xl,
+                                      right: context.xl,
+                                    ),
+                                    child: ListView.builder(
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       itemCount: passwordsEntries.length,
                                       itemBuilder: (context, index) {
-                                        return PasswordEntryTile(
-                                          passwordEntry:
-                                              passwordsEntries[index],
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: context.s,
+                                          ),
+                                          child: PasswordEntryTile(
+                                            passwordEntry:
+                                                passwordsEntries[index],
+                                          ),
                                         );
                                       },
                                     ),

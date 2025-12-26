@@ -1,12 +1,12 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/go_router_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:custos/presentation/components/custom_navigation_bar/cubit/custom_navigation_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 /// BottomNavigationBar
 class CustomNavigationBar extends StatefulWidget {
@@ -70,7 +70,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               children: [
                 _bottomBarItem(
                   context: context,
-                  path: HugeIcons.strokeRoundedKey01,
+                  path: AppIcons.key,
                   label: context.l10n.navPasswords,
                   isSelected: state.currentPage.$1 == 0,
                   onTap: () {
@@ -79,7 +79,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 ),
                 _bottomBarItem(
                   context: context,
-                  path: HugeIcons.strokeRoundedGroup01,
+                  path: AppIcons.groups,
                   label: context.l10n.navGroups,
                   isSelected: state.currentPage.$1 == 1,
                   onTap: () {
@@ -88,7 +88,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 ),
                 _bottomBarItem(
                   context: context,
-                  path: HugeIcons.strokeRoundedSettings01,
+                  path: AppIcons.settings,
                   label: context.l10n.navSettings,
                   isSelected: state.currentPage.$1 == 2,
                   onTap: () {

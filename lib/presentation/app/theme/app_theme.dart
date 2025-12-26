@@ -218,6 +218,13 @@ class AppTheme extends ThemeExtension<AppTheme> {
       selectedItemColor: _colorScheme.secondary,
       unselectedItemColor: _colorScheme.primary.withValues(alpha: 0.6),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: _colorScheme.primary,
+      foregroundColor: _colorScheme.onPrimary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSpacing.baseCorner),
+      ),
+    ),
   );
 
   @override

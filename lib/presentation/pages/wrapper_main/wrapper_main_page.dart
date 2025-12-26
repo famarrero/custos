@@ -7,10 +7,10 @@ import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class WrapperMainPage extends StatefulWidget {
   const WrapperMainPage({super.key, required this.child});
@@ -70,8 +70,7 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
           titleString: context.router.appBarTitle(context),
           actions: [
             CustomIconButton(
-              icon: HugeIcons.strokeRoundedLogout01,
-              iconColor: context.colorScheme.primary,
+              icon: AppIcons.logout,
               onTap: () {
                 context.showConfirmationDialog(
                   title: context.l10n.confirmLogoutTitle,

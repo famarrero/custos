@@ -9,10 +9,10 @@ import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/login/components/profile_tile.dart';
 import 'package:custos/presentation/pages/login/cubit/login_cubit.dart';
 import 'package:custos/routes/routes.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                       onRetryPressed:
                           () => context.read<LoginCubit>().watchProfiles(),
                       noDataWidget: NoDataWidget(
-                        iconData: HugeIcons.strokeRoundedUser02,
+                        iconData: AppIcons.user,
                         title: context.l10n.loginNoProfileTitle,
                         subtitle: context.l10n.loginNoProfileSubtitle,
                       ),
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: context.xxxl),
 
                   CustomButton(
-                    prefixIconData: HugeIcons.strokeRoundedUserAdd01,
+                    prefixIconData: AppIcons.userAdd,
                     label: context.l10n.loginCreateProfileButton,
                     infiniteWidth: true,
                     onPressed: () {

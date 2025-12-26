@@ -82,6 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             CustomTextFormField(
                               controller: _profileNameController,
                               label: context.l10n.fieldProfileName,
+                              hint: 'Introduce el nombre de tu perfil',
                               isRequired: true,
                               textCapitalization: TextCapitalization.sentences,
                               textInputAction: TextInputAction.next,
@@ -90,6 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             CustomTextFormField(
                               controller: _masterKeyController,
                               label: context.l10n.fieldMasterKey,
+                              hint: 'Introduce tu clave maestra',
                               isRequired: true,
                               obscureText: true,
                               validator: context.validatePassword,
@@ -97,6 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             CustomTextFormField(
                               controller: _repeatMasterKeyController,
                               label: context.l10n.fieldRepeatMasterKey,
+                              hint: 'Repite tu clave maestra',
                               isRequired: true,
                               obscureText: true,
                               validator:

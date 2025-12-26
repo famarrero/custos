@@ -48,6 +48,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
           CustomTextFormField(
             controller: _masterKeyController,
             label: context.l10n.fieldMasterKey,
+            hint: 'Introduce tu clave maestra',
             isRequired: true,
             obscureText: true,
             validator: context.validatePassword,

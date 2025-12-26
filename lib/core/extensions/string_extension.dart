@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:custos/core/utils/reg_exp.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 
 /// Support methods for the String class.
@@ -33,13 +34,24 @@ extension StringExtension on String {
 
   /// Convert String to IconData.
   IconData? get toIconData {
-    final json = jsonDecode(this);
-    return IconData(
-      json['codePoint'] as int,
-      fontFamily: json['fontFamily'] as String?,
-      fontPackage: json['fontPackage'] as String?,
-      matchTextDirection: json['matchTextDirection'] as bool? ?? false,
-    );
+    try {
+      final decoded = jsonDecode(this);
+      if (decoded is! Map<String, dynamic>) return null;
+
+      // Migration fallback: previously stored icons from the `hugeicons` package.
+      // If the package is no longer present, the glyph won't render.
+      final fontPackage = decoded['fontPackage'] as String?;
+      if (fontPackage == 'hugeicons') return AppIcons.groupOthers;
+
+      return IconData(
+        decoded['codePoint'] as int,
+        fontFamily: decoded['fontFamily'] as String?,
+        fontPackage: fontPackage,
+        matchTextDirection: decoded['matchTextDirection'] as bool? ?? false,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 }
 

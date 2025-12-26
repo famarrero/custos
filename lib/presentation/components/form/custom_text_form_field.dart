@@ -2,10 +2,10 @@
 
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/presentation/components/form/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 /// Custom TextFormField widget for use throughout the app.
 ///
@@ -171,8 +171,8 @@ class CustomTextFormField extends StatelessWidget {
                               !_obscureTextNotifier.value,
                   icon: Icon(
                     value
-                        ? HugeIcons.strokeRoundedViewOff
-                        : HugeIcons.strokeRoundedEye,
+                        ? AppIcons.visibilityOff
+                        : AppIcons.visibilityOn,
                     color: context.colorScheme.secondary,
                   ),
                 );
@@ -238,7 +238,7 @@ class CustomTextFormField extends StatelessWidget {
         final children = <Widget>[
           if (label != null)
             Padding(
-              padding: EdgeInsets.only(left: context.xs),
+              padding: EdgeInsets.only(left: context.xl),
               child: Text(
                 isRequired ? '$label*' : label!,
                 style: context.textTheme.labelMedium?.copyWith(

@@ -1,8 +1,8 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/presentation/components/form/input_decoration.dart';
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 /// Custom DropdownButton to use across the app.
 class CustomDropdown<T> extends StatelessWidget {
@@ -85,7 +85,7 @@ class CustomDropdown<T> extends StatelessWidget {
           hideDefaultIcon
               ? const SizedBox.shrink()
               : Icon(
-                HugeIcons.strokeRoundedArrowDown01,
+                AppIcons.dropdown,
                 color: context.colorScheme.secondary,
               ),
       errorText: errorText,
@@ -135,7 +135,7 @@ class CustomDropdown<T> extends StatelessWidget {
     final children = <Widget>[
       if (label != null)
         Padding(
-          padding: EdgeInsets.only(left: context.xs),
+          padding: EdgeInsets.only(left: context.xl),
           child: Text(
             isRequired ? '$label*' : label!,
             style: context.textTheme.labelMedium?.copyWith(

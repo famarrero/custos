@@ -13,7 +13,6 @@ class CustomContainer extends StatelessWidget {
     this.corner,
     this.borderColor,
     this.borderWidth,
-    this.showBorder = true,
     this.clipBehavior = Clip.antiAlias,
   });
 
@@ -24,7 +23,6 @@ class CustomContainer extends StatelessWidget {
   final double? corner;
   final Color? borderColor;
   final double? borderWidth;
-  final bool showBorder;
   final Clip clipBehavior;
 
   @override
@@ -32,24 +30,28 @@ class CustomContainer extends StatelessWidget {
     final effectiveCorner = corner ?? context.corner();
     final effectiveBorderWidth = borderWidth ?? context.border();
     final effectiveBorderColor =
-        (borderColor ?? context.colorScheme.primary).withValues(alpha: 0.8);
+        borderColor ?? context.colorScheme.primary.withValues(alpha: 0.2);
 
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(effectiveCorner),
-      side:
-          showBorder
-              ? BorderSide(
-                color: effectiveBorderColor,
-                width: effectiveBorderWidth,
-              )
-              : BorderSide.none,
+      side: BorderSide(
+        color: effectiveBorderColor,
+        width: effectiveBorderWidth,
+        style: BorderStyle.solid,
+      ),
     );
 
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: Material(
-        color: backgroundColor ?? Colors.transparent,
+        color:
+            backgroundColor ??
+            (Theme.of(context).brightness == Brightness.light
+                ? context.colorScheme.surfaceContainerLowest
+                : context.colorScheme.surfaceContainerHigh),
         shape: shape,
+
+        shadowColor: Colors.black,
         clipBehavior: clipBehavior,
         child:
             padding != null ? Padding(padding: padding!, child: child) : child,

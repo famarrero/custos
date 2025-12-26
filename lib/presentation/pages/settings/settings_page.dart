@@ -1,7 +1,10 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/datetime_extension.dart';
 import 'package:custos/core/extensions/theme_mode_extension.dart';
 import 'package:custos/core/services/package_info_service.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/core/utils/app_icons.dart';
+import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
@@ -13,7 +16,6 @@ import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -21,28 +23,39 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = context.watch<AppCubit>().state.themeMode.isDarkMode;
-    final profileName = context.select<AuthCubit, String?>(
-      (cubit) => cubit.state.loginState.dataOrNull?.name,
+    final profile = context.select<AuthCubit, ProfileModel?>(
+      (cubit) => cubit.state.loginState.dataOrNull,
     );
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: context.xxxl,
+        horizontal: context.xl,
         vertical: context.lg,
       ),
       child: Column(
         children: [
-          if (profileName != null && profileName.trim().isNotEmpty) ...[
+          if (profile?.name != null && profile!.name.trim().isNotEmpty) ...[
             Row(
               children: [
-                AvatarWidget(color: null, name: profileName),
+                AvatarWidget(color: null, name: profile.name),
                 SizedBox(width: context.lg),
                 Expanded(
-                  child: Text(
-                    profileName,
-                    style: context.textTheme.titleLarge,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.name,
+                        style: context.textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        ' Creado el ${profile.createdAt.toLocal().formatDate}',
+                        style: context.textTheme.labelMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -50,17 +63,11 @@ class SettingsPage extends StatelessWidget {
             SizedBox(height: context.xxxl),
           ],
           CustomContainer(
-            padding: EdgeInsets.symmetric(
-              vertical: context.lg,
-              horizontal: context.s,
-            ),
             child: CustomTilesOptions(
               tiles: [
                 CustomSettingTile(
                   prefixIconPath:
-                      isDarkMode
-                          ? HugeIcons.strokeRoundedMoon02
-                          : HugeIcons.strokeRoundedSun02,
+                      isDarkMode ? AppIcons.darkMode : AppIcons.lightMode,
                   title: context.l10n.settingsThemeModeTitle,
                   subtitle: context.l10n.settingsThemeModeSubtitle,
                   onTap: () {
@@ -69,7 +76,7 @@ class SettingsPage extends StatelessWidget {
                 ),
 
                 CustomSettingTile(
-                  prefixIconPath: HugeIcons.strokeRoundedLanguageSquare,
+                  prefixIconPath: AppIcons.language,
                   title: context.l10n.settingsLanguageTitle,
                   subtitle: context.l10n.settingsLanguageSubtitle,
                   onTap: () {
@@ -81,7 +88,7 @@ class SettingsPage extends StatelessWidget {
                 ),
 
                 CustomSettingTile(
-                  prefixIconPath: HugeIcons.strokeRoundedShield01,
+                  prefixIconPath: AppIcons.shield,
                   title: context.l10n.settingsPrivacyPolicyTitle,
                   subtitle: context.l10n.settingsPrivacyPolicySubtitle,
                   onTap: () {
@@ -92,7 +99,7 @@ class SettingsPage extends StatelessWidget {
                 ),
 
                 CustomSettingTile(
-                  prefixIconPath: HugeIcons.strokeRoundedDelete01,
+                  prefixIconPath: AppIcons.delete,
                   title: context.l10n.settingsRemoveProfileTitle,
                   subtitle: context.l10n.settingsRemoveProfileSubtitle,
                   onTap: () {
@@ -117,8 +124,9 @@ class SettingsPage extends StatelessWidget {
                 ),
 
                 CustomSettingTile(
-                  prefixIconPath: HugeIcons.strokeRoundedInformationCircle,
+                  prefixIconPath: AppIcons.info,
                   title: context.l10n.settingsAboutUsTitle,
+                  subtitle: 'Informacion de la aplicacion',
                   onTap: () {},
                 ),
               ],
