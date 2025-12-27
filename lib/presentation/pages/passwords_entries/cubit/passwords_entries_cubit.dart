@@ -1,3 +1,4 @@
+import 'package:custos/core/utils/app_icons.dart';
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -27,7 +28,7 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
   static GroupEntity groupAll = GroupEntity(
     id: 'add',
     name: 'Todos',
-    icon: null,
+    icon: AppIcons.groupOthers,
     color: null,
   );
 

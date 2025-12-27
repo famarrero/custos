@@ -1,5 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
+import 'package:custos/core/extensions/group_icon_extensions.dart';
+import 'package:custos/core/utils/group_icons.dart';
 import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_color_picker.dart';
@@ -26,7 +28,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
 
   final TextEditingController _nameController = TextEditingController();
   Color? _color;
-  IconData? _icon;
+  int? _iconId;
 
   @override
   void initState() {
@@ -35,7 +37,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
     if (group != null) {
       _nameController.text = group.name;
       _color = group.color;
-      _icon = group.icon;
+      _iconId = group.icon.toGroupIconId ?? GroupIcons.defaultId;
     }
   }
 
@@ -78,10 +80,10 @@ class _UpsertGroupState extends State<UpsertGroup> {
 
                 CustomIconPicker(
                   label: context.l10n.upsertGroupSelectIconLabel,
-                  selectedIcon: _icon,
-                  onIconSelected: (icon) {
+                  selectedIconId: _iconId,
+                  onIconSelected: (iconId) {
                     setState(() {
-                      _icon = icon;
+                      _iconId = iconId;
                     });
                   },
                 ),
@@ -132,7 +134,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
         group: GroupEntity(
           id: widget.group?.id ?? Uuid().v4(),
           name: _nameController.text,
-          icon: _icon,
+          icon: GroupIcons.iconFor(_iconId),
           color: _color,
         ),
       );

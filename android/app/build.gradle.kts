@@ -14,6 +14,13 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+val hasReleaseSigning: Boolean =
+    keystorePropertiesFile.exists() &&
+        (keystoreProperties["storeFile"] as String?)?.isNotBlank() == true &&
+        (keystoreProperties["storePassword"] as String?)?.isNotBlank() == true &&
+        (keystoreProperties["keyAlias"] as String?)?.isNotBlank() == true &&
+        (keystoreProperties["keyPassword"] as String?)?.isNotBlank() == true
+
 android {
     namespace = "com.custos.android.app"
     compileSdk = flutter.compileSdkVersion
@@ -39,17 +46,23 @@ android {
 
     signingConfigs {
         create("release") {
-            println("Signing with key.properties [release]")
-            keyAlias = keystoreProperties["keyAlias"] as String?
-            keyPassword = keystoreProperties["keyPassword"] as String?
-            storeFile = keystoreProperties["storeFile"]?.let { file(it as String?) }
-            storePassword = keystoreProperties["storePassword"] as String?
+            if (hasReleaseSigning) {
+                println("Signing with key.properties [release]")
+                keyAlias = keystoreProperties["keyAlias"] as String?
+                keyPassword = keystoreProperties["keyPassword"] as String?
+                storeFile = keystoreProperties["storeFile"]?.let { file(it as String?) }
+                storePassword = keystoreProperties["storePassword"] as String?
+            } else {
+                println("No key.properties (or missing fields) -> will use debug signing for release builds")
+            }
         }
     }
 
     buildTypes {
         getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig =
+                if (hasReleaseSigning) signingConfigs.getByName("release")
+                else signingConfigs.getByName("debug")
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
