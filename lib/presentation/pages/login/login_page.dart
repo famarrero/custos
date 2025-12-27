@@ -35,10 +35,11 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocProvider(
         create: (context) => LoginCubit()..watchProfiles(),
         child: ScaffoldWidget(
+          safeAreaTop: true,
           appBar: CustomAppBar(leading: const SizedBox.shrink()),
           padding: EdgeInsets.symmetric(
-            vertical: context.xxxl,
-            horizontal: context.xxxl,
+            vertical: context.xl,
+            horizontal: context.xl,
           ),
           child: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
@@ -72,13 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onDataChild: (profiles) {
                         return ListView.separated(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: context.xxxl,
-                            vertical: context.xs,
-                          ),
                           itemCount: profiles.length,
                           separatorBuilder: (context, index) {
-                            return SizedBox(height: context.xxxl);
+                            return SizedBox(height: context.sm);
                           },
                           itemBuilder: (context, index) {
                             return ProfileTile(profile: profiles[index]);

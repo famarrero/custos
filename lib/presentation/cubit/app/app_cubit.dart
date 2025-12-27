@@ -4,6 +4,7 @@ import 'package:custos/data/repositories/preference/preference_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'app_cubit.freezed.dart';
 part 'app_state.dart';
@@ -17,7 +18,11 @@ class AppCubit extends Cubit<AppState> {
           locale: locale,
           devicePreviewState: false,
         ),
-      );
+      ) {
+    // Keep intl in sync with the app localization so any DateFormat() without
+    // explicit locale respects the selected language.
+    Intl.defaultLocale = locale.toLanguageTag();
+  }
 
   final PreferenceRepository _preferencesRepository = di();
 
@@ -30,6 +35,7 @@ class AppCubit extends Cubit<AppState> {
 
   void onLocaleChanged({required Locale locale}) async {
     await _preferencesRepository.setLocale(locale: locale);
+    Intl.defaultLocale = locale.toLanguageTag();
     emit(state.copyWith(locale: locale));
   }
 

@@ -54,6 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: BlocBuilder<RegisterCubit, RegisterState>(
           builder: (context, state) {
             return ScaffoldWidget(
+              safeAreaTop: true,
               appBar: CustomAppBar(),
               padding: EdgeInsets.symmetric(
                 vertical: context.xxxl,

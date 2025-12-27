@@ -136,6 +136,15 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                       : context.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
+          if (isSelected)
+            Container(
+              width: 4.0,
+              height: 4.0,
+              decoration: BoxDecoration(
+                color: context.colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+            ),
         ],
       ),
     );

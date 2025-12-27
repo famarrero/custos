@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/datetime_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
@@ -114,6 +115,27 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
           enableCopy: true,
           occultData: true,
         ),
+        if (widget.passwordEntry.expirationDate != null &&
+            widget.passwordEntry.expirationDate!.isBefore(DateTime.now()))
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              vertical: context.sm,
+              horizontal: context.sm,
+            ),
+            decoration: BoxDecoration(
+              color: context.colorScheme.errorContainer,
+              borderRadius: BorderRadius.all(Radius.circular(context.corner())),
+            ),
+            child: Center(
+              child: Text(
+                'Contraseña expirada el: ${widget.passwordEntry.expirationDate?.formatDate}',
+                style: context.textTheme.labelMedium?.copyWith(
+                  color: context.colorScheme.error,
+                ),
+              ),
+            ),
+          ),
         if (widget.passwordEntry.note.isNotNullAndNotEmpty)
           _infoItem(
             context,

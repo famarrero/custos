@@ -27,11 +27,9 @@ class GroupFilters extends StatelessWidget {
                   },
                   child: CustomBadge(
                     text: context.l10n.allGroups,
-                    height:
+                    isSelected:
                         state.selectedGroup?.id ==
-                                PasswordsEntriesCubit.groupAll.id
-                            ? 38
-                            : 32,
+                        PasswordsEntriesCubit.groupAll.id,
                   ),
                 ),
                 SizedBox(width: context.s),
@@ -51,8 +49,7 @@ class GroupFilters extends StatelessWidget {
                         icon: group.icon,
                         text: group.name,
                         color: group.color,
-                        height:
-                            state.selectedGroup?.id == group.id ? 38 : 32,
+                        isSelected: state.selectedGroup?.id == group.id,
                       ),
                     ),
                   ),

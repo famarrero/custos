@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
@@ -23,6 +24,8 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
 
   final TextEditingController _masterKeyController = TextEditingController();
 
+  bool _showForgotMasterKeyInfo = false;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -35,12 +38,8 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
           Column(
             children: [
               Text(
-                context.l10n.loginInProfileTitle,
+                'Hola ${widget.profile.name}',
                 style: context.textTheme.titleMedium,
-              ),
-              Text(
-                '(${widget.profile.name})',
-                style: context.textTheme.bodyMedium,
               ),
             ],
           ),
@@ -73,6 +72,60 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                 },
               );
             },
+          ),
+          Column(
+            spacing: context.lg,
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(context.corner()),
+                onTap:
+                    _showForgotMasterKeyInfo
+                        ? null
+                        : () {
+                          setState(
+                            () =>
+                                _showForgotMasterKeyInfo =
+                                    !_showForgotMasterKeyInfo,
+                          );
+                        },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.xs),
+                  child: Text(
+                    '¿Olvidaste tu clave maestra?',
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: context.colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child:
+                    _showForgotMasterKeyInfo
+                        ? Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: context.lg,
+                            vertical: context.lg,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.colorScheme.errorContainer,
+                            borderRadius: BorderRadius.circular(
+                              context.corner(),
+                            ),
+                          ),
+                          child: Text(
+                            'Lo sentimos ${widget.profile.name}, no hay nada que podamos hacer para ayudarte con tu clave maestra. Haz perdido todos tus datos y no podremos recuperarlos.',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: context.colorScheme.error,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                        : const SizedBox.shrink(),
+              ),
+            ],
           ),
         ],
       ),

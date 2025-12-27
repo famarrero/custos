@@ -23,6 +23,7 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
     @HiveField(6) required String password,
     @HiveField(7) required String? note,
     @HiveField(8) required String? groupId,
+    @HiveField(9) required DateTime? expirationDate,
   }) = _PasswordEntryModel;
 
   factory PasswordEntryModel.fromJson(Map<String, dynamic> json) =>
@@ -45,6 +46,7 @@ abstract class PasswordEntryModel with _$PasswordEntryModel {
       password: password,
       note: note,
       group: group,
+      expirationDate: expirationDate,
     );
   }
 }

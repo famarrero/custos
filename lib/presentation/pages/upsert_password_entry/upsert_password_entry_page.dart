@@ -8,6 +8,7 @@ import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/form/custom_dropdown.dart';
+import 'package:custos/presentation/components/form/custom_select_date_picker.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/password_generator/password_generator_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
@@ -42,6 +43,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   GroupEntity? _selectedGroup;
+  DateTime? _expirationDate;
 
   bool _isInitialized = false;
   bool _isAdd = false;
@@ -99,6 +101,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                   _passwordController.text = passwordEntry.password;
                   _noteController.text = passwordEntry.note ?? '';
                   _selectedGroup = passwordEntry.group;
+                  _expirationDate = passwordEntry.expirationDate;
                   _isInitialized = true;
                 }
 
@@ -179,6 +182,11 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                       textInputAction: TextInputAction.next,
                                       textInputType:
                                           TextInputType.visiblePassword,
+                                      onChanged: (_) {
+                                        setState(() {
+                                          _expirationDate = null;
+                                        });
+                                      },
                                     ),
                                   ),
                                   Padding(
@@ -198,6 +206,10 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                               child:
                                                   const PasswordGeneratorWidget(),
                                             );
+
+                                        setState(() {
+                                          _expirationDate = null;
+                                        });
                                         if (generatedPassword == null) return;
                                         _passwordController.text =
                                             generatedPassword;
@@ -260,6 +272,21 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                   ),
                                 ],
                               ),
+
+                              CustomSelectDatePicker(
+                                label: 'Fecha de expiración',
+                                hint: 'Selecciona una fecha de expiración',
+                                // firstDate: DateTime(2024, 1, 1),
+                                firstDate: DateTime.now(),
+                                value: _expirationDate,
+                                allowClear: true,
+                                onValueUpdate: (value) {
+                                  setState(() {
+                                    _expirationDate = value;
+                                  });
+                                },
+                              ),
+
                               Padding(
                                 padding: EdgeInsets.only(bottom: context.xxl),
                                 child: CustomTextFormField(
@@ -327,6 +354,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
           password: _passwordController.text,
           note: _noteController.text,
           group: _selectedGroup,
+          expirationDate: _expirationDate?.toUtc(),
         ),
       );
 

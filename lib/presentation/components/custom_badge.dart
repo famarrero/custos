@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class CustomBadge extends StatelessWidget {
     this.applyAlpha = true,
     this.hideBackground = false,
     this.margin,
+    this.isSelected = false,
   });
 
   final Color? color;
@@ -27,6 +29,7 @@ class CustomBadge extends StatelessWidget {
   final bool applyAlpha;
   final bool hideBackground;
   final EdgeInsetsGeometry? margin;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -38,34 +41,32 @@ class CustomBadge extends StatelessWidget {
         color:
             hideBackground
                 ? null
-                : (color ??
-                    context.colorScheme.primary).withValues(alpha: 0.8),
+                : (color ?? context.colorScheme.primary).withValues(alpha: 0.8),
         borderRadius: BorderRadius.all(
           Radius.circular(corner ?? (context.corner() * 0.6)),
         ),
         border: Border.all(
-          color:
-              color ??
-              context.colorScheme.primary,
+          color: color ?? context.colorScheme.primary,
           width: context.border() * 0.5,
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null)
-            FittedBox(
-              child: Icon(
-                icon,
-                color: hideBackground ? color : Colors.white,
-                size: iconSize,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: context.sm),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: context.sm,
+          children: [
+            if (icon != null)
+              FittedBox(
+                child: Icon(
+                  icon,
+                  color: hideBackground ? color : Colors.white,
+                  size: iconSize,
+                ),
               ),
-            ),
-          if (text != null && text!.isNotEmpty)
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.only(left: context.sm, right: context.sm),
+            if (text != null && text!.isNotEmpty)
+              Flexible(
                 child: Text(
                   text ?? '',
                   maxLines: 1,
@@ -76,8 +77,15 @@ class CustomBadge extends StatelessWidget {
                       ),
                 ),
               ),
-            ),
-        ],
+
+            if (isSelected)
+              Icon(
+                AppIcons.check,
+                color: Colors.white,
+                size: iconSize * 1.2,
+              ),
+          ],
+        ),
       ),
     );
   }

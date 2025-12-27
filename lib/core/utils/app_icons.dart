@@ -41,6 +41,9 @@ final class AppIcons {
   static const IconData warning = Icons.warning_amber_rounded;
   static const IconData success = Icons.check_circle_outline;
 
+  // Date/time
+  static const IconData calendar = Icons.calendar_month_outlined;
+
   // Group icon picker (categories)
   static const IconData groupHome = Icons.home_outlined;
   static const IconData groupSecurity = key;
@@ -73,4 +76,6 @@ final class AppIcons {
   // UI helpers
   static const IconData dropdown = Icons.keyboard_arrow_down_rounded;
   static const IconData chevronRight = Icons.keyboard_arrow_right_outlined;
+
+  static const IconData check = Icons.check;
 }
