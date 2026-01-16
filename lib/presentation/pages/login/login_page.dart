@@ -1,8 +1,12 @@
+
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
+import 'package:custos/presentation/components/custom_icon_button.dart';
+import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
+import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
@@ -36,7 +40,26 @@ class _LoginPageState extends State<LoginPage> {
         create: (context) => LoginCubit()..watchProfiles(),
         child: ScaffoldWidget(
           safeAreaTop: true,
-          appBar: CustomAppBar(leading: const SizedBox.shrink()),
+          appBar: CustomAppBar(
+            leading: const SizedBox.shrink(),
+            actions: [
+              CustomIconButton(
+                tooltip: 'Importar datos',
+                icon: AppIcons.import,
+                onTap: () {
+                  context.showCustomModalBottomSheet(
+                    title: 'Importa y exporta tus datos',
+                    child: BlocProvider<ImportExportDataCubit>(
+                      create: (context) => ImportExportDataCubit(),
+                      child: ImportExportDataWidget(
+                        importMode: ImportExportDataMode.import,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
           padding: EdgeInsets.symmetric(
             vertical: context.xl,
             horizontal: context.xl,

@@ -62,4 +62,6 @@ final class AppIcons {
   static const IconData dropdown = FontAwesomeIcons.chevronDown;
   static const IconData chevronRight = FontAwesomeIcons.chevronRight;
   static const IconData check = FontAwesomeIcons.check;
+  static const IconData import = FontAwesomeIcons.fileImport;
+  static const IconData export = FontAwesomeIcons.fileExport;
 }

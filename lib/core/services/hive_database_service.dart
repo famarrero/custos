@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:custos/data/models/group/group_model.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
+import 'package:custos/data/models/version/version_model.dart';
 import 'package:custos/di_container.dart';
 import 'package:hive_ce/hive.dart';
 
@@ -20,11 +21,14 @@ abstract class HiveDatabaseService {
   Box get getGroupBox;
 
   Box get getPasswordEntryBox;
+
+  Box get getVersionBox;
 }
 
 // Box keys
 final String profileBoxKey = 'profile';
 
+String versionBoxKey(String profileId) => '${profileId}_version';
 String groupBoxKey(String profileId) => '${profileId}_group';
 String passwordEntryBoxKey(String profileId) => '${profileId}_password_entry';
 
@@ -45,6 +49,7 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
     _hive.registerAdapter(ProfileModelAdapter());
     _hive.registerAdapter(GroupModelAdapter());
     _hive.registerAdapter(PasswordEntryModelAdapter());
+    _hive.registerAdapter(VersionModelAdapter());
 
     if (!_hive.isBoxOpen(profileBoxKey)) {
       await _hive.openBox<dynamic>(profileBoxKey);
@@ -74,6 +79,13 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
         encryptionCipher: HiveAesCipher(_encryptionKey!),
       );
     }
+
+    if (!_hive.isBoxOpen(versionBoxKey(_profileId!))) {
+      await _hive.openBox<dynamic>(
+        versionBoxKey(_profileId!),
+        encryptionCipher: HiveAesCipher(_encryptionKey!),
+      );
+    }
   }
 
   @override
@@ -91,6 +103,11 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
   Box get getPasswordEntryBox {
     _checkKey();
     return _hive.box(passwordEntryBoxKey(_profileId!));
+  }
+
+  @override
+  Box get getVersionBox {
+    return _hive.box(versionBoxKey(_profileId!));
   }
 
   void _checkKey() {

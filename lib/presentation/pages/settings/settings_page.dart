@@ -1,4 +1,3 @@
-import 'package:custos/core/app_environment.dart';
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/datetime_extension.dart';
 import 'package:custos/core/extensions/theme_mode_extension.dart';
@@ -6,13 +5,15 @@ import 'package:custos/core/services/package_info_service.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
+import 'package:custos/data/repositories/version/version_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_tiles_options.dart';
+import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
+import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/privacy_police_widget.dart';
-import 'package:custos/presentation/components/typography_show_case.dart';
 import 'package:custos/presentation/cubit/app/app_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,7 @@ class SettingsPage extends StatelessWidget {
     );
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: context.xl,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: context.xl),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -56,6 +55,17 @@ class SettingsPage extends StatelessWidget {
                           style: context.textTheme.labelMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+                        ),
+                        FutureBuilder(
+                          future: di<VersionRepository>().getVersion(),
+                          builder: (context, asyncSnapshot) {
+                            return Text(
+                              'Data base version: ${asyncSnapshot.data?.version ?? 0}',
+                              style: context.textTheme.labelMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            );
+                          }
                         ),
                       ],
                     ),
@@ -85,6 +95,21 @@ class SettingsPage extends StatelessWidget {
                       context.showCustomModalBottomSheet(
                         title: context.l10n.settingsChangeLanguageTitle,
                         child: ChangeLanguageWidget(),
+                      );
+                    },
+                  ),
+
+                  CustomSettingTile(
+                    prefixIconPath: AppIcons.groupBackup,
+                    title: 'Import/Export',
+                    subtitle: 'Importa y exporta tus datos',
+                    onTap: () {
+                      context.showCustomModalBottomSheet(
+                        title: 'Importa y exporta tus datos',
+                        child: BlocProvider<ImportExportDataCubit>(
+                          create: (context) => ImportExportDataCubit(),
+                          child: ImportExportDataWidget(),
+                        ),
                       );
                     },
                   ),
@@ -162,7 +187,7 @@ class SettingsPage extends StatelessWidget {
 
             SizedBox(height: context.xxxl),
 
-            if (AppEnvironment.isDevOrDebugMode) TypographyShowcase(),
+            // if (AppEnvironment.isDevOrDebugMode) TypographyShowcase(),
           ],
         ),
       ),

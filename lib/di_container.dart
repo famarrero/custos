@@ -13,6 +13,8 @@ import 'package:custos/data/providers/profile/profile_provider.dart';
 import 'package:custos/data/providers/profile/profile_provider_impl.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider_impl.dart';
+import 'package:custos/data/providers/version/version_provider.dart';
+import 'package:custos/data/providers/version/version_provider_impl.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/data/repositories/auth/auth_repository_impl.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
@@ -23,6 +25,8 @@ import 'package:custos/data/repositories/preference/preference_repository.dart';
 import 'package:custos/data/repositories/preference/preference_repository_impl.dart';
 import 'package:custos/data/repositories/profile/profile_repository.dart';
 import 'package:custos/data/repositories/profile/profile_repository_impl.dart';
+import 'package:custos/data/repositories/version/version_repository.dart';
+import 'package:custos/data/repositories/version/version_repository_impl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
@@ -82,6 +86,9 @@ Future initInjection() async {
     () => PasswordEntryProviderImpl(),
   );
 
+  /// VersionProvider
+  di.registerLazySingleton<VersionProvider>(() => VersionProviderImpl());
+
   ///-------------------Repositories--------------------------------///
 
   /// PreferencesRepository
@@ -103,6 +110,11 @@ Future initInjection() async {
   /// PasswordEntryRepository
   GetIt.I.registerLazySingleton<PasswordEntryRepository>(
     () => PasswordEntryRepositoryImpl(),
+  );
+
+  /// VersionRepository
+  GetIt.I.registerLazySingleton<VersionRepository>(
+    () => VersionRepositoryImpl(),
   );
 }
 

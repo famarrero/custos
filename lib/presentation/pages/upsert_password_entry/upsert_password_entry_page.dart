@@ -190,9 +190,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: context.m,
-                                    ),
+                                    padding: EdgeInsets.only(bottom: context.m),
                                     child: CustomIconButton(
                                       icon: AppIcons.key,
                                       iconColor: Colors.white,
@@ -259,9 +257,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                       ),
                                     ),
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: context.m,
-                                    ),
+                                    padding: EdgeInsets.only(bottom: context.m),
                                     child: CustomIconButton(
                                       icon: AppIcons.add,
                                       iconColor: Colors.white,

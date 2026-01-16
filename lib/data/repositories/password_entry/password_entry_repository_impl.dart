@@ -1,10 +1,12 @@
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
+import 'package:custos/data/repositories/version/version_repository.dart';
 import 'package:custos/di_container.dart';
 
 class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
   final PasswordEntryProvider passwordEntryProvider = di();
+  final VersionRepository versionRepository = di();
 
   @override
   Future<List<PasswordEntryEntity>> getPasswordsEntries() async {
@@ -31,6 +33,7 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
   Future<PasswordEntryEntity> upsertPasswordEntry({
     required PasswordEntryEntity passwordEntry,
   }) async {
+    await versionRepository.incrementVersion();
     return (await passwordEntryProvider.upsertPasswordEntry(
       passwordEntry: passwordEntry.toModel(),
     )).toEntity();
@@ -38,6 +41,7 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
 
   @override
   Future<void> deletePasswordEntry({required String id}) async {
+    await versionRepository.incrementVersion();
     passwordEntryProvider.deletePasswordEntry(id: id);
   }
 }

@@ -10,6 +10,7 @@ class CustomIconButton extends StatelessWidget {
     this.backgroundColor,
     this.borderRadius,
     required this.onTap,
+    this.tooltip,
   });
 
   final IconData icon;
@@ -18,22 +19,25 @@ class CustomIconButton extends StatelessWidget {
   final Color? backgroundColor;
   final double? borderRadius;
   final Function() onTap;
-
+  final String? tooltip;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding:
-            backgroundColor != null
-                ? EdgeInsets.all(context.m)
-                : EdgeInsets.zero,
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(borderRadius ?? context.corner(0.8)),
-          color: backgroundColor,
+      child: Tooltip(
+        message: tooltip ?? '',
+        child: Container(
+          padding:
+              backgroundColor != null
+                  ? EdgeInsets.all(context.m)
+                  : EdgeInsets.zero,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(borderRadius ?? context.corner(0.8)),
+            color: backgroundColor,
+          ),
+          child: Icon(icon, color: iconColor, size: iconSize),
         ),
-        child: Icon(icon, color: iconColor, size: iconSize),
       ),
     );
   }

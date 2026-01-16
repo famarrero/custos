@@ -8,6 +8,7 @@ import 'package:custos/core/utils/failures.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/providers/profile/profile_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
+import 'package:custos/data/providers/version/version_provider.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:uuid/uuid.dart';
@@ -16,7 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final HiveDatabaseService hiveDatabase = di();
   final SecureStorageProvider secureStorage = di();
   final ProfileProvider profilesProvider = di();
-
+  final VersionProvider versionProvider = di();
+  
   @override
   Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
     required String profileName,
@@ -115,6 +117,8 @@ class AuthRepositoryImpl implements AuthRepository {
         hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
         // If true open the encrypted boxes
         await hiveDatabase.openEncryptedBoxes();
+        // Set data version as 1
+        await versionProvider.incrementVersion();
         return right(null);
       } else {
         // Set the encryptionKey in HiveDatabaseService to null

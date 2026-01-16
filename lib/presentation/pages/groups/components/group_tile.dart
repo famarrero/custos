@@ -47,7 +47,9 @@ class GroupTile extends StatelessWidget {
         if (showEditButton)
           CustomIconButton(
             icon: AppIcons.edit,
-            backgroundColor: context.colorScheme.secondaryContainer.withValues(alpha: 0.4),
+            backgroundColor: context.colorScheme.secondaryContainer.withValues(
+              alpha: 0.4,
+            ),
             iconColor: context.colorScheme.onSecondaryContainer,
             iconSize: 16.0,
             onTap: () {
@@ -60,7 +62,9 @@ class GroupTile extends StatelessWidget {
         if (showDeleteButton)
           CustomIconButton(
             icon: AppIcons.delete,
-            backgroundColor: context.colorScheme.errorContainer.withValues(alpha: 0.4),
+            backgroundColor: context.colorScheme.errorContainer.withValues(
+              alpha: 0.4,
+            ),
             iconColor: context.colorScheme.onErrorContainer,
             iconSize: 16.0,
             onTap: () {

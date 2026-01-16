@@ -1,10 +1,12 @@
 import 'package:custos/data/models/group/group_entity.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
+import 'package:custos/data/repositories/version/version_repository.dart';
 import 'package:custos/di_container.dart';
 
 class GroupRepositoryImpl implements GroupRepository {
   final GroupProvider groupProvider = di();
+  final VersionRepository versionRepository = di();
 
   @override
   Future<List<GroupEntity>> getGroups() async {
@@ -34,11 +36,13 @@ class GroupRepositoryImpl implements GroupRepository {
 
   @override
   Future<GroupEntity> upsertGroup({required GroupEntity group}) async {
+    await versionRepository.incrementVersion();
     return (await groupProvider.upsertGroup(group: group.toModel())).toEntity();
   }
 
   @override
   Future<void> deleteGroup({required String id}) async {
+    await versionRepository.incrementVersion();
     return groupProvider.deleteGroup(id: id);
   }
 }
