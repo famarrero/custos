@@ -144,7 +144,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
         colorScheme: _colorScheme,
       );
 
-      _iconSize = 24;
+      _iconSize = 20;
       _contentPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 14);
       _dialogBorderRadius = AppSpacing.baseCorner;
     } else {
@@ -154,7 +154,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
         colorScheme: _colorScheme,
       );
 
-      _iconSize = 34;
+      _iconSize = 30;
       _contentPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 18);
       _dialogBorderRadius = AppSpacing.baseCorner * 1.2;
     }

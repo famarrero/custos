@@ -32,7 +32,6 @@ class SettingsPage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: context.xl,
-        vertical: context.lg,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -53,7 +52,7 @@ class SettingsPage extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          ' Creado el ${profile.createdAt.toLocal().formatDate}',
+                          'Creado el ${profile.createdAt.toLocal().formatDate}',
                           style: context.textTheme.labelMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

@@ -47,7 +47,7 @@ class AvatarWidget extends StatelessWidget {
                     child: Icon(
                       icon,
                       color: color,
-                      size: (compact ? 18 : 24.0),
+                      size: (compact ? 18 : 20.0),
                     ),
                   ),
                 ),

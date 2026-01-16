@@ -40,29 +40,34 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
                 icon: widget.passwordEntry.group!.icon,
                 text: widget.passwordEntry.group!.name,
                 color: widget.passwordEntry.group!.color,
-                height: 38,
+                height: 28,
                 corner: context.corner() * 0.6,
               ),
 
             const Spacer(),
 
-            CustomButton(
-              type: CustomTextButtonEnum.filled,
-              label: context.l10n.edit,
-              onPressed: () {
-                context.pop();
-                context.push(
-                  UpsertPasswordEntryRoute(
-                    id: widget.passwordEntry.id,
-                  ).location,
-                );
-              },
+            SizedBox(
+              height: 38,
+              child: CustomButton(
+                type: CustomTextButtonEnum.filled,
+                label: context.l10n.edit,
+                corner: context.corner() * 0.6,
+                onPressed: () {
+                  context.pop();
+                  context.push(
+                    UpsertPasswordEntryRoute(
+                      id: widget.passwordEntry.id,
+                    ).location,
+                  );
+                },
+              ),
             ),
             CustomIconButton(
               icon: AppIcons.delete,
+              iconSize: 22,
               backgroundColor: context.colorScheme.errorContainer,
               iconColor: context.colorScheme.onErrorContainer,
-              iconSize: 24.0,
+              borderRadius: context.corner() * 0.6,
               onTap: () {
                 context.showConfirmationDialog(
                   title: context.l10n.confirmDeletePasswordEntryTitle,

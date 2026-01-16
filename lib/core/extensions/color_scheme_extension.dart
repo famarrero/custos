@@ -10,7 +10,8 @@ extension ColorSchemeExtension on ColorScheme {
       brightness == Brightness.light
           ? const Color.fromARGB(255, 255, 164, 8)
           : const Color.fromARGB(255, 255, 164, 8);
-
-  Color get blackAndWith =>
-      brightness == Brightness.light ? Colors.black : Colors.white;
+  
+  /// Returns the contrast color based on the brightness of the color scheme.
+  Color contrastColor({Color lightColor = Colors.black, Color darkColor = Colors.white}) =>
+      brightness == Brightness.light ? lightColor : darkColor;
 }

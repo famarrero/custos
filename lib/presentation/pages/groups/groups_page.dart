@@ -19,7 +19,7 @@ class GroupsPage extends StatelessWidget {
       create: (context) => GroupsCubit()..watchGroups(),
       child: ScaffoldWidget(
         floatingActionButton: FloatingActionButton(
-          child: Icon(AppIcons.add),
+          child: Icon(AppIcons.add, color: Colors.white),
           onPressed: () {
             context.showCustomGeneralDialog(
               title: context.l10n.groupsAddGroupTitle,

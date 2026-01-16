@@ -166,7 +166,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                 textInputType: TextInputType.phone,
                               ),
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 spacing: 8.0,
                                 children: [
                                   Expanded(
@@ -190,10 +190,12 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top: context.xl),
+                                    padding: EdgeInsets.only(
+                                      bottom: context.m,
+                                    ),
                                     child: CustomIconButton(
                                       icon: AppIcons.key,
-                                      iconColor: context.colorScheme.onPrimary,
+                                      iconColor: Colors.white,
                                       backgroundColor:
                                           context.colorScheme.primary,
                                       onTap: () async {
@@ -219,6 +221,8 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                 ],
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+
                                 spacing: 8.0,
                                 children: [
                                   if (state.groups.isLoading)
@@ -255,10 +259,12 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                       ),
                                     ),
                                   Padding(
-                                    padding: EdgeInsets.only(top: context.xl),
+                                    padding: EdgeInsets.only(
+                                      bottom: context.m,
+                                    ),
                                     child: CustomIconButton(
                                       icon: AppIcons.add,
-                                      iconColor: context.colorScheme.onPrimary,
+                                      iconColor: Colors.white,
                                       backgroundColor:
                                           context.colorScheme.primary,
                                       onTap: () {

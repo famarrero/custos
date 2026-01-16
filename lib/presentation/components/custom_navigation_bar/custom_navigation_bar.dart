@@ -125,7 +125,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 isSelected
                     ? context.colorScheme.primary
                     : context.colorScheme.onSurface.withValues(alpha: 0.6),
-            size: 24.0,
           ),
           Text(
             label,

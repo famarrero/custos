@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Centralized icon registry for the whole app.
 ///
@@ -7,76 +8,58 @@ import 'package:flutter/material.dart';
 final class AppIcons {
   AppIcons._();
 
-  // Generic/actions
-  static const IconData add = Icons.add;
-  static const IconData edit = Icons.edit_outlined;
-  static const IconData delete = Icons.delete_outline;
-  static const IconData search = Icons.search;
-  static const IconData close = Icons.close;
-  static const IconData copy = Icons.copy;
-  static const IconData back = Icons.arrow_back_ios_new;
-  static const IconData logout = Icons.logout;
-  static const IconData debug = Icons.bug_report_outlined;
-
-  // Auth/user
-  static const IconData user = Icons.person_outline;
-  static const IconData userAdd = Icons.person_add_alt_1_outlined;
-
-  // Password/security
-  static const IconData key = Icons.key;
-  static const IconData visibilityOn = Icons.visibility_outlined;
-  static const IconData visibilityOff = Icons.visibility_off_outlined;
-  static const IconData shield = Icons.shield_outlined;
-
-  // App/settings
-  static const IconData settings = Icons.settings_outlined;
-  static const IconData info = Icons.info_outline;
-  static const IconData language = Icons.language;
-  static const IconData darkMode = Icons.dark_mode_outlined;
-  static const IconData lightMode = Icons.light_mode_outlined;
-
-  // Navigation/pages
-  static const IconData groups = Icons.list;
-
-  // Feedback
-  static const IconData warning = Icons.warning_amber_rounded;
-  static const IconData success = Icons.check_circle_outline;
-
-  // Date/time
-  static const IconData calendar = Icons.calendar_month_outlined;
-
-  // Group icon picker (categories)
-  static const IconData groupHome = Icons.home_outlined;
+  static const IconData add = FontAwesomeIcons.plus;
+  static const IconData edit = FontAwesomeIcons.pencil;
+  static const IconData delete = FontAwesomeIcons.trash;
+  static const IconData search = FontAwesomeIcons.magnifyingGlass;
+  static const IconData close = FontAwesomeIcons.xmark;
+  static const IconData copy = FontAwesomeIcons.copy;
+  static const IconData back = FontAwesomeIcons.chevronLeft;
+  static const IconData logout = FontAwesomeIcons.rightFromBracket;
+  static const IconData debug = FontAwesomeIcons.bug;
+  static const IconData user = FontAwesomeIcons.user;
+  static const IconData userAdd = FontAwesomeIcons.userPlus;
+  static const IconData key = FontAwesomeIcons.key;
+  static const IconData visibilityOn = FontAwesomeIcons.eye;
+  static const IconData visibilityOff = FontAwesomeIcons.eyeSlash;
+  static const IconData shield = FontAwesomeIcons.shield;
+  static const IconData settings = FontAwesomeIcons.gear;
+  static const IconData info = FontAwesomeIcons.circleInfo;
+  static const IconData language = FontAwesomeIcons.language;
+  static const IconData darkMode = FontAwesomeIcons.moon;
+  static const IconData lightMode = FontAwesomeIcons.sun;
+  static const IconData groups = FontAwesomeIcons.list;
+  static const IconData warning = FontAwesomeIcons.triangleExclamation;
+  static const IconData success = FontAwesomeIcons.circleCheck;
+  static const IconData calendar = FontAwesomeIcons.calendar;
+  static const IconData groupHome = FontAwesomeIcons.house;
   static const IconData groupSecurity = key;
-  static const IconData groupCrypto = Icons.currency_bitcoin_outlined;
-  static const IconData groupFinance = Icons.account_balance_wallet_outlined;
-  static const IconData groupCards = Icons.credit_card_outlined;
-  static const IconData groupPersonal = Icons.account_circle_outlined;
-  static const IconData groupUsers = Icons.groups_outlined;
-  static const IconData groupIdentity = Icons.badge_outlined;
-  static const IconData groupBusiness = Icons.work_outline;
-  static const IconData groupTravel = Icons.flight_takeoff_outlined;
-  static const IconData groupSocial = Icons.people_outline;
-  static const IconData groupWebsites = Icons.public_outlined;
-  static const IconData groupEmail = Icons.mail_outline;
-  static const IconData groupMessaging = Icons.chat_bubble_outline;
-  static const IconData groupShopping = Icons.shopping_bag_outlined;
-  static const IconData groupGaming = Icons.sports_esports_outlined;
-  static const IconData groupMobile = Icons.smartphone_outlined;
-  static const IconData groupWifi = Icons.wifi_outlined;
-  static const IconData groupBackup = Icons.cloud_upload_outlined;
-  static const IconData groupCloud = Icons.cloud_outlined;
+  static const IconData groupCrypto = FontAwesomeIcons.bitcoin;
+  static const IconData groupFinance = FontAwesomeIcons.wallet;
+  static const IconData groupCards = FontAwesomeIcons.creditCard;
+  static const IconData groupPersonal = FontAwesomeIcons.circleUser;
+  static const IconData groupUsers = FontAwesomeIcons.users;
+  static const IconData groupIdentity = FontAwesomeIcons.idCard;
+  static const IconData groupBusiness = FontAwesomeIcons.briefcase;
+  static const IconData groupTravel = FontAwesomeIcons.plane;
+  static const IconData groupSocial = FontAwesomeIcons.peopleGroup;
+  static const IconData groupWebsites = FontAwesomeIcons.globe;
+  static const IconData groupEmail = FontAwesomeIcons.envelope;
+  static const IconData groupMessaging = FontAwesomeIcons.comment;
+  static const IconData groupShopping = FontAwesomeIcons.bagShopping;
+  static const IconData groupGaming = FontAwesomeIcons.gamepad;
+  static const IconData groupMobile = FontAwesomeIcons.mobile;
+  static const IconData groupWifi = FontAwesomeIcons.wifi;
+  static const IconData groupBackup = FontAwesomeIcons.cloudArrowUp;
+  static const IconData groupCloud = FontAwesomeIcons.cloud;
   static const IconData groupProtection = shield;
   static const IconData groupConfiguration = settings;
-  static const IconData groupStatistics = Icons.bar_chart_outlined;
-  static const IconData groupServices = Icons.add_box_outlined;
-  static const IconData groupDevelopment = Icons.code;
-  static const IconData groupBanking = Icons.account_balance_outlined;
-  static const IconData groupOthers = Icons.category_outlined;
-
-  // UI helpers
-  static const IconData dropdown = Icons.keyboard_arrow_down_rounded;
-  static const IconData chevronRight = Icons.keyboard_arrow_right_outlined;
-
-  static const IconData check = Icons.check;
+  static const IconData groupStatistics = FontAwesomeIcons.chartBar;
+  static const IconData groupServices = FontAwesomeIcons.box;
+  static const IconData groupDevelopment = FontAwesomeIcons.code;
+  static const IconData groupBanking = FontAwesomeIcons.buildingColumns;
+  static const IconData groupOthers = FontAwesomeIcons.folder;
+  static const IconData dropdown = FontAwesomeIcons.chevronDown;
+  static const IconData chevronRight = FontAwesomeIcons.chevronRight;
+  static const IconData check = FontAwesomeIcons.check;
 }

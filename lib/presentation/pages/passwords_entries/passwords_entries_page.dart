@@ -42,7 +42,7 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
         },
         child: ScaffoldWidget(
           floatingActionButton: FloatingActionButton(
-            child: Icon(AppIcons.add),
+            child: Icon(AppIcons.add, color: Colors.white),
             onPressed: () {
               context.push(
                 UpsertPasswordEntryRoute(

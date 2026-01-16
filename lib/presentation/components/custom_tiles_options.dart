@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/color_scheme_extension.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class CustomSettingTile extends StatelessWidget {
                 width: prefixIconSize,
                 prefixIconSvgPath!,
                 colorFilter: ColorFilter.mode(
-                  prefixIconColor ?? context.colorScheme.primary,
+                  prefixIconColor ?? context.colorScheme.contrastColor(lightColor: context.colorScheme.primary),
                   BlendMode.src,
                 ),
               )
@@ -68,7 +69,7 @@ class CustomSettingTile extends StatelessWidget {
                   ? Icon(
                     prefixIconPath!,
                     size: prefixIconSize,
-                    color: prefixIconColor ?? context.colorScheme.primary,
+                    color: prefixIconColor ?? context.colorScheme.contrastColor(lightColor: context.colorScheme.primary),
                   )
                   : null),
       title: Text(title, style: context.textTheme.bodyMedium),
@@ -78,7 +79,7 @@ class CustomSettingTile extends StatelessWidget {
               : null,
       trailing: CustomIconButton(
         icon: AppIcons.chevronRight,
-        iconColor: context.colorScheme.primary.withValues(alpha: 0.4),
+        iconColor: context.colorScheme.contrastColor(lightColor: context.colorScheme.primary.withValues(alpha: 0.8), darkColor: Colors.white.withValues(alpha: 0.8)),
         onTap: onTap,
       ),
     );

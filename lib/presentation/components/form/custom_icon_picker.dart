@@ -133,7 +133,7 @@ Future<int?> showIconPickerDialog(
                               color:
                                   isSelected
                                       ? context.colorScheme.onPrimary
-                                      : context.colorScheme.blackAndWith,
+                                      : context.colorScheme.contrastColor(),
                             ),
                           ),
                           SizedBox(height: context.xs),

@@ -34,6 +34,7 @@ class GroupTile extends StatelessWidget {
           color: group.color,
           name: group.name,
           icon: group.icon,
+          compact: compact,
           size: 40,
         ),
         Expanded(
@@ -46,9 +47,9 @@ class GroupTile extends StatelessWidget {
         if (showEditButton)
           CustomIconButton(
             icon: AppIcons.edit,
-            backgroundColor: context.colorScheme.secondaryContainer,
+            backgroundColor: context.colorScheme.secondaryContainer.withValues(alpha: 0.4),
             iconColor: context.colorScheme.onSecondaryContainer,
-            iconSize: 18.0,
+            iconSize: 16.0,
             onTap: () {
               context.showCustomGeneralDialog(
                 title: context.l10n.groupsEditGroupTitle,
@@ -59,9 +60,9 @@ class GroupTile extends StatelessWidget {
         if (showDeleteButton)
           CustomIconButton(
             icon: AppIcons.delete,
-            backgroundColor: context.colorScheme.errorContainer,
+            backgroundColor: context.colorScheme.errorContainer.withValues(alpha: 0.4),
             iconColor: context.colorScheme.onErrorContainer,
-            iconSize: 18.0,
+            iconSize: 16.0,
             onTap: () {
               context.showConfirmationDialog(
                 title: context.l10n.confirmDeleteGroupTitle,
