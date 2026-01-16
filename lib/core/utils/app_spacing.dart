@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 /// Scales auto‑adapt for mobile/tablet via screen width.
 class AppSpacing {
   // Corners + calculated scale
-  static const double baseCorner = 20.0; // modify once → everything scales
+  static const double baseCorner = 12.0; // modify once → everything scales
   static double corner(BuildContext context, [double factor = 1]) =>
       (DeviceInfo.isTablet(context)
           ? baseCorner * 1.2 * factor

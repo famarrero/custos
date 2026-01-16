@@ -10,36 +10,24 @@
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
-  /// File path: assets/fonts/Inter_24pt-Bold.ttf
-  String get inter24ptBold => 'assets/fonts/Inter_24pt-Bold.ttf';
+  /// File path: assets/fonts/Nunito-Bold.ttf
+  String get nunitoBold => 'assets/fonts/Nunito-Bold.ttf';
 
-  /// File path: assets/fonts/Inter_24pt-ExtraLight.ttf
-  String get inter24ptExtraLight => 'assets/fonts/Inter_24pt-ExtraLight.ttf';
+  /// File path: assets/fonts/Nunito-Light.ttf
+  String get nunitoLight => 'assets/fonts/Nunito-Light.ttf';
 
-  /// File path: assets/fonts/Inter_24pt-Light.ttf
-  String get inter24ptLight => 'assets/fonts/Inter_24pt-Light.ttf';
+  /// File path: assets/fonts/Nunito-Medium.ttf
+  String get nunitoMedium => 'assets/fonts/Nunito-Medium.ttf';
 
-  /// File path: assets/fonts/Inter_24pt-Medium.ttf
-  String get inter24ptMedium => 'assets/fonts/Inter_24pt-Medium.ttf';
-
-  /// File path: assets/fonts/Inter_24pt-Regular.ttf
-  String get inter24ptRegular => 'assets/fonts/Inter_24pt-Regular.ttf';
-
-  /// File path: assets/fonts/Inter_24pt-SemiBold.ttf
-  String get inter24ptSemiBold => 'assets/fonts/Inter_24pt-SemiBold.ttf';
-
-  /// File path: assets/fonts/Inter_24pt-Thin.ttf
-  String get inter24ptThin => 'assets/fonts/Inter_24pt-Thin.ttf';
+  /// File path: assets/fonts/Nunito-Regular.ttf
+  String get nunitoRegular => 'assets/fonts/Nunito-Regular.ttf';
 
   /// List of all assets
   List<String> get values => [
-    inter24ptBold,
-    inter24ptExtraLight,
-    inter24ptLight,
-    inter24ptMedium,
-    inter24ptRegular,
-    inter24ptSemiBold,
-    inter24ptThin,
+    nunitoBold,
+    nunitoLight,
+    nunitoMedium,
+    nunitoRegular,
   ];
 }
 

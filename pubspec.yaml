@@ -76,22 +76,16 @@ flutter:
     - assets/md/privacy_policy/
 
   fonts:
-    - family: Inter
+    - family: Nunito
       fonts:
-        - asset: assets/fonts/Inter_24pt-Bold.ttf
+        - asset: assets/fonts/Nunito-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Inter_24pt-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Inter_24pt-Medium.ttf
+        - asset: assets/fonts/Nunito-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Inter_24pt-Regular.ttf
+        - asset: assets/fonts/Nunito-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Inter_24pt-Light.ttf
+        - asset: assets/fonts/Nunito-Light.ttf
           weight: 300
-        - asset: assets/fonts/Inter_24pt-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Inter_24pt-Thin.ttf
-          weight: 100
 
 flutter_gen:
   output: lib/presentation/app/generated/

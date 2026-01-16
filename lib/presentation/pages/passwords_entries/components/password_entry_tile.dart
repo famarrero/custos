@@ -56,7 +56,7 @@ class PasswordEntryTile extends StatelessWidget {
                             icon: passwordEntry.group!.icon,
                             text: passwordEntry.group!.name,
                             color: passwordEntry.group!.color,
-                            height: 18,
+                            height: 22,
                             corner: context.corner() * 0.4,
                           ),
                         Text(

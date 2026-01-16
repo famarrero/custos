@@ -55,6 +55,7 @@ class CustomBadge extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           spacing: context.sm,
           children: [
             if (icon != null)

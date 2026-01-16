@@ -16,6 +16,7 @@ final class AppIcons {
   static const IconData copy = Icons.copy;
   static const IconData back = Icons.arrow_back_ios_new;
   static const IconData logout = Icons.logout;
+  static const IconData debug = Icons.bug_report_outlined;
 
   // Auth/user
   static const IconData user = Icons.person_outline;

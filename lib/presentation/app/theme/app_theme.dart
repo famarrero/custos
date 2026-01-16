@@ -140,7 +140,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
     if (deviceType == DeviceType.isMobile) {
       // Set the text theme according to the device type.
       _textTheme = _buildBaseTextTheme(
-        baseBodyMediumFontSize: 14,
+        baseBodyMediumFontSize: 16,
         colorScheme: _colorScheme,
       );
 
@@ -256,94 +256,94 @@ TextTheme _buildBaseTextTheme({
     // DISPLAY
     displayLarge: TextStyle(
       fontSize: baseBodyMediumFontSize + 18,
-      fontWeight: FontWeight.w600,
-      fontFamily: FontFamily.inter,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.nunito,
     ),
     displayMedium: TextStyle(
       fontSize: baseBodyMediumFontSize + 16,
-      fontWeight: FontWeight.w600,
-      fontFamily: FontFamily.inter,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.nunito,
     ),
     displaySmall: TextStyle(
       fontSize: baseBodyMediumFontSize + 14,
-      fontWeight: FontWeight.w600,
-      fontFamily: FontFamily.inter,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.nunito,
     ),
 
     // HEADLINE
     headlineLarge: TextStyle(
       fontSize: baseBodyMediumFontSize + 12,
       fontWeight: FontWeight.w700,
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
     headlineMedium: TextStyle(
       fontSize: baseBodyMediumFontSize + 10,
       fontWeight: FontWeight.w700,
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
     headlineSmall: TextStyle(
       fontSize: baseBodyMediumFontSize + 8,
       fontWeight: FontWeight.w700,
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
 
     // TITLE
     titleLarge: TextStyle(
       fontSize: baseBodyMediumFontSize + 6,
-      fontWeight: FontWeight.w800,
-      fontFamily: FontFamily.inter,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.nunito,
     ),
     titleMedium: TextStyle(
       fontSize: baseBodyMediumFontSize + 4,
-      fontWeight: FontWeight.w800,
-      fontFamily: FontFamily.inter,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.nunito,
     ),
     titleSmall: TextStyle(
       fontSize: baseBodyMediumFontSize + 2,
-      fontWeight: FontWeight.w800,
-      fontFamily: FontFamily.inter,
+      fontWeight: FontWeight.w700,
+      fontFamily: FontFamily.nunito,
     ),
 
     // BODY
     bodyLarge: TextStyle(
       fontSize: baseBodyMediumFontSize + 2,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: colorScheme.onSurface,
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
     bodyMedium: TextStyle(
       fontSize: baseBodyMediumFontSize,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: colorScheme.onSurface,
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
     bodySmall: TextStyle(
       fontSize: baseBodyMediumFontSize - 2,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w400,
       color: colorScheme.onSurface,
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
 
     // LABEL
     labelLarge: TextStyle(
       fontSize: baseBodyMediumFontSize,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w300,
       letterSpacing: 1.5,
       color: colorScheme.onSurface.withValues(alpha: 0.6),
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
     labelMedium: TextStyle(
-      fontSize: baseBodyMediumFontSize - 2,
-      fontWeight: FontWeight.w400,
+      fontSize: baseBodyMediumFontSize - 1,
+      fontWeight: FontWeight.w300,
       color: colorScheme.onSurface.withValues(alpha: 0.6),
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
     labelSmall: TextStyle(
-      fontSize: baseBodyMediumFontSize - 3,
-      fontWeight: FontWeight.w400,
+      fontSize: baseBodyMediumFontSize - 2,
+      fontWeight: FontWeight.w300,
       letterSpacing: 1.5,
       color: colorScheme.onSurface.withValues(alpha: 0.6),
-      fontFamily: FontFamily.inter,
+      fontFamily: FontFamily.nunito,
     ),
   );
 }
