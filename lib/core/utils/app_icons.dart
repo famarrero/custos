@@ -8,16 +8,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 final class AppIcons {
   AppIcons._();
 
-  static const IconData add = FontAwesomeIcons.plus;
-  static const IconData edit = FontAwesomeIcons.pencil;
-  static const IconData delete = FontAwesomeIcons.trash;
+  static const IconData add = FontAwesomeIcons.circlePlus;
+  static const IconData edit = FontAwesomeIcons.penToSquare;
+  static const IconData delete = FontAwesomeIcons.trashCan;
   static const IconData search = FontAwesomeIcons.magnifyingGlass;
-  static const IconData close = FontAwesomeIcons.xmark;
+  static const IconData close = FontAwesomeIcons.circleXmark;
   static const IconData copy = FontAwesomeIcons.copy;
   static const IconData back = FontAwesomeIcons.chevronLeft;
   static const IconData logout = FontAwesomeIcons.rightFromBracket;
   static const IconData debug = FontAwesomeIcons.bug;
-  static const IconData user = FontAwesomeIcons.user;
+  static const IconData user = FontAwesomeIcons.circleUser;
   static const IconData userAdd = FontAwesomeIcons.userPlus;
   static const IconData key = FontAwesomeIcons.key;
   static const IconData visibilityOn = FontAwesomeIcons.eye;
