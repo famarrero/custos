@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,21 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
     final Color pickedColor = await showColorPickerDialog(
       context,
       dialogPickerColor,
-      title: Text(context.l10n.colorPickerTitle, style: context.textTheme.titleMedium),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(context.corner()),
+      ),
+      title: Text(
+        context.l10n.colorPickerTitle,
+        style: context.textTheme.titleMedium,
+      ),
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: context.xl,
+        vertical: context.xl,
+      ),
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: context.xxxl,
+        vertical: context.xxxl,
+      ),
     );
 
     if (pickedColor != dialogPickerColor) {
@@ -59,35 +74,41 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 12.0,
-      children: [
-        ColorIndicator(
-          width: 44.0,
-          height: 44.0,
-          borderRadius: context.corner(),
-          color: dialogPickerColor,
-          onSelectFocus: false,
-          onSelect: () async {
-            await colorPickerDialog();
-          },
-        ),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.label, style: context.textTheme.bodyMedium),
-              Text(
-                ColorTools.materialName(
-                  dialogPickerColor,
-                  colorSwatchNameMap: ColorTools.primaryColorNames,
-                ),
-                style: context.textTheme.labelSmall,
-              ),
-            ],
+    return CustomInkWell(
+      onTap: colorPickerDialog,
+      child: Row(
+        spacing: 12.0,
+        children: [
+          SizedBox.square(
+            dimension: 44.0,
+            child: ColorIndicator(
+              width: 30.0,
+              height: 30.0,
+              borderRadius: context.corner(),
+              color: dialogPickerColor,
+              onSelectFocus: false,
+              onSelect: () async {
+                await colorPickerDialog();
+              },
+            ),
           ),
-        ),
-      ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.label, style: context.textTheme.bodyMedium),
+                Text(
+                  ColorTools.materialName(
+                    dialogPickerColor,
+                    colorSwatchNameMap: ColorTools.primaryColorNames,
+                  ),
+                  style: context.textTheme.labelSmall,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

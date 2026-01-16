@@ -2,6 +2,7 @@ import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/color_scheme_extension.dart';
 import 'package:custos/core/utils/group_icons.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:flutter/material.dart';
 
 /// A reusable custom icon picker widget.
@@ -52,20 +53,20 @@ class _CustomIconPickerState extends State<CustomIconPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 12.0,
-      children: [
-        GestureDetector(
-          onTap: _showIconPickerDialog,
-          child: SizedBox.square(
+    return CustomInkWell(
+      onTap: _showIconPickerDialog,
+      child: Row(
+        spacing: 12.0,
+        children: [
+          SizedBox.square(
             dimension: 44.0,
             child: Icon(GroupIcons.iconFor(currentIconId), size: 32),
           ),
-        ),
-        Flexible(
-          child: Text(widget.label, style: context.textTheme.bodyMedium),
-        ),
-      ],
+          Flexible(
+            child: Text(widget.label, style: context.textTheme.bodyMedium),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -93,7 +94,14 @@ Future<int?> showIconPickerDialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(context.corner()),
               ),
-              contentPadding: EdgeInsets.symmetric(horizontal: context.s),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: context.xl,
+                vertical: context.xl,
+              ),
+              insetPadding: EdgeInsets.symmetric(
+                horizontal: context.xxxl,
+                vertical: context.xxxl,
+              ),
               title: title,
               content: SizedBox(
                 width: double.maxFinite,
@@ -104,7 +112,7 @@ Future<int?> showIconPickerDialog(
                     crossAxisCount: 4,
                     mainAxisSpacing: context.lg,
                     crossAxisSpacing: context.lg,
-                    childAspectRatio: 0.6,
+                    childAspectRatio: 1,
                   ),
                   itemBuilder: (context, index) {
                     final option = options[index];
@@ -112,6 +120,8 @@ Future<int?> showIconPickerDialog(
 
                     return InkWell(
                       onTap: () => setState(() => selectedIconId = option.id),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       borderRadius: BorderRadius.circular(context.m),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -127,13 +137,15 @@ Future<int?> showIconPickerDialog(
                               ),
                             ),
                             padding: EdgeInsets.all(context.sm),
-                            child: Icon(
-                              option.icon,
-                              size: 32,
-                              color:
-                                  isSelected
-                                      ? context.colorScheme.onPrimary
-                                      : context.colorScheme.contrastColor(),
+                            child: Center(
+                              child: Icon(
+                                option.icon,
+                                size: 22,
+                                color:
+                                    isSelected
+                                        ? context.colorScheme.onPrimary
+                                        : context.colorScheme.contrastColor(),
+                              ),
                             ),
                           ),
                           SizedBox(height: context.xs),
