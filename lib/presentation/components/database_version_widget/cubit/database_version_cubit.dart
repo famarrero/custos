@@ -17,6 +17,6 @@ class DatabaseVersionCubit extends Cubit<DatabaseVersionState> {
 
     final version = await versionRepository.getVersion();
 
-    emit(state.copyWith(versionState: BaseState.data(version?.version ?? 0)));
+    emit(state.copyWith(versionState: BaseState.data(version)));
   }
 }

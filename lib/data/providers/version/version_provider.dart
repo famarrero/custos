@@ -1,7 +1,5 @@
-import 'package:custos/data/models/version/version_model.dart';
-
 abstract class VersionProvider {
-  Future<VersionModel?> getVersion();
+  Future<int> getVersion();
 
   Stream<int> watchVersion();
 

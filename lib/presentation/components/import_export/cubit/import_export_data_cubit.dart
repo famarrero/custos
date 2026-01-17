@@ -57,7 +57,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
 
       // Crear estructura de datos para exportar
       final exportData = {
-        'version': version?.version,
+        'version': version,
         'profile': profile.toJson(),
         'groups': groups.map((g) => g.toJson()).toList(),
         'passwordEntries': passwordEntries.map((pe) => pe.toJson()).toList(),
@@ -184,6 +184,11 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
           for (var passwordEntry in passwordEntries) {
             await passwordEntryProvider.upsertPasswordEntry(passwordEntry: passwordEntry);
           }
+
+          // Flush boxes to ensure all imported data is persisted
+          await hiveDatabase.getGroupBox.flush();
+          await hiveDatabase.getPasswordEntryBox.flush();
+          await hiveDatabase.getVersionBox.flush();
 
           emit(state.copyWith(importState: BaseState.data(true)));
         },

@@ -50,24 +50,36 @@ class AuthRepositoryImpl implements AuthRepository {
         return left(AppFailure(AppError.unknown));
       }
 
-      // Generate a salt
-      final generatedSalt = generateSalt();
+      // Check if the profile already exists (has salt in secure storage)
+      // If it exists, use the existing salt to maintain encryption consistency
+      final existingSaltEncoded = await secureStorage.readValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
+      final List<int> generatedSalt;
+      final String saltEncoded;
 
-      // Encode salt in base64
-      final saltEncoded = base64Encode(generatedSalt);
-
-      // Save the salt in the secure storage
-      await secureStorage.writeValue(key: profile.encryptionKeySaltSecureStorageAccessKey, value: saltEncoded);
+      if (existingSaltEncoded != null) {
+        // Profile already exists, use existing salt
+        saltEncoded = existingSaltEncoded;
+        generatedSalt = base64Decode(existingSaltEncoded);
+      } else {
+        // New profile, generate new salt
+        generatedSalt = generateSalt();
+        saltEncoded = base64Encode(generatedSalt);
+        // Save the salt in the secure storage
+        await secureStorage.writeValue(key: profile.encryptionKeySaltSecureStorageAccessKey, value: saltEncoded);
+      }
 
       // Derive the encrypted key by masterKey and salt
       final encryptionKey = await deriveEncryptionKeyAsync(masterKey, generatedSalt);
 
-      // Save the masterKey in secure storage as PBKDF2
-      await _saveMasterKeyPBKDF2(
-        masterKeySaltSecureStorageAccessKey: profile.masterKeySaltSecureStorageAccessKey,
-        masterKeyHashSecureStorageAccessKey: profile.masterKeyHashSecureStorageAccessKey,
-        masterKey: masterKey,
-      );
+      // Save the masterKey in secure storage as PBKDF2 only if it doesn't exist
+      final existingMasterKeyHash = await secureStorage.readValue(key: profile.masterKeyHashSecureStorageAccessKey);
+      if (existingMasterKeyHash == null) {
+        await _saveMasterKeyPBKDF2(
+          masterKeySaltSecureStorageAccessKey: profile.masterKeySaltSecureStorageAccessKey,
+          masterKeyHashSecureStorageAccessKey: profile.masterKeyHashSecureStorageAccessKey,
+          masterKey: masterKey,
+        );
+      }
 
       // Set the encryptionKey in HiveDatabaseService
       // The encryptionKey only saved in temporal memory (RAM)
@@ -113,8 +125,6 @@ class AuthRepositoryImpl implements AuthRepository {
         hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
         // If true open the encrypted boxes
         await hiveDatabase.openEncryptedBoxes();
-        // Set data version as 1
-        await versionProvider.incrementVersion();
         return right(null);
       } else {
         // Set the encryptionKey in HiveDatabaseService to null
@@ -162,9 +172,25 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> logout() async {
     try {
-      // Close boxes
-      hiveDatabase.getGroupBox.close();
-      hiveDatabase.getPasswordEntryBox.close();
+      // Flush and close boxes to ensure data is persisted
+      final groupBox = hiveDatabase.getGroupBox;
+      final passwordEntryBox = hiveDatabase.getPasswordEntryBox;
+      final versionBox = hiveDatabase.getVersionBox;
+
+      if (groupBox.isOpen) {
+        await groupBox.flush();
+        await groupBox.close();
+      }
+
+      if (passwordEntryBox.isOpen) {
+        await passwordEntryBox.flush();
+        await passwordEntryBox.close();
+      }
+
+      if (versionBox.isOpen) {
+        await versionBox.flush();
+        await versionBox.close();
+      }
 
       // Set the encryptionKey in HiveDatabaseService to null
       hiveDatabase.setEncryptionKey(null, null);

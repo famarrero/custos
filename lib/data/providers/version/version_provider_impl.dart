@@ -8,8 +8,8 @@ class VersionProviderImpl implements VersionProvider {
 
   static const String _versionKey = 'version_key';
   @override
-  Future<VersionModel?> getVersion() async {
-    return hiveDatabase.getVersionBox.get(_versionKey);
+  Future<int> getVersion() async {
+    return (hiveDatabase.getVersionBox.get(_versionKey))?.version ?? 1;
   }
 
   @override
@@ -18,7 +18,7 @@ class VersionProviderImpl implements VersionProvider {
 
     return box.watch(key: _versionKey).map((event) {
       final model = event.value as VersionModel?;
-      return model?.version ?? 0;
+      return model?.version ?? 1;
     });
   }
 
@@ -27,7 +27,7 @@ class VersionProviderImpl implements VersionProvider {
     final box = hiveDatabase.getVersionBox;
 
     final currentVersion = box.get(_versionKey);
-    final newVersion = (currentVersion?.version ?? 0) + 1;
+    final newVersion = (currentVersion?.version ?? 1) + 1;
 
     final updatedVersion = VersionModel(version: newVersion);
 
