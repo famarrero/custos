@@ -18,24 +18,33 @@ class AuthRepositoryImpl implements AuthRepository {
   final SecureStorageProvider secureStorage = di();
   final ProfileProvider profilesProvider = di();
   final VersionProvider versionProvider = di();
-  
+
   @override
   Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
-    required String profileName,
+    // Usend when user login with a new profile
+    String? profileName,
+    // Usend when user import data from another device
+    ProfileModel? importProfile,
     required String masterKey,
   }) async {
     try {
-      final profileId = Uuid().v4();
+      late ProfileModel profile;
 
-      final profile = ProfileModel(
-        id: profileId,
-        name: profileName.trim(),
-        masterKeySaltSecureStorageAccessKey: '${profileId}_master_key_salt',
-        masterKeyHashSecureStorageAccessKey: '${profileId}_master_key_hash',
-        encryptionKeySaltSecureStorageAccessKey:
-            '${profileId}_encryption_key_salt',
-        createdAt: DateTime.now(),
-      );
+      if (importProfile != null) {
+        profile = importProfile;
+      } else if (profileName != null) {
+        final profileId = Uuid().v4();
+        profile = ProfileModel(
+          id: profileId,
+          name: profileName.trim(),
+          masterKeySaltSecureStorageAccessKey: '${profileId}_master_key_salt',
+          masterKeyHashSecureStorageAccessKey: '${profileId}_master_key_hash',
+          encryptionKeySaltSecureStorageAccessKey: '${profileId}_encryption_key_salt',
+          createdAt: DateTime.now(),
+        );
+      } else {
+        return left(AppFailure(AppError.unknown));
+      }
 
       // Generate a salt
       final generatedSalt = generateSalt();
@@ -44,23 +53,15 @@ class AuthRepositoryImpl implements AuthRepository {
       final saltEncoded = base64Encode(generatedSalt);
 
       // Save the salt in the secure storage
-      await secureStorage.writeValue(
-        key: profile.encryptionKeySaltSecureStorageAccessKey,
-        value: saltEncoded,
-      );
+      await secureStorage.writeValue(key: profile.encryptionKeySaltSecureStorageAccessKey, value: saltEncoded);
 
       // Derive the encrypted key by masterKey and salt
-      final encryptionKey = await deriveEncryptionKeyAsync(
-        masterKey,
-        generatedSalt,
-      );
+      final encryptionKey = await deriveEncryptionKeyAsync(masterKey, generatedSalt);
 
       // Save the masterKey in secure storage as PBKDF2
       await _saveMasterKeyPBKDF2(
-        masterKeySaltSecureStorageAccessKey:
-            profile.masterKeySaltSecureStorageAccessKey,
-        masterKeyHashSecureStorageAccessKey:
-            profile.masterKeyHashSecureStorageAccessKey,
+        masterKeySaltSecureStorageAccessKey: profile.masterKeySaltSecureStorageAccessKey,
+        masterKeyHashSecureStorageAccessKey: profile.masterKeyHashSecureStorageAccessKey,
         masterKey: masterKey,
       );
 
@@ -72,9 +73,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return right(profile);
     } catch (e) {
-      return left(
-        AppFailure(AppError.errorDerivingEncryptionKey, message: e.toString()),
-      );
+      return left(AppFailure(AppError.errorDerivingEncryptionKey, message: e.toString()));
     }
   }
 
@@ -84,9 +83,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String masterKey,
   }) async {
     // Read the salt from secure storage
-    final saltEncoded = await secureStorage.readValue(
-      key: profile.encryptionKeySaltSecureStorageAccessKey,
-    );
+    final saltEncoded = await secureStorage.readValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
 
     // If salt is null means that the master encryptionKey is not set yet
     if (saltEncoded == null) {
@@ -96,10 +93,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       // Verify if the masterKey is correct
       final value = await _verifyMasterKeyPBKDF2(
-        masterKeySaltSecureStorageAccessKey:
-            profile.masterKeySaltSecureStorageAccessKey,
-        masterKeyHashSecureStorageAccessKey:
-            profile.masterKeyHashSecureStorageAccessKey,
+        masterKeySaltSecureStorageAccessKey: profile.masterKeySaltSecureStorageAccessKey,
+        masterKeyHashSecureStorageAccessKey: profile.masterKeyHashSecureStorageAccessKey,
         masterKey: masterKey,
       );
 
@@ -108,10 +103,7 @@ class AuthRepositoryImpl implements AuthRepository {
         final saltDecode = base64Decode(saltEncoded);
 
         // Derive the encrypted key by masterKey and salt
-        final encryptionKey = await deriveEncryptionKeyAsync(
-          masterKey,
-          saltDecode,
-        );
+        final encryptionKey = await deriveEncryptionKeyAsync(masterKey, saltDecode);
 
         // Set the encryptionKey in HiveDatabaseService
         hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
@@ -130,26 +122,16 @@ class AuthRepositoryImpl implements AuthRepository {
       // Set the encryptionKey in HiveDatabaseService to null
       hiveDatabase.setEncryptionKey(null, null);
       // If unknown error occurred return failure master key is incorrect
-      return left(
-        AppFailure(AppError.incorrectMasterKey, message: e.toString()),
-      );
+      return left(AppFailure(AppError.incorrectMasterKey, message: e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, void>> deleteProfileAndMasterKey({
-    required ProfileModel profile,
-  }) async {
+  Future<Either<Failure, void>> deleteProfileAndMasterKey({required ProfileModel profile}) async {
     try {
-      await secureStorage.deleteValue(
-        key: profile.masterKeySaltSecureStorageAccessKey,
-      );
-      await secureStorage.deleteValue(
-        key: profile.masterKeyHashSecureStorageAccessKey,
-      );
-      await secureStorage.deleteValue(
-        key: profile.encryptionKeySaltSecureStorageAccessKey,
-      );
+      await secureStorage.deleteValue(key: profile.masterKeySaltSecureStorageAccessKey);
+      await secureStorage.deleteValue(key: profile.masterKeyHashSecureStorageAccessKey);
+      await secureStorage.deleteValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
 
       await profilesProvider.deleteProfile(id: profile.id);
 
@@ -185,15 +167,9 @@ class AuthRepositoryImpl implements AuthRepository {
       final masterKeySalt = generateSalt();
 
       // Derive the encrypted masterKey by masterKey and salt
-      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(
-        masterKey,
-        masterKeySalt,
-      );
+      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(masterKey, masterKeySalt);
       // Save the salt in the secure storage
-      await secureStorage.writeValue(
-        key: masterKeySaltSecureStorageAccessKey,
-        value: base64Encode(masterKeySalt),
-      );
+      await secureStorage.writeValue(key: masterKeySaltSecureStorageAccessKey, value: base64Encode(masterKeySalt));
       // Save the derived encryption masterKey in the secure storage
       await secureStorage.writeValue(
         key: masterKeyHashSecureStorageAccessKey,
@@ -211,13 +187,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       // Read the masterKeySaltEncoded from secure storage
-      final masterKeySaltEncoded = await secureStorage.readValue(
-        key: masterKeySaltSecureStorageAccessKey,
-      );
+      final masterKeySaltEncoded = await secureStorage.readValue(key: masterKeySaltSecureStorageAccessKey);
       // Read the hashedMasterKeyEncode from secure storage
-      final hashedMasterKeyEncode = await secureStorage.readValue(
-        key: masterKeyHashSecureStorageAccessKey,
-      );
+      final hashedMasterKeyEncode = await secureStorage.readValue(key: masterKeyHashSecureStorageAccessKey);
 
       if (masterKeySaltEncoded == null || hashedMasterKeyEncode == null) {
         return false;
@@ -227,10 +199,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final masterKeySaltDecode = base64Decode(masterKeySaltEncoded);
 
       // Derive the encrypted masterKey by masterKey and masterKeySaltDecode
-      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(
-        masterKey,
-        masterKeySaltDecode,
-      );
+      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(masterKey, masterKeySaltDecode);
 
       // If true the masterKey is correct
       return hashedMasterKeyEncode == base64Encode(derivedEncryptionMasterKey);

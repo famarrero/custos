@@ -5,21 +5,18 @@ import 'package:go_router/go_router.dart';
 
 extension GoRouterExtension on GoRouter {
   /// Gets the current route
-  String get currentRoute =>
-      routerDelegate.currentConfiguration.last.matchedLocation;
+  String get currentRoute => routerDelegate.currentConfiguration.last.matchedLocation;
 
   /// Returns whether [name] is considered a main page.
   bool isMainRoute(String name) =>
       name == const PasswordsEntriesRoute().location ||
-      name == const SettingsRoute().location;
+      name == SettingsRoute().location;
 
   /// Gets the current route name
-  String get currentRouteName =>
-      routerDelegate.currentConfiguration.last.route.name ?? '';
+  String get currentRouteName => routerDelegate.currentConfiguration.last.route.name ?? '';
 
   /// Returns whether [name] is considered a main page.
-  bool isMainRouteName(String name) =>
-      name == PasswordsEntriesRoute.name || name == SettingsRoute.name;
+  bool isMainRouteName(String name) => name == PasswordsEntriesRoute.name || name == SettingsRoute.name;
 
   /// Return the app bar title based on the current route.
   String appBarTitle(BuildContext context) {

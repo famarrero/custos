@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:custos/core/services/file_picker_service.dart';
 import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/services/logger_service.dart';
 import 'package:custos/core/services/package_info_service.dart';
@@ -64,6 +65,9 @@ Future initInjection() async {
 
   /// PackageInfoService
   di.registerLazySingleton<PackageInfoService>(() => PackageInfoServiceImpl());
+
+  /// FilePickerService
+  di.registerLazySingleton<FilePickerService>(() => FilePickerServiceImpl());
 
   ///-------------------Providers--------------------------------///
 

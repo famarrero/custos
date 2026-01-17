@@ -1,4 +1,3 @@
-
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
@@ -6,12 +5,12 @@ import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
-import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/login/components/profile_tile.dart';
 import 'package:custos/presentation/pages/login/cubit/login_cubit.dart';
+import 'package:custos/presentation/pages/settings/settings_page.dart';
 import 'package:custos/routes/routes.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -31,10 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (previous, current) => current.loginState.isError,
       listener: (context, state) {
-        context.showSnackBar(
-          isErrorMessage: true,
-          message: context.localizeError(failure: state.loginState.error),
-        );
+        context.showSnackBar(isErrorMessage: true, message: context.localizeError(failure: state.loginState.error));
       },
       child: BlocProvider(
         create: (context) => LoginCubit()..watchProfiles(),
@@ -45,25 +41,14 @@ class _LoginPageState extends State<LoginPage> {
             actions: [
               CustomIconButton(
                 tooltip: 'Importar datos',
-                icon: AppIcons.import,
+                icon: AppIcons.settings,
                 onTap: () {
-                  context.showCustomModalBottomSheet(
-                    title: 'Importa y exporta tus datos',
-                    child: BlocProvider<ImportExportDataCubit>(
-                      create: (context) => ImportExportDataCubit(),
-                      child: ImportExportDataWidget(
-                        importMode: ImportExportDataMode.import,
-                      ),
-                    ),
-                  );
+                  context.push(SettingsUnlogedRoute().location);
                 },
               ),
             ],
           ),
-          padding: EdgeInsets.symmetric(
-            vertical: context.xl,
-            horizontal: context.xl,
-          ),
+          padding: EdgeInsets.symmetric(vertical: context.xl, horizontal: context.xl),
           child: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
               return Column(
@@ -87,8 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   Flexible(
                     child: BaseStateUi(
                       state: state.profiles,
-                      onRetryPressed:
-                          () => context.read<LoginCubit>().watchProfiles(),
+                      onRetryPressed: () => context.read<LoginCubit>().watchProfiles(),
                       noDataWidget: NoDataWidget(
                         iconData: AppIcons.user,
                         title: context.l10n.loginNoProfileTitle,
@@ -110,11 +94,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   SizedBox(height: context.xxxl),
 
-                  Text(
-                    context.l10n.loginOrCreateOne,
-                    style: context.textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(context.l10n.loginOrCreateOne, style: context.textTheme.bodySmall, textAlign: TextAlign.center),
 
                   SizedBox(height: context.xxxl),
 

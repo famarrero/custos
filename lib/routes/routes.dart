@@ -24,12 +24,8 @@ final router = GoRouter(
   onException: (_, __, router) => router.go(const PageNotFoundRoute().location),
 );
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'root',
-);
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'shell',
-);
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 @TypedShellRoute<WrapperMainRoute>(
   routes: [
@@ -38,26 +34,15 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
       name: PasswordsEntriesRoute.name,
       routes: [
         TypedGoRoute<LoginRoute>(path: LoginRoute.path, name: LoginRoute.name),
-        TypedGoRoute<RegisterRoute>(
-          path: RegisterRoute.path,
-          name: RegisterRoute.name,
-        ),
-        TypedGoRoute<GroupsRoute>(
-          path: GroupsRoute.path,
-          name: GroupsRoute.name,
-        ),
-        TypedGoRoute<SettingsRoute>(
-          path: SettingsRoute.path,
-          name: SettingsRoute.name,
-        ),
+        TypedGoRoute<RegisterRoute>(path: RegisterRoute.path, name: RegisterRoute.name),
+        TypedGoRoute<SettingsUnlogedRoute>(path: SettingsUnlogedRoute.path, name: SettingsUnlogedRoute.name),
+        TypedGoRoute<GroupsRoute>(path: GroupsRoute.path, name: GroupsRoute.name),
+        TypedGoRoute<SettingsRoute>(path: SettingsRoute.path, name: SettingsRoute.name),
         TypedGoRoute<UpsertPasswordEntryRoute>(
           path: UpsertPasswordEntryRoute.path,
           name: UpsertPasswordEntryRoute.name,
         ),
-        TypedGoRoute<PageNotFoundRoute>(
-          path: PageNotFoundRoute.path,
-          name: PageNotFoundRoute.name,
-        ),
+        TypedGoRoute<PageNotFoundRoute>(path: PageNotFoundRoute.path, name: PageNotFoundRoute.name),
       ],
     ),
   ],
@@ -69,11 +54,7 @@ class WrapperMainRoute extends ShellRouteData {
 
   @override
   Page<void> pageBuilder(context, state, navigator) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: WrapperMainPage(child: navigator),
-    );
+    return _routeTransition(state: state, context: context, child: WrapperMainPage(child: navigator));
   }
 }
 
@@ -81,8 +62,7 @@ class LoginRoute extends GoRouteData {
   static const path = 'login';
   static const name = 'login';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
 
   const LoginRoute();
 
@@ -90,8 +70,7 @@ class LoginRoute extends GoRouteData {
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
     // If the user is authenticated in and the current route is the LoginRoute,
     // redirect to PasswordsEntriesRoute.
-    if (context.read<AuthCubit>().state.isUserAuthenticated &&
-        state.fullPath == const LoginRoute().location) {
+    if (context.read<AuthCubit>().state.isUserAuthenticated && state.fullPath == const LoginRoute().location) {
       return const PasswordsEntriesRoute().location;
     }
     return null;
@@ -99,11 +78,7 @@ class LoginRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: const LoginPage(),
-    );
+    return _routeTransition(state: state, context: context, child: const LoginPage());
   }
 }
 
@@ -111,18 +86,13 @@ class RegisterRoute extends GoRouteData {
   static const path = 'register';
   static const name = 'register';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
 
   const RegisterRoute();
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: const RegisterPage(),
-    );
+    return _routeTransition(state: state, context: context, child: const RegisterPage());
   }
 }
 
@@ -151,11 +121,7 @@ class PasswordsEntriesRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: const PasswordsEntriesPage(),
-    );
+    return _routeTransition(state: state, context: context, child: const PasswordsEntriesPage());
   }
 }
 
@@ -167,11 +133,21 @@ class GroupsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: const GroupsPage(),
-    );
+    return _routeTransition(state: state, context: context, child: const GroupsPage());
+  }
+}
+
+class SettingsUnlogedRoute extends GoRouteData {
+  static const path = 'settings-unloged';
+  static const name = 'settings-unloged';
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
+
+  const SettingsUnlogedRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _routeTransition(state: state, context: context, child: SettingsPage(mode: SettingsPageMode.unloged));
   }
 }
 
@@ -183,11 +159,7 @@ class SettingsRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: const SettingsPage(),
-    );
+    return _routeTransition(state: state, context: context, child: SettingsPage(mode: SettingsPageMode.loged));
   }
 }
 
@@ -195,8 +167,7 @@ class UpsertPasswordEntryRoute extends GoRouteData {
   static const path = 'upsert-password-entry/:id';
   static const name = 'upsert-password-entry';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
 
   const UpsertPasswordEntryRoute({required this.id});
 
@@ -204,11 +175,7 @@ class UpsertPasswordEntryRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: UpsertPasswordEntryPage(id: id),
-    );
+    return _routeTransition(state: state, context: context, child: UpsertPasswordEntryPage(id: id));
   }
 }
 
@@ -216,18 +183,13 @@ class PageNotFoundRoute extends GoRouteData {
   static const path = 'page-not-found';
   static const name = 'page-not-found';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
 
   const PageNotFoundRoute();
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(
-      state: state,
-      context: context,
-      child: const NotFoundPage(),
-    );
+    return _routeTransition(state: state, context: context, child: const NotFoundPage());
   }
 }
 
@@ -244,14 +206,8 @@ CustomTransitionPage<void> _routeTransition({
     child: child,
     transitionsBuilder: (_, animation, __, child) {
       return ScaleTransition(
-        scale: Tween<double>(
-          begin: 0.98,
-          end: 1,
-        ).chain(CurveTween(curve: Curves.easeOut)).animate(animation),
-        child: FadeTransition(
-          opacity: CurveTween(curve: Curves.easeOut).animate(animation),
-          child: child,
-        ),
+        scale: Tween<double>(begin: 0.98, end: 1).chain(CurveTween(curve: Curves.easeOut)).animate(animation),
+        child: FadeTransition(opacity: CurveTween(curve: Curves.easeOut).animate(animation), child: child),
       );
     },
   );

@@ -9,122 +9,142 @@ import 'package:custos/data/repositories/version/version_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
+import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_tiles_options.dart';
 import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
 import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/privacy_police_widget.dart';
+import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/cubit/app/app_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+enum SettingsPageMode { unloged, loged }
+
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key, this.mode = SettingsPageMode.loged});
+  final SettingsPageMode mode;
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  late ImportExportDataCubit importExportDataCubit;
+
+  @override
+  void initState() {
+    importExportDataCubit = ImportExportDataCubit();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = context.watch<AppCubit>().state.themeMode.isDarkMode;
-    final profile = context.select<AuthCubit, ProfileModel?>(
-      (cubit) => cubit.state.loginState.dataOrNull,
-    );
+    final profile = context.select<AuthCubit, ProfileModel?>((cubit) => cubit.state.loginState.dataOrNull);
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.xl),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (profile?.name != null && profile!.name.trim().isNotEmpty) ...[
-              Row(
-                children: [
-                  AvatarWidget(color: null, name: profile.name),
-                  SizedBox(width: context.lg),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          profile.name,
-                          style: context.textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+    final child = SingleChildScrollView(
+      child: Column(
+        children: [
+          if (widget.mode == SettingsPageMode.loged && profile?.name != null && profile!.name.trim().isNotEmpty) ...[
+            Row(
+              children: [
+                AvatarWidget(color: null, name: profile.name),
+                SizedBox(width: context.lg),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.name,
+                        style: context.textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        'Creado el ${profile.createdAt.toLocal().formatDate}',
+                        style: context.textTheme.labelMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      FutureBuilder(
+                        future: di<VersionRepository>().getVersion(),
+                        builder: (context, asyncSnapshot) {
+                          return Text(
+                            'Data base version: ${asyncSnapshot.data?.version ?? 0}',
+                            style: context.textTheme.labelMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: context.xxxl),
+          ],
+          CustomContainer(
+            child: CustomTilesOptions(
+              tiles: [
+                CustomSettingTile(
+                  prefixIconPath: isDarkMode ? AppIcons.darkMode : AppIcons.lightMode,
+                  title: context.l10n.settingsThemeModeTitle,
+                  subtitle: context.l10n.settingsThemeModeSubtitle,
+                  onTap: () {
+                    context.read<AppCubit>().onThemeChanged();
+                  },
+                ),
+
+                CustomSettingTile(
+                  prefixIconPath: AppIcons.language,
+                  title: context.l10n.settingsLanguageTitle,
+                  subtitle: context.l10n.settingsLanguageSubtitle,
+                  onTap: () {
+                    context.showCustomModalBottomSheet(
+                      title: context.l10n.settingsChangeLanguageTitle,
+                      child: ChangeLanguageWidget(),
+                    );
+                  },
+                ),
+
+                CustomSettingTile(
+                  prefixIconPath: AppIcons.groupBackup,
+                  title: widget.mode == SettingsPageMode.loged ? 'Export' : 'Import',
+                  subtitle:
+                      widget.mode == SettingsPageMode.loged
+                          ? 'Exporta tus datos a un archivo .custos'
+                          : 'Importa tus datos desde un archivo .custos',
+                  onTap: () {
+                    context.showCustomModalBottomSheet(
+                      title: widget.mode == SettingsPageMode.loged ? 'Exporta tus datos' : 'Importa tus datos',
+                      child: BlocProvider.value(
+                        value: importExportDataCubit,
+                        child: ImportExportDataWidget(
+                          importMode:
+                              widget.mode == SettingsPageMode.loged
+                                  ? ImportExportDataMode.export
+                                  : ImportExportDataMode.import,
                         ),
-                        Text(
-                          'Creado el ${profile.createdAt.toLocal().formatDate}',
-                          style: context.textTheme.labelMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        FutureBuilder(
-                          future: di<VersionRepository>().getVersion(),
-                          builder: (context, asyncSnapshot) {
-                            return Text(
-                              'Data base version: ${asyncSnapshot.data?.version ?? 0}',
-                              style: context.textTheme.labelMedium,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            );
-                          }
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: context.xxxl),
-            ],
-            CustomContainer(
-              child: CustomTilesOptions(
-                tiles: [
-                  CustomSettingTile(
-                    prefixIconPath:
-                        isDarkMode ? AppIcons.darkMode : AppIcons.lightMode,
-                    title: context.l10n.settingsThemeModeTitle,
-                    subtitle: context.l10n.settingsThemeModeSubtitle,
-                    onTap: () {
-                      context.read<AppCubit>().onThemeChanged();
-                    },
-                  ),
+                      ),
+                    );
+                  },
+                ),
 
-                  CustomSettingTile(
-                    prefixIconPath: AppIcons.language,
-                    title: context.l10n.settingsLanguageTitle,
-                    subtitle: context.l10n.settingsLanguageSubtitle,
-                    onTap: () {
-                      context.showCustomModalBottomSheet(
-                        title: context.l10n.settingsChangeLanguageTitle,
-                        child: ChangeLanguageWidget(),
-                      );
-                    },
-                  ),
+                CustomSettingTile(
+                  prefixIconPath: AppIcons.shield,
+                  title: context.l10n.settingsPrivacyPolicyTitle,
+                  subtitle: context.l10n.settingsPrivacyPolicySubtitle,
+                  onTap: () {
+                    context.showCustomModalBottomSheet(child: PrivacyPoliceWidget());
+                  },
+                ),
 
-                  CustomSettingTile(
-                    prefixIconPath: AppIcons.groupBackup,
-                    title: 'Import/Export',
-                    subtitle: 'Importa y exporta tus datos',
-                    onTap: () {
-                      context.showCustomModalBottomSheet(
-                        title: 'Importa y exporta tus datos',
-                        child: BlocProvider<ImportExportDataCubit>(
-                          create: (context) => ImportExportDataCubit(),
-                          child: ImportExportDataWidget(),
-                        ),
-                      );
-                    },
-                  ),
-
-                  CustomSettingTile(
-                    prefixIconPath: AppIcons.shield,
-                    title: context.l10n.settingsPrivacyPolicyTitle,
-                    subtitle: context.l10n.settingsPrivacyPolicySubtitle,
-                    onTap: () {
-                      context.showCustomModalBottomSheet(
-                        child: PrivacyPoliceWidget(),
-                      );
-                    },
-                  ),
-
+                if (widget.mode == SettingsPageMode.loged) ...[
                   CustomSettingTile(
                     prefixIconPath: AppIcons.delete,
                     title: context.l10n.settingsRemoveProfileTitle,
@@ -138,59 +158,61 @@ class SettingsPage extends StatelessWidget {
                         backgroundColorRight: context.colorScheme.error,
                         onPressedRightButton: (value) {
                           if (value) {
-                            context.read<AuthCubit>().deleteProfile(
-                              GoRouter.of(context),
-                            );
+                            context.read<AuthCubit>().deleteProfile(GoRouter.of(context));
                             context.pop();
                           }
                         },
-                        checkBoxTitle:
-                            context.l10n.settingsRemoveProfileConfirmCheckbox,
+                        checkBoxTitle: context.l10n.settingsRemoveProfileConfirmCheckbox,
                       );
                     },
                   ),
-
-                  CustomSettingTile(
-                    prefixIconPath: AppIcons.info,
-                    title: context.l10n.settingsAboutUsTitle,
-                    subtitle: 'Informacion de la aplicacion',
-                    onTap: () {},
-                  ),
                 ],
-              ),
+
+                CustomSettingTile(
+                  prefixIconPath: AppIcons.info,
+                  title: context.l10n.settingsAboutUsTitle,
+                  subtitle: 'Informacion de la aplicacion',
+                  onTap: () {},
+                ),
+              ],
             ),
+          ),
 
-            SizedBox(height: context.xxxl),
+          SizedBox(height: context.xxxl),
 
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: context.xxxl + context.s,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    context.l10n.custos,
-                    style: context.textTheme.titleLarge?.copyWith(
-                      color: context.colorScheme.primary,
-                    ),
-                  ),
-                  Text(
-                    context.l10n.appVersion(
-                      di<PackageInfoService>().getAppVersion(),
-                    ),
-                    style: context.textTheme.labelSmall,
-                  ),
-                ],
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.xxxl + context.s),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.l10n.custos,
+                  style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.primary),
+                ),
+                Text(
+                  context.l10n.appVersion(di<PackageInfoService>().getAppVersion()),
+                  style: context.textTheme.labelSmall,
+                ),
+              ],
             ),
+          ),
 
-            SizedBox(height: context.xxxl),
+          SizedBox(height: context.xxxl),
 
-            // if (AppEnvironment.isDevOrDebugMode) TypographyShowcase(),
-          ],
-        ),
+          // if (AppEnvironment.isDevOrDebugMode) TypographyShowcase(),
+        ],
       ),
     );
+
+    if (widget.mode == SettingsPageMode.loged) {
+      return Padding(padding: EdgeInsets.symmetric(horizontal: context.xl), child: child);
+    } else {
+      return ScaffoldWidget(
+        safeAreaTop: true,
+        appBar: CustomAppBar(title: Text(context.l10n.navSettings)),
+        padding: EdgeInsets.symmetric(horizontal: context.xl, vertical: context.xxxl),
+        child: child,
+      );
+    }
   }
 }

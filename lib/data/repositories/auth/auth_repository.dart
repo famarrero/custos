@@ -4,14 +4,12 @@ import 'package:custos/data/models/profile/profile_model.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
-    required String profileName,
+     String? profileName,
+     ProfileModel? importProfile,
     required String masterKey,
   });
 
-  Future<Either<Failure, void>> verifyProfileByMasterKey({
-    required ProfileModel profile,
-    required String masterKey,
-  });
+  Future<Either<Failure, void>> verifyProfileByMasterKey({required ProfileModel profile, required String masterKey});
 
   Future<Either<Failure, void>> deleteProfileAndMasterKey({required ProfileModel profile});
 
