@@ -6,6 +6,7 @@ abstract class ImportExportDataState with _$ImportExportDataState {
 
   const factory ImportExportDataState({
     required BaseState<bool> exportState,
+    required BaseState<Map<String, dynamic>> importData,
     required BaseState<bool> importState,
   }) = _ImportExportDataState;
 }

@@ -6,8 +6,6 @@ import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/core/utils/failures.dart';
-import 'package:custos/data/models/group/group_model.dart';
-import 'package:custos/data/models/password_entry/password_entry_model.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
@@ -27,6 +25,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
     : super(
         ImportExportDataState(
           exportState: BaseState.initial(),
+          importData: BaseState.initial(),
           importState: BaseState.initial(),
         ),
       );
@@ -87,15 +86,15 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
 
   /// Importa datos de un archivo .custos y los carga en la base de datos
   /// Requiere validar la master key del perfil importado
-  Future<void> importProfileData({required String masterKey}) async {
+  Future<void> importProfileData() async {
     try {
-      emit(state.copyWith(importState: BaseState.loading()));
+      emit(state.copyWith(importData: BaseState.loading()));
 
       // Seleccionar archivo
       final result = await FilePicker.platform.pickFiles(type: FileType.any);
 
       if (result == null || result.files.isEmpty) {
-        emit(state.copyWith(importState: BaseState.initial()));
+        emit(state.copyWith(importData: BaseState.initial()));
         return;
       }
 
@@ -105,7 +104,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
       if (filePath == null) {
         emit(
           state.copyWith(
-            importState: BaseState.error(
+            importData: BaseState.error(
               AppFailure(
                 AppError.unknown,
                 message: 'No se pudo leer el archivo',
@@ -121,7 +120,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
       if (extension != 'custos') {
         emit(
           state.copyWith(
-            importState: BaseState.error(
+            importData: BaseState.error(
               AppFailure(
                 AppError.unknown,
                 message:
@@ -142,120 +141,14 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
       // Parsear JSON
       final importData = jsonDecode(jsonString) as Map<String, dynamic>;
 
-      // Validar versión (para futuras compatibilidades)
-      final version = importData['version'] as String?;
-      if (version != '1.0') {
-        emit(
-          state.copyWith(
-            importState: BaseState.error(
-              AppFailure(
-                AppError.unknown,
-                message: 'Versión de archivo no compatible: $version',
-              ),
-            ),
-          ),
-        );
-        return;
-      }
-
-      // Obtener datos del perfil
-      final profileJson = importData['profile'] as Map<String, dynamic>;
-      final importedProfile = ProfileModel.fromJson(profileJson);
-
-      // Verificar si el perfil ya existe en el sistema
-      ProfileModel? existingProfile;
-      try {
-        existingProfile = await profilesProvider.getProfile(
-          id: importedProfile.id,
-        );
-      } catch (e) {
-        // El perfil no existe, continuamos
-      }
-
-      // Si el perfil existe, validar la master key antes de importar
-      if (existingProfile != null) {
-        final verifyResult = await authRepository.verifyProfileByMasterKey(
-          profile: existingProfile,
-          masterKey: masterKey,
-        );
-
-        await verifyResult.fold(
-          (failure) async {
-            emit(state.copyWith(importState: BaseState.error(failure)));
-          },
-          (_) async {
-            // Si la validación es exitosa, proceder con la importación
-            await _importData(importData, importedProfile, masterKey);
-            emit(state.copyWith(importState: BaseState.data(true)));
-          },
-        );
-      } else {
-        // Si el perfil no existe, crear uno nuevo con la master key proporcionada
-        // No validamos la master key del perfil importado porque no existe en el sistema
-        await _importData(importData, importedProfile, masterKey);
-        emit(state.copyWith(importState: BaseState.data(true)));
-      }
+      emit(state.copyWith(importData: BaseState.data(importData)));
     } catch (e) {
       emit(
         state.copyWith(
-          importState: BaseState.error(
+          importData: BaseState.error(
             AppFailure(AppError.unknown, message: e.toString()),
           ),
         ),
-      );
-    }
-  }
-
-  /// Importa los datos después de validar la master key
-  /// Si el perfil ya existe, lo usa; si no, crea uno nuevo
-  Future<void> _importData(
-    Map<String, dynamic> importData,
-    ProfileModel importedProfile,
-    String masterKey,
-  ) async {
-    // Verificar si el perfil ya existe
-    ProfileModel? existingProfile;
-    try {
-      existingProfile = await profilesProvider.getProfile(
-        id: importedProfile.id,
-      );
-    } catch (e) {
-      // El perfil no existe, continuamos
-    }
-
-    if (existingProfile == null) {
-      // Crear nuevo perfil con la master key proporcionada
-      // Usaremos el nombre del perfil importado, pero se generará un nuevo ID
-      final result = await authRepository.registerProfileWhitMasterKey(
-        profileName: importedProfile.name,
-        masterKey: masterKey,
-      );
-
-      await result.fold((failure) => throw Exception(failure.message), (
-        newProfile,
-      ) async {
-        // El perfil se ha creado y los boxes están abiertos
-      });
-    }
-    // Si el perfil ya existe, la validación de master key ya se hizo antes
-    // y los boxes ya están abiertos
-
-    // Importar grupos (los IDs se mantienen del archivo exportado)
-    final groupsJson = importData['groups'] as List<dynamic>? ?? [];
-    for (final groupJson in groupsJson) {
-      final group = GroupModel.fromJson(groupJson as Map<String, dynamic>);
-      await groupProvider.upsertGroup(group: group);
-    }
-
-    // Importar entradas de contraseñas (los IDs se mantienen del archivo exportado)
-    final passwordEntriesJson =
-        importData['passwordEntries'] as List<dynamic>? ?? [];
-    for (final passwordEntryJson in passwordEntriesJson) {
-      final passwordEntry = PasswordEntryModel.fromJson(
-        passwordEntryJson as Map<String, dynamic>,
-      );
-      await passwordEntryProvider.upsertPasswordEntry(
-        passwordEntry: passwordEntry,
       );
     }
   }

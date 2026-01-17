@@ -1,9 +1,9 @@
 {
-  "dart.lineLength": 80,
+  "dart.lineLength": 120,
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.rulers": [
-      80
+      120
     ]
   },
   "cSpell.words": [

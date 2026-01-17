@@ -1,11 +1,10 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
-import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/core/utils/app_spacing.dart';
-import 'package:custos/presentation/components/custom_button.dart';
+import 'package:custos/presentation/components/custom_circular_progress_indicator.dart';
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_inkwell.dart';
-import 'package:custos/presentation/components/form/custom_text_form_field.dart';
+import 'package:custos/presentation/components/import_export/components/import_master_key_dialg.dart';
 import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -15,94 +14,9 @@ import 'package:go_router/go_router.dart';
 enum ImportExportDataMode { import, export, both }
 
 class ImportExportDataWidget extends StatelessWidget {
-  const ImportExportDataWidget({
-    super.key,
-    this.importMode = ImportExportDataMode.both,
-  });
+  const ImportExportDataWidget({super.key, this.importMode = ImportExportDataMode.both});
 
   final ImportExportDataMode importMode;
-
-  Future<void> _showImportMasterKeyDialog(
-    BuildContext context,
-    ImportExportDataCubit cubit,
-  ) async {
-    final masterKeyController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-    bool shouldClose = false;
-
-    await context.showCustomModalBottomSheet(
-      title: 'Importar datos',
-      child: BlocListener<ImportExportDataCubit, ImportExportDataState>(
-        bloc: cubit,
-        listener: (context, state) {
-          if (state.importState.isData && !shouldClose) {
-            shouldClose = true;
-            Future.delayed(const Duration(seconds: 1), () {
-              if (context.mounted) {
-                context.pop();
-                context.showSnackBar(message: 'Datos importados correctamente');
-              }
-            });
-          }
-        },
-        child: BlocBuilder<ImportExportDataCubit, ImportExportDataState>(
-          bloc: cubit,
-          builder: (context, state) {
-            return Form(
-              key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                spacing: context.lg,
-                children: [
-                  Text(
-                    'Introduce la clave maestra del archivo de respaldo',
-                    style: context.textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  CustomTextFormField(
-                    controller: masterKeyController,
-                    label: 'Clave maestra',
-                    hint: 'Introduce tu clave maestra',
-                    isRequired: true,
-                    obscureText: true,
-                    validator: context.validatePassword,
-                  ),
-                  CustomButton(
-                    label: 'Importar',
-                    isLoading: state.importState.isLoading,
-                    infiniteWidth: true,
-                    onPressed: () {
-                      if (formKey.currentState?.validate() == true) {
-                        cubit.importProfileData(
-                          masterKey: masterKeyController.text.trim(),
-                        );
-                      }
-                    },
-                  ),
-                  if (state.importState.isError)
-                    Text(
-                      state.importState.error.message ?? 'Error al importar',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: context.colorScheme.error,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  if (state.importState.isData)
-                    Text(
-                      'Datos importados correctamente',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: context.colorScheme.primary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,60 +26,41 @@ class ImportExportDataWidget extends StatelessWidget {
     final authCubit = context.read<AuthCubit>();
     final currentProfile = authCubit.state.loginState.dataOrNull;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: context.lg,
+    return BlocProvider.value(
+      value: cubit,
+      child: BlocListener<ImportExportDataCubit, ImportExportDataState>(
+        listener: (context, state) {
+          if (state.importData.isData) {
+            context.pop();
+            context.showCustomModalBottomSheet(
+              title: 'Importar datos',
+              child: ImportMasterKeyDialog(importData: state.importData.data, cubit: cubit),
+            );
+          }
+          if (state.importState.isData) {
+            context.pop();
+          }
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (importMode == ImportExportDataMode.import ||
-                importMode == ImportExportDataMode.both) ...[
-              // Botón Importar
-              Expanded(
-                child: CustomContainer(
-                  child:
-                      BlocBuilder<ImportExportDataCubit, ImportExportDataState>(
-                        bloc: cubit,
-                        builder: (context, state) {
-                          return CustomInkWell(
-                            onTap: () {
-                              _showImportMasterKeyDialog(context, cubit);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(context.xl),
-                              child: Column(
-                                spacing: context.lg,
-                                children: [
-                                  Icon(AppIcons.import),
-                                  Text('Importar datos'),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                ),
-              ),
-            ],
-
-            if (importMode == ImportExportDataMode.export ||
-                importMode == ImportExportDataMode.both) ...[
-              // Botón Exportar
-              Expanded(
-                child: CustomContainer(
-                  child:
-                      BlocBuilder<ImportExportDataCubit, ImportExportDataState>(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: context.lg,
+              children: [
+                if (importMode == ImportExportDataMode.export || importMode == ImportExportDataMode.both) ...[
+                  // Botón Exportar
+                  Expanded(
+                    child: CustomContainer(
+                      child: BlocBuilder<ImportExportDataCubit, ImportExportDataState>(
                         bloc: cubit,
                         builder: (context, state) {
                           return CustomInkWell(
                             onTap:
                                 currentProfile != null
                                     ? () {
-                                      cubit.exportProfileData(
-                                        profile: currentProfile,
-                                      );
+                                      cubit.exportProfileData(profile: currentProfile);
                                     }
                                     : null,
                             child: Padding(
@@ -173,31 +68,56 @@ class ImportExportDataWidget extends StatelessWidget {
                               child: Column(
                                 spacing: context.lg,
                                 children: [
-                                  Icon(AppIcons.export),
+                                  state.exportState.isLoading
+                                      ? CustomCircularProgressIndicator(dimension: 32)
+                                      : Icon(AppIcons.export, size: 32),
                                   Text('Exportar datos'),
-                                  if (state.exportState.isLoading)
-                                    SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: context.colorScheme.primary,
-                                      ),
-                                    ),
                                 ],
                               ),
                             ),
                           );
                         },
                       ),
-                ),
-              ),
-            ],
+                    ),
+                  ),
+                ],
+
+                if (importMode == ImportExportDataMode.import || importMode == ImportExportDataMode.both) ...[
+                  // Botón Importar
+                  Expanded(
+                    child: CustomContainer(
+                      child: BlocBuilder<ImportExportDataCubit, ImportExportDataState>(
+                        bloc: cubit,
+                        builder: (context, state) {
+                          return CustomInkWell(
+                            onTap: () {
+                              context.read<ImportExportDataCubit>().importProfileData();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(context.xl),
+                              child: Column(
+                                spacing: context.lg,
+                                children: [
+                                  state.importState.isLoading
+                                      ? CustomCircularProgressIndicator(dimension: 32)
+                                      : Icon(AppIcons.import, size: 32),
+                                  Text('Importar datos'),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+
+            SizedBox(height: context.xxxl),
           ],
         ),
-
-        SizedBox(height: context.xxxl),
-      ],
+      ),
     );
   }
 }
