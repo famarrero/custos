@@ -6,6 +6,8 @@ import 'package:custos/core/utils/crypto_utils.dart';
 import 'package:custos/core/utils/either.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
+import 'package:custos/data/providers/group/group_provider.dart';
+import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/providers/profile/profile_provider.dart';
 import 'package:custos/data/providers/secure_storage/secure_storage_provider.dart';
 import 'package:custos/data/providers/version/version_provider.dart';
@@ -18,6 +20,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final SecureStorageProvider secureStorage = di();
   final ProfileProvider profilesProvider = di();
   final VersionProvider versionProvider = di();
+  final GroupProvider groupProvider = di();
+  final PasswordEntryProvider passwordEntryProvider = di();
 
   @override
   Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
@@ -129,10 +133,24 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> deleteProfileAndMasterKey({required ProfileModel profile}) async {
     try {
+      // Eliminar todas las entradas de contraseñas asociadas al perfil
+      final passwordEntries = await passwordEntryProvider.getPasswordsEntries();
+      for (var passwordEntry in passwordEntries) {
+        await passwordEntryProvider.deletePasswordEntry(id: passwordEntry.id);
+      }
+
+      // Eliminar todos los grupos asociados al perfil
+      final groups = await groupProvider.getGroups();
+      for (var group in groups) {
+        await groupProvider.deleteGroup(id: group.id);
+      }
+
+      // Eliminar las claves maestras del secure storage
       await secureStorage.deleteValue(key: profile.masterKeySaltSecureStorageAccessKey);
       await secureStorage.deleteValue(key: profile.masterKeyHashSecureStorageAccessKey);
       await secureStorage.deleteValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
 
+      // Eliminar el perfil
       await profilesProvider.deleteProfile(id: profile.id);
 
       return right(null);
