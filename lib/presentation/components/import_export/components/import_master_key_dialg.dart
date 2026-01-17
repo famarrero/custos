@@ -32,7 +32,7 @@ class ImportMasterKeyDialog extends StatelessWidget {
             spacing: context.xxxl,
             children: [
               Text(
-                'Los datos del perfil ${state.importData.data['profile']['name']} estan listos para ser importados. Introduce la clave maestra del perfil para continuar.',
+                'El archivo de respaldo está listo para ser importado. Introduce la clave maestra del perfil para continuar.',
                 style: context.textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
@@ -51,6 +51,7 @@ class ImportMasterKeyDialog extends StatelessWidget {
                 onPressed: () {
                   if (formKey.currentState?.validate() == true) {
                     context.read<ImportExportDataCubit>().importData(masterKey: masterKeyController.text.trim());
+                    FocusManager.instance.primaryFocus?.unfocus();
                   }
                 },
               ),

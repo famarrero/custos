@@ -20,6 +20,8 @@ import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/data/repositories/auth/auth_repository_impl.dart';
 import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/data/repositories/group/group_repository_impl.dart';
+import 'package:custos/data/repositories/import_export/import_export_repository.dart';
+import 'package:custos/data/repositories/import_export/import_export_repository_impl.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository_impl.dart';
 import 'package:custos/data/repositories/preference/preference_repository.dart';
@@ -119,6 +121,11 @@ Future initInjection() async {
   /// VersionRepository
   GetIt.I.registerLazySingleton<VersionRepository>(
     () => VersionRepositoryImpl(),
+  );
+
+  /// ImportExportRepository
+  GetIt.I.registerLazySingleton<ImportExportRepository>(
+    () => ImportExportRepositoryImpl(),
   );
 }
 

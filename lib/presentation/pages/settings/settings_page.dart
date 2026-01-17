@@ -5,13 +5,13 @@ import 'package:custos/core/services/package_info_service.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
-import 'package:custos/data/repositories/version/version_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_tiles_options.dart';
+import 'package:custos/presentation/components/database_version_widget/database_version_widget.dart';
 import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
 import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/privacy_police_widget.dart';
@@ -70,17 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      FutureBuilder(
-                        future: di<VersionRepository>().getVersion(),
-                        builder: (context, asyncSnapshot) {
-                          return Text(
-                            'Data base version: ${asyncSnapshot.data?.version ?? 0}',
-                            style: context.textTheme.labelMedium,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          );
-                        },
-                      ),
+                      DatabaseVersionWidget(),
                     ],
                   ),
                 ),

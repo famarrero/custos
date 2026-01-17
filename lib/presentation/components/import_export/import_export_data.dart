@@ -5,6 +5,7 @@ import 'package:custos/presentation/components/custom_circular_progress_indicato
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_inkwell.dart';
 import 'package:custos/presentation/components/import_export/components/import_master_key_dialg.dart';
+import 'package:custos/presentation/components/master_key_validator/master_key_validator.dart';
 import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,22 @@ class ImportExportDataWidget extends StatelessWidget {
                           onTap:
                               currentProfile != null
                                   ? () {
-                                    context.read<ImportExportDataCubit>().exportProfileData(profile: currentProfile);
+                                    // Mostrar diálogo para validar master key antes de exportar
+                                    context.showCustomModalBottomSheet(
+                                      title: 'Exportar datos',
+                                      child: MasterKeyValidator(
+                                        profile: currentProfile,
+                                        onMasterKeyValidated: (masterKey) {
+                                          // Cerrar diálogo de validación
+                                          context.pop();
+                                          // Llamar a exportProfileData con la master key validada
+                                          context.read<ImportExportDataCubit>().exportProfileData(
+                                            profile: currentProfile,
+                                            masterKey: masterKey,
+                                          );
+                                        },
+                                      ),
+                                    );
                                   }
                                   : null,
                           child: Padding(
