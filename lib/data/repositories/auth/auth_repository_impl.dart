@@ -160,6 +160,10 @@ class AuthRepositoryImpl implements AuthRepository {
       await secureStorage.deleteValue(key: profile.masterKeyHashSecureStorageAccessKey);
       await secureStorage.deleteValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
 
+      // Eliminar la master key protegida por biométrica si existe
+      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
+      await secureStorage.deleteValue(key: biometricMasterKeyStorageKey);
+
       // Eliminar el perfil
       await profilesProvider.deleteProfile(id: profile.id);
 
@@ -249,6 +253,58 @@ class AuthRepositoryImpl implements AuthRepository {
       return hashedMasterKeyEncode == base64Encode(derivedEncryptionMasterKey);
     } catch (e) {
       throw Exception();
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileModel>> enableBiometricAuth({
+    required ProfileModel profile,
+    required String masterKey,
+  }) async {
+    try {
+      // Guardar la master key protegida por biométrica
+      // El SO cifrará esto con una key interna y exigirá huella/FaceID para leerlo
+      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
+      await secureStorage.writeValueWithBiometrics(key: biometricMasterKeyStorageKey, value: masterKey);
+
+      // Actualizar el perfil para habilitar biométrica
+      final updatedProfile = profile.copyWith(hasBiometricEnabled: true);
+      await profilesProvider.upsertProfile(profileModel: updatedProfile);
+      return right(updatedProfile);
+    } catch (e) {
+      return left(AppFailure(AppError.unknown, message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileModel>> disableBiometricAuth({required ProfileModel profile}) async {
+    try {
+      // Eliminar la master key protegida por biométrica
+      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
+      await secureStorage.deleteValue(key: biometricMasterKeyStorageKey);
+
+      // Actualizar el perfil para deshabilitar biométrica
+      final updatedProfile = profile.copyWith(hasBiometricEnabled: false);
+      await profilesProvider.upsertProfile(profileModel: updatedProfile);
+      return right(updatedProfile);
+    } catch (e) {
+      return left(AppFailure(AppError.unknown, message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String?>> getMasterKeyWithBiometrics({required ProfileModel profile}) async {
+    try {
+      // Intentar leer la master key protegida por biométrica
+      // El SO pedirá biométrica automáticamente antes de devolver la key
+      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
+      final masterKey = await secureStorage.readValueWithBiometrics(key: biometricMasterKeyStorageKey);
+
+      // Si la master key es null, significa que no está disponible o la biométrica falló
+      return right(masterKey);
+    } catch (e) {
+      // Si hay un error (por ejemplo, biométrica cancelada o fallida), retornar null
+      return right(null);
     }
   }
 }

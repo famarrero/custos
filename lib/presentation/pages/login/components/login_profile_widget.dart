@@ -35,14 +35,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
         mainAxisSize: MainAxisSize.min,
         spacing: 24.0,
         children: [
-          Column(
-            children: [
-              Text(
-                'Hola ${widget.profile.name}',
-                style: context.textTheme.titleMedium,
-              ),
-            ],
-          ),
+          Column(children: [Text('Hola ${widget.profile.name}', style: context.textTheme.titleMedium)]),
 
           CustomTextFormField(
             controller: _masterKeyController,
@@ -82,11 +75,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                     _showForgotMasterKeyInfo
                         ? null
                         : () {
-                          setState(
-                            () =>
-                                _showForgotMasterKeyInfo =
-                                    !_showForgotMasterKeyInfo,
-                          );
+                          setState(() => _showForgotMasterKeyInfo = !_showForgotMasterKeyInfo);
                         },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: context.xs),
@@ -105,21 +94,14 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                 child:
                     _showForgotMasterKeyInfo
                         ? Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: context.lg,
-                            vertical: context.lg,
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: context.lg, vertical: context.lg),
                           decoration: BoxDecoration(
                             color: context.colorScheme.errorContainer,
-                            borderRadius: BorderRadius.circular(
-                              context.corner(),
-                            ),
+                            borderRadius: BorderRadius.circular(context.corner()),
                           ),
                           child: Text(
                             'Lo sentimos ${widget.profile.name}, no hay nada que podamos hacer para ayudarte con tu clave maestra. Haz perdido todos tus datos y no podremos recuperarlos.',
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: context.colorScheme.error,
-                            ),
+                            style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.error),
                             textAlign: TextAlign.center,
                           ),
                         )

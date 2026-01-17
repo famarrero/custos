@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:custos/core/services/biometric_auth_service.dart';
 import 'package:custos/core/services/file_picker_service.dart';
 import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/services/logger_service.dart';
@@ -70,6 +71,9 @@ Future initInjection() async {
 
   /// FilePickerService
   di.registerLazySingleton<FilePickerService>(() => FilePickerServiceImpl());
+
+  /// BiometricAuthService
+  di.registerLazySingleton<BiometricAuthService>(() => BiometricAuthServiceImpl());
 
   ///-------------------Providers--------------------------------///
 

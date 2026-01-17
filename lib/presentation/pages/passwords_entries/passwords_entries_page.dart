@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
+import 'package:custos/presentation/components/biometric_setup_dialog/biometric_setup_dialog.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
 import 'package:custos/presentation/components/no_data_widget.dart';
@@ -25,6 +26,7 @@ class PasswordsEntriesPage extends StatefulWidget {
 
 class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
   final TextEditingController _searchController = TextEditingController();
+  bool _hasShownBiometricDialog = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,26 @@ class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
                 current.isUserAuthenticated,
         listener: (context, state) {
           context.read<PasswordsEntriesCubit>().watchGroups();
+
+          // Mostrar diálogo de configuración biométrica después del primer login
+          // Solo si el perfil no tiene biométrica habilitada y aún no se ha mostrado el diálogo
+          if (state.loginState.isData &&
+              !state.loginState.data.hasBiometricEnabled &&
+              !_hasShownBiometricDialog) {
+            _hasShownBiometricDialog = true;
+            // Usar un pequeño delay para que la página se cargue primero
+            Future.delayed(const Duration(milliseconds: 500), () {
+              if (context.mounted) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => BiometricSetupDialog(
+                    profile: state.loginState.data,
+                  ),
+                );
+              }
+            });
+          }
         },
         child: ScaffoldWidget(
           floatingActionButton: FloatingActionButton(

@@ -8,6 +8,7 @@ import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
+import 'package:custos/presentation/components/biometric_setup_dialog/biometric_setup_dialog.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_tiles_options.dart';
@@ -133,6 +134,22 @@ class _SettingsPageState extends State<SettingsPage> {
                     context.showCustomModalBottomSheet(child: PrivacyPoliceWidget());
                   },
                 ),
+
+                if (widget.mode == SettingsPageMode.loged && profile != null) ...[
+                  CustomSettingTile(
+                    prefixIconPath: AppIcons.key,
+                    title: profile.hasBiometricEnabled ? 'Deshabilitar huella digital' : 'Habilitar huella digital',
+                    subtitle: profile.hasBiometricEnabled
+                        ? 'Desactiva la autenticación por huella digital'
+                        : 'Configura la autenticación por huella digital para un acceso más rápido',
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => BiometricSetupDialog(profile: profile),
+                      );
+                    },
+                  ),
+                ],
 
                 if (widget.mode == SettingsPageMode.loged) ...[
                   CustomSettingTile(
