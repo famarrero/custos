@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:custos/core/extensions/go_router_extension.dart';
-import 'package:custos/presentation/pages/settings/settings_page.dart';
 import 'package:custos/routes/routes.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';

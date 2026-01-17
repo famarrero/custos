@@ -13,6 +13,7 @@ import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/providers/profile/profile_provider.dart';
+import 'package:custos/data/providers/version/version_provider.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -35,6 +36,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
   final HiveDatabaseService hiveDatabase = di();
   final ProfileProvider profilesProvider = di();
   final GroupProvider groupProvider = di();
+  final VersionProvider versionProvider = di();
   final PasswordEntryProvider passwordEntryProvider = di();
   final AuthRepository authRepository = di();
   final FilePickerService filePickerService = di();
@@ -47,10 +49,11 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
       // Obtener todos los grupos y entradas de contraseñas del perfil
       final groups = await groupProvider.getGroups();
       final passwordEntries = await passwordEntryProvider.getPasswordsEntries();
+      final version = await versionProvider.getVersion();
 
       // Crear estructura de datos para exportar
       final exportData = {
-        'version': '1.0',
+        'version': version?.version,
         'profile': profile.toJson(),
         'groups': groups.map((g) => g.toJson()).toList(),
         'passwordEntries': passwordEntries.map((pe) => pe.toJson()).toList(),
