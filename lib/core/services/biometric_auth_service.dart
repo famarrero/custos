@@ -19,10 +19,6 @@ abstract class BiometricAuthService {
   /// Retorna true si la autenticación fue exitosa, false si fue cancelada
   /// Lanza una excepción si hay un error
   Future<bool> authenticateWithFingerprint({required String localizedReason});
-
-  /// Desactiva la autenticación biométrica para un perfil
-  /// (Operación local, no requiere verificación biométrica)
-  Future<void> disableBiometricAuth();
 }
 
 class BiometricAuthServiceImpl implements BiometricAuthService {
@@ -92,13 +88,5 @@ class BiometricAuthServiceImpl implements BiometricAuthService {
     } catch (e) {
       throw Exception('Error al autenticar con huella digital: ${e.toString()}');
     }
-  }
-
-  @override
-  Future<void> disableBiometricAuth() async {
-    // Esta es una operación local que solo actualiza el estado en la app
-    // No requiere verificación biométrica ya que es una acción del usuario en la configuración
-    // La implementación real se hará en el repositorio/provider que actualice el ProfileModel
-    return;
   }
 }
