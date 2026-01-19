@@ -126,10 +126,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fieldProfileName => 'Profile name';
 
   @override
+  String get fieldProfileNameHint => 'Enter your profile name';
+
+  @override
   String get fieldMasterKey => 'Master key';
 
   @override
+  String get fieldMasterKeyHint => 'Enter your master key';
+
+  @override
   String get fieldRepeatMasterKey => 'Repeat master key';
+
+  @override
+  String get fieldRepeatMasterKeyHint => 'Repeat your master key';
 
   @override
   String get loginWelcomeBackTitle => 'Welcome back!';
@@ -263,7 +272,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get upsertPasswordWebOrAppNameLabel => 'Web or app name';
 
   @override
+  String get upsertPasswordWebOrAppNameHint => 'E.g. Gmail';
+
+  @override
   String get upsertPasswordGeneratePasswordTitle => 'Generate password';
+
+  @override
+  String get fieldUrlHint => 'https://example.com';
+
+  @override
+  String get fieldUsernameHint => 'E.g. john_doe';
+
+  @override
+  String get fieldEmailHint => 'name@example.com';
+
+  @override
+  String get fieldPhoneHint => '+1 555 000 0000';
+
+  @override
+  String get fieldPasswordHint => '••••••••';
+
+  @override
+  String get fieldGroupHint => 'Select a group';
+
+  @override
+  String get fieldExpirationDateLabel => 'Expiration date';
+
+  @override
+  String get fieldExpirationDateHint => 'Select an expiration date';
+
+  @override
+  String get fieldNoteHint => 'E.g. This is my password for Gmail';
 
   @override
   String get iconPickerTitle => 'Pick an icon';
@@ -384,5 +423,139 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String appVersion(Object version) {
     return 'Version $version';
+  }
+
+  @override
+  String get biometricAuthFailed => 'Biometric authentication failed';
+
+  @override
+  String settingsProfileCreatedAt(Object date) {
+    return 'Created on $date';
+  }
+
+  @override
+  String get settingsExportTitle => 'Export';
+
+  @override
+  String get settingsImportTitle => 'Import';
+
+  @override
+  String get settingsExportSubtitle => 'Export your data to a .custos file';
+
+  @override
+  String get settingsImportSubtitle => 'Import your data from a .custos file';
+
+  @override
+  String get settingsExportDataTitle => 'Export your data';
+
+  @override
+  String get settingsImportDataTitle => 'Import your data';
+
+  @override
+  String get settingsBiometricDisableTitle => 'Disable fingerprint';
+
+  @override
+  String get settingsBiometricEnableTitle => 'Enable fingerprint';
+
+  @override
+  String get settingsBiometricDisableSubtitle =>
+      'Disable fingerprint authentication';
+
+  @override
+  String get settingsBiometricEnableSubtitle =>
+      'Configure fingerprint authentication for faster access';
+
+  @override
+  String get settingsAboutUsSubtitle => 'Application information';
+
+  @override
+  String get biometricSetupDisableTitle => 'Disable biometric authentication';
+
+  @override
+  String get biometricSetupEnableTitle => 'Configure biometric authentication';
+
+  @override
+  String get biometricSetupCheckingAvailability => 'Checking availability...';
+
+  @override
+  String biometricSetupDisableQuestion(Object profileName) {
+    return 'Do you want to disable fingerprint authentication for $profileName?';
+  }
+
+  @override
+  String get biometricSetupDisableSubtitle =>
+      'You will need to use your master key to sign in each time.';
+
+  @override
+  String get biometricSetupEnableMasterKeyPrompt =>
+      'Enter your master key to configure biometric authentication';
+
+  @override
+  String biometricSetupEnableQuestion(Object profileName) {
+    return 'Do you want to configure fingerprint authentication for faster access to $profileName?';
+  }
+
+  @override
+  String get biometricSetupEnableSubtitle =>
+      'You can use your fingerprint to sign in instead of typing your master key each time.';
+
+  @override
+  String get biometricSetupNotAvailableTitle =>
+      'Your device does not have fingerprint configured or is not compatible.';
+
+  @override
+  String get biometricSetupNotAvailableSubtitle =>
+      'You can configure biometrics in your device settings and try again.';
+
+  @override
+  String get biometricSetupDisableButton => 'Disable';
+
+  @override
+  String get biometricSetupContinueButton => 'Continue';
+
+  @override
+  String get biometricSetupConfigureButton => 'Configure fingerprint';
+
+  @override
+  String get loadingDialogMessage => 'Loading, please wait...';
+
+  @override
+  String loginProfileGreeting(Object profileName) {
+    return 'Hello $profileName';
+  }
+
+  @override
+  String get loginProfileMasterKeyHint => 'Enter your master key';
+
+  @override
+  String get loginProfileForgotMasterKeyQuestion => 'Forgot your master key?';
+
+  @override
+  String loginProfileForgotMasterKeyMessage(Object profileName) {
+    return 'We\'re sorry $profileName, there\'s nothing we can do to help you with your master key. You have lost all your data and we won\'t be able to recover it.';
+  }
+
+  @override
+  String biometricSetupEnableReason(Object profileName) {
+    return 'Authenticate with your fingerprint to enable quick access to $profileName';
+  }
+
+  @override
+  String get biometricSetupErrorIncorrectMasterKey =>
+      'The master key is incorrect';
+
+  @override
+  String biometricSetupErrorEnable(Object error) {
+    return 'Error enabling biometrics: $error';
+  }
+
+  @override
+  String biometricSetupErrorDisable(Object error) {
+    return 'Error disabling biometrics: $error';
+  }
+
+  @override
+  String biometricSetupErrorConfigure(Object error) {
+    return 'Error configuring biometrics: $error';
   }
 }

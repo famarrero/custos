@@ -19,7 +19,8 @@
     {
       "label": "Generate l10n",
       "type": "shell",
-      "command": "flutter gen-l10n"
+      "command": "flutter gen-l10n",
+      "problemMatcher": []
     },
     {
       "label": "Generate app icons",
@@ -67,6 +68,6 @@
       "label": "Git fetch",
       "type": "shell",
       "command": "git fetch; git pull"
-    },
+    }
   ]
 }

@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 /// Diálogo de carga que muestra un indicador y un mensaje
 /// No puede ser cerrado por el usuario hasta que se cierre programáticamente
 class LoadingDialog extends StatelessWidget {
-  const LoadingDialog({super.key, this.message = 'Cargando, espere...'});
+  const LoadingDialog({super.key, this.message});
 
-  final String message;
+  final String? message;
 
   /// Muestra el diálogo de carga
   /// Retorna el BuildContext del diálogo para poder cerrarlo después
@@ -16,7 +16,7 @@ class LoadingDialog extends StatelessWidget {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // No se puede cerrar tocando fuera
-      builder: (context) => LoadingDialog(message: message ?? 'Cargando, espere...'),
+      builder: (context) => LoadingDialog(message: message),
     );
   }
 
@@ -38,7 +38,11 @@ class LoadingDialog extends StatelessWidget {
           children: [
             CustomCircularProgressIndicator(dimension: 24),
             SizedBox(height: context.lg),
-            Text(message, style: context.textTheme.bodyMedium, textAlign: TextAlign.center),
+            Text(
+              message ?? context.l10n.loadingDialogMessage,
+              style: context.textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

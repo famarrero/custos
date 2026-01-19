@@ -35,12 +35,19 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
         mainAxisSize: MainAxisSize.min,
         spacing: 24.0,
         children: [
-          Column(children: [Text('Hola ${widget.profile.name}', style: context.textTheme.titleMedium)]),
+          Column(
+            children: [
+              Text(
+                context.l10n.loginProfileGreeting(widget.profile.name),
+                style: context.textTheme.titleMedium,
+              ),
+            ],
+          ),
 
           CustomTextFormField(
             controller: _masterKeyController,
             label: context.l10n.fieldMasterKey,
-            hint: 'Introduce tu clave maestra',
+            hint: context.l10n.loginProfileMasterKeyHint,
             isRequired: true,
             obscureText: true,
             validator: context.validatePassword,
@@ -54,7 +61,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                 infiniteWidth: true,
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    context.read<AuthCubit>().login(
+                    context.read<AuthCubit>().loginWithMasterKey(
                       GoRouter.of(context),
                       profile: widget.profile,
                       masterKey: _masterKeyController.text.trim(),
@@ -80,7 +87,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: context.xs),
                   child: Text(
-                    '¿Olvidaste tu clave maestra?',
+                    context.l10n.loginProfileForgotMasterKeyQuestion,
                     style: context.textTheme.bodySmall?.copyWith(
                       color: context.colorScheme.primary,
                       decoration: TextDecoration.underline,
@@ -100,7 +107,7 @@ class _LoginProfileWidgetState extends State<LoginProfileWidget> {
                             borderRadius: BorderRadius.circular(context.corner()),
                           ),
                           child: Text(
-                            'Lo sentimos ${widget.profile.name}, no hay nada que podamos hacer para ayudarte con tu clave maestra. Haz perdido todos tus datos y no podremos recuperarlos.',
+                            context.l10n.loginProfileForgotMasterKeyMessage(widget.profile.name),
                             style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.error),
                             textAlign: TextAlign.center,
                           ),

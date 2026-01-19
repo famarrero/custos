@@ -127,10 +127,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get fieldProfileName => 'Nombre del perfil';
 
   @override
+  String get fieldProfileNameHint => 'Introduce el nombre de tu perfil';
+
+  @override
   String get fieldMasterKey => 'Clave maestra';
 
   @override
+  String get fieldMasterKeyHint => 'Introduce tu clave maestra';
+
+  @override
   String get fieldRepeatMasterKey => 'Repetir clave maestra';
+
+  @override
+  String get fieldRepeatMasterKeyHint => 'Repite tu clave maestra';
 
   @override
   String get loginWelcomeBackTitle => '¡Bienvenido de nuevo!';
@@ -265,7 +274,37 @@ class AppLocalizationsEs extends AppLocalizations {
   String get upsertPasswordWebOrAppNameLabel => 'Nombre de la web o app';
 
   @override
+  String get upsertPasswordWebOrAppNameHint => 'Ej. Gmail';
+
+  @override
   String get upsertPasswordGeneratePasswordTitle => 'Generar contraseña';
+
+  @override
+  String get fieldUrlHint => 'https://example.com';
+
+  @override
+  String get fieldUsernameHint => 'Ej. john_doe';
+
+  @override
+  String get fieldEmailHint => 'name@example.com';
+
+  @override
+  String get fieldPhoneHint => '+34 600 000 000';
+
+  @override
+  String get fieldPasswordHint => '••••••••';
+
+  @override
+  String get fieldGroupHint => 'Selecciona un grupo';
+
+  @override
+  String get fieldExpirationDateLabel => 'Fecha de expiración';
+
+  @override
+  String get fieldExpirationDateHint => 'Selecciona una fecha de expiración';
+
+  @override
+  String get fieldNoteHint => 'Ej. Esta es mi contraseña para Gmail';
 
   @override
   String get iconPickerTitle => 'Elige un ícono';
@@ -386,5 +425,143 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String appVersion(Object version) {
     return 'Versión $version';
+  }
+
+  @override
+  String get biometricAuthFailed => 'La autenticación biométrica falló';
+
+  @override
+  String settingsProfileCreatedAt(Object date) {
+    return 'Creado el $date';
+  }
+
+  @override
+  String get settingsExportTitle => 'Exportar';
+
+  @override
+  String get settingsImportTitle => 'Importar';
+
+  @override
+  String get settingsExportSubtitle => 'Exporta tus datos a un archivo .custos';
+
+  @override
+  String get settingsImportSubtitle =>
+      'Importa tus datos desde un archivo .custos';
+
+  @override
+  String get settingsExportDataTitle => 'Exporta tus datos';
+
+  @override
+  String get settingsImportDataTitle => 'Importa tus datos';
+
+  @override
+  String get settingsBiometricDisableTitle => 'Deshabilitar huella digital';
+
+  @override
+  String get settingsBiometricEnableTitle => 'Habilitar huella digital';
+
+  @override
+  String get settingsBiometricDisableSubtitle =>
+      'Desactiva la autenticación por huella digital';
+
+  @override
+  String get settingsBiometricEnableSubtitle =>
+      'Configura la autenticación por huella digital para un acceso más rápido';
+
+  @override
+  String get settingsAboutUsSubtitle => 'Información de la aplicación';
+
+  @override
+  String get biometricSetupDisableTitle =>
+      'Deshabilitar autenticación biométrica';
+
+  @override
+  String get biometricSetupEnableTitle => 'Configurar autenticación biométrica';
+
+  @override
+  String get biometricSetupCheckingAvailability =>
+      'Verificando disponibilidad...';
+
+  @override
+  String biometricSetupDisableQuestion(Object profileName) {
+    return '¿Deseas deshabilitar la autenticación por huella digital para $profileName?';
+  }
+
+  @override
+  String get biometricSetupDisableSubtitle =>
+      'Deberás usar tu clave maestra para iniciar sesión cada vez.';
+
+  @override
+  String get biometricSetupEnableMasterKeyPrompt =>
+      'Introduce tu clave maestra para configurar la autenticación biométrica';
+
+  @override
+  String biometricSetupEnableQuestion(Object profileName) {
+    return '¿Deseas configurar autenticación por huella digital para acceder más rápido a $profileName?';
+  }
+
+  @override
+  String get biometricSetupEnableSubtitle =>
+      'Podrás usar tu huella digital para iniciar sesión en lugar de escribir tu clave maestra cada vez.';
+
+  @override
+  String get biometricSetupNotAvailableTitle =>
+      'Tu dispositivo no tiene huella digital configurada o no es compatible.';
+
+  @override
+  String get biometricSetupNotAvailableSubtitle =>
+      'Puedes configurar la biométrica en la configuración de tu dispositivo y volver a intentarlo.';
+
+  @override
+  String get biometricSetupDisableButton => 'Deshabilitar';
+
+  @override
+  String get biometricSetupContinueButton => 'Continuar';
+
+  @override
+  String get biometricSetupConfigureButton => 'Configurar huella digital';
+
+  @override
+  String get loadingDialogMessage => 'Cargando, espere...';
+
+  @override
+  String loginProfileGreeting(Object profileName) {
+    return 'Hola $profileName';
+  }
+
+  @override
+  String get loginProfileMasterKeyHint => 'Introduce tu clave maestra';
+
+  @override
+  String get loginProfileForgotMasterKeyQuestion =>
+      '¿Olvidaste tu clave maestra?';
+
+  @override
+  String loginProfileForgotMasterKeyMessage(Object profileName) {
+    return 'Lo sentimos $profileName, no hay nada que podamos hacer para ayudarte con tu clave maestra. Has perdido todos tus datos y no podremos recuperarlos.';
+  }
+
+  @override
+  String biometricSetupEnableReason(Object profileName) {
+    return 'Autentícate con tu huella digital para habilitar el acceso rápido a $profileName';
+  }
+
+  @override
+  String get biometricSetupErrorIncorrectMasterKey =>
+      'La clave maestra es incorrecta';
+
+  @override
+  String biometricSetupErrorEnable(Object error) {
+    return 'Error al habilitar biométrica: $error';
+  }
+
+  @override
+  String biometricSetupErrorDisable(Object error) {
+    return 'Error al deshabilitar biométrica: $error';
+  }
+
+  @override
+  String biometricSetupErrorConfigure(Object error) {
+    return 'Error al configurar biométrica: $error';
   }
 }

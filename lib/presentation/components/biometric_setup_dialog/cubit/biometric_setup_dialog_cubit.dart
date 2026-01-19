@@ -3,6 +3,7 @@ import 'package:custos/core/services/biometric_auth_service.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/repositories/auth/auth_repository.dart';
 import 'package:custos/di_container.dart';
+import 'package:custos/presentation/app/l10n/app_localizations.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -43,7 +44,7 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
   }
 
   /// Habilita la biométrica para el perfil
-  Future<void> enableBiometric(String masterKey) async {
+  Future<void> enableBiometric(String masterKey, {required AppLocalizations l10n}) async {
     // Si no se ha mostrado el formulario de master key, mostrarlo
     if (!state.showMasterKeyForm) {
       showMasterKeyInput();
@@ -64,7 +65,7 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
           // Si la master key es incorrecta, emitir error
           emit(state.copyWith(
             isValidatingMasterKey: false,
-            errorMessage: 'La clave maestra es incorrecta',
+            errorMessage: l10n.biometricSetupErrorIncorrectMasterKey,
           ));
         },
         (_) async {
@@ -76,8 +77,7 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
 
           // Intentar autenticar con huella digital para configurar
           final didAuthenticate = await _biometricAuthService.authenticateWithFingerprint(
-            localizedReason:
-                'Autentícate con tu huella digital para habilitar el acceso rápido a ${profile.name}',
+            localizedReason: l10n.biometricSetupEnableReason(profile.name),
           );
 
           if (didAuthenticate) {
@@ -92,7 +92,7 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
                 // Si hay un error, emitir error
                 emit(state.copyWith(
                   isValidatingMasterKey: false,
-                  errorMessage: 'Error al habilitar biométrica: ${failure.message ?? 'Error desconocido'}',
+                  errorMessage: l10n.biometricSetupErrorEnable(failure.message ?? l10n.unknownErrorOccurred),
                 ));
               },
               (updatedProfile) {
@@ -116,13 +116,13 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
       // Si hay un error, emitir error
       emit(state.copyWith(
         isValidatingMasterKey: false,
-        errorMessage: 'Error al configurar biométrica: ${e.toString()}',
+        errorMessage: l10n.biometricSetupErrorConfigure(e.toString()),
       ));
     }
   }
 
   /// Deshabilita la biométrica para el perfil
-  Future<void> disableBiometric() async {
+  Future<void> disableBiometric({required AppLocalizations l10n}) async {
     emit(state.copyWith(isValidatingMasterKey: true, errorMessage: null));
 
     try {
@@ -134,7 +134,7 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
           // Si hay un error, emitir error
           emit(state.copyWith(
             isValidatingMasterKey: false,
-            errorMessage: 'Error al deshabilitar biométrica: ${failure.message ?? 'Error desconocido'}',
+            errorMessage: l10n.biometricSetupErrorDisable(failure.message ?? l10n.unknownErrorOccurred),
           ));
         },
         (updatedProfile) {
@@ -149,7 +149,7 @@ class BiometricSetupDialogCubit extends Cubit<BiometricSetupDialogState> {
       // Si hay un error, emitir error
       emit(state.copyWith(
         isValidatingMasterKey: false,
-        errorMessage: 'Error al deshabilitar biométrica: ${e.toString()}',
+        errorMessage: l10n.biometricSetupErrorDisable(e.toString()),
       ));
     }
   }

@@ -21,7 +21,7 @@ abstract class AuthRepository {
   /// Deshabilita la autenticación biométrica para un perfil y elimina la master key protegida por biométrica
   Future<Either<Failure, ProfileModel>> disableBiometricAuth({required ProfileModel profile});
 
-  /// Obtiene la master key protegida por biométrica para un perfil
-  /// Retorna null si no está disponible o si la biométrica falla
-  Future<Either<Failure, String?>> getMasterKeyWithBiometrics({required ProfileModel profile});
+  /// Desbloquea K_hive usando biométrica para un perfil y abre Hive
+  /// Retorna un Failure si no está disponible o si la biométrica falla
+  Future<Either<Failure, void>> unlockHiveKeyWithBiometrics({required ProfileModel profile});
 }

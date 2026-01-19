@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
+import 'package:custos/core/services/biometric_auth_service.dart';
+import 'package:custos/core/services/encryption_service.dart';
 import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/utils/app_error.dart';
-import 'package:custos/core/utils/crypto_utils.dart';
 import 'package:custos/core/utils/either.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
@@ -22,6 +24,23 @@ class AuthRepositoryImpl implements AuthRepository {
   final VersionProvider versionProvider = di();
   final GroupProvider groupProvider = di();
   final PasswordEntryProvider passwordEntryProvider = di();
+  final BiometricAuthService biometricAuthService = di();
+  final EncryptionService encryptionService = di();
+
+  /// Obtiene la clave de almacenamiento para K_hive cifrada (sin biométrica)
+  String _getEncryptedHiveKeyStorageKey(String profileId) {
+    return '${profileId}_hive_key_encrypted';
+  }
+
+  /// Obtiene la clave de almacenamiento para K_hive protegida por biométrica (deviceKey)
+  String _getBiometricHiveKeyStorageKey(String profileId) {
+    return '${profileId}_device_key_biometric';
+  }
+
+  /// Obtiene la clave de almacenamiento para K_hive cifrada con deviceKey
+  String _getEncryptedHiveKeyWithDeviceKeyStorageKey(String profileId) {
+    return '${profileId}_hive_key_encrypted_device';
+  }
 
   @override
   Future<Either<Failure, ProfileModel>> registerProfileWhitMasterKey({
@@ -62,14 +81,14 @@ class AuthRepositoryImpl implements AuthRepository {
         generatedSalt = base64Decode(existingSaltEncoded);
       } else {
         // New profile, generate new salt
-        generatedSalt = generateSalt();
+        generatedSalt = encryptionService.generateSalt();
         saltEncoded = base64Encode(generatedSalt);
         // Save the salt in the secure storage
         await secureStorage.writeValue(key: profile.encryptionKeySaltSecureStorageAccessKey, value: saltEncoded);
       }
 
-      // Derive the encrypted key by masterKey and salt
-      final encryptionKey = await deriveEncryptionKeyAsync(masterKey, generatedSalt);
+      // Derive K_user from masterKey and salt (for encrypting K_hive)
+      final userKey = await encryptionService.deriveEncryptionKeyAsync(masterKey, generatedSalt);
 
       // Save the masterKey in secure storage as PBKDF2 only if it doesn't exist
       final existingMasterKeyHash = await secureStorage.readValue(key: profile.masterKeyHashSecureStorageAccessKey);
@@ -81,9 +100,34 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       }
 
-      // Set the encryptionKey in HiveDatabaseService
-      // The encryptionKey only saved in temporal memory (RAM)
-      hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
+      // Generate or retrieve K_hive (Hive encryption key)
+      final encryptedHiveKeyStorageKey = _getEncryptedHiveKeyStorageKey(profile.id);
+      final existingEncryptedHiveKey = await secureStorage.readValue(key: encryptedHiveKeyStorageKey);
+
+      List<int> hiveKey;
+
+      if (existingEncryptedHiveKey != null) {
+        // Profile already exists, decrypt existing K_hive
+        final encryptedData = jsonDecode(existingEncryptedHiveKey) as Map<String, dynamic>;
+        hiveKey = await encryptionService.decryptWithAESGCM(
+          ivBase64: encryptedData['iv'] as String,
+          encryptedDataBase64: encryptedData['encryptedKey'] as String,
+          key: userKey,
+        );
+      } else {
+        // New profile, generate random K_hive (32 bytes for AES-256)
+        hiveKey = encryptionService.generateRandomKey();
+
+        // Encrypt K_hive with K_user
+        final encryptedData = await encryptionService.encryptWithAESGCM(data: hiveKey, key: userKey);
+
+        // Store encrypted K_hive in SecureStorage (without biometric protection)
+        await secureStorage.writeValue(key: encryptedHiveKeyStorageKey, value: jsonEncode(encryptedData));
+      }
+
+      // Set K_hive in HiveDatabaseService
+      // The hiveKey is only saved in temporal memory (RAM)
+      hiveDatabase.setEncryptionKey(hiveKey, profile.id);
 
       await profilesProvider.upsertProfile(profileModel: profile);
 
@@ -118,14 +162,38 @@ class AuthRepositoryImpl implements AuthRepository {
         // Decode salt from base64
         final saltDecode = base64Decode(saltEncoded);
 
-        // Derive the encrypted key by masterKey and salt
-        final encryptionKey = await deriveEncryptionKeyAsync(masterKey, saltDecode);
+        // Derive K_user from masterKey and salt
+        final userKey = await encryptionService.deriveEncryptionKeyAsync(masterKey, saltDecode);
 
-        // Set the encryptionKey in HiveDatabaseService
-        hiveDatabase.setEncryptionKey(encryptionKey, profile.id);
-        // If true open the encrypted boxes
-        await hiveDatabase.openEncryptedBoxes();
-        return right(null);
+        // Retrieve and decrypt K_hive
+        final encryptedHiveKeyStorageKey = _getEncryptedHiveKeyStorageKey(profile.id);
+        final encryptedHiveKeyData = await secureStorage.readValue(key: encryptedHiveKeyStorageKey);
+
+        if (encryptedHiveKeyData == null) {
+          // If K_hive doesn't exist, this is an old profile or corrupted data
+          hiveDatabase.setEncryptionKey(null, null);
+          return left(AppFailure(AppError.encryptionKeyNotSet));
+        }
+
+        try {
+          // Decrypt K_hive using K_user
+          final encryptedData = jsonDecode(encryptedHiveKeyData) as Map<String, dynamic>;
+          final hiveKey = await encryptionService.decryptWithAESGCM(
+            ivBase64: encryptedData['iv'] as String,
+            encryptedDataBase64: encryptedData['encryptedKey'] as String,
+            key: userKey,
+          );
+
+          // Set K_hive in HiveDatabaseService
+          hiveDatabase.setEncryptionKey(hiveKey, profile.id);
+          // Open the encrypted boxes with K_hive
+          await hiveDatabase.openEncryptedBoxes();
+          return right(null);
+        } catch (e) {
+          // If decryption fails, the master key might be incorrect or data corrupted
+          hiveDatabase.setEncryptionKey(null, null);
+          return left(AppFailure(AppError.incorrectMasterKey, message: 'Error decrypting K_hive: ${e.toString()}'));
+        }
       } else {
         // Set the encryptionKey in HiveDatabaseService to null
         hiveDatabase.setEncryptionKey(null, null);
@@ -160,9 +228,17 @@ class AuthRepositoryImpl implements AuthRepository {
       await secureStorage.deleteValue(key: profile.masterKeyHashSecureStorageAccessKey);
       await secureStorage.deleteValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
 
-      // Eliminar la master key protegida por biométrica si existe
-      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
-      await secureStorage.deleteValue(key: biometricMasterKeyStorageKey);
+      // Eliminar K_hive cifrada (sin biométrica)
+      final encryptedHiveKeyStorageKey = _getEncryptedHiveKeyStorageKey(profile.id);
+      await secureStorage.deleteValue(key: encryptedHiveKeyStorageKey);
+
+      // Eliminar deviceKey protegida por biométrica si existe
+      final biometricHiveKeyStorageKey = _getBiometricHiveKeyStorageKey(profile.id);
+      await secureStorage.deleteValue(key: biometricHiveKeyStorageKey);
+
+      // Eliminar K_hive cifrada con deviceKey si existe
+      final encryptedHiveKeyWithDeviceKeyStorageKey = _getEncryptedHiveKeyWithDeviceKeyStorageKey(profile.id);
+      await secureStorage.deleteValue(key: encryptedHiveKeyWithDeviceKeyStorageKey);
 
       // Eliminar el perfil
       await profilesProvider.deleteProfile(id: profile.id);
@@ -212,10 +288,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       // Generate a salt for the masterKey
-      final masterKeySalt = generateSalt();
+      final masterKeySalt = encryptionService.generateSalt();
 
       // Derive the encrypted masterKey by masterKey and salt
-      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(masterKey, masterKeySalt);
+      final derivedEncryptionMasterKey = await encryptionService.deriveEncryptionKeyAsync(masterKey, masterKeySalt);
       // Save the salt in the secure storage
       await secureStorage.writeValue(key: masterKeySaltSecureStorageAccessKey, value: base64Encode(masterKeySalt));
       // Save the derived encryption masterKey in the secure storage
@@ -247,10 +323,15 @@ class AuthRepositoryImpl implements AuthRepository {
       final masterKeySaltDecode = base64Decode(masterKeySaltEncoded);
 
       // Derive the encrypted masterKey by masterKey and masterKeySaltDecode
-      final derivedEncryptionMasterKey = await deriveEncryptionKeyAsync(masterKey, masterKeySaltDecode);
+      final derivedEncryptionMasterKey = await encryptionService.deriveEncryptionKeyAsync(
+        masterKey,
+        masterKeySaltDecode,
+      );
 
-      // If true the masterKey is correct
-      return hashedMasterKeyEncode == base64Encode(derivedEncryptionMasterKey);
+      // Constant-time comparison to prevent timing attacks
+      final storedHash = base64Decode(hashedMasterKeyEncode);
+      const listEquality = ListEquality();
+      return listEquality.equals(storedHash, derivedEncryptionMasterKey);
     } catch (e) {
       throw Exception();
     }
@@ -262,12 +343,63 @@ class AuthRepositoryImpl implements AuthRepository {
     required String masterKey,
   }) async {
     try {
-      // Guardar la master key protegida por biométrica
-      // El SO cifrará esto con una key interna y exigirá huella/FaceID para leerlo
-      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
-      await secureStorage.writeValue(key: biometricMasterKeyStorageKey, value: masterKey);
+      // Verify master key first
+      final isMasterKeyValid = await _verifyMasterKeyPBKDF2(
+        masterKeySaltSecureStorageAccessKey: profile.masterKeySaltSecureStorageAccessKey,
+        masterKeyHashSecureStorageAccessKey: profile.masterKeyHashSecureStorageAccessKey,
+        masterKey: masterKey,
+      );
 
-      // Actualizar el perfil para habilitar biométrica
+      if (!isMasterKeyValid) {
+        return left(AppFailure(AppError.incorrectMasterKey));
+      }
+
+      // Get salt to derive K_user
+      final saltEncoded = await secureStorage.readValue(key: profile.encryptionKeySaltSecureStorageAccessKey);
+      if (saltEncoded == null) {
+        return left(AppFailure(AppError.encryptionKeyNotSet));
+      }
+
+      final saltDecode = base64Decode(saltEncoded);
+
+      // Derive K_user from masterKey
+      final userKey = await encryptionService.deriveEncryptionKeyAsync(masterKey, saltDecode);
+
+      // Retrieve encrypted K_hive
+      final encryptedHiveKeyStorageKey = _getEncryptedHiveKeyStorageKey(profile.id);
+      final encryptedHiveKeyData = await secureStorage.readValue(key: encryptedHiveKeyStorageKey);
+
+      if (encryptedHiveKeyData == null) {
+        return left(AppFailure(AppError.encryptionKeyNotSet));
+      }
+
+      // Decrypt K_hive using K_user
+      final encryptedData = jsonDecode(encryptedHiveKeyData) as Map<String, dynamic>;
+      final hiveKey = await encryptionService.decryptWithAESGCM(
+        ivBase64: encryptedData['iv'] as String,
+        encryptedDataBase64: encryptedData['encryptedKey'] as String,
+        key: userKey,
+      );
+
+      // Generate deviceKey (random key to encrypt K_hive before storing with biometric)
+      final deviceKey = encryptionService.generateRandomKey();
+
+      // Encrypt K_hive with deviceKey using AES-GCM
+      final encryptedWithDeviceKey = await encryptionService.encryptWithAESGCM(data: hiveKey, key: deviceKey);
+
+      // Store encrypted K_hive (encrypted with deviceKey) in normal SecureStorage
+      final encryptedHiveKeyWithDeviceKeyStorageKey = '${profile.id}_hive_key_encrypted_device';
+      await secureStorage.writeValue(
+        key: encryptedHiveKeyWithDeviceKeyStorageKey,
+        value: jsonEncode(encryptedWithDeviceKey),
+      );
+
+      // Store deviceKey with biometric protection
+      // The OS will encrypt this with an internal key and require biometric authentication to read it
+      final biometricHiveKeyStorageKey = _getBiometricHiveKeyStorageKey(profile.id);
+      await secureStorage.writeValue(key: biometricHiveKeyStorageKey, value: base64Encode(deviceKey));
+
+      // Update profile to enable biometric
       final updatedProfile = profile.copyWith(hasBiometricEnabled: true);
       await profilesProvider.upsertProfile(profileModel: updatedProfile);
       return right(updatedProfile);
@@ -279,9 +411,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, ProfileModel>> disableBiometricAuth({required ProfileModel profile}) async {
     try {
-      // Eliminar la master key protegida por biométrica
-      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
-      await secureStorage.deleteValue(key: biometricMasterKeyStorageKey);
+      // Eliminar K_hive protegida por biométrica
+      final biometricHiveKeyStorageKey = _getBiometricHiveKeyStorageKey(profile.id);
+      await secureStorage.deleteValue(key: biometricHiveKeyStorageKey);
 
       // Actualizar el perfil para deshabilitar biométrica
       final updatedProfile = profile.copyWith(hasBiometricEnabled: false);
@@ -293,18 +425,58 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String?>> getMasterKeyWithBiometrics({required ProfileModel profile}) async {
+  Future<Either<Failure, void>> unlockHiveKeyWithBiometrics({required ProfileModel profile}) async {
     try {
-      // Intentar leer la master key protegida por biométrica
-      // El SO pedirá biométrica automáticamente antes de devolver la key
-      final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
-      final masterKey = await secureStorage.readValue(key: biometricMasterKeyStorageKey);
+      // Verificar explícitamente la biométrica antes de leer SecureStorage
+      final didAuthenticate = await biometricAuthService.authenticateWithFingerprint(
+        localizedReason: 'Authentication required to access ${profile.name}',
+      );
 
-      // Si la master key es null, significa que no está disponible o la biométrica falló
-      return right(masterKey);
-    } catch (e) {
-      // Si hay un error (por ejemplo, biométrica cancelada o fallida), retornar null
+      if (!didAuthenticate) {
+        return left(AppFailure(AppError.biometricAuthFailed, message: 'Biometric authentication cancelled or failed'));
+      }
+
+      // Intentar leer deviceKey protegida por biométrica
+      final biometricHiveKeyStorageKey = _getBiometricHiveKeyStorageKey(profile.id);
+      final deviceKeyBase64 = await secureStorage.readValue(key: biometricHiveKeyStorageKey);
+
+      if (deviceKeyBase64 == null) {
+        // Si deviceKey es null, significa que no está disponible
+        return left(AppFailure(AppError.encryptionKeyNotSet, message: 'deviceKey not available'));
+      }
+
+      // Decode deviceKey from base64
+      final deviceKey = base64Decode(deviceKeyBase64);
+
+      // Obtener K_hive cifrada con deviceKey
+      final encryptedHiveKeyWithDeviceKeyStorageKey = _getEncryptedHiveKeyWithDeviceKeyStorageKey(profile.id);
+      final encryptedHiveKeyWithDeviceKeyData = await secureStorage.readValue(
+        key: encryptedHiveKeyWithDeviceKeyStorageKey,
+      );
+
+      if (encryptedHiveKeyWithDeviceKeyData == null) {
+        return left(AppFailure(AppError.encryptionKeyNotSet, message: 'K_hive encrypted with deviceKey not available'));
+      }
+
+      // Descifrar K_hive usando deviceKey
+      final encryptedData = jsonDecode(encryptedHiveKeyWithDeviceKeyData) as Map<String, dynamic>;
+      final hiveKey = await encryptionService.decryptWithAESGCM(
+        ivBase64: encryptedData['iv'] as String,
+        encryptedDataBase64: encryptedData['encryptedKey'] as String,
+        key: deviceKey,
+      );
+
+      // Set K_hive in HiveDatabaseService
+      hiveDatabase.setEncryptionKey(hiveKey, profile.id);
+
+      // Open the encrypted boxes with K_hive
+      await hiveDatabase.openEncryptedBoxes();
+
+      // Return success (Hive is now open and ready)
       return right(null);
+    } catch (e) {
+      // Si hay un error (por ejemplo, biométrica cancelada o fallida), retornar error
+      return left(AppFailure(AppError.unknown, message: 'Error obtaining K_hive: ${e.toString()}'));
     }
   }
 }

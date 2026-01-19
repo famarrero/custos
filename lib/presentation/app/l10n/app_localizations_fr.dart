@@ -130,10 +130,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get fieldProfileName => 'Nom du profil';
 
   @override
+  String get fieldProfileNameHint => 'Entrez le nom de votre profil';
+
+  @override
   String get fieldMasterKey => 'Clé maître';
 
   @override
+  String get fieldMasterKeyHint => 'Entrez votre clé maître';
+
+  @override
   String get fieldRepeatMasterKey => 'Répéter la clé maître';
+
+  @override
+  String get fieldRepeatMasterKeyHint => 'Répétez votre clé maître';
 
   @override
   String get loginWelcomeBackTitle => 'Bon retour !';
@@ -270,7 +279,37 @@ class AppLocalizationsFr extends AppLocalizations {
   String get upsertPasswordWebOrAppNameLabel => 'Nom du site ou de l\'app';
 
   @override
+  String get upsertPasswordWebOrAppNameHint => 'Ex. Gmail';
+
+  @override
   String get upsertPasswordGeneratePasswordTitle => 'Générer un mot de passe';
+
+  @override
+  String get fieldUrlHint => 'https://example.com';
+
+  @override
+  String get fieldUsernameHint => 'Ex. john_doe';
+
+  @override
+  String get fieldEmailHint => 'name@example.com';
+
+  @override
+  String get fieldPhoneHint => '+33 6 00 00 00 00';
+
+  @override
+  String get fieldPasswordHint => '••••••••';
+
+  @override
+  String get fieldGroupHint => 'Sélectionner un groupe';
+
+  @override
+  String get fieldExpirationDateLabel => 'Date d\'expiration';
+
+  @override
+  String get fieldExpirationDateHint => 'Sélectionner une date d\'expiration';
+
+  @override
+  String get fieldNoteHint => 'Ex. C\'est mon mot de passe pour Gmail';
 
   @override
   String get iconPickerTitle => 'Choisir une icône';
@@ -391,5 +430,147 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String appVersion(Object version) {
     return 'Version $version';
+  }
+
+  @override
+  String get biometricAuthFailed => 'L\'authentification biométrique a échoué';
+
+  @override
+  String settingsProfileCreatedAt(Object date) {
+    return 'Créé le $date';
+  }
+
+  @override
+  String get settingsExportTitle => 'Exporter';
+
+  @override
+  String get settingsImportTitle => 'Importer';
+
+  @override
+  String get settingsExportSubtitle =>
+      'Exporter vos données vers un fichier .custos';
+
+  @override
+  String get settingsImportSubtitle =>
+      'Importer vos données depuis un fichier .custos';
+
+  @override
+  String get settingsExportDataTitle => 'Exporter vos données';
+
+  @override
+  String get settingsImportDataTitle => 'Importer vos données';
+
+  @override
+  String get settingsBiometricDisableTitle =>
+      'Désactiver l\'empreinte digitale';
+
+  @override
+  String get settingsBiometricEnableTitle => 'Activer l\'empreinte digitale';
+
+  @override
+  String get settingsBiometricDisableSubtitle =>
+      'Désactiver l\'authentification par empreinte digitale';
+
+  @override
+  String get settingsBiometricEnableSubtitle =>
+      'Configurer l\'authentification par empreinte digitale pour un accès plus rapide';
+
+  @override
+  String get settingsAboutUsSubtitle => 'Informations sur l\'application';
+
+  @override
+  String get biometricSetupDisableTitle =>
+      'Désactiver l\'authentification biométrique';
+
+  @override
+  String get biometricSetupEnableTitle =>
+      'Configurer l\'authentification biométrique';
+
+  @override
+  String get biometricSetupCheckingAvailability =>
+      'Vérification de la disponibilité...';
+
+  @override
+  String biometricSetupDisableQuestion(Object profileName) {
+    return 'Voulez-vous désactiver l\'authentification par empreinte digitale pour $profileName ?';
+  }
+
+  @override
+  String get biometricSetupDisableSubtitle =>
+      'Vous devrez utiliser votre clé maître pour vous connecter à chaque fois.';
+
+  @override
+  String get biometricSetupEnableMasterKeyPrompt =>
+      'Entrez votre clé maître pour configurer l\'authentification biométrique';
+
+  @override
+  String biometricSetupEnableQuestion(Object profileName) {
+    return 'Voulez-vous configurer l\'authentification par empreinte digitale pour un accès plus rapide à $profileName ?';
+  }
+
+  @override
+  String get biometricSetupEnableSubtitle =>
+      'Vous pourrez utiliser votre empreinte digitale pour vous connecter au lieu de saisir votre clé maître à chaque fois.';
+
+  @override
+  String get biometricSetupNotAvailableTitle =>
+      'Votre appareil n\'a pas d\'empreinte digitale configurée ou n\'est pas compatible.';
+
+  @override
+  String get biometricSetupNotAvailableSubtitle =>
+      'Vous pouvez configurer la biométrie dans les paramètres de votre appareil et réessayer.';
+
+  @override
+  String get biometricSetupDisableButton => 'Désactiver';
+
+  @override
+  String get biometricSetupContinueButton => 'Continuer';
+
+  @override
+  String get biometricSetupConfigureButton =>
+      'Configurer l\'empreinte digitale';
+
+  @override
+  String get loadingDialogMessage => 'Chargement, veuillez patienter...';
+
+  @override
+  String loginProfileGreeting(Object profileName) {
+    return 'Bonjour $profileName';
+  }
+
+  @override
+  String get loginProfileMasterKeyHint => 'Entrez votre clé maître';
+
+  @override
+  String get loginProfileForgotMasterKeyQuestion =>
+      'Vous avez oublié votre clé maître ?';
+
+  @override
+  String loginProfileForgotMasterKeyMessage(Object profileName) {
+    return 'Nous sommes désolés $profileName, nous ne pouvons rien faire pour vous aider avec votre clé maître. Vous avez perdu toutes vos données et nous ne pourrons pas les récupérer.';
+  }
+
+  @override
+  String biometricSetupEnableReason(Object profileName) {
+    return 'Authentifiez-vous avec votre empreinte digitale pour activer l\'accès rapide à $profileName';
+  }
+
+  @override
+  String get biometricSetupErrorIncorrectMasterKey =>
+      'La clé maître est incorrecte';
+
+  @override
+  String biometricSetupErrorEnable(Object error) {
+    return 'Erreur lors de l\'activation de la biométrie : $error';
+  }
+
+  @override
+  String biometricSetupErrorDisable(Object error) {
+    return 'Erreur lors de la désactivation de la biométrie : $error';
+  }
+
+  @override
+  String biometricSetupErrorConfigure(Object error) {
+    return 'Erreur lors de la configuration de la biométrie : $error';
   }
 }

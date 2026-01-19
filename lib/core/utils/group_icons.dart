@@ -1,6 +1,6 @@
+import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:custos/presentation/app/l10n/app_localizations.dart';
 
 /// Group icon registry.
 ///
@@ -9,11 +9,7 @@ import 'package:custos/presentation/app/l10n/app_localizations.dart';
 typedef GroupIconLabelBuilder = String Function(BuildContext context);
 
 final class GroupIconOption {
-  const GroupIconOption({
-    required this.id,
-    required this.icon,
-    required this.labelBuilder,
-  });
+  const GroupIconOption({required this.id, required this.icon, required this.labelBuilder});
 
   final int id;
   final IconData icon;
@@ -30,151 +26,52 @@ final class GroupIcons {
 
   /// Single source of truth for group icon catalog (id + icon + localized label).
   static final List<GroupIconOption> options = <GroupIconOption>[
-    GroupIconOption(
-      id: 1,
-      icon: AppIcons.groupHome,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelHome,
-    ),
-    GroupIconOption(
-      id: 2,
-      icon: AppIcons.groupSecurity,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelSecurity,
-    ),
-    GroupIconOption(
-      id: 3,
-      icon: AppIcons.groupCrypto,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelCrypto,
-    ),
-    GroupIconOption(
-      id: 4,
-      icon: AppIcons.groupFinance,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelFinance,
-    ),
-    GroupIconOption(
-      id: 5,
-      icon: AppIcons.groupCards,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelCards,
-    ),
-    GroupIconOption(
-      id: 6,
-      icon: AppIcons.groupPersonal,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelPersonal,
-    ),
-    GroupIconOption(
-      id: 7,
-      icon: AppIcons.groupUsers,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelUsers,
-    ),
-    GroupIconOption(
-      id: 8,
-      icon: AppIcons.groupIdentity,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelIdentity,
-    ),
-    GroupIconOption(
-      id: 9,
-      icon: AppIcons.groupBusiness,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelBusiness,
-    ),
-    GroupIconOption(
-      id: 10,
-      icon: AppIcons.groupTravel,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelTravel,
-    ),
-    GroupIconOption(
-      id: 11,
-      icon: AppIcons.groupSocial,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelSocial,
-    ),
-    GroupIconOption(
-      id: 12,
-      icon: AppIcons.groupWebsites,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelWebsites,
-    ),
-    GroupIconOption(
-      id: 13,
-      icon: AppIcons.groupEmail,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelEmail,
-    ),
-    GroupIconOption(
-      id: 14,
-      icon: AppIcons.groupMessaging,
-      labelBuilder:
-          (context) => AppLocalizations.of(context).iconLabelMessaging,
-    ),
-    GroupIconOption(
-      id: 15,
-      icon: AppIcons.groupShopping,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelShopping,
-    ),
-    GroupIconOption(
-      id: 16,
-      icon: AppIcons.groupGaming,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelGaming,
-    ),
-    GroupIconOption(
-      id: 17,
-      icon: AppIcons.groupMobile,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelMobile,
-    ),
-    GroupIconOption(
-      id: 18,
-      icon: AppIcons.groupWifi,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelWifi,
-    ),
-    GroupIconOption(
-      id: 19,
-      icon: AppIcons.groupBackup,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelBackup,
-    ),
-    GroupIconOption(
-      id: 20,
-      icon: AppIcons.groupCloud,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelCloud,
-    ),
+    GroupIconOption(id: 1, icon: AppIcons.groupHome, labelBuilder: (context) => context.l10n.iconLabelHome),
+    GroupIconOption(id: 2, icon: AppIcons.groupSecurity, labelBuilder: (context) => context.l10n.iconLabelSecurity),
+    GroupIconOption(id: 3, icon: AppIcons.groupCrypto, labelBuilder: (context) => context.l10n.iconLabelCrypto),
+    GroupIconOption(id: 4, icon: AppIcons.groupFinance, labelBuilder: (context) => context.l10n.iconLabelFinance),
+    GroupIconOption(id: 5, icon: AppIcons.groupCards, labelBuilder: (context) => context.l10n.iconLabelCards),
+    GroupIconOption(id: 6, icon: AppIcons.groupPersonal, labelBuilder: (context) => context.l10n.iconLabelPersonal),
+    GroupIconOption(id: 7, icon: AppIcons.groupUsers, labelBuilder: (context) => context.l10n.iconLabelUsers),
+    GroupIconOption(id: 8, icon: AppIcons.groupIdentity, labelBuilder: (context) => context.l10n.iconLabelIdentity),
+    GroupIconOption(id: 9, icon: AppIcons.groupBusiness, labelBuilder: (context) => context.l10n.iconLabelBusiness),
+    GroupIconOption(id: 10, icon: AppIcons.groupTravel, labelBuilder: (context) => context.l10n.iconLabelTravel),
+    GroupIconOption(id: 11, icon: AppIcons.groupSocial, labelBuilder: (context) => context.l10n.iconLabelSocial),
+    GroupIconOption(id: 12, icon: AppIcons.groupWebsites, labelBuilder: (context) => context.l10n.iconLabelWebsites),
+    GroupIconOption(id: 13, icon: AppIcons.groupEmail, labelBuilder: (context) => context.l10n.iconLabelEmail),
+    GroupIconOption(id: 14, icon: AppIcons.groupMessaging, labelBuilder: (context) => context.l10n.iconLabelMessaging),
+    GroupIconOption(id: 15, icon: AppIcons.groupShopping, labelBuilder: (context) => context.l10n.iconLabelShopping),
+    GroupIconOption(id: 16, icon: AppIcons.groupGaming, labelBuilder: (context) => context.l10n.iconLabelGaming),
+    GroupIconOption(id: 17, icon: AppIcons.groupMobile, labelBuilder: (context) => context.l10n.iconLabelMobile),
+    GroupIconOption(id: 18, icon: AppIcons.groupWifi, labelBuilder: (context) => context.l10n.iconLabelWifi),
+    GroupIconOption(id: 19, icon: AppIcons.groupBackup, labelBuilder: (context) => context.l10n.iconLabelBackup),
+    GroupIconOption(id: 20, icon: AppIcons.groupCloud, labelBuilder: (context) => context.l10n.iconLabelCloud),
     GroupIconOption(
       id: 21,
       icon: AppIcons.groupProtection,
-      labelBuilder:
-          (context) => AppLocalizations.of(context).iconLabelProtection,
+      labelBuilder: (context) => context.l10n.iconLabelProtection,
     ),
     GroupIconOption(
       id: 22,
       icon: AppIcons.groupConfiguration,
-      labelBuilder:
-          (context) => AppLocalizations.of(context).iconLabelConfiguration,
+      labelBuilder: (context) => context.l10n.iconLabelConfiguration,
     ),
     GroupIconOption(
       id: 23,
       icon: AppIcons.groupStatistics,
-      labelBuilder:
-          (context) => AppLocalizations.of(context).iconLabelStatistics,
+      labelBuilder: (context) => context.l10n.iconLabelStatistics,
     ),
-    GroupIconOption(
-      id: 24,
-      icon: AppIcons.groupServices,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelServices,
-    ),
+    GroupIconOption(id: 24, icon: AppIcons.groupServices, labelBuilder: (context) => context.l10n.iconLabelServices),
     GroupIconOption(
       id: 25,
       icon: AppIcons.groupDevelopment,
-      labelBuilder:
-          (context) => AppLocalizations.of(context).iconLabelDevelopment,
+      labelBuilder: (context) => context.l10n.iconLabelDevelopment,
     ),
-    GroupIconOption(
-      id: 26,
-      icon: AppIcons.groupBanking,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelBanking,
-    ),
-    GroupIconOption(
-      id: defaultId,
-      icon: AppIcons.groupOthers,
-      labelBuilder: (context) => AppLocalizations.of(context).iconLabelOthers,
-    ),
+    GroupIconOption(id: 26, icon: AppIcons.groupBanking, labelBuilder: (context) => context.l10n.iconLabelBanking),
+    GroupIconOption(id: defaultId, icon: AppIcons.groupOthers, labelBuilder: (context) => context.l10n.iconLabelOthers),
   ];
 
-  static final Map<int, IconData> _byId = <int, IconData>{
-    for (final option in options) option.id: option.icon,
-  };
+  static final Map<int, IconData> _byId = <int, IconData>{for (final option in options) option.id: option.icon};
 
   /// Returns an icon for an id, falling back to the default icon.
   static IconData iconFor(int? id) => _byId[id] ?? _byId[defaultId]!;

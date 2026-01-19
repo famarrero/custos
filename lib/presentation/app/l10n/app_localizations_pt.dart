@@ -128,10 +128,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get fieldProfileName => 'Nome do perfil';
 
   @override
+  String get fieldProfileNameHint => 'Digite o nome do seu perfil';
+
+  @override
   String get fieldMasterKey => 'Chave mestra';
 
   @override
+  String get fieldMasterKeyHint => 'Digite sua chave mestra';
+
+  @override
   String get fieldRepeatMasterKey => 'Repetir chave mestra';
+
+  @override
+  String get fieldRepeatMasterKeyHint => 'Repita sua chave mestra';
 
   @override
   String get loginWelcomeBackTitle => 'Bem-vindo de volta!';
@@ -266,7 +275,37 @@ class AppLocalizationsPt extends AppLocalizations {
   String get upsertPasswordWebOrAppNameLabel => 'Nome do site ou app';
 
   @override
+  String get upsertPasswordWebOrAppNameHint => 'Ex. Gmail';
+
+  @override
   String get upsertPasswordGeneratePasswordTitle => 'Gerar senha';
+
+  @override
+  String get fieldUrlHint => 'https://example.com';
+
+  @override
+  String get fieldUsernameHint => 'Ex. john_doe';
+
+  @override
+  String get fieldEmailHint => 'name@example.com';
+
+  @override
+  String get fieldPhoneHint => '+55 11 90000-0000';
+
+  @override
+  String get fieldPasswordHint => '••••••••';
+
+  @override
+  String get fieldGroupHint => 'Selecione um grupo';
+
+  @override
+  String get fieldExpirationDateLabel => 'Data de expiração';
+
+  @override
+  String get fieldExpirationDateHint => 'Selecione uma data de expiração';
+
+  @override
+  String get fieldNoteHint => 'Ex. Esta é minha senha para o Gmail';
 
   @override
   String get iconPickerTitle => 'Escolher um ícone';
@@ -387,5 +426,144 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String appVersion(Object version) {
     return 'Versão $version';
+  }
+
+  @override
+  String get biometricAuthFailed => 'Autenticação biométrica falhou';
+
+  @override
+  String settingsProfileCreatedAt(Object date) {
+    return 'Criado em $date';
+  }
+
+  @override
+  String get settingsExportTitle => 'Exportar';
+
+  @override
+  String get settingsImportTitle => 'Importar';
+
+  @override
+  String get settingsExportSubtitle =>
+      'Exporte seus dados para um arquivo .custos';
+
+  @override
+  String get settingsImportSubtitle =>
+      'Importe seus dados de um arquivo .custos';
+
+  @override
+  String get settingsExportDataTitle => 'Exportar seus dados';
+
+  @override
+  String get settingsImportDataTitle => 'Importar seus dados';
+
+  @override
+  String get settingsBiometricDisableTitle => 'Desabilitar impressão digital';
+
+  @override
+  String get settingsBiometricEnableTitle => 'Habilitar impressão digital';
+
+  @override
+  String get settingsBiometricDisableSubtitle =>
+      'Desative a autenticação por impressão digital';
+
+  @override
+  String get settingsBiometricEnableSubtitle =>
+      'Configure a autenticação por impressão digital para acesso mais rápido';
+
+  @override
+  String get settingsAboutUsSubtitle => 'Informações do aplicativo';
+
+  @override
+  String get biometricSetupDisableTitle =>
+      'Desabilitar autenticação biométrica';
+
+  @override
+  String get biometricSetupEnableTitle => 'Configurar autenticação biométrica';
+
+  @override
+  String get biometricSetupCheckingAvailability =>
+      'Verificando disponibilidade...';
+
+  @override
+  String biometricSetupDisableQuestion(Object profileName) {
+    return 'Deseja desabilitar a autenticação por impressão digital para $profileName?';
+  }
+
+  @override
+  String get biometricSetupDisableSubtitle =>
+      'Você precisará usar sua chave mestra para fazer login todas as vezes.';
+
+  @override
+  String get biometricSetupEnableMasterKeyPrompt =>
+      'Digite sua chave mestra para configurar a autenticação biométrica';
+
+  @override
+  String biometricSetupEnableQuestion(Object profileName) {
+    return 'Deseja configurar autenticação por impressão digital para acesso mais rápido a $profileName?';
+  }
+
+  @override
+  String get biometricSetupEnableSubtitle =>
+      'Você poderá usar sua impressão digital para fazer login em vez de digitar sua chave mestra todas as vezes.';
+
+  @override
+  String get biometricSetupNotAvailableTitle =>
+      'Seu dispositivo não tem impressão digital configurada ou não é compatível.';
+
+  @override
+  String get biometricSetupNotAvailableSubtitle =>
+      'Você pode configurar a biométrica nas configurações do seu dispositivo e tentar novamente.';
+
+  @override
+  String get biometricSetupDisableButton => 'Desabilitar';
+
+  @override
+  String get biometricSetupContinueButton => 'Continuar';
+
+  @override
+  String get biometricSetupConfigureButton => 'Configurar impressão digital';
+
+  @override
+  String get loadingDialogMessage => 'Carregando, aguarde...';
+
+  @override
+  String loginProfileGreeting(Object profileName) {
+    return 'Olá $profileName';
+  }
+
+  @override
+  String get loginProfileMasterKeyHint => 'Digite sua chave mestra';
+
+  @override
+  String get loginProfileForgotMasterKeyQuestion =>
+      'Esqueceu sua chave mestra?';
+
+  @override
+  String loginProfileForgotMasterKeyMessage(Object profileName) {
+    return 'Lamentamos $profileName, não há nada que possamos fazer para ajudá-lo com sua chave mestra. Você perdeu todos os seus dados e não poderemos recuperá-los.';
+  }
+
+  @override
+  String biometricSetupEnableReason(Object profileName) {
+    return 'Autentique-se com sua impressão digital para ativar o acesso rápido a $profileName';
+  }
+
+  @override
+  String get biometricSetupErrorIncorrectMasterKey =>
+      'A chave mestra está incorreta';
+
+  @override
+  String biometricSetupErrorEnable(Object error) {
+    return 'Erro ao habilitar biométrica: $error';
+  }
+
+  @override
+  String biometricSetupErrorDisable(Object error) {
+    return 'Erro ao desabilitar biométrica: $error';
+  }
+
+  @override
+  String biometricSetupErrorConfigure(Object error) {
+    return 'Erro ao configurar biométrica: $error';
   }
 }

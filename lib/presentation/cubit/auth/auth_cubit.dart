@@ -7,7 +7,6 @@ import 'package:custos/di_container.dart';
 import 'package:custos/routes/routes.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:local_auth/local_auth.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
@@ -26,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
   final BiometricAuthService biometricAuthService = di();
 
   /// Intenta login con biométrica, si falla o no está configurada, retorna false
-  /// Si la autenticación biométrica es exitosa, obtiene la master key guardada y hace login
+  /// La verificación biométrica se hace internamente en unlockHiveKeyWithBiometrics
   Future<bool> loginWithBiometric(GoRouter router, {required ProfileModel profile}) async {
     // Solo intentar biométrica si está habilitada
     if (!profile.hasBiometricEnabled) {
@@ -40,44 +39,29 @@ class AuthCubit extends Cubit<AuthState> {
         return false;
       }
 
-      // Intentar autenticar con huella digital
-      final didAuthenticate = await biometricAuthService.authenticateWithFingerprint(
-        localizedReason: 'Autentícate con tu huella digital para acceder a ${profile.name}',
+      // Desbloquear K_hive y abrir Hive (la verificación biométrica se hace internamente)
+      final hiveKeyResult = await authRepository.unlockHiveKeyWithBiometrics(profile: profile);
+
+      return await hiveKeyResult.fold(
+        (failure) async {
+          // Si hay un error al obtener K_hive (incluyendo cancelación biométrica), retornar false para usar master key manual
+          return false;
+        },
+        (_) async {
+          // Si se obtuvo K_hive y se abrió Hive correctamente, hacer login
+          // Hive ya está abierto, solo necesitamos actualizar el estado y navegar
+          emit(state.copyWith(loginState: BaseState.data(profile)));
+          router.go(PasswordsEntriesRoute().location);
+          return true;
+        },
       );
-
-      if (didAuthenticate) {
-        // Si la autenticación biométrica fue exitosa, obtener la master key guardada
-        final masterKeyResult = await authRepository.getMasterKeyWithBiometrics(profile: profile);
-
-        return await masterKeyResult.fold(
-          (failure) async {
-            // Si hay un error al obtener la master key, retornar false para usar master key manual
-            return false;
-          },
-          (masterKey) async {
-            // Si se obtuvo la master key, usarla para hacer login
-            if (masterKey != null && masterKey.isNotEmpty) {
-              await login(router, profile: profile, masterKey: masterKey);
-              return true;
-            } else {
-              // Si no hay master key guardada, retornar false para usar master key manual
-              return false;
-            }
-          },
-        );
-      }
-
-      return false;
-    } on LocalAuthException {
-      // Si el usuario canceló o hubo un error de biométrica, retornar false para usar master key
-      return false;
     } catch (e) {
       // Cualquier otro error, usar master key como fallback
       return false;
     }
   }
 
-  Future<void> login(GoRouter router, {required ProfileModel profile, required String masterKey}) async {
+  Future<void> loginWithMasterKey(GoRouter router, {required ProfileModel profile, required String masterKey}) async {
     emit(state.copyWith(loginState: BaseState.loading()));
 
     final response = await authRepository.verifyProfileByMasterKey(profile: profile, masterKey: masterKey);

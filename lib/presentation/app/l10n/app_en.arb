@@ -38,8 +38,11 @@
   "fieldNote": "Note",
   "fieldGroup": "Group",
   "fieldProfileName": "Profile name",
+  "fieldProfileNameHint": "Enter your profile name",
   "fieldMasterKey": "Master key",
+  "fieldMasterKeyHint": "Enter your master key",
   "fieldRepeatMasterKey": "Repeat master key",
+  "fieldRepeatMasterKeyHint": "Repeat your master key",
   "loginWelcomeBackTitle": "Welcome back!",
   "loginSelectProfileSubtitle": "Select a profile",
   "loginNoProfileTitle": "No profile yet",
@@ -81,7 +84,17 @@
   "upsertPasswordAddAccountTitle": "Add account",
   "upsertPasswordEditAccountTitle": "Edit account",
   "upsertPasswordWebOrAppNameLabel": "Web or app name",
+  "upsertPasswordWebOrAppNameHint": "E.g. Gmail",
   "upsertPasswordGeneratePasswordTitle": "Generate password",
+  "fieldUrlHint": "https://example.com",
+  "fieldUsernameHint": "E.g. john_doe",
+  "fieldEmailHint": "name@example.com",
+  "fieldPhoneHint": "+1 555 000 0000",
+  "fieldPasswordHint": "••••••••",
+  "fieldGroupHint": "Select a group",
+  "fieldExpirationDateLabel": "Expiration date",
+  "fieldExpirationDateHint": "Select an expiration date",
+  "fieldNoteHint": "E.g. This is my password for Gmail",
   "iconPickerTitle": "Pick an icon",
   "colorPickerTitle": "Pick a color",
   "iconLabelHome": "Home",
@@ -129,6 +142,87 @@
   "@appVersion": {
     "placeholders": {
       "version": {}
+    }
+  },
+  "biometricAuthFailed": "Biometric authentication failed",
+  "settingsProfileCreatedAt": "Created on {date}",
+  "@settingsProfileCreatedAt": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "settingsExportTitle": "Export",
+  "settingsImportTitle": "Import",
+  "settingsExportSubtitle": "Export your data to a .custos file",
+  "settingsImportSubtitle": "Import your data from a .custos file",
+  "settingsExportDataTitle": "Export your data",
+  "settingsImportDataTitle": "Import your data",
+  "settingsBiometricDisableTitle": "Disable fingerprint",
+  "settingsBiometricEnableTitle": "Enable fingerprint",
+  "settingsBiometricDisableSubtitle": "Disable fingerprint authentication",
+  "settingsBiometricEnableSubtitle": "Configure fingerprint authentication for faster access",
+  "settingsAboutUsSubtitle": "Application information",
+  "biometricSetupDisableTitle": "Disable biometric authentication",
+  "biometricSetupEnableTitle": "Configure biometric authentication",
+  "biometricSetupCheckingAvailability": "Checking availability...",
+  "biometricSetupDisableQuestion": "Do you want to disable fingerprint authentication for {profileName}?",
+  "@biometricSetupDisableQuestion": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupDisableSubtitle": "You will need to use your master key to sign in each time.",
+  "biometricSetupEnableMasterKeyPrompt": "Enter your master key to configure biometric authentication",
+  "biometricSetupEnableQuestion": "Do you want to configure fingerprint authentication for faster access to {profileName}?",
+  "@biometricSetupEnableQuestion": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupEnableSubtitle": "You can use your fingerprint to sign in instead of typing your master key each time.",
+  "biometricSetupNotAvailableTitle": "Your device does not have fingerprint configured or is not compatible.",
+  "biometricSetupNotAvailableSubtitle": "You can configure biometrics in your device settings and try again.",
+  "biometricSetupDisableButton": "Disable",
+  "biometricSetupContinueButton": "Continue",
+  "biometricSetupConfigureButton": "Configure fingerprint",
+  "loadingDialogMessage": "Loading, please wait...",
+  "loginProfileGreeting": "Hello {profileName}",
+  "@loginProfileGreeting": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "loginProfileMasterKeyHint": "Enter your master key",
+  "loginProfileForgotMasterKeyQuestion": "Forgot your master key?",
+  "loginProfileForgotMasterKeyMessage": "We're sorry {profileName}, there's nothing we can do to help you with your master key. You have lost all your data and we won't be able to recover it.",
+  "@loginProfileForgotMasterKeyMessage": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupEnableReason": "Authenticate with your fingerprint to enable quick access to {profileName}",
+  "@biometricSetupEnableReason": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupErrorIncorrectMasterKey": "The master key is incorrect",
+  "biometricSetupErrorEnable": "Error enabling biometrics: {error}",
+  "@biometricSetupErrorEnable": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "biometricSetupErrorDisable": "Error disabling biometrics: {error}",
+  "@biometricSetupErrorDisable": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "biometricSetupErrorConfigure": "Error configuring biometrics: {error}",
+  "@biometricSetupErrorConfigure": {
+    "placeholders": {
+      "error": {}
     }
   }
 }

@@ -38,8 +38,11 @@
     "fieldNote": "Nota",
     "fieldGroup": "Grupo",
     "fieldProfileName": "Nome do perfil",
+    "fieldProfileNameHint": "Digite o nome do seu perfil",
     "fieldMasterKey": "Chave mestra",
+    "fieldMasterKeyHint": "Digite sua chave mestra",
     "fieldRepeatMasterKey": "Repetir chave mestra",
+    "fieldRepeatMasterKeyHint": "Repita sua chave mestra",
     "loginWelcomeBackTitle": "Bem-vindo de volta!",
     "loginSelectProfileSubtitle": "Selecione um perfil",
     "loginNoProfileTitle": "Ainda não há perfis",
@@ -81,7 +84,17 @@
     "upsertPasswordAddAccountTitle": "Adicionar conta",
     "upsertPasswordEditAccountTitle": "Editar conta",
     "upsertPasswordWebOrAppNameLabel": "Nome do site ou app",
+    "upsertPasswordWebOrAppNameHint": "Ex. Gmail",
     "upsertPasswordGeneratePasswordTitle": "Gerar senha",
+    "fieldUrlHint": "https://example.com",
+    "fieldUsernameHint": "Ex. john_doe",
+    "fieldEmailHint": "name@example.com",
+    "fieldPhoneHint": "+55 11 90000-0000",
+    "fieldPasswordHint": "••••••••",
+    "fieldGroupHint": "Selecione um grupo",
+    "fieldExpirationDateLabel": "Data de expiração",
+    "fieldExpirationDateHint": "Selecione uma data de expiração",
+    "fieldNoteHint": "Ex. Esta é minha senha para o Gmail",
     "iconPickerTitle": "Escolher um ícone",
     "colorPickerTitle": "Escolher uma cor",
     "iconLabelHome": "Casa",
@@ -129,6 +142,87 @@
     "@appVersion": {
         "placeholders": {
             "version": {}
+        }
+    },
+    "biometricAuthFailed": "Autenticação biométrica falhou",
+    "settingsProfileCreatedAt": "Criado em {date}",
+    "@settingsProfileCreatedAt": {
+        "placeholders": {
+            "date": {}
+        }
+    },
+    "settingsExportTitle": "Exportar",
+    "settingsImportTitle": "Importar",
+    "settingsExportSubtitle": "Exporte seus dados para um arquivo .custos",
+    "settingsImportSubtitle": "Importe seus dados de um arquivo .custos",
+    "settingsExportDataTitle": "Exportar seus dados",
+    "settingsImportDataTitle": "Importar seus dados",
+    "settingsBiometricDisableTitle": "Desabilitar impressão digital",
+    "settingsBiometricEnableTitle": "Habilitar impressão digital",
+    "settingsBiometricDisableSubtitle": "Desative a autenticação por impressão digital",
+    "settingsBiometricEnableSubtitle": "Configure a autenticação por impressão digital para acesso mais rápido",
+    "settingsAboutUsSubtitle": "Informações do aplicativo",
+    "biometricSetupDisableTitle": "Desabilitar autenticação biométrica",
+    "biometricSetupEnableTitle": "Configurar autenticação biométrica",
+    "biometricSetupCheckingAvailability": "Verificando disponibilidade...",
+    "biometricSetupDisableQuestion": "Deseja desabilitar a autenticação por impressão digital para {profileName}?",
+    "@biometricSetupDisableQuestion": {
+        "placeholders": {
+            "profileName": {}
+        }
+    },
+    "biometricSetupDisableSubtitle": "Você precisará usar sua chave mestra para fazer login todas as vezes.",
+    "biometricSetupEnableMasterKeyPrompt": "Digite sua chave mestra para configurar a autenticação biométrica",
+    "biometricSetupEnableQuestion": "Deseja configurar autenticação por impressão digital para acesso mais rápido a {profileName}?",
+    "@biometricSetupEnableQuestion": {
+        "placeholders": {
+            "profileName": {}
+        }
+    },
+    "biometricSetupEnableSubtitle": "Você poderá usar sua impressão digital para fazer login em vez de digitar sua chave mestra todas as vezes.",
+    "biometricSetupNotAvailableTitle": "Seu dispositivo não tem impressão digital configurada ou não é compatível.",
+    "biometricSetupNotAvailableSubtitle": "Você pode configurar a biométrica nas configurações do seu dispositivo e tentar novamente.",
+    "biometricSetupDisableButton": "Desabilitar",
+    "biometricSetupContinueButton": "Continuar",
+    "biometricSetupConfigureButton": "Configurar impressão digital",
+    "loadingDialogMessage": "Carregando, aguarde...",
+    "loginProfileGreeting": "Olá {profileName}",
+    "@loginProfileGreeting": {
+        "placeholders": {
+            "profileName": {}
+        }
+    },
+    "loginProfileMasterKeyHint": "Digite sua chave mestra",
+    "loginProfileForgotMasterKeyQuestion": "Esqueceu sua chave mestra?",
+    "loginProfileForgotMasterKeyMessage": "Lamentamos {profileName}, não há nada que possamos fazer para ajudá-lo com sua chave mestra. Você perdeu todos os seus dados e não poderemos recuperá-los.",
+    "@loginProfileForgotMasterKeyMessage": {
+        "placeholders": {
+            "profileName": {}
+        }
+    },
+    "biometricSetupEnableReason": "Autentique-se com sua impressão digital para ativar o acesso rápido a {profileName}",
+    "@biometricSetupEnableReason": {
+        "placeholders": {
+            "profileName": {}
+        }
+    },
+    "biometricSetupErrorIncorrectMasterKey": "A chave mestra está incorreta",
+    "biometricSetupErrorEnable": "Erro ao habilitar biométrica: {error}",
+    "@biometricSetupErrorEnable": {
+        "placeholders": {
+            "error": {}
+        }
+    },
+    "biometricSetupErrorDisable": "Erro ao desabilitar biométrica: {error}",
+    "@biometricSetupErrorDisable": {
+        "placeholders": {
+            "error": {}
+        }
+    },
+    "biometricSetupErrorConfigure": "Erro ao configurar biométrica: {error}",
+    "@biometricSetupErrorConfigure": {
+        "placeholders": {
+            "error": {}
         }
     }
 }

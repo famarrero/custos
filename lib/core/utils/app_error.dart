@@ -9,7 +9,9 @@ enum AppError {
 
   incorrectMasterKey('incorrect_master_key'),
 
-  contentNotFound('content_not_found');
+  contentNotFound('content_not_found'),
+
+  biometricAuthFailed('biometric_auth_failed');
 
   const AppError(this.code);
 

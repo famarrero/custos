@@ -38,8 +38,11 @@
   "fieldNote": "Nota",
   "fieldGroup": "Grupo",
   "fieldProfileName": "Nombre del perfil",
+  "fieldProfileNameHint": "Introduce el nombre de tu perfil",
   "fieldMasterKey": "Clave maestra",
+  "fieldMasterKeyHint": "Introduce tu clave maestra",
   "fieldRepeatMasterKey": "Repetir clave maestra",
+  "fieldRepeatMasterKeyHint": "Repite tu clave maestra",
   "loginWelcomeBackTitle": "¡Bienvenido de nuevo!",
   "loginSelectProfileSubtitle": "Selecciona un perfil",
   "loginNoProfileTitle": "Aún no hay perfiles",
@@ -81,7 +84,17 @@
   "upsertPasswordAddAccountTitle": "Agregar cuenta",
   "upsertPasswordEditAccountTitle": "Editar cuenta",
   "upsertPasswordWebOrAppNameLabel": "Nombre de la web o app",
+  "upsertPasswordWebOrAppNameHint": "Ej. Gmail",
   "upsertPasswordGeneratePasswordTitle": "Generar contraseña",
+  "fieldUrlHint": "https://example.com",
+  "fieldUsernameHint": "Ej. john_doe",
+  "fieldEmailHint": "name@example.com",
+  "fieldPhoneHint": "+34 600 000 000",
+  "fieldPasswordHint": "••••••••",
+  "fieldGroupHint": "Selecciona un grupo",
+  "fieldExpirationDateLabel": "Fecha de expiración",
+  "fieldExpirationDateHint": "Selecciona una fecha de expiración",
+  "fieldNoteHint": "Ej. Esta es mi contraseña para Gmail",
   "iconPickerTitle": "Elige un ícono",
   "colorPickerTitle": "Elige un color",
   "iconLabelHome": "Hogar",
@@ -129,6 +142,87 @@
   "@appVersion": {
     "placeholders": {
       "version": {}
+    }
+  },
+  "biometricAuthFailed": "La autenticación biométrica falló",
+  "settingsProfileCreatedAt": "Creado el {date}",
+  "@settingsProfileCreatedAt": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "settingsExportTitle": "Exportar",
+  "settingsImportTitle": "Importar",
+  "settingsExportSubtitle": "Exporta tus datos a un archivo .custos",
+  "settingsImportSubtitle": "Importa tus datos desde un archivo .custos",
+  "settingsExportDataTitle": "Exporta tus datos",
+  "settingsImportDataTitle": "Importa tus datos",
+  "settingsBiometricDisableTitle": "Deshabilitar huella digital",
+  "settingsBiometricEnableTitle": "Habilitar huella digital",
+  "settingsBiometricDisableSubtitle": "Desactiva la autenticación por huella digital",
+  "settingsBiometricEnableSubtitle": "Configura la autenticación por huella digital para un acceso más rápido",
+  "settingsAboutUsSubtitle": "Información de la aplicación",
+  "biometricSetupDisableTitle": "Deshabilitar autenticación biométrica",
+  "biometricSetupEnableTitle": "Configurar autenticación biométrica",
+  "biometricSetupCheckingAvailability": "Verificando disponibilidad...",
+  "biometricSetupDisableQuestion": "¿Deseas deshabilitar la autenticación por huella digital para {profileName}?",
+  "@biometricSetupDisableQuestion": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupDisableSubtitle": "Deberás usar tu clave maestra para iniciar sesión cada vez.",
+  "biometricSetupEnableMasterKeyPrompt": "Introduce tu clave maestra para configurar la autenticación biométrica",
+  "biometricSetupEnableQuestion": "¿Deseas configurar autenticación por huella digital para acceder más rápido a {profileName}?",
+  "@biometricSetupEnableQuestion": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupEnableSubtitle": "Podrás usar tu huella digital para iniciar sesión en lugar de escribir tu clave maestra cada vez.",
+  "biometricSetupNotAvailableTitle": "Tu dispositivo no tiene huella digital configurada o no es compatible.",
+  "biometricSetupNotAvailableSubtitle": "Puedes configurar la biométrica en la configuración de tu dispositivo y volver a intentarlo.",
+  "biometricSetupDisableButton": "Deshabilitar",
+  "biometricSetupContinueButton": "Continuar",
+  "biometricSetupConfigureButton": "Configurar huella digital",
+  "loadingDialogMessage": "Cargando, espere...",
+  "loginProfileGreeting": "Hola {profileName}",
+  "@loginProfileGreeting": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "loginProfileMasterKeyHint": "Introduce tu clave maestra",
+  "loginProfileForgotMasterKeyQuestion": "¿Olvidaste tu clave maestra?",
+  "loginProfileForgotMasterKeyMessage": "Lo sentimos {profileName}, no hay nada que podamos hacer para ayudarte con tu clave maestra. Has perdido todos tus datos y no podremos recuperarlos.",
+  "@loginProfileForgotMasterKeyMessage": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupEnableReason": "Autentícate con tu huella digital para habilitar el acceso rápido a {profileName}",
+  "@biometricSetupEnableReason": {
+    "placeholders": {
+      "profileName": {}
+    }
+  },
+  "biometricSetupErrorIncorrectMasterKey": "La clave maestra es incorrecta",
+  "biometricSetupErrorEnable": "Error al habilitar biométrica: {error}",
+  "@biometricSetupErrorEnable": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "biometricSetupErrorDisable": "Error al deshabilitar biométrica: {error}",
+  "@biometricSetupErrorDisable": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "biometricSetupErrorConfigure": "Error al configurar biométrica: {error}",
+  "@biometricSetupErrorConfigure": {
+    "placeholders": {
+      "error": {}
     }
   }
 }

@@ -330,17 +330,35 @@ abstract class AppLocalizations {
   /// **'Nombre del perfil'**
   String get fieldProfileName;
 
+  /// No description provided for @fieldProfileNameHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce el nombre de tu perfil'**
+  String get fieldProfileNameHint;
+
   /// No description provided for @fieldMasterKey.
   ///
   /// In es, this message translates to:
   /// **'Clave maestra'**
   String get fieldMasterKey;
 
+  /// No description provided for @fieldMasterKeyHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce tu clave maestra'**
+  String get fieldMasterKeyHint;
+
   /// No description provided for @fieldRepeatMasterKey.
   ///
   /// In es, this message translates to:
   /// **'Repetir clave maestra'**
   String get fieldRepeatMasterKey;
+
+  /// No description provided for @fieldRepeatMasterKeyHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Repite tu clave maestra'**
+  String get fieldRepeatMasterKeyHint;
 
   /// No description provided for @loginWelcomeBackTitle.
   ///
@@ -588,11 +606,71 @@ abstract class AppLocalizations {
   /// **'Nombre de la web o app'**
   String get upsertPasswordWebOrAppNameLabel;
 
+  /// No description provided for @upsertPasswordWebOrAppNameHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Gmail'**
+  String get upsertPasswordWebOrAppNameHint;
+
   /// No description provided for @upsertPasswordGeneratePasswordTitle.
   ///
   /// In es, this message translates to:
   /// **'Generar contraseña'**
   String get upsertPasswordGeneratePasswordTitle;
+
+  /// No description provided for @fieldUrlHint.
+  ///
+  /// In es, this message translates to:
+  /// **'https://example.com'**
+  String get fieldUrlHint;
+
+  /// No description provided for @fieldUsernameHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. john_doe'**
+  String get fieldUsernameHint;
+
+  /// No description provided for @fieldEmailHint.
+  ///
+  /// In es, this message translates to:
+  /// **'name@example.com'**
+  String get fieldEmailHint;
+
+  /// No description provided for @fieldPhoneHint.
+  ///
+  /// In es, this message translates to:
+  /// **'+34 600 000 000'**
+  String get fieldPhoneHint;
+
+  /// No description provided for @fieldPasswordHint.
+  ///
+  /// In es, this message translates to:
+  /// **'••••••••'**
+  String get fieldPasswordHint;
+
+  /// No description provided for @fieldGroupHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona un grupo'**
+  String get fieldGroupHint;
+
+  /// No description provided for @fieldExpirationDateLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de expiración'**
+  String get fieldExpirationDateLabel;
+
+  /// No description provided for @fieldExpirationDateHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona una fecha de expiración'**
+  String get fieldExpirationDateHint;
+
+  /// No description provided for @fieldNoteHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Esta es mi contraseña para Gmail'**
+  String get fieldNoteHint;
 
   /// No description provided for @iconPickerTitle.
   ///
@@ -827,6 +905,222 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Versión {version}'**
   String appVersion(Object version);
+
+  /// No description provided for @biometricAuthFailed.
+  ///
+  /// In es, this message translates to:
+  /// **'La autenticación biométrica falló'**
+  String get biometricAuthFailed;
+
+  /// No description provided for @settingsProfileCreatedAt.
+  ///
+  /// In es, this message translates to:
+  /// **'Creado el {date}'**
+  String settingsProfileCreatedAt(Object date);
+
+  /// No description provided for @settingsExportTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Exportar'**
+  String get settingsExportTitle;
+
+  /// No description provided for @settingsImportTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Importar'**
+  String get settingsImportTitle;
+
+  /// No description provided for @settingsExportSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Exporta tus datos a un archivo .custos'**
+  String get settingsExportSubtitle;
+
+  /// No description provided for @settingsImportSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Importa tus datos desde un archivo .custos'**
+  String get settingsImportSubtitle;
+
+  /// No description provided for @settingsExportDataTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Exporta tus datos'**
+  String get settingsExportDataTitle;
+
+  /// No description provided for @settingsImportDataTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Importa tus datos'**
+  String get settingsImportDataTitle;
+
+  /// No description provided for @settingsBiometricDisableTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Deshabilitar huella digital'**
+  String get settingsBiometricDisableTitle;
+
+  /// No description provided for @settingsBiometricEnableTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Habilitar huella digital'**
+  String get settingsBiometricEnableTitle;
+
+  /// No description provided for @settingsBiometricDisableSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Desactiva la autenticación por huella digital'**
+  String get settingsBiometricDisableSubtitle;
+
+  /// No description provided for @settingsBiometricEnableSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura la autenticación por huella digital para un acceso más rápido'**
+  String get settingsBiometricEnableSubtitle;
+
+  /// No description provided for @settingsAboutUsSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Información de la aplicación'**
+  String get settingsAboutUsSubtitle;
+
+  /// No description provided for @biometricSetupDisableTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Deshabilitar autenticación biométrica'**
+  String get biometricSetupDisableTitle;
+
+  /// No description provided for @biometricSetupEnableTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Configurar autenticación biométrica'**
+  String get biometricSetupEnableTitle;
+
+  /// No description provided for @biometricSetupCheckingAvailability.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificando disponibilidad...'**
+  String get biometricSetupCheckingAvailability;
+
+  /// No description provided for @biometricSetupDisableQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Deseas deshabilitar la autenticación por huella digital para {profileName}?'**
+  String biometricSetupDisableQuestion(Object profileName);
+
+  /// No description provided for @biometricSetupDisableSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Deberás usar tu clave maestra para iniciar sesión cada vez.'**
+  String get biometricSetupDisableSubtitle;
+
+  /// No description provided for @biometricSetupEnableMasterKeyPrompt.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce tu clave maestra para configurar la autenticación biométrica'**
+  String get biometricSetupEnableMasterKeyPrompt;
+
+  /// No description provided for @biometricSetupEnableQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Deseas configurar autenticación por huella digital para acceder más rápido a {profileName}?'**
+  String biometricSetupEnableQuestion(Object profileName);
+
+  /// No description provided for @biometricSetupEnableSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Podrás usar tu huella digital para iniciar sesión en lugar de escribir tu clave maestra cada vez.'**
+  String get biometricSetupEnableSubtitle;
+
+  /// No description provided for @biometricSetupNotAvailableTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu dispositivo no tiene huella digital configurada o no es compatible.'**
+  String get biometricSetupNotAvailableTitle;
+
+  /// No description provided for @biometricSetupNotAvailableSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Puedes configurar la biométrica en la configuración de tu dispositivo y volver a intentarlo.'**
+  String get biometricSetupNotAvailableSubtitle;
+
+  /// No description provided for @biometricSetupDisableButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Deshabilitar'**
+  String get biometricSetupDisableButton;
+
+  /// No description provided for @biometricSetupContinueButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Continuar'**
+  String get biometricSetupContinueButton;
+
+  /// No description provided for @biometricSetupConfigureButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Configurar huella digital'**
+  String get biometricSetupConfigureButton;
+
+  /// No description provided for @loadingDialogMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando, espere...'**
+  String get loadingDialogMessage;
+
+  /// No description provided for @loginProfileGreeting.
+  ///
+  /// In es, this message translates to:
+  /// **'Hola {profileName}'**
+  String loginProfileGreeting(Object profileName);
+
+  /// No description provided for @loginProfileMasterKeyHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce tu clave maestra'**
+  String get loginProfileMasterKeyHint;
+
+  /// No description provided for @loginProfileForgotMasterKeyQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Olvidaste tu clave maestra?'**
+  String get loginProfileForgotMasterKeyQuestion;
+
+  /// No description provided for @loginProfileForgotMasterKeyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Lo sentimos {profileName}, no hay nada que podamos hacer para ayudarte con tu clave maestra. Has perdido todos tus datos y no podremos recuperarlos.'**
+  String loginProfileForgotMasterKeyMessage(Object profileName);
+
+  /// No description provided for @biometricSetupEnableReason.
+  ///
+  /// In es, this message translates to:
+  /// **'Autentícate con tu huella digital para habilitar el acceso rápido a {profileName}'**
+  String biometricSetupEnableReason(Object profileName);
+
+  /// No description provided for @biometricSetupErrorIncorrectMasterKey.
+  ///
+  /// In es, this message translates to:
+  /// **'La clave maestra es incorrecta'**
+  String get biometricSetupErrorIncorrectMasterKey;
+
+  /// No description provided for @biometricSetupErrorEnable.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al habilitar biométrica: {error}'**
+  String biometricSetupErrorEnable(Object error);
+
+  /// No description provided for @biometricSetupErrorDisable.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al deshabilitar biométrica: {error}'**
+  String biometricSetupErrorDisable(Object error);
+
+  /// No description provided for @biometricSetupErrorConfigure.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al configurar biométrica: {error}'**
+  String biometricSetupErrorConfigure(Object error);
 }
 
 class _AppLocalizationsDelegate

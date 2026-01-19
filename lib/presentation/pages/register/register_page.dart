@@ -26,8 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final TextEditingController _masterKeyController = TextEditingController();
 
-  final TextEditingController _repeatMasterKeyController =
-      TextEditingController();
+  final TextEditingController _repeatMasterKeyController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
             return ScaffoldWidget(
               safeAreaTop: true,
               appBar: CustomAppBar(),
-              padding: EdgeInsets.symmetric(
-                vertical: context.xxxl,
-                horizontal: context.xxxl,
-              ),
+              padding: EdgeInsets.symmetric(vertical: context.xxxl, horizontal: context.xxxl),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -83,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             CustomTextFormField(
                               controller: _profileNameController,
                               label: context.l10n.fieldProfileName,
-                              hint: 'Introduce el nombre de tu perfil',
+                              hint: context.l10n.fieldProfileNameHint,
                               isRequired: true,
                               textCapitalization: TextCapitalization.sentences,
                               textInputAction: TextInputAction.next,
@@ -92,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             CustomTextFormField(
                               controller: _masterKeyController,
                               label: context.l10n.fieldMasterKey,
-                              hint: 'Introduce tu clave maestra',
+                              hint: context.l10n.fieldMasterKeyHint,
                               isRequired: true,
                               obscureText: true,
                               validator: context.validatePassword,
@@ -100,23 +96,14 @@ class _RegisterPageState extends State<RegisterPage> {
                             CustomTextFormField(
                               controller: _repeatMasterKeyController,
                               label: context.l10n.fieldRepeatMasterKey,
-                              hint: 'Repite tu clave maestra',
+                              hint: context.l10n.fieldRepeatMasterKeyHint,
                               isRequired: true,
                               obscureText: true,
                               validator:
-                                  (value) => context.validatePasswordMatch(
-                                    _masterKeyController.text.trim(),
-                                    value,
-                                  ),
+                                  (value) => context.validatePasswordMatch(_masterKeyController.text.trim(), value),
                             ),
-                            WarningWidget(
-                              text:
-                                  context.l10n.registerWarningComplexMasterKey,
-                            ),
-                            WarningWidget(
-                              text:
-                                  context.l10n.registerWarningForgetMasterKey,
-                            ),
+                            WarningWidget(text: context.l10n.registerWarningComplexMasterKey),
+                            WarningWidget(text: context.l10n.registerWarningForgetMasterKey),
                             SizedBox(height: context.s),
                           ],
                         ),

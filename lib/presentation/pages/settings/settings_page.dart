@@ -66,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        'Creado el ${profile.createdAt.toLocal().formatDate}',
+                        context.l10n.settingsProfileCreatedAt(profile.createdAt.toLocal().formatDate),
                         style: context.textTheme.labelMedium,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -105,14 +105,20 @@ class _SettingsPageState extends State<SettingsPage> {
 
                 CustomSettingTile(
                   prefixIconPath: AppIcons.groupBackup,
-                  title: widget.mode == SettingsPageMode.loged ? 'Export' : 'Import',
+                  title:
+                      widget.mode == SettingsPageMode.loged
+                          ? context.l10n.settingsExportTitle
+                          : context.l10n.settingsImportTitle,
                   subtitle:
                       widget.mode == SettingsPageMode.loged
-                          ? 'Exporta tus datos a un archivo .custos'
-                          : 'Importa tus datos desde un archivo .custos',
+                          ? context.l10n.settingsExportSubtitle
+                          : context.l10n.settingsImportSubtitle,
                   onTap: () {
                     context.showCustomModalBottomSheet(
-                      title: widget.mode == SettingsPageMode.loged ? 'Exporta tus datos' : 'Importa tus datos',
+                      title:
+                          widget.mode == SettingsPageMode.loged
+                              ? context.l10n.settingsExportDataTitle
+                              : context.l10n.settingsImportDataTitle,
                       child: BlocProvider.value(
                         value: importExportDataCubit,
                         child: ImportExportDataWidget(
@@ -138,15 +144,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 if (widget.mode == SettingsPageMode.loged && profile != null) ...[
                   CustomSettingTile(
                     prefixIconPath: AppIcons.key,
-                    title: profile.hasBiometricEnabled ? 'Deshabilitar huella digital' : 'Habilitar huella digital',
-                    subtitle: profile.hasBiometricEnabled
-                        ? 'Desactiva la autenticación por huella digital'
-                        : 'Configura la autenticación por huella digital para un acceso más rápido',
+                    title:
+                        profile.hasBiometricEnabled
+                            ? context.l10n.settingsBiometricDisableTitle
+                            : context.l10n.settingsBiometricEnableTitle,
+                    subtitle:
+                        profile.hasBiometricEnabled
+                            ? context.l10n.settingsBiometricDisableSubtitle
+                            : context.l10n.settingsBiometricEnableSubtitle,
                     onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => BiometricSetupDialog(profile: profile),
-                      );
+                      showDialog(context: context, builder: (context) => BiometricSetupDialog(profile: profile));
                     },
                   ),
                 ],
@@ -178,7 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 CustomSettingTile(
                   prefixIconPath: AppIcons.info,
                   title: context.l10n.settingsAboutUsTitle,
-                  subtitle: 'Informacion de la aplicacion',
+                  subtitle: context.l10n.settingsAboutUsSubtitle,
                   onTap: () {},
                 ),
               ],

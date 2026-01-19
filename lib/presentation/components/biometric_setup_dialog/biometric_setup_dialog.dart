@@ -59,16 +59,16 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
 
             return AlertDialog(
               title: Text(
-                isBiometricEnabled ? 'Deshabilitar autenticación biométrica' : 'Configurar autenticación biométrica',
+                isBiometricEnabled ? context.l10n.biometricSetupDisableTitle : context.l10n.biometricSetupEnableTitle,
               ),
               content:
                   state.isChecking
-                      ? const Column(
+                      ? Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CircularProgressIndicator(),
-                          SizedBox(height: 16),
-                          Text('Verificando disponibilidad...'),
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: 16),
+                          Text(context.l10n.biometricSetupCheckingAvailability),
                         ],
                       )
                       : isBiometricEnabled
@@ -78,11 +78,11 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                         spacing: context.md,
                         children: [
                           Text(
-                            '¿Deseas deshabilitar la autenticación por huella digital para ${widget.profile.name}?',
+                            context.l10n.biometricSetupDisableQuestion(widget.profile.name),
                             style: context.textTheme.bodyMedium,
                           ),
                           Text(
-                            'Deberás usar tu clave maestra para iniciar sesión cada vez.',
+                            context.l10n.biometricSetupDisableSubtitle,
                             style: context.textTheme.bodySmall?.copyWith(
                               color: context.colorScheme.onSurface.withOpacity(0.7),
                             ),
@@ -99,13 +99,13 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                               spacing: context.md,
                               children: [
                                 Text(
-                                  'Introduce tu clave maestra para configurar la autenticación biométrica',
+                                  context.l10n.biometricSetupEnableMasterKeyPrompt,
                                   style: context.textTheme.bodyMedium,
                                 ),
                                 CustomTextFormField(
                                   controller: _masterKeyController,
-                                  label: 'Clave maestra',
-                                  hint: 'Introduce tu clave maestra',
+                                  label: context.l10n.fieldMasterKey,
+                                  hint: context.l10n.loginProfileMasterKeyHint,
                                   isRequired: true,
                                   obscureText: true,
                                   validator: context.validatePassword,
@@ -119,11 +119,11 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                             spacing: context.md,
                             children: [
                               Text(
-                                '¿Deseas configurar autenticación por huella digital para acceder más rápido a ${widget.profile.name}?',
+                                context.l10n.biometricSetupEnableQuestion(widget.profile.name),
                                 style: context.textTheme.bodyMedium,
                               ),
                               Text(
-                                'Podrás usar tu huella digital para iniciar sesión en lugar de escribir tu clave maestra cada vez.',
+                                context.l10n.biometricSetupEnableSubtitle,
                                 style: context.textTheme.bodySmall?.copyWith(
                                   color: context.colorScheme.onSurface.withOpacity(0.7),
                                 ),
@@ -136,11 +136,11 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                         spacing: context.md,
                         children: [
                           Text(
-                            'Tu dispositivo no tiene huella digital configurada o no es compatible.',
+                            context.l10n.biometricSetupNotAvailableTitle,
                             style: context.textTheme.bodyMedium,
                           ),
                           Text(
-                            'Puedes configurar la biométrica en la configuración de tu dispositivo y volver a intentarlo.',
+                            context.l10n.biometricSetupNotAvailableSubtitle,
                             style: context.textTheme.bodySmall?.copyWith(
                               color: context.colorScheme.onSurface.withOpacity(0.7),
                             ),
@@ -149,22 +149,25 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                       ),
               actions: [
                 if (!state.isChecking)
-                  TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancelar')),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(context.l10n.cancel),
+                  ),
                 if (isBiometricEnabled && !state.isChecking)
                   CustomButton(
-                    label: 'Deshabilitar',
+                    label: context.l10n.biometricSetupDisableButton,
                     isLoading: state.isValidatingMasterKey,
-                    onPressed: () => context.read<BiometricSetupDialogCubit>().disableBiometric(),
+                    onPressed: () => context.read<BiometricSetupDialogCubit>().disableBiometric(l10n: context.l10n),
                   )
                 else if (state.isAvailable && !state.isChecking)
                   CustomButton(
-                    label: state.showMasterKeyForm ? 'Continuar' : 'Configurar huella digital',
+                    label: state.showMasterKeyForm ? context.l10n.biometricSetupContinueButton : context.l10n.biometricSetupConfigureButton,
                     isLoading: state.isValidatingMasterKey,
                     onPressed: () {
                       if (state.showMasterKeyForm) {
                         // Validar formulario antes de continuar
                         if (_formKey.currentState?.validate() == true) {
-                          context.read<BiometricSetupDialogCubit>().enableBiometric(_masterKeyController.text);
+                          context.read<BiometricSetupDialogCubit>().enableBiometric(_masterKeyController.text, l10n: context.l10n);
                         }
                       } else {
                         // Mostrar formulario de master key

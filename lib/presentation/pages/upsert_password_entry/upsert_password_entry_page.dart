@@ -27,8 +27,7 @@ class UpsertPasswordEntryPage extends StatefulWidget {
   final String id;
 
   @override
-  State<UpsertPasswordEntryPage> createState() =>
-      _UpsertPasswordEntryPageState();
+  State<UpsertPasswordEntryPage> createState() => _UpsertPasswordEntryPageState();
 }
 
 class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
@@ -62,9 +61,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
         safeAreaTop: true,
         appBar: CustomAppBar(
           titleString:
-              _isAdd
-                  ? context.l10n.upsertPasswordAddAccountTitle
-                  : context.l10n.upsertPasswordEditAccountTitle,
+              _isAdd ? context.l10n.upsertPasswordAddAccountTitle : context.l10n.upsertPasswordEditAccountTitle,
         ),
         padding: EdgeInsets.symmetric(horizontal: context.xxxl),
         child: BlocConsumer<UpsertPasswordEntryCubit, UpsertPasswordEntryState>(
@@ -73,23 +70,17 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
               context.pop();
               context.showSnackBar(
                 isErrorMessage: true,
-                message: context.localizeError(
-                  failure: state.upsertPasswordEntryState.error,
-                ),
+                message: context.localizeError(failure: state.upsertPasswordEntryState.error),
               );
             }
-            if (state.upsertPasswordEntryState.isData &&
-                state.upsertPasswordEntryState.data) {
+            if (state.upsertPasswordEntryState.isData && state.upsertPasswordEntryState.data) {
               context.pop();
             }
           },
           builder: (context, state) {
             return BaseStateUi(
               state: state.getPasswordEntryState,
-              onRetryPressed:
-                  () => context
-                      .read<UpsertPasswordEntryCubit>()
-                      .getPasswordEntry(id: widget.id),
+              onRetryPressed: () => context.read<UpsertPasswordEntryCubit>().getPasswordEntry(id: widget.id),
               onDataChild: (passwordEntry) {
                 // Set controllers with existing password entry data
                 if (!_isInitialized) {
@@ -118,15 +109,11 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                 padding: EdgeInsets.only(top: context.xl),
                                 child: CustomTextFormField(
                                   controller: _nameController,
-                                  label:
-                                      context
-                                          .l10n
-                                          .upsertPasswordWebOrAppNameLabel,
-                                  hint: ' Ej. Gmail',
+                                  label: context.l10n.upsertPasswordWebOrAppNameLabel,
+                                  hint: context.l10n.upsertPasswordWebOrAppNameHint,
                                   isRequired: true,
                                   validator: context.validateRequired,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
+                                  textCapitalization: TextCapitalization.sentences,
                                   textInputAction: TextInputAction.next,
                                   textInputType: TextInputType.text,
                                 ),
@@ -134,7 +121,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                               CustomTextFormField(
                                 controller: _urlController,
                                 label: context.l10n.fieldUrl,
-                                hint: 'https://example.com',
+                                hint: context.l10n.fieldUrlHint,
                                 validator: context.validateURL,
                                 textCapitalization: TextCapitalization.none,
                                 textInputAction: TextInputAction.next,
@@ -143,7 +130,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                               CustomTextFormField(
                                 controller: _usernameController,
                                 label: context.l10n.fieldUsername,
-                                hint: ' Ej. john_doe',
+                                hint: context.l10n.fieldUsernameHint,
                                 textCapitalization: TextCapitalization.none,
                                 textInputAction: TextInputAction.next,
                                 textInputType: TextInputType.text,
@@ -151,7 +138,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                               CustomTextFormField(
                                 controller: _emailController,
                                 label: context.l10n.fieldEmail,
-                                hint: 'name@example.com',
+                                hint: context.l10n.fieldEmailHint,
                                 validator: context.validateEmail,
                                 textCapitalization: TextCapitalization.none,
                                 textInputAction: TextInputAction.next,
@@ -160,7 +147,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                               CustomTextFormField(
                                 controller: _phoneController,
                                 label: context.l10n.fieldPhone,
-                                hint: '+34 600 000 000',
+                                hint: context.l10n.fieldPhoneHint,
                                 textCapitalization: TextCapitalization.none,
                                 textInputAction: TextInputAction.next,
                                 textInputType: TextInputType.phone,
@@ -173,15 +160,13 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     child: CustomTextFormField(
                                       controller: _passwordController,
                                       label: context.l10n.fieldPassword,
-                                      hint: '••••••••',
+                                      hint: context.l10n.fieldPasswordHint,
                                       isRequired: true,
                                       validator: context.validateRequired,
-                                      textCapitalization:
-                                          TextCapitalization.none,
+                                      textCapitalization: TextCapitalization.none,
                                       obscureText: true,
                                       textInputAction: TextInputAction.next,
-                                      textInputType:
-                                          TextInputType.visiblePassword,
+                                      textInputType: TextInputType.visiblePassword,
                                       onChanged: (_) {
                                         setState(() {
                                           _expirationDate = null;
@@ -194,25 +179,18 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     child: CustomIconButton(
                                       icon: AppIcons.key,
                                       iconColor: Colors.white,
-                                      backgroundColor:
-                                          context.colorScheme.primary,
+                                      backgroundColor: context.colorScheme.primary,
                                       onTap: () async {
-                                        final generatedPassword = await context
-                                            .showCustomModalBottomSheet<String>(
-                                              title:
-                                                  context
-                                                      .l10n
-                                                      .upsertPasswordGeneratePasswordTitle,
-                                              child:
-                                                  const PasswordGeneratorWidget(),
-                                            );
+                                        final generatedPassword = await context.showCustomModalBottomSheet<String>(
+                                          title: context.l10n.upsertPasswordGeneratePasswordTitle,
+                                          child: const PasswordGeneratorWidget(),
+                                        );
 
                                         setState(() {
                                           _expirationDate = null;
                                         });
                                         if (generatedPassword == null) return;
-                                        _passwordController.text =
-                                            generatedPassword;
+                                        _passwordController.text = generatedPassword;
                                       },
                                     ),
                                   ),
@@ -229,26 +207,16 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     CustomButton(
                                       type: CustomTextButtonEnum.outlined,
                                       label: context.l10n.retry,
-                                      onPressed:
-                                          () =>
-                                              context
-                                                  .read<
-                                                    UpsertPasswordEntryCubit
-                                                  >()
-                                                  .watchGroups(),
+                                      onPressed: () => context.read<UpsertPasswordEntryCubit>().watchGroups(),
                                     )
                                   else if (state.groups.isData)
                                     Expanded(
                                       child: CustomDropdown<GroupEntity>(
                                         label: context.l10n.fieldGroup,
-                                        hint: 'Selecciona un grupo',
+                                        hint: context.l10n.fieldGroupHint,
                                         value: _selectedGroup,
                                         options: () => state.groups.data,
-                                        itemBuilder:
-                                            (item) => GroupTile(
-                                              group: item,
-                                              compact: true,
-                                            ),
+                                        itemBuilder: (item) => GroupTile(group: item, compact: true),
                                         onValueUpdate: (value) {
                                           setState(() {
                                             _selectedGroup = value;
@@ -261,12 +229,10 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                     child: CustomIconButton(
                                       icon: AppIcons.add,
                                       iconColor: Colors.white,
-                                      backgroundColor:
-                                          context.colorScheme.primary,
+                                      backgroundColor: context.colorScheme.primary,
                                       onTap: () {
                                         context.showCustomGeneralDialog(
-                                          title:
-                                              context.l10n.groupsAddGroupTitle,
+                                          title: context.l10n.groupsAddGroupTitle,
                                           child: const UpsertGroup(),
                                         );
                                       },
@@ -276,8 +242,8 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                               ),
 
                               CustomSelectDatePicker(
-                                label: 'Fecha de expiración',
-                                hint: 'Selecciona una fecha de expiración',
+                                label: context.l10n.fieldExpirationDateLabel,
+                                hint: context.l10n.fieldExpirationDateHint,
                                 // firstDate: DateTime(2024, 1, 1),
                                 firstDate: DateTime.now(),
                                 value: _expirationDate,
@@ -294,14 +260,12 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                 child: CustomTextFormField(
                                   controller: _noteController,
                                   label: context.l10n.fieldNote,
-                                  hint: 'Ej. Esta es mi contraseña para Gmail',
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
+                                  hint: context.l10n.fieldNoteHint,
+                                  textCapitalization: TextCapitalization.sentences,
                                   maxLines: 4,
                                   textInputAction: TextInputAction.done,
                                   textInputType: TextInputType.multiline,
-                                  onFieldSubmitted:
-                                      (p0) => _upsertPasswordEntry(context),
+                                  onFieldSubmitted: (p0) => _upsertPasswordEntry(context),
                                 ),
                               ),
                             ],
@@ -323,8 +287,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
 
                           // Add/Edit password entry
                           CustomButton(
-                            label:
-                                _isAdd ? context.l10n.add : context.l10n.edit,
+                            label: _isAdd ? context.l10n.add : context.l10n.edit,
                             isLoading: state.upsertPasswordEntryState.isLoading,
                             onPressed: () => _upsertPasswordEntry(context),
                           ),

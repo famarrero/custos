@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:custos/core/services/biometric_auth_service.dart';
+import 'package:custos/core/services/encryption_service.dart';
 import 'package:custos/core/services/file_picker_service.dart';
 import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/services/logger_service.dart';
@@ -75,15 +76,16 @@ Future initInjection() async {
   /// BiometricAuthService
   di.registerLazySingleton<BiometricAuthService>(() => BiometricAuthServiceImpl());
 
+  /// EncryptionService
+  di.registerLazySingleton<EncryptionService>(() => EncryptionServiceImpl());
+
   ///-------------------Providers--------------------------------///
 
   /// PreferencesProvider
   di.registerLazySingleton<PreferenceProvider>(() => PreferenceProviderImpl());
 
   /// SecureStorageProvider
-  di.registerLazySingleton<SecureStorageProvider>(
-    () => SecureStorageProviderImpl(),
-  );
+  di.registerLazySingleton<SecureStorageProvider>(() => SecureStorageProviderImpl());
 
   /// ProfilesProvider
   di.registerLazySingleton<ProfileProvider>(() => ProfilesProviderImpl());
@@ -92,9 +94,7 @@ Future initInjection() async {
   di.registerLazySingleton<GroupProvider>(() => GroupProviderImpl());
 
   /// PasswordEntryProvider
-  di.registerLazySingleton<PasswordEntryProvider>(
-    () => PasswordEntryProviderImpl(),
-  );
+  di.registerLazySingleton<PasswordEntryProvider>(() => PasswordEntryProviderImpl());
 
   /// VersionProvider
   di.registerLazySingleton<VersionProvider>(() => VersionProviderImpl());
@@ -102,35 +102,25 @@ Future initInjection() async {
   ///-------------------Repositories--------------------------------///
 
   /// PreferencesRepository
-  GetIt.I.registerLazySingleton<PreferenceRepository>(
-    () => PreferenceRepositoryImpl(),
-  );
+  GetIt.I.registerLazySingleton<PreferenceRepository>(() => PreferenceRepositoryImpl());
 
   /// PreferencesRepository
   GetIt.I.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
 
   /// ProfilesRepository
-  GetIt.I.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(),
-  );
+  GetIt.I.registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl());
 
   /// GroupRepository
   GetIt.I.registerLazySingleton<GroupRepository>(() => GroupRepositoryImpl());
 
   /// PasswordEntryRepository
-  GetIt.I.registerLazySingleton<PasswordEntryRepository>(
-    () => PasswordEntryRepositoryImpl(),
-  );
+  GetIt.I.registerLazySingleton<PasswordEntryRepository>(() => PasswordEntryRepositoryImpl());
 
   /// VersionRepository
-  GetIt.I.registerLazySingleton<VersionRepository>(
-    () => VersionRepositoryImpl(),
-  );
+  GetIt.I.registerLazySingleton<VersionRepository>(() => VersionRepositoryImpl());
 
   /// ImportExportRepository
-  GetIt.I.registerLazySingleton<ImportExportRepository>(
-    () => ImportExportRepositoryImpl(),
-  );
+  GetIt.I.registerLazySingleton<ImportExportRepository>(() => ImportExportRepositoryImpl());
 }
 
 Future<void> registerStorageDirectory() async {
