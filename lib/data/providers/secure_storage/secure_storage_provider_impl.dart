@@ -14,22 +14,6 @@ class SecureStorageProviderImpl extends SecureStorageProvider {
       await flutterSecureStorage.write(key: key, value: value);
 
   @override
-  Future<void> writeValueWithBiometrics({required String key, required String value}) async {
-    // Usar las mismas opciones de seguridad que las escrituras normales
-    // El SO manejará automáticamente la seguridad del almacenamiento
-    // La biométrica se verificará antes de llamar a este método usando local_auth
-    await flutterSecureStorage.write(key: key, value: value);
-  }
-
-  @override
-  Future<String?> readValueWithBiometrics({required String key}) async {
-    // Usar las mismas opciones de seguridad que las lecturas normales
-    // El SO manejará automáticamente la seguridad del almacenamiento
-    // La biométrica se verificará antes de llamar a este método usando local_auth
-    return await flutterSecureStorage.read(key: key);
-  }
-
-  @override
   Future<void> deleteValue({required String key}) async =>
       await flutterSecureStorage.delete(key: key);
 

@@ -265,7 +265,7 @@ class AuthRepositoryImpl implements AuthRepository {
       // Guardar la master key protegida por biométrica
       // El SO cifrará esto con una key interna y exigirá huella/FaceID para leerlo
       final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
-      await secureStorage.writeValueWithBiometrics(key: biometricMasterKeyStorageKey, value: masterKey);
+      await secureStorage.writeValue(key: biometricMasterKeyStorageKey, value: masterKey);
 
       // Actualizar el perfil para habilitar biométrica
       final updatedProfile = profile.copyWith(hasBiometricEnabled: true);
@@ -298,7 +298,7 @@ class AuthRepositoryImpl implements AuthRepository {
       // Intentar leer la master key protegida por biométrica
       // El SO pedirá biométrica automáticamente antes de devolver la key
       final biometricMasterKeyStorageKey = '${profile.id}_master_key_biometric';
-      final masterKey = await secureStorage.readValueWithBiometrics(key: biometricMasterKeyStorageKey);
+      final masterKey = await secureStorage.readValue(key: biometricMasterKeyStorageKey);
 
       // Si la master key es null, significa que no está disponible o la biométrica falló
       return right(masterKey);
