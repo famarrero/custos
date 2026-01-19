@@ -1,5 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/services/biometric_auth_service.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/di_container.dart';
 import 'package:custos/presentation/components/base_state_ui.dart';
 import 'package:custos/presentation/components/biometric_setup_dialog/biometric_setup_dialog.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
@@ -26,188 +28,152 @@ class PasswordsEntriesPage extends StatefulWidget {
 
 class _PasswordsEntriesPageState extends State<PasswordsEntriesPage> {
   final TextEditingController _searchController = TextEditingController();
-  bool _hasShownBiometricDialog = false;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PasswordsEntriesCubit(),
-      child:
-      // Check if user authenticated and watchPasswordsEntries
-      BlocListener<AuthCubit, AuthState>(
-        listenWhen:
-            (previous, current) =>
-                previous.loginState != current.loginState &&
-                current.isUserAuthenticated,
-        listener: (context, state) {
-          context.read<PasswordsEntriesCubit>().watchGroups();
+    return FutureBuilder(
+      future: di<BiometricAuthService>().isDeviceSupported(),
+      builder: (context, biometricSupportedSnapshot) {
+        return BlocProvider(
+          create: (context) => PasswordsEntriesCubit(),
+          child:
+          // Check if user authenticated and watchPasswordsEntries
+          BlocListener<AuthCubit, AuthState>(
+            listenWhen: (previous, current) => previous.loginState != current.loginState && current.isUserAuthenticated,
+            listener: (context, state) {
+              context.read<PasswordsEntriesCubit>().watchGroups();
 
-          // Mostrar diálogo de configuración biométrica después del primer login
-          // Solo si el perfil no tiene biométrica habilitada y aún no se ha mostrado el diálogo
-          if (state.loginState.isData &&
-              !state.loginState.data.hasBiometricEnabled &&
-              !_hasShownBiometricDialog) {
-            _hasShownBiometricDialog = true;
-            // Usar un pequeño delay para que la página se cargue primero
-            Future.delayed(const Duration(milliseconds: 500), () {
-              if (context.mounted) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) => BiometricSetupDialog(
-                    profile: state.loginState.data,
-                  ),
-                );
+              // Mostrar diálogo de configuración biométrica después del primer login
+              // Solo si el perfil no tiene biométrica habilitada y aún no se ha mostrado el diálogo
+              // y el dispositivo soporta biométrica
+              if (state.loginState.isData &&
+                  !state.loginState.data.hasBiometricEnabled &&
+                  biometricSupportedSnapshot.data == true) {
+                // Usar un pequeño delay para que la página se cargue primero
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  if (context.mounted) {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => BiometricSetupDialog(profile: state.loginState.data),
+                    );
+                  }
+                });
               }
-            });
-          }
-        },
-        child: ScaffoldWidget(
-          floatingActionButton: FloatingActionButton(
-            child: Icon(AppIcons.add, color: Colors.white),
-            onPressed: () {
-              context.push(
-                UpsertPasswordEntryRoute(
-                  id: UpsertPasswordEntryCubit.addUserId,
-                ).location,
-              );
             },
-          ),
-          child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  Expanded(
-                    child: BaseStateUi(
-                      state: state.passwordsEntries,
-                      onRetryPressed:
-                          () =>
-                              context
-                                  .read<PasswordsEntriesCubit>()
-                                  .watchPasswordsEntries(),
-                      noDataWidget: NoDataWidget(
-                        iconData: AppIcons.key,
-                        title: context.l10n.passwordsNoPasswordsTitle,
-                        subtitle: context.l10n.passwordsNoPasswordsSubtitle,
-                      ),
-                      onDataChild: (passwordsEntries) {
-                        return Column(
-                          children: [
-                            // Search form
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: context.xl,
-                              ),
-                              child: ValueListenableBuilder<TextEditingValue>(
-                                valueListenable: _searchController,
-                                builder: (context, value, _) {
-                                  final hasQuery = value.text.trim().isNotEmpty;
+            child: ScaffoldWidget(
+              floatingActionButton: FloatingActionButton(
+                child: Icon(AppIcons.add, color: Colors.white),
+                onPressed: () {
+                  context.push(UpsertPasswordEntryRoute(id: UpsertPasswordEntryCubit.addUserId).location);
+                },
+              ),
+              child: BlocBuilder<PasswordsEntriesCubit, PasswordsEntriesState>(
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: BaseStateUi(
+                          state: state.passwordsEntries,
+                          onRetryPressed: () => context.read<PasswordsEntriesCubit>().watchPasswordsEntries(),
+                          noDataWidget: NoDataWidget(
+                            iconData: AppIcons.key,
+                            title: context.l10n.passwordsNoPasswordsTitle,
+                            subtitle: context.l10n.passwordsNoPasswordsSubtitle,
+                          ),
+                          onDataChild: (passwordsEntries) {
+                            return Column(
+                              children: [
+                                // Search form
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: context.xl),
+                                  child: ValueListenableBuilder<TextEditingValue>(
+                                    valueListenable: _searchController,
+                                    builder: (context, value, _) {
+                                      final hasQuery = value.text.trim().isNotEmpty;
 
-                                  return CustomTextFormField(
-                                    controller: _searchController,
-                                    hint: context.l10n.passwordsSearchHint,
-                                    boxShadow: context.searchBarShadow,
-                                    prefixIcon: Icon(
-                                      AppIcons.search,
-                                      color: context.colorScheme.primary,
-                                    ),
-                                    suffixIcon:
-                                        hasQuery
-                                            ? CustomIconButton(
-                                              icon: AppIcons.close,
-                                              iconColor:
-                                                  context.colorScheme.primary,
-                                              onTap: () {
-                                                context
-                                                    .read<
-                                                      PasswordsEntriesCubit
-                                                    >()
-                                                    .filterPasswordEntries(
+                                      return CustomTextFormField(
+                                        controller: _searchController,
+                                        hint: context.l10n.passwordsSearchHint,
+                                        boxShadow: context.searchBarShadow,
+                                        prefixIcon: Icon(AppIcons.search, color: context.colorScheme.primary),
+                                        suffixIcon:
+                                            hasQuery
+                                                ? CustomIconButton(
+                                                  icon: AppIcons.close,
+                                                  iconColor: context.colorScheme.primary,
+                                                  onTap: () {
+                                                    context.read<PasswordsEntriesCubit>().filterPasswordEntries(
                                                       query: null,
-                                                      group:
-                                                          state.selectedGroup,
+                                                      group: state.selectedGroup,
                                                     );
-                                                _searchController.clear();
-                                              },
-                                            )
-                                            : null,
-                                    onChanged: (value) {
-                                      context
-                                          .read<PasswordsEntriesCubit>()
-                                          .filterPasswordEntries(
+                                                    _searchController.clear();
+                                                  },
+                                                )
+                                                : null,
+                                        onChanged: (value) {
+                                          context.read<PasswordsEntriesCubit>().filterPasswordEntries(
                                             query: value,
                                             group: state.selectedGroup,
                                           );
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                              ),
-                            ),
+                                  ),
+                                ),
 
-                            SizedBox(height: context.xxxl),
+                                SizedBox(height: context.xxxl),
 
-                            GroupFilters(),
+                                GroupFilters(),
 
-                            SizedBox(height: context.s),
+                                SizedBox(height: context.s),
 
-                            if (passwordsEntries.isEmpty)
-                              Expanded(
-                                child: NoDataWidget(
-                                  subtitle:
-                                      context.l10n.passwordsNoResultsSubtitle,
-                                  retryLabel:
-                                      context.l10n.passwordsCleanFilters,
-                                  onRetryPressed: () {
-                                    context
-                                        .read<PasswordsEntriesCubit>()
-                                        .filterPasswordEntries(
+                                if (passwordsEntries.isEmpty)
+                                  Expanded(
+                                    child: NoDataWidget(
+                                      subtitle: context.l10n.passwordsNoResultsSubtitle,
+                                      retryLabel: context.l10n.passwordsCleanFilters,
+                                      onRetryPressed: () {
+                                        context.read<PasswordsEntriesCubit>().filterPasswordEntries(
                                           group: PasswordsEntriesCubit.groupAll,
                                         );
 
-                                    _searchController.clear();
-                                  },
-                                ),
-                              )
-                            else
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      top: context.xl,
-                                      left: context.xl,
-                                      right: context.xl,
-                                    ),
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: passwordsEntries.length,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: context.s,
-                                          ),
-                                          child: PasswordEntryTile(
-                                            passwordEntry:
-                                                passwordsEntries[index],
-                                          ),
-                                        );
+                                        _searchController.clear();
                                       },
                                     ),
+                                  )
+                                else
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: context.xl, left: context.xl, right: context.xl),
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          itemCount: passwordsEntries.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(vertical: context.s),
+                                              child: PasswordEntryTile(passwordEntry: passwordsEntries[index]),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

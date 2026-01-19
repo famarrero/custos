@@ -12,7 +12,7 @@ final class AppIcons {
   static const IconData edit = FontAwesomeIcons.penToSquare;
   static const IconData delete = FontAwesomeIcons.trashCan;
   static const IconData search = FontAwesomeIcons.magnifyingGlass;
-  static const IconData close = FontAwesomeIcons.circleXmark;
+  static const IconData close = FontAwesomeIcons.xmark;
   static const IconData copy = FontAwesomeIcons.copy;
   static const IconData back = FontAwesomeIcons.chevronLeft;
   static const IconData logout = FontAwesomeIcons.rightFromBracket;
