@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
             leading: const SizedBox.shrink(),
             actions: [
               CustomIconButton(
-                tooltip: 'Importar datos',
                 icon: AppIcons.settings,
                 onTap: () {
                   context.push(SettingsUnlogedRoute().location);

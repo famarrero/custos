@@ -1,4 +1,5 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
+import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/presentation/app/l10n/app_localizations.dart';
@@ -38,7 +39,7 @@ class ChangeLanguageWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      getLocaleName(locale),
+                      getLocaleName(locale).toCapitalizedString,
                       style: context.textTheme.bodyMedium,
                     ),
                     if (currentLocale == locale)

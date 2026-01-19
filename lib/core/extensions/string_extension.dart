@@ -27,6 +27,11 @@ extension StringExtension on String {
 
   /// Replaces each character in the string with an asterisk (*).
   String get masked => '*' * length;
+
+  /// Convert the first letter of the string to uppercase.
+  String get toCapitalizedString {
+    return this[0].toUpperCase() + substring(1);
+  }
 }
 
 extension NullableStringExtension on String? {
