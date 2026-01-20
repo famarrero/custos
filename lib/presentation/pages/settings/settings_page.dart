@@ -6,6 +6,7 @@ import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/di_container.dart';
+import 'package:custos/presentation/app/generated/assets.gen.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/biometric_setup_dialog/biometric_setup_dialog.dart';
@@ -13,6 +14,7 @@ import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_container.dart';
 import 'package:custos/presentation/components/custom_tiles_options.dart';
 import 'package:custos/presentation/components/database_version_widget/database_version_widget.dart';
+import 'package:custos/presentation/components/imagotipo_widget.dart';
 import 'package:custos/presentation/components/import_export/cubit/import_export_data_cubit.dart';
 import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/privacy_police_widget.dart';
@@ -21,6 +23,7 @@ import 'package:custos/presentation/cubit/app/app_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 enum SettingsPageMode { unloged, loged }
@@ -195,14 +198,12 @@ class _SettingsPageState extends State<SettingsPage> {
           SizedBox(height: context.xxxl),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.xxxl + context.s),
+            padding: EdgeInsets.symmetric(horizontal: context.md),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  context.l10n.custos,
-                  style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.primary),
-                ),
+                ImagotipoWidget(),
+                const Spacer(),
                 Text(
                   context.l10n.appVersion(di<PackageInfoService>().getAppVersion()),
                   style: context.textTheme.labelSmall,

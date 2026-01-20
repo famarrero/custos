@@ -25,89 +25,92 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listenWhen: (previous, current) => current.loginState.isError,
-      listener: (context, state) {
-        context.showSnackBar(isErrorMessage: true, message: context.localizeError(failure: state.loginState.error));
-      },
-      child: BlocProvider(
-        create: (context) => LoginCubit()..watchProfiles(),
-        child: ScaffoldWidget(
-          safeAreaTop: true,
-          appBar: CustomAppBar(
-            leading: const SizedBox.shrink(),
-            actions: [
-              CustomIconButton(
-                icon: AppIcons.settings,
-                onTap: () {
-                  context.push(SettingsUnlogedRoute().location);
-                },
-              ),
-            ],
-          ),
-          padding: EdgeInsets.symmetric(vertical: context.xl, horizontal: context.xl),
-          child: BlocBuilder<LoginCubit, LoginState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  Text(
-                    context.l10n.loginWelcomeBackTitle,
-                    style: context.textTheme.headlineLarge,
-                    textAlign: TextAlign.center,
-                  ),
-
-                  SizedBox(height: context.lg),
-
-                  Text(
-                    context.l10n.loginSelectProfileSubtitle,
-                    style: context.textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                  ),
-
-                  SizedBox(height: context.xxxl),
-
-                  Flexible(
-                    child: BaseStateUi(
-                      state: state.profiles,
-                      onRetryPressed: () => context.read<LoginCubit>().watchProfiles(),
-                      noDataWidget: NoDataWidget(
-                        iconData: AppIcons.user,
-                        title: context.l10n.loginNoProfileTitle,
-                        subtitle: context.l10n.loginNoProfileSubtitle,
+    return PopScope(
+      canPop: false,
+      child: BlocListener<AuthCubit, AuthState>(
+        listenWhen: (previous, current) => current.loginState.isError,
+        listener: (context, state) {
+          context.showSnackBar(isErrorMessage: true, message: context.localizeError(failure: state.loginState.error));
+        },
+        child: BlocProvider(
+          create: (context) => LoginCubit()..watchProfiles(),
+          child: ScaffoldWidget(
+            safeAreaTop: true,
+            appBar: CustomAppBar(
+              leading: const SizedBox.shrink(),
+              actions: [
+                CustomIconButton(
+                  icon: AppIcons.settings,
+                  onTap: () {
+                    context.push(SettingsUnlogedRoute().location);
+                  },
+                ),
+              ],
+            ),
+            padding: EdgeInsets.symmetric(vertical: context.xl, horizontal: context.xl),
+            child: BlocBuilder<LoginCubit, LoginState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    Text(
+                      context.l10n.loginWelcomeBackTitle,
+                      style: context.textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    ),
+      
+                    SizedBox(height: context.lg),
+      
+                    Text(
+                      context.l10n.loginSelectProfileSubtitle,
+                      style: context.textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+      
+                    SizedBox(height: context.xxxl),
+      
+                    Flexible(
+                      child: BaseStateUi(
+                        state: state.profiles,
+                        onRetryPressed: () => context.read<LoginCubit>().watchProfiles(),
+                        noDataWidget: NoDataWidget(
+                          iconData: AppIcons.user,
+                          title: context.l10n.loginNoProfileTitle,
+                          subtitle: context.l10n.loginNoProfileSubtitle,
+                        ),
+                        onDataChild: (profiles) {
+                          return ListView.separated(
+                            itemCount: profiles.length,
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: context.sm);
+                            },
+                            itemBuilder: (context, index) {
+                              return ProfileTile(profile: profiles[index]);
+                            },
+                          );
+                        },
                       ),
-                      onDataChild: (profiles) {
-                        return ListView.separated(
-                          itemCount: profiles.length,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: context.sm);
-                          },
-                          itemBuilder: (context, index) {
-                            return ProfileTile(profile: profiles[index]);
-                          },
-                        );
+                    ),
+      
+                    SizedBox(height: context.xxxl),
+      
+                    Text(context.l10n.loginOrCreateOne, style: context.textTheme.bodySmall, textAlign: TextAlign.center),
+      
+                    SizedBox(height: context.xxxl),
+      
+                    CustomButton(
+                      prefixIconData: AppIcons.userAdd,
+                      label: context.l10n.loginCreateProfileButton,
+                      infiniteWidth: true,
+                      onPressed: () {
+                        context.push(RegisterRoute().location);
                       },
                     ),
-                  ),
-
-                  SizedBox(height: context.xxxl),
-
-                  Text(context.l10n.loginOrCreateOne, style: context.textTheme.bodySmall, textAlign: TextAlign.center),
-
-                  SizedBox(height: context.xxxl),
-
-                  CustomButton(
-                    prefixIconData: AppIcons.userAdd,
-                    label: context.l10n.loginCreateProfileButton,
-                    infiniteWidth: true,
-                    onPressed: () {
-                      context.push(RegisterRoute().location);
-                    },
-                  ),
-
-                  SizedBox(height: context.xxxl),
-                ],
-              );
-            },
+      
+                    SizedBox(height: context.xxxl),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
