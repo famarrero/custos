@@ -8,6 +8,8 @@ import 'package:custos/core/services/logger_service.dart';
 import 'package:custos/core/services/package_info_service.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
 import 'package:custos/data/providers/group/group_provider_impl.dart';
+import 'package:custos/data/providers/otp/otp_provider.dart';
+import 'package:custos/data/providers/otp/otp_provider_impl.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider_impl.dart';
 import 'package:custos/data/providers/preference/preference_provider.dart';
@@ -24,6 +26,8 @@ import 'package:custos/data/repositories/group/group_repository.dart';
 import 'package:custos/data/repositories/group/group_repository_impl.dart';
 import 'package:custos/data/repositories/import_export/import_export_repository.dart';
 import 'package:custos/data/repositories/import_export/import_export_repository_impl.dart';
+import 'package:custos/data/repositories/otp/otp_repository.dart';
+import 'package:custos/data/repositories/otp/otp_repository_impl.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository_impl.dart';
 import 'package:custos/data/repositories/preference/preference_repository.dart';
@@ -96,6 +100,9 @@ Future initInjection() async {
   /// PasswordEntryProvider
   di.registerLazySingleton<PasswordEntryProvider>(() => PasswordEntryProviderImpl());
 
+  /// OtpProvider
+  di.registerLazySingleton<OtpProvider>(() => OtpProviderImpl());
+
   /// VersionProvider
   di.registerLazySingleton<VersionProvider>(() => VersionProviderImpl());
 
@@ -115,6 +122,9 @@ Future initInjection() async {
 
   /// PasswordEntryRepository
   GetIt.I.registerLazySingleton<PasswordEntryRepository>(() => PasswordEntryRepositoryImpl());
+
+  /// OtpRepository
+  GetIt.I.registerLazySingleton<OtpRepository>(() => OtpRepositoryImpl());
 
   /// VersionRepository
   GetIt.I.registerLazySingleton<VersionRepository>(() => VersionRepositoryImpl());

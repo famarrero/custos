@@ -88,11 +88,20 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                 ),
                 _bottomBarItem(
                   context: context,
-                  path: AppIcons.settings,
-                  label: context.l10n.navSettings,
+                  path: AppIcons.otp,
+                  label: 'OTP',
                   isSelected: state.currentPage.$1 == 2,
                   onTap: () {
                     _customNavigationBarCubit.onPageChanged(page: 2);
+                  },
+                ),
+                _bottomBarItem(
+                  context: context,
+                  path: AppIcons.settings,
+                  label: context.l10n.navSettings,
+                  isSelected: state.currentPage.$1 == 3,
+                  onTap: () {
+                    _customNavigationBarCubit.onPageChanged(page: 3);
                   },
                 ),
               ],

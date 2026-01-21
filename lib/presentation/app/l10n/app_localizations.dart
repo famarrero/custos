@@ -1211,6 +1211,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Continuar'**
   String get masterKeyValidatorContinueButton;
+
+  /// No description provided for @invalidOtpFormat.
+  ///
+  /// In es, this message translates to:
+  /// **'Formato de OTP inválido'**
+  String get invalidOtpFormat;
+
+  /// No description provided for @invalidOtpLength.
+  ///
+  /// In es, this message translates to:
+  /// **'El código OTP debe tener {length} dígitos'**
+  String invalidOtpLength(int length);
 }
 
 class _AppLocalizationsDelegate

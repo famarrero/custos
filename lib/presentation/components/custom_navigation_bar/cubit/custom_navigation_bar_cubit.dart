@@ -31,6 +31,8 @@ class CustomNavigationBarCubit extends Cubit<CustomNavigationBarState> {
       case 1:
         return const GroupsRoute().location;
       case 2:
+        return const OtpRoute().location;
+      case 3:
         return SettingsRoute().location;
       default:
         return const PasswordsEntriesRoute().location;
@@ -42,8 +44,10 @@ class CustomNavigationBarCubit extends Cubit<CustomNavigationBarState> {
       return 0;
     } else if (location == const GroupsRoute().location) {
       return 1;
-    } else if (location == SettingsRoute().location) {
+    } else if (location == const OtpRoute().location) {
       return 2;
+    } else if (location == SettingsRoute().location) {
+      return 3;
     } else {
       return 0;
     }

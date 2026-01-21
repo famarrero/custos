@@ -77,4 +77,35 @@ extension BuildContextFormValidatorsExtension on BuildContext {
       return null;
     }
   }
+
+  /// Validate the OTP Secret (Base32)
+  String? validateOTPSecretCode(String? secret, {bool isRequired = true, int minLength = 8}) {
+    final value = secret?.trim() ?? '';
+
+    if (isRequired && value.isEmpty) {
+      return l10n.requiredField;
+    }
+
+    // Not required and empty → OK
+    if (value.isEmpty) {
+      return null;
+    }
+
+    // Normalize (important!)
+    final normalized = value.toUpperCase().replaceAll(RegExp(r'\s+'), '');
+
+    // Base32 basic format
+    if (!RegExp(r'^[A-Z2-7]+=*$').hasMatch(normalized)) {
+      return l10n.invalidOtpFormat;
+      // e.g. "Invalid Base32 format"
+    }
+
+    // Minimal technical length
+    if (normalized.length < minLength) {
+      return l10n.invalidOtpLength(minLength);
+      // e.g. "Secret is too short"
+    }
+
+    return null;
+  }
 }

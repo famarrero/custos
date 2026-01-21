@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/otp/otp_model.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/models/version/version_model.dart';
@@ -22,6 +23,8 @@ abstract class HiveDatabaseService {
 
   Box get getPasswordEntryBox;
 
+  Box get getOtpBox;
+
   Box get getVersionBox;
 }
 
@@ -31,6 +34,7 @@ final String profileBoxKey = 'profile';
 String versionBoxKey(String profileId) => '${profileId}_version';
 String groupBoxKey(String profileId) => '${profileId}_group';
 String passwordEntryBoxKey(String profileId) => '${profileId}_password_entry';
+String otpBoxKey(String profileId) => '${profileId}_otp';
 
 class HiveDatabaseServiceImpl extends HiveDatabaseService {
   HiveDatabaseServiceImpl(this._hive);
@@ -49,6 +53,7 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
     _hive.registerAdapter(ProfileModelAdapter());
     _hive.registerAdapter(GroupModelAdapter());
     _hive.registerAdapter(PasswordEntryModelAdapter());
+    _hive.registerAdapter(OtpModelAdapter());
     _hive.registerAdapter(VersionModelAdapter());
 
     if (!_hive.isBoxOpen(profileBoxKey)) {
@@ -80,6 +85,13 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
       );
     }
 
+    if (!_hive.isBoxOpen(otpBoxKey(_profileId!))) {
+      await _hive.openBox<dynamic>(
+        otpBoxKey(_profileId!),
+        encryptionCipher: HiveAesCipher(_encryptionKey!),
+      );
+    }
+
     if (!_hive.isBoxOpen(versionBoxKey(_profileId!))) {
       await _hive.openBox<dynamic>(
         versionBoxKey(_profileId!),
@@ -103,6 +115,12 @@ class HiveDatabaseServiceImpl extends HiveDatabaseService {
   Box get getPasswordEntryBox {
     _checkKey();
     return _hive.box(passwordEntryBoxKey(_profileId!));
+  }
+
+  @override
+  Box get getOtpBox {
+    _checkKey();
+    return _hive.box(otpBoxKey(_profileId!));
   }
 
   @override

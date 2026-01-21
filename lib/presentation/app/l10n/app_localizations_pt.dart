@@ -617,4 +617,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get masterKeyValidatorContinueButton => 'Continuar';
+
+  @override
+  String get invalidOtpFormat => 'Formato de OTP inválido';
+
+  @override
+  String invalidOtpLength(int length) {
+    return 'O código OTP deve ter $length dígitos';
+  }
 }

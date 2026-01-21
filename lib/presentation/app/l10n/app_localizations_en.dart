@@ -609,4 +609,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get masterKeyValidatorContinueButton => 'Continue';
+
+  @override
+  String get invalidOtpFormat => 'Invalid otp format';
+
+  @override
+  String invalidOtpLength(int length) {
+    return 'OTP must be $length digits';
+  }
 }

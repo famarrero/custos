@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
 import 'package:custos/core/utils/crypto_utils.dart' as crypto_utils;
 import 'package:encrypt/encrypt.dart';
 
@@ -40,8 +42,16 @@ abstract class EncryptionService {
     required String encryptedDataBase64,
     required List<int> key,
   });
-}
 
+  /// Genera un código TOTP (Time-based One-Time Password) basado en un secreto
+  /// [secret] es el secreto en formato Base32
+  /// [interval] es el intervalo de tiempo en segundos (por defecto 30)
+  /// [digits] es el número de dígitos del código (por defecto 6)
+  String generateTOTP(String secret, {int interval = 30, int digits = 6});
+
+  /// Decodifica una cadena Base32 a bytes
+  Uint8List base32Decode(String input);
+}
 
 class EncryptionServiceImpl implements EncryptionService {
   @override
@@ -134,5 +144,43 @@ class EncryptionServiceImpl implements EncryptionService {
     final decrypted = encrypter.decrypt(encrypted, iv: iv);
 
     return decrypted;
+  }
+
+  @override
+  String generateTOTP(String secret, {int interval = 30, int digits = 6}) {
+    final key = base32Decode(secret);
+    final seconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final counter = seconds ~/ interval;
+
+    final counterBytes = ByteData(8)..setInt64(0, counter);
+    final hmac = Hmac(sha1, key);
+    final hash = hmac.convert(counterBytes.buffer.asUint8List()).bytes;
+
+    final offset = hash.last & 0x0f;
+    final binary =
+        ((hash[offset] & 0x7f) << 24) |
+        ((hash[offset + 1] & 0xff) << 16) |
+        ((hash[offset + 2] & 0xff) << 8) |
+        (hash[offset + 3] & 0xff);
+
+    final otp = binary % pow(10, digits).toInt();
+    return otp.toString().padLeft(digits, '0');
+  }
+
+  @override
+  Uint8List base32Decode(String input) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    final cleaned = input.replaceAll('=', '').toUpperCase();
+
+    var bits = '';
+    for (final char in cleaned.split('')) {
+      bits += alphabet.indexOf(char).toRadixString(2).padLeft(5, '0');
+    }
+
+    final bytes = <int>[];
+    for (var i = 0; i + 8 <= bits.length; i += 8) {
+      bytes.add(int.parse(bits.substring(i, i + 8), radix: 2));
+    }
+    return Uint8List.fromList(bytes);
   }
 }

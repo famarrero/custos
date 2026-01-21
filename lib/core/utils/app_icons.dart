@@ -65,4 +65,5 @@ final class AppIcons {
   static const IconData import = FontAwesomeIcons.fileImport;
   static const IconData export = FontAwesomeIcons.fileExport;
   static const IconData clock = FontAwesomeIcons.clock;
+  static const IconData otp = FontAwesomeIcons.shieldHalved;
 }

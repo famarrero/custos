@@ -244,5 +244,14 @@
   "importMasterKeyDialogError": "Error importing",
   "importMasterKeyDialogSuccess": "Data imported successfully",
   "masterKeyValidatorExportPrompt": "Enter your master key to continue with the export",
-  "masterKeyValidatorContinueButton": "Continue"
+  "masterKeyValidatorContinueButton": "Continue",
+  "invalidOtpFormat": "Invalid otp format",
+  "invalidOtpLength": "OTP must be {length} digits",
+  "@invalidOtpLength": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  }
 }
