@@ -265,7 +265,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                                   maxLines: 4,
                                   textInputAction: TextInputAction.done,
                                   textInputType: TextInputType.multiline,
-                                  onFieldSubmitted: (p0) => _upsertPasswordEntry(context),
+                                  onFieldSubmitted: (p0) => _upsertPasswordEntry(context, state),
                                 ),
                               ),
                             ],
@@ -289,7 +289,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
                           CustomButton(
                             label: _isAdd ? context.l10n.add : context.l10n.edit,
                             isLoading: state.upsertPasswordEntryState.isLoading,
-                            onPressed: () => _upsertPasswordEntry(context),
+                            onPressed: () => _upsertPasswordEntry(context, state),
                           ),
                         ],
                       ),
@@ -306,8 +306,9 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
     );
   }
 
-  void _upsertPasswordEntry(BuildContext context) {
+  void _upsertPasswordEntry(BuildContext context, UpsertPasswordEntryState state) {
     if (_formKey.currentState?.validate() == true) {
+      final now = DateTime.now().toUtc();
       context.read<UpsertPasswordEntryCubit>().upsertPasswordEntry(
         passwordEntry: PasswordEntryEntity(
           id: _isAdd ? Uuid().v4() : widget.id,
@@ -320,6 +321,8 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
           note: _noteController.text,
           group: _selectedGroup,
           expirationDate: _expirationDate?.toUtc(),
+          createdAt: _isAdd ? now : state.getPasswordEntryState.data.createdAt,
+          updatedAt: now,
         ),
       );
 

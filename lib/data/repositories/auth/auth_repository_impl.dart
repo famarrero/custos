@@ -57,13 +57,16 @@ class AuthRepositoryImpl implements AuthRepository {
         profile = importProfile;
       } else if (profileName != null) {
         final profileId = Uuid().v4();
+        final now = DateTime.now().toUtc();
         profile = ProfileModel(
           id: profileId,
           name: profileName.trim(),
           masterKeySaltSecureStorageAccessKey: '${profileId}_master_key_salt',
           masterKeyHashSecureStorageAccessKey: '${profileId}_master_key_hash',
           encryptionKeySaltSecureStorageAccessKey: '${profileId}_encryption_key_salt',
-          createdAt: DateTime.now(),
+          createdAt: now,
+          updatedAt: now,
+          hasBiometricEnabled: false,
         );
       } else {
         return left(AppFailure(AppError.unknown));

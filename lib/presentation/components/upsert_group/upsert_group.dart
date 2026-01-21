@@ -54,9 +54,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
             context.pop();
             context.showSnackBar(
               isErrorMessage: true,
-              message: context.localizeError(
-                failure: state.upsertGroupState.error,
-              ),
+              message: context.localizeError(failure: state.upsertGroupState.error),
             );
           }
         },
@@ -111,10 +109,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
 
                     // Add/Edit group
                     CustomButton(
-                      label:
-                          widget.group == null
-                              ? context.l10n.add
-                              : context.l10n.save,
+                      label: widget.group == null ? context.l10n.add : context.l10n.save,
                       isLoading: state.upsertGroupState.isLoading,
                       onPressed: () => _upsertGroup(context),
                     ),
@@ -130,12 +125,15 @@ class _UpsertGroupState extends State<UpsertGroup> {
 
   void _upsertGroup(BuildContext context) {
     if (_formKey.currentState?.validate() == true) {
+      final now = DateTime.now().toUtc();
       context.read<UpsertGroupCubit>().upsertPasswordEntry(
         group: GroupEntity(
           id: widget.group?.id ?? Uuid().v4(),
           name: _nameController.text,
           icon: GroupIcons.iconFor(_iconId),
           color: _color,
+          createdAt: widget.group?.createdAt ?? now,
+          updatedAt: now,
         ),
       );
 

@@ -333,13 +333,13 @@ TextTheme _buildBaseTextTheme({
       fontFamily: FontFamily.nunito,
     ),
     labelMedium: TextStyle(
-      fontSize: baseBodyMediumFontSize - 1,
+      fontSize: baseBodyMediumFontSize - 2,
       fontWeight: FontWeight.w300,
       color: colorScheme.onSurface.withValues(alpha: 0.6),
       fontFamily: FontFamily.nunito,
     ),
     labelSmall: TextStyle(
-      fontSize: baseBodyMediumFontSize - 2,
+      fontSize: baseBodyMediumFontSize - 4,
       fontWeight: FontWeight.w300,
       letterSpacing: 1.5,
       color: colorScheme.onSurface.withValues(alpha: 0.6),

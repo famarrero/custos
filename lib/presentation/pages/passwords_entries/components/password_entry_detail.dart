@@ -31,6 +31,13 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          spacing: context.sm,
+          children: [
+            Icon(AppIcons.calendar, size: 12, color: context.colorScheme.secondary),
+            Text(widget.passwordEntry.createdAt.formatDate, style: context.textTheme.labelSmall),
+          ],
+        ),
         Text(widget.passwordEntry.name, style: context.textTheme.titleMedium),
         Row(
           spacing: context.lg,
@@ -46,17 +53,16 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
 
             const Spacer(),
 
-            SizedBox(
-              height: 38,
-              child: CustomButton(
-                type: CustomTextButtonEnum.filled,
-                label: context.l10n.edit,
-                corner: context.corner() * 0.6,
-                onPressed: () {
-                  context.pop();
-                  context.push(UpsertPasswordEntryRoute(id: widget.passwordEntry.id).location);
-                },
-              ),
+            CustomIconButton(
+              icon: AppIcons.edit,
+              iconSize: 22,
+              backgroundColor: context.colorScheme.primary,
+              iconColor: context.colorScheme.onPrimary,
+              borderRadius: context.corner() * 0.6,
+              onTap: () {
+                context.pop();
+                context.push(UpsertPasswordEntryRoute(id: widget.passwordEntry.id).location);
+              },
             ),
             CustomIconButton(
               icon: AppIcons.delete,
@@ -122,6 +128,13 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
             data: widget.passwordEntry.note!,
             crossAxisAlignment: CrossAxisAlignment.start,
           ),
+        if (widget.passwordEntry.expirationDate != null)
+          _infoItem(
+            context,
+            label: context.l10n.expirationDate,
+            data: widget.passwordEntry.expirationDate!.formatDate,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
       ],
     );
   }
@@ -146,7 +159,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
       padding: EdgeInsets.symmetric(vertical: context.lg),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: crossAxisAlignment,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(child: Text(label, style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold))),
           Expanded(

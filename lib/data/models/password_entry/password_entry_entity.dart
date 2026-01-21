@@ -20,6 +20,8 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
     required String? note,
     required GroupEntity? group,
     required DateTime? expirationDate,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _PasswordEntryEntity;
 
   factory PasswordEntryEntity.fromJson(Map<String, dynamic> json) =>
@@ -37,6 +39,8 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
       note: null,
       group: null,
       expirationDate: null,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -52,6 +56,8 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
       note: note,
       groupId: group?.id,
       expirationDate: expirationDate,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }

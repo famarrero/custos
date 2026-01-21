@@ -73,7 +73,7 @@ class CustomBadge extends StatelessWidget {
                   maxLines: 1,
                   style:
                       style ??
-                      context.textTheme.labelSmall?.copyWith(
+                      context.textTheme.labelMedium?.copyWith(
                         color: hideBackground ? color : Colors.white,
                       ),
                 ),

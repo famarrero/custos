@@ -94,6 +94,7 @@
     "fieldGroupHint": "Sélectionner un groupe",
     "fieldExpirationDateLabel": "Date d'expiration",
     "fieldExpirationDateHint": "Sélectionner une date d'expiration",
+    "expirationDate": "Date d'expiration",
     "fieldNoteHint": "Ex. C'est mon mot de passe pour Gmail",
     "iconPickerTitle": "Choisir une icône",
     "colorPickerTitle": "Choisir une couleur",

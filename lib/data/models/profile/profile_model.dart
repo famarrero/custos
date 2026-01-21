@@ -15,8 +15,9 @@ abstract class ProfileModel with _$ProfileModel {
     @HiveField(2) required String masterKeySaltSecureStorageAccessKey,
     @HiveField(3) required String masterKeyHashSecureStorageAccessKey,
     @HiveField(4) required String encryptionKeySaltSecureStorageAccessKey,
-    @HiveField(5) required DateTime createdAt,
-    @HiveField(6) @Default(false) bool hasBiometricEnabled,
+    @HiveField(5) @Default(false) bool hasBiometricEnabled,
+    @HiveField(6) required DateTime createdAt,
+    @HiveField(7) required DateTime updatedAt,
   }) = _ProfileModel;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => _$ProfileModelFromJson(json);

@@ -18,18 +18,15 @@ part 'passwords_entries_state.dart';
 
 class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
   PasswordsEntriesCubit()
-    : super(
-        PasswordsEntriesState(
-          passwordsEntries: BaseState.initial(),
-          groups: BaseState.initial(),
-        ),
-      );
+    : super(PasswordsEntriesState(passwordsEntries: BaseState.initial(), groups: BaseState.initial()));
 
   static GroupEntity groupAll = GroupEntity(
     id: 'add',
     name: 'Todos',
     icon: AppIcons.groupOthers,
     color: null,
+    createdAt: DateTime.now().toUtc(),
+    updatedAt: DateTime.now().toUtc(),
   );
 
   final PasswordEntryRepository passwordEntryRepository = di();
@@ -46,30 +43,19 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
     // Cancel any existing subscription before starting a new one
     await _passwordsEntriesSubscription?.cancel();
 
-    _passwordsEntriesSubscription = passwordEntryRepository
-        .watchPasswordsEntries()
-        .listen(
-          (passwordsEntries) {
-            _allPasswordEntries = passwordsEntries;
-            emit(
-              state.copyWith(
-                passwordsEntries:
-                    passwordsEntries.isEmpty
-                        ? BaseState.empty()
-                        : BaseState.data(passwordsEntries),
-              ),
-            );
-          },
-          onError: (e) {
-            emit(
-              state.copyWith(
-                passwordsEntries: BaseState.error(
-                  AppFailure(AppError.unknown, message: e.toString()),
-                ),
-              ),
-            );
-          },
+    _passwordsEntriesSubscription = passwordEntryRepository.watchPasswordsEntries().listen(
+      (passwordsEntries) {
+        _allPasswordEntries = passwordsEntries;
+        emit(
+          state.copyWith(
+            passwordsEntries: passwordsEntries.isEmpty ? BaseState.empty() : BaseState.data(passwordsEntries),
+          ),
         );
+      },
+      onError: (e) {
+        emit(state.copyWith(passwordsEntries: BaseState.error(AppFailure(AppError.unknown, message: e.toString()))));
+      },
+    );
   }
 
   Future<void> watchGroups() async {
@@ -80,22 +66,12 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
 
     _groupEntitySubscription = groupRepository.watchGroups().listen(
       (groups) {
-        emit(
-          state.copyWith(
-            groups: groups.isEmpty ? BaseState.empty() : BaseState.data(groups),
-          ),
-        );
+        emit(state.copyWith(groups: groups.isEmpty ? BaseState.empty() : BaseState.data(groups)));
 
         watchPasswordsEntries();
       },
       onError: (e) {
-        emit(
-          state.copyWith(
-            groups: BaseState.error(
-              AppFailure(AppError.unknown, message: e.toString()),
-            ),
-          ),
-        );
+        emit(state.copyWith(groups: BaseState.error(AppFailure(AppError.unknown, message: e.toString()))));
       },
     );
   }
@@ -106,10 +82,7 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
   /// Parameters:
   /// - [query]: Optional search string to match against password entry names.
   /// - [group]: Optional group to filter password entries by.
-  Future<void> filterPasswordEntries({
-    String? query,
-    GroupEntity? group,
-  }) async {
+  Future<void> filterPasswordEntries({String? query, GroupEntity? group}) async {
     // Save current filter criteria in the state
     emit(state.copyWith(query: query, selectedGroup: group));
 
@@ -119,26 +92,16 @@ class PasswordsEntriesCubit extends Cubit<PasswordsEntriesState> {
     // Apply text query filter if provided
     if (query.isNotNullAndNotEmpty) {
       final lowerQuery = query!.trimToLowerCase;
-      filteredList =
-          filteredList
-              .where((entry) => entry.name.trimToLowerCase.contains(lowerQuery))
-              .toList();
+      filteredList = filteredList.where((entry) => entry.name.trimToLowerCase.contains(lowerQuery)).toList();
     }
 
     // Apply group filter if a specific group is selected
     if (group?.id != groupAll.id && group != null) {
-      filteredList =
-          filteredList.where((entry) => entry.group?.id == group.id).toList();
+      filteredList = filteredList.where((entry) => entry.group?.id == group.id).toList();
     }
 
     // Emit the filtered result
-    emit(
-      state.copyWith(
-        passwordsEntries: BaseState.data(
-          filteredList.isEmpty ? [] : filteredList,
-        ),
-      ),
-    );
+    emit(state.copyWith(passwordsEntries: BaseState.data(filteredList.isEmpty ? [] : filteredList)));
   }
 
   @override

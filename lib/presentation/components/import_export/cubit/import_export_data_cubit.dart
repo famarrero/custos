@@ -81,7 +81,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
           // Obtener directorio temporal
           final directory = await getTemporaryDirectory();
           final timestamp = DateTime.now().millisecondsSinceEpoch;
-          final fileName = 'custos_backup_${profile.name.replaceAll(' ', '_')}_$timestamp.custos';
+          final fileName = 'custos_backup_dbv${version}_${profile.name.replaceAll(' ', '_')}_$timestamp.custos';
           final file = File('${directory.path}/$fileName');
 
           // Escribir archivo encriptado

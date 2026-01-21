@@ -302,6 +302,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fieldExpirationDateHint => 'Select an expiration date';
 
   @override
+  String get expirationDate => 'Expiration date';
+
+  @override
   String get fieldNoteHint => 'E.g. This is my password for Gmail';
 
   @override

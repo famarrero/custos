@@ -17,6 +17,8 @@ abstract class GroupModel with _$GroupModel {
     @HiveField(1) required String name,
     @HiveField(2) required int? iconId,
     @HiveField(3) required int? colorCode,
+    @HiveField(4) required DateTime createdAt,
+    @HiveField(5) required DateTime updatedAt,
   }) = _GroupModel;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +30,8 @@ abstract class GroupModel with _$GroupModel {
       name: name,
       icon: iconId.toGroupIconData,
       color: colorCode != null ? Color(colorCode!) : null,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }

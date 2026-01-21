@@ -21,6 +21,8 @@ abstract class GroupEntity with _$GroupEntity {
     @Default(AppIcons.groupOthers)
     IconData icon,
     @ColorConverter() required Color? color,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _GroupEntity;
 
   factory GroupEntity.fromJson(Map<String, dynamic> json) =>
@@ -32,6 +34,8 @@ abstract class GroupEntity with _$GroupEntity {
       name: name,
       iconId: icon.toGroupIconId ?? GroupIcons.defaultId,
       colorCode: color?.toARGB32(),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }

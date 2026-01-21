@@ -666,6 +666,12 @@ abstract class AppLocalizations {
   /// **'Selecciona una fecha de expiración'**
   String get fieldExpirationDateHint;
 
+  /// No description provided for @expirationDate.
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de expiración'**
+  String get expirationDate;
+
   /// No description provided for @fieldNoteHint.
   ///
   /// In es, this message translates to:

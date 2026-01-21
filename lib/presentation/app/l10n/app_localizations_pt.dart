@@ -305,6 +305,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get fieldExpirationDateHint => 'Selecione uma data de expiração';
 
   @override
+  String get expirationDate => 'Data de expiração';
+
+  @override
   String get fieldNoteHint => 'Ex. Esta é minha senha para o Gmail';
 
   @override
@@ -568,49 +571,49 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get deletePasswordTitle => 'Eliminar contraseña';
+  String get deletePasswordTitle => 'Excluir senha';
 
   @override
   String passwordExpiredOn(Object date) {
-    return 'Contraseña expirada el: $date';
+    return 'Senha expirada em: $date';
   }
 
   @override
-  String get deleteGroupTitle => 'Eliminar grupo';
+  String get deleteGroupTitle => 'Excluir grupo';
 
   @override
   String get deleteGroupSubtitle =>
-      'Las entradas de contraseñas que tengan este grupo asociado no se eliminarán pero se quedarán sin grupo asignado.';
+      'As entradas de senha associadas a este grupo não serão excluídas, mas permanecerão sem um grupo atribuído.';
 
   @override
-  String get logoutTitle => 'Cerrar sesión';
+  String get logoutTitle => 'Sair';
 
   @override
   String get settingsRemoveProfileWarning =>
-      'Si eliminas el perfil perderás todas tus cuentas y contraseñas y no podrás recuperarlas. Recomendamos exportar tus datos en la sección de \"Exportar\" antes de eliminar el perfil.';
+      'Se você excluir o perfil, perderá todas as suas contas e senhas e não poderá recuperá-las. Recomendamos exportar seus dados na seção \"Exportar\" antes de excluir o perfil.';
 
   @override
-  String get importExportDataExportTitle => 'Exportar datos';
+  String get importExportDataExportTitle => 'Exportar dados';
 
   @override
-  String get importExportDataImportTitle => 'Importar datos';
+  String get importExportDataImportTitle => 'Importar dados';
 
   @override
   String get importMasterKeyDialogTitle =>
-      'El archivo de respaldo está listo para ser importado. Introduce la clave maestra del perfil para continuar.';
+      'O arquivo de backup está pronto para ser importado. Digite a chave mestra do perfil para continuar.';
 
   @override
   String get importMasterKeyDialogImportButton => 'Importar';
 
   @override
-  String get importMasterKeyDialogError => 'Error al importar';
+  String get importMasterKeyDialogError => 'Erro ao importar';
 
   @override
-  String get importMasterKeyDialogSuccess => 'Datos importados correctamente';
+  String get importMasterKeyDialogSuccess => 'Dados importados com sucesso';
 
   @override
   String get masterKeyValidatorExportPrompt =>
-      'Introduce tu clave maestra para continuar con la exportación';
+      'Digite sua chave mestra para continuar com a exportação';
 
   @override
   String get masterKeyValidatorContinueButton => 'Continuar';
