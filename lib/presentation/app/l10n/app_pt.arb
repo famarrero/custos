@@ -224,5 +224,24 @@
         "placeholders": {
             "error": {}
         }
-    }
+    },
+    "deletePasswordTitle": "Excluir senha",
+    "passwordExpiredOn": "Senha expirada em: {date}",
+    "@passwordExpiredOn": {
+        "placeholders": {
+            "date": {}
+        }
+    },
+    "deleteGroupTitle": "Excluir grupo",
+    "deleteGroupSubtitle": "As entradas de senha associadas a este grupo não serão excluídas, mas permanecerão sem um grupo atribuído.",
+    "logoutTitle": "Sair",
+    "settingsRemoveProfileWarning": "Se você excluir o perfil, perderá todas as suas contas e senhas e não poderá recuperá-las. Recomendamos exportar seus dados na seção \"Exportar\" antes de excluir o perfil.",
+    "importExportDataExportTitle": "Exportar dados",
+    "importExportDataImportTitle": "Importar dados",
+    "importMasterKeyDialogTitle": "O arquivo de backup está pronto para ser importado. Digite a chave mestra do perfil para continuar.",
+    "importMasterKeyDialogImportButton": "Importar",
+    "importMasterKeyDialogError": "Erro ao importar",
+    "importMasterKeyDialogSuccess": "Dados importados com sucesso",
+    "masterKeyValidatorExportPrompt": "Digite sua chave mestra para continuar com a exportação",
+    "masterKeyValidatorContinueButton": "Continuar"
 }

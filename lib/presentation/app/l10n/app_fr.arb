@@ -224,5 +224,24 @@
         "placeholders": {
             "error": {}
         }
-    }
+    },
+    "deletePasswordTitle": "Supprimer le mot de passe",
+    "passwordExpiredOn": "Mot de passe expiré le : {date}",
+    "@passwordExpiredOn": {
+        "placeholders": {
+            "date": {}
+        }
+    },
+    "deleteGroupTitle": "Supprimer le groupe",
+    "deleteGroupSubtitle": "Les entrées de mot de passe associées à ce groupe ne seront pas supprimées mais resteront sans groupe assigné.",
+    "logoutTitle": "Se déconnecter",
+    "settingsRemoveProfileWarning": "Si vous supprimez le profil, vous perdrez tous vos comptes et mots de passe et ne pourrez pas les récupérer. Nous recommandons d'exporter vos données dans la section \"Exporter\" avant de supprimer le profil.",
+    "importExportDataExportTitle": "Exporter les données",
+    "importExportDataImportTitle": "Importer les données",
+    "importMasterKeyDialogTitle": "Le fichier de sauvegarde est prêt à être importé. Entrez la clé maître du profil pour continuer.",
+    "importMasterKeyDialogImportButton": "Importer",
+    "importMasterKeyDialogError": "Erreur lors de l'importation",
+    "importMasterKeyDialogSuccess": "Données importées avec succès",
+    "masterKeyValidatorExportPrompt": "Entrez votre clé maître pour continuer avec l'exportation",
+    "masterKeyValidatorContinueButton": "Continuer"
 }
