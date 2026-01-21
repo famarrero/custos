@@ -11,5 +11,7 @@ abstract class GroupProvider {
 
   Future<GroupModel> upsertGroup({required GroupModel group});
 
+  Future<GroupModel> upsertGroupWithUpdatedAt({required GroupModel group});
+
   Future<void> deleteGroup({required String id});
 }

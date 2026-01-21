@@ -9,5 +9,7 @@ abstract class PasswordEntryProvider {
 
   Future<PasswordEntryModel> upsertPasswordEntry({required PasswordEntryModel passwordEntry});
 
+  Future<PasswordEntryModel> upsertPasswordEntryWithUpdatedAt({required PasswordEntryModel passwordEntry});
+
   Future<void> deletePasswordEntry({required String id});
 }

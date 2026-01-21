@@ -38,6 +38,28 @@ class GroupProviderImpl implements GroupProvider {
   }
 
   @override
+  Future<GroupModel> upsertGroupWithUpdatedAt({required GroupModel group}) async {
+    final box = hiveDatabase.getGroupBox;
+
+    final GroupModel? existing = box.get(group.id);
+
+    // Caso 1: no existe → insertar
+    if (existing == null) {
+      await box.put(group.id, group);
+      return group;
+    }
+
+    // Caso 2: existe → comparar updatedAt
+    if (group.updatedAt.isAfter(existing.updatedAt)) {
+      await box.put(group.id, group);
+      return group;
+    }
+
+    // Caso 3: existe pero es más viejo → no tocar
+    return existing;
+  }
+
+  @override
   Future<void> deleteGroup({required String id}) async {
     hiveDatabase.getGroupBox.delete(id);
   }

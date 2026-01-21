@@ -179,10 +179,10 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
               passwordEntriesJson.map((pe) => PasswordEntryModel.fromJson(pe as Map<String, dynamic>)).toList();
 
           for (var group in groups) {
-            await groupProvider.upsertGroup(group: group);
+            await groupProvider.upsertGroupWithUpdatedAt(group: group);
           }
           for (var passwordEntry in passwordEntries) {
-            await passwordEntryProvider.upsertPasswordEntry(passwordEntry: passwordEntry);
+            await passwordEntryProvider.upsertPasswordEntryWithUpdatedAt(passwordEntry: passwordEntry);
           }
 
           // Flush boxes to ensure all imported data is persisted
