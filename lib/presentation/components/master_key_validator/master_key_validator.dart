@@ -41,21 +41,21 @@ class MasterKeyValidator extends StatelessWidget {
                 spacing: context.xxxl,
                 children: [
                   Text(
-                    'Introduce tu clave maestra para continuar con la exportación',
+                    context.l10n.masterKeyValidatorExportPrompt,
                     style: context.textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                   CustomTextFormField(
                     controller: masterKeyController,
-                    label: 'Clave maestra',
-                    hint: 'Introduce tu clave maestra',
+                    label: context.l10n.fieldMasterKey,
+                    hint: context.l10n.fieldMasterKeyHint,
                     isRequired: true,
                     obscureText: true,
                     validator: context.validatePassword,
                     errorText: state.validationState.isError ? state.validationState.error.message : null,
                   ),
                   CustomButton(
-                    label: 'Continuar',
+                    label: context.l10n.masterKeyValidatorContinueButton,
                     isLoading: state.validationState.isLoading,
                     infiniteWidth: true,
                     onPressed: () {

@@ -160,6 +160,8 @@ extension BuildContextExtension on BuildContext {
   /// Show confirmation dialog
   Future showConfirmationDialog({
     String? title,
+    String? subtitle,
+    String? subtitle2,
     Widget? child,
     String? checkBoxTitle,
     String? labelLeftButton,
@@ -186,6 +188,8 @@ extension BuildContextExtension on BuildContext {
     pageBuilder: (context, anim1, anim2) {
       return ConfirmationDialog(
         title: title,
+        subtitle: subtitle,
+        subtitle2: subtitle2,
         checkBoxTitle: checkBoxTitle,
         labelLeftButton: labelLeftButton,
         disabledForegroundColorLeft: disabledForegroundColorLeft,

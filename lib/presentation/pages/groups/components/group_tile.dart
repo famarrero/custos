@@ -30,26 +30,12 @@ class GroupTile extends StatelessWidget {
     final child = Row(
       spacing: context.md,
       children: [
-        AvatarWidget(
-          color: group.color,
-          name: group.name,
-          icon: group.icon,
-          compact: compact,
-          size: 40,
-        ),
-        Expanded(
-          child: Text(
-            group.name,
-            style: context.textTheme.bodyLarge,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
+        AvatarWidget(color: group.color, name: group.name, icon: group.icon, compact: compact, size: 40),
+        Expanded(child: Text(group.name, style: context.textTheme.bodyLarge, overflow: TextOverflow.ellipsis)),
         if (showEditButton)
           CustomIconButton(
             icon: AppIcons.edit,
-            backgroundColor: context.colorScheme.secondaryContainer.withValues(
-              alpha: 0.4,
-            ),
+            backgroundColor: context.colorScheme.secondaryContainer.withValues(alpha: 0.4),
             iconColor: context.colorScheme.onSecondaryContainer,
             iconSize: 16.0,
             onTap: () {
@@ -62,14 +48,14 @@ class GroupTile extends StatelessWidget {
         if (showDeleteButton)
           CustomIconButton(
             icon: AppIcons.delete,
-            backgroundColor: context.colorScheme.errorContainer.withValues(
-              alpha: 0.4,
-            ),
+            backgroundColor: context.colorScheme.errorContainer.withValues(alpha: 0.4),
             iconColor: context.colorScheme.onErrorContainer,
             iconSize: 16.0,
             onTap: () {
               context.showConfirmationDialog(
-                title: context.l10n.confirmDeleteGroupTitle,
+                title: context.l10n.deleteGroupTitle,
+                subtitle: context.l10n.confirmDeleteGroupTitle,
+                subtitle2: context.l10n.deleteGroupSubtitle,
                 labelLeftButton: context.l10n.cancel,
                 onPressedLeftButton: (value) {
                   context.pop();
@@ -89,12 +75,6 @@ class GroupTile extends StatelessWidget {
       return child;
     }
 
-    return CustomContainer(
-      padding: EdgeInsets.symmetric(
-        vertical: context.lg,
-        horizontal: context.xxl,
-      ),
-      child: child,
-    );
+    return CustomContainer(padding: EdgeInsets.symmetric(vertical: context.lg, horizontal: context.xxl), child: child);
   }
 }

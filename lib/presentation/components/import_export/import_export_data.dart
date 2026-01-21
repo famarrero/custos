@@ -30,7 +30,7 @@ class ImportExportDataWidget extends StatelessWidget {
         if (state.importData.isData) {
           context.pop();
           context.showCustomModalBottomSheet(
-            title: 'Importar datos',
+            title: context.l10n.importExportDataImportTitle,
             child: BlocProvider.value(
               value: context.read<ImportExportDataCubit>(),
               child: ImportMasterKeyDialog(importData: state.importData.data),
@@ -61,7 +61,7 @@ class ImportExportDataWidget extends StatelessWidget {
                                   ? () {
                                     // Mostrar diálogo para validar master key antes de exportar
                                     context.showCustomModalBottomSheet(
-                                      title: 'Exportar datos',
+                                      title: context.l10n.importExportDataExportTitle,
                                       child: MasterKeyValidator(
                                         profile: currentProfile,
                                         onMasterKeyValidated: (masterKey) {
@@ -85,7 +85,7 @@ class ImportExportDataWidget extends StatelessWidget {
                                 state.exportState.isLoading
                                     ? CustomCircularProgressIndicator(dimension: 32)
                                     : Icon(AppIcons.export, size: 32),
-                                Text('Exportar datos'),
+                                Text(context.l10n.importExportDataExportTitle),
                               ],
                             ),
                           ),
@@ -114,7 +114,7 @@ class ImportExportDataWidget extends StatelessWidget {
                                 state.importState.isLoading
                                     ? CustomCircularProgressIndicator(dimension: 32)
                                     : Icon(AppIcons.import, size: 32),
-                                Text('Importar datos'),
+                                Text(context.l10n.importExportDataImportTitle),
                               ],
                             ),
                           ),

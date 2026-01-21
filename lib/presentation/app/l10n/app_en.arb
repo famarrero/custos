@@ -49,13 +49,14 @@
   "loginNoProfileSubtitle": "When you create a profile it will appear here. Click Create profile to add one.",
   "loginOrCreateOne": "Or create one",
   "loginCreateProfileButton": "Create profile",
-  "loginInProfileTitle": "Sign in to profile",
   "loginButton": "Sign in",
   "registerCreateProfileTitle": "Create a new profile",
   "registerCreateProfileSubtitle": "Please enter the profile name and master key to create a new profile.",
   "registerCreateProfileButton": "Create profile",
   "registerWarningComplexMasterKey": "Please use a complex master key for better security. It is recommended to use at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.",
   "registerWarningForgetMasterKey": "If you forget the master key, you will not be able to recover your data.",
+  "registerAcceptPrivacyPolicy": "I accept the privacy policy",
+  "registerSeePrivacyPolicy": "See privacy policy",
   "settingsThemeModeTitle": "Theme mode",
   "settingsThemeModeSubtitle": "Choose between light and dark mode.",
   "settingsLanguageTitle": "Language",
@@ -78,7 +79,6 @@
   "passwordsSearchHint": "Search",
   "passwordsNoPasswordsTitle": "No passwords found",
   "passwordsNoPasswordsSubtitle": "Create a password entry to manage your accounts.",
-  "passwordsAccountsTitle": "Accounts",
   "passwordsNoResultsSubtitle": "No results for these filters",
   "passwordsCleanFilters": "Clean filters",
   "upsertPasswordAddAccountTitle": "Add account",
@@ -224,5 +224,24 @@
     "placeholders": {
       "error": {}
     }
-  }
+  },
+  "deletePasswordTitle": "Delete password",
+  "passwordExpiredOn": "Password expired on: {date}",
+  "@passwordExpiredOn": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "deleteGroupTitle": "Delete group",
+  "deleteGroupSubtitle": "Password entries associated with this group will not be deleted but will remain without an assigned group.",
+  "logoutTitle": "Sign out",
+  "settingsRemoveProfileWarning": "If you delete the profile, you will lose all your accounts and passwords and will not be able to recover them. We recommend exporting your data in the \"Export\" section before deleting the profile.",
+  "importExportDataExportTitle": "Export data",
+  "importExportDataImportTitle": "Import data",
+  "importMasterKeyDialogTitle": "The backup file is ready to be imported. Enter the profile master key to continue.",
+  "importMasterKeyDialogImportButton": "Import",
+  "importMasterKeyDialogError": "Error importing",
+  "importMasterKeyDialogSuccess": "Data imported successfully",
+  "masterKeyValidatorExportPrompt": "Enter your master key to continue with the export",
+  "masterKeyValidatorContinueButton": "Continue"
 }

@@ -48,8 +48,7 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
 
     final now = DateTime.now();
     final last = _lastBackPressedAt;
-    final isOutsideWindow =
-        last == null || now.difference(last) > const Duration(seconds: 3);
+    final isOutsideWindow = last == null || now.difference(last) > const Duration(seconds: 3);
 
     if (isOutsideWindow) {
       _lastBackPressedAt = now;
@@ -73,7 +72,8 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
               icon: AppIcons.logout,
               onTap: () {
                 context.showConfirmationDialog(
-                  title: context.l10n.confirmLogoutTitle,
+                  title: context.l10n.logoutTitle,
+                  subtitle: context.l10n.confirmLogoutTitle,
                   labelLeftButton: context.l10n.cancel,
                   onPressedLeftButton: (_) => context.pop(),
                   labelRightButton: context.l10n.logoutConfirmButton,

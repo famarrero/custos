@@ -3,7 +3,9 @@ import 'package:custos/core/extensions/build_context_form_validators_extension.d
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_button.dart';
+import 'package:custos/presentation/components/form/custom_check_box_title.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
+import 'package:custos/presentation/components/privacy_police_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
 import 'package:custos/presentation/components/warning_widget.dart';
 import 'package:custos/presentation/pages/register/cubit/register_cubit.dart';
@@ -104,7 +106,36 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             WarningWidget(text: context.l10n.registerWarningComplexMasterKey),
                             WarningWidget(text: context.l10n.registerWarningForgetMasterKey),
-                            SizedBox(height: context.s),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomCheckBoxTitle(
+                                  title: context.l10n.registerAcceptPrivacyPolicy,
+                                  value: state.acceptPrivacyPolicy,
+                                  onChanged: (value) {
+                                    context.read<RegisterCubit>().setAcceptPrivacyPolicy(value);
+                                  },
+                                ),
+                                Padding(
+                                  padding:  EdgeInsets.only(left: context.lg),
+                                  child: InkWell(
+                                    onTap: () {
+                                      context.showCustomModalBottomSheet(
+                                        child: const PrivacyPoliceWidget(),
+                                      );
+                                    },
+                                    child: Text(
+                                      context.l10n.registerSeePrivacyPolicy,
+                                      style: context.textTheme.bodySmall?.copyWith(
+                                        color: context.colorScheme.primary,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: context.md),
                           ],
                         ),
                       ),
@@ -114,16 +145,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: context.l10n.registerCreateProfileButton,
                       isLoading: state.addProfile.isLoading,
                       infiniteWidth: true,
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() == true) {
-                          context.read<RegisterCubit>().addProfile(
-                            profileName: _profileNameController.text.trim(),
-                            masterKey: _masterKeyController.text.trim(),
-                          );
+                      backgroundColor: state.acceptPrivacyPolicy ? null : Colors.grey,
+                      onPressed:
+                          state.acceptPrivacyPolicy
+                              ? () {
+                                if (_formKey.currentState?.validate() == true) {
+                                  context.read<RegisterCubit>().addProfile(
+                                    profileName: _profileNameController.text.trim(),
+                                    masterKey: _masterKeyController.text.trim(),
+                                  );
 
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        }
-                      },
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                }
+                              }
+                              : null,
                     ),
                   ],
                 ),

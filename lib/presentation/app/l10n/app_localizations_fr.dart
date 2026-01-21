@@ -164,9 +164,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loginCreateProfileButton => 'Créer un profil';
 
   @override
-  String get loginInProfileTitle => 'Se connecter au profil';
-
-  @override
   String get loginButton => 'Se connecter';
 
   @override
@@ -186,6 +183,13 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get registerWarningForgetMasterKey =>
       'Si vous oubliez la clé maître, vous ne pourrez pas récupérer vos données.';
+
+  @override
+  String get registerAcceptPrivacyPolicy =>
+      'J\'accepte la politique de confidentialité';
+
+  @override
+  String get registerSeePrivacyPolicy => 'Voir la politique de confidentialité';
 
   @override
   String get settingsThemeModeTitle => 'Mode de thème';
@@ -259,9 +263,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get passwordsNoPasswordsSubtitle =>
       'Créez une entrée de mot de passe pour gérer vos comptes.';
-
-  @override
-  String get passwordsAccountsTitle => 'Comptes';
 
   @override
   String get passwordsNoResultsSubtitle => 'Aucun résultat pour ces filtres';
@@ -573,4 +574,52 @@ class AppLocalizationsFr extends AppLocalizations {
   String biometricSetupErrorConfigure(Object error) {
     return 'Erreur lors de la configuration de la biométrie : $error';
   }
+
+  @override
+  String get deletePasswordTitle => 'Eliminar contraseña';
+
+  @override
+  String passwordExpiredOn(Object date) {
+    return 'Contraseña expirada el: $date';
+  }
+
+  @override
+  String get deleteGroupTitle => 'Eliminar grupo';
+
+  @override
+  String get deleteGroupSubtitle =>
+      'Las entradas de contraseñas que tengan este grupo asociado no se eliminarán pero se quedarán sin grupo asignado.';
+
+  @override
+  String get logoutTitle => 'Cerrar sesión';
+
+  @override
+  String get settingsRemoveProfileWarning =>
+      'Si eliminas el perfil perderás todas tus cuentas y contraseñas y no podrás recuperarlas. Recomendamos exportar tus datos en la sección de \"Exportar\" antes de eliminar el perfil.';
+
+  @override
+  String get importExportDataExportTitle => 'Exportar datos';
+
+  @override
+  String get importExportDataImportTitle => 'Importar datos';
+
+  @override
+  String get importMasterKeyDialogTitle =>
+      'El archivo de respaldo está listo para ser importado. Introduce la clave maestra del perfil para continuar.';
+
+  @override
+  String get importMasterKeyDialogImportButton => 'Importar';
+
+  @override
+  String get importMasterKeyDialogError => 'Error al importar';
+
+  @override
+  String get importMasterKeyDialogSuccess => 'Datos importados correctamente';
+
+  @override
+  String get masterKeyValidatorExportPrompt =>
+      'Introduce tu clave maestra para continuar con la exportación';
+
+  @override
+  String get masterKeyValidatorContinueButton => 'Continuar';
 }

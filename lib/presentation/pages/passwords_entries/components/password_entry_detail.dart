@@ -54,11 +54,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
                 corner: context.corner() * 0.6,
                 onPressed: () {
                   context.pop();
-                  context.push(
-                    UpsertPasswordEntryRoute(
-                      id: widget.passwordEntry.id,
-                    ).location,
-                  );
+                  context.push(UpsertPasswordEntryRoute(id: widget.passwordEntry.id).location);
                 },
               ),
             ),
@@ -70,7 +66,8 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
               borderRadius: context.corner() * 0.6,
               onTap: () {
                 context.showConfirmationDialog(
-                  title: context.l10n.confirmDeletePasswordEntryTitle,
+                  title: context.l10n.deletePasswordTitle,
+                  subtitle: context.l10n.confirmDeletePasswordEntryTitle,
                   labelLeftButton: context.l10n.cancel,
                   onPressedLeftButton: (value) {
                     context.pop();
@@ -80,9 +77,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
                     context
                       ..pop()
                       ..pop();
-                    di<PasswordEntryRepository>().deletePasswordEntry(
-                      id: widget.passwordEntry.id,
-                    );
+                    di<PasswordEntryRepository>().deletePasswordEntry(id: widget.passwordEntry.id);
                   },
                 );
               },
@@ -90,29 +85,13 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
           ],
         ),
         if (widget.passwordEntry.url.isNotNullAndNotEmpty)
-          _infoItem(
-            context,
-            label: context.l10n.fieldUrl,
-            data: widget.passwordEntry.url!,
-          ),
+          _infoItem(context, label: context.l10n.fieldUrl, data: widget.passwordEntry.url!),
         if (widget.passwordEntry.username.isNotNullAndNotEmpty)
-          _infoItem(
-            context,
-            label: context.l10n.fieldUsername,
-            data: widget.passwordEntry.username!,
-          ),
+          _infoItem(context, label: context.l10n.fieldUsername, data: widget.passwordEntry.username!),
         if (widget.passwordEntry.email.isNotNullAndNotEmpty)
-          _infoItem(
-            context,
-            label: context.l10n.fieldEmail,
-            data: widget.passwordEntry.email!,
-          ),
+          _infoItem(context, label: context.l10n.fieldEmail, data: widget.passwordEntry.email!),
         if (widget.passwordEntry.phone.isNotNullAndNotEmpty)
-          _infoItem(
-            context,
-            label: context.l10n.fieldPhone,
-            data: widget.passwordEntry.phone!,
-          ),
+          _infoItem(context, label: context.l10n.fieldPhone, data: widget.passwordEntry.phone!),
         _infoItem(
           context,
           label: context.l10n.fieldPassword,
@@ -124,20 +103,15 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
             widget.passwordEntry.expirationDate!.isBefore(DateTime.now()))
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(
-              vertical: context.sm,
-              horizontal: context.sm,
-            ),
+            padding: EdgeInsets.symmetric(vertical: context.sm, horizontal: context.sm),
             decoration: BoxDecoration(
               color: context.colorScheme.errorContainer,
               borderRadius: BorderRadius.all(Radius.circular(context.corner())),
             ),
             child: Center(
               child: Text(
-                'Contraseña expirada el: ${widget.passwordEntry.expirationDate?.formatDate}',
-                style: context.textTheme.labelMedium?.copyWith(
-                  color: context.colorScheme.error,
-                ),
+                context.l10n.passwordExpiredOn(widget.passwordEntry.expirationDate?.formatDate ?? ''),
+                style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.error),
               ),
             ),
           ),
@@ -164,10 +138,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.all(context.sm),
-          child: Icon(icon, color: context.colorScheme.secondary),
-        ),
+        child: Padding(padding: EdgeInsets.all(context.sm), child: Icon(icon, color: context.colorScheme.secondary)),
       );
     }
 
@@ -177,14 +148,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: crossAxisAlignment,
         children: [
-          Expanded(
-            child: Text(
-              label,
-              style: context.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          Expanded(child: Text(label, style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold))),
           Expanded(
             flex: 2,
             child: Text(
@@ -201,10 +165,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
               children: [
                 if (occultData)
                   actionIcon(
-                    icon:
-                        _isPasswordVisible
-                            ? AppIcons.visibilityOn
-                            : AppIcons.visibilityOff,
+                    icon: _isPasswordVisible ? AppIcons.visibilityOn : AppIcons.visibilityOff,
                     onTap: () {
                       setState(() => _isPasswordVisible = !_isPasswordVisible);
                     },
@@ -214,9 +175,7 @@ class _PasswordEntryDetailState extends State<PasswordEntryDetail> {
                     icon: AppIcons.copy,
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: data));
-                      context.showSnackBar(
-                        message: context.l10n.passwordCopiedToClipboard,
-                      );
+                      context.showSnackBar(message: context.l10n.passwordCopiedToClipboard);
                     },
                   ),
               ],

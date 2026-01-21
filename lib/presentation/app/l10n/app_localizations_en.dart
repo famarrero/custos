@@ -160,9 +160,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginCreateProfileButton => 'Create profile';
 
   @override
-  String get loginInProfileTitle => 'Sign in to profile';
-
-  @override
   String get loginButton => 'Sign in';
 
   @override
@@ -182,6 +179,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get registerWarningForgetMasterKey =>
       'If you forget the master key, you will not be able to recover your data.';
+
+  @override
+  String get registerAcceptPrivacyPolicy => 'I accept the privacy policy';
+
+  @override
+  String get registerSeePrivacyPolicy => 'See privacy policy';
 
   @override
   String get settingsThemeModeTitle => 'Theme mode';
@@ -252,9 +255,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get passwordsNoPasswordsSubtitle =>
       'Create a password entry to manage your accounts.';
-
-  @override
-  String get passwordsAccountsTitle => 'Accounts';
 
   @override
   String get passwordsNoResultsSubtitle => 'No results for these filters';
@@ -558,4 +558,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String biometricSetupErrorConfigure(Object error) {
     return 'Error configuring biometrics: $error';
   }
+
+  @override
+  String get deletePasswordTitle => 'Delete password';
+
+  @override
+  String passwordExpiredOn(Object date) {
+    return 'Password expired on: $date';
+  }
+
+  @override
+  String get deleteGroupTitle => 'Delete group';
+
+  @override
+  String get deleteGroupSubtitle =>
+      'Password entries associated with this group will not be deleted but will remain without an assigned group.';
+
+  @override
+  String get logoutTitle => 'Sign out';
+
+  @override
+  String get settingsRemoveProfileWarning =>
+      'If you delete the profile, you will lose all your accounts and passwords and will not be able to recover them. We recommend exporting your data in the \"Export\" section before deleting the profile.';
+
+  @override
+  String get importExportDataExportTitle => 'Export data';
+
+  @override
+  String get importExportDataImportTitle => 'Import data';
+
+  @override
+  String get importMasterKeyDialogTitle =>
+      'The backup file is ready to be imported. Enter the profile master key to continue.';
+
+  @override
+  String get importMasterKeyDialogImportButton => 'Import';
+
+  @override
+  String get importMasterKeyDialogError => 'Error importing';
+
+  @override
+  String get importMasterKeyDialogSuccess => 'Data imported successfully';
+
+  @override
+  String get masterKeyValidatorExportPrompt =>
+      'Enter your master key to continue with the export';
+
+  @override
+  String get masterKeyValidatorContinueButton => 'Continue';
 }

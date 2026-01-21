@@ -87,8 +87,14 @@ class $AssetsMdPrivacyPolicyGen {
   /// File path: assets/md/privacy_policy/es.md
   String get es => 'assets/md/privacy_policy/es.md';
 
+  /// File path: assets/md/privacy_policy/fr.md
+  String get fr => 'assets/md/privacy_policy/fr.md';
+
+  /// File path: assets/md/privacy_policy/pt.md
+  String get pt => 'assets/md/privacy_policy/pt.md';
+
   /// List of all assets
-  List<String> get values => [en, es];
+  List<String> get values => [en, es, fr, pt];
 }
 
 class Assets {

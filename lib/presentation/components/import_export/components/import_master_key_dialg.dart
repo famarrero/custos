@@ -32,20 +32,20 @@ class ImportMasterKeyDialog extends StatelessWidget {
             spacing: context.xxxl,
             children: [
               Text(
-                'El archivo de respaldo está listo para ser importado. Introduce la clave maestra del perfil para continuar.',
+                context.l10n.importMasterKeyDialogTitle,
                 style: context.textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
               CustomTextFormField(
                 controller: masterKeyController,
-                label: 'Clave maestra',
-                hint: 'Introduce tu clave maestra',
+                label: context.l10n.fieldMasterKey,
+                hint: context.l10n.fieldMasterKeyHint,
                 isRequired: true,
                 obscureText: true,
                 validator: context.validatePassword,
               ),
               CustomButton(
-                label: 'Importar',
+                label: context.l10n.importMasterKeyDialogImportButton,
                 isLoading: state.importState.isLoading,
                 infiniteWidth: true,
                 onPressed: () {
@@ -57,13 +57,13 @@ class ImportMasterKeyDialog extends StatelessWidget {
               ),
               if (state.importState.isError)
                 Text(
-                  state.importState.error.message ?? 'Error al importar',
+                  state.importState.error.message ?? context.l10n.importMasterKeyDialogError,
                   style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.error),
                   textAlign: TextAlign.center,
                 ),
               if (state.importState.isData)
                 Text(
-                  'Datos importados correctamente',
+                  context.l10n.importMasterKeyDialogSuccess,
                   style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.primary),
                   textAlign: TextAlign.center,
                 ),

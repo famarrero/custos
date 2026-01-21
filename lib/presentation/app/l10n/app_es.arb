@@ -49,13 +49,14 @@
   "loginNoProfileSubtitle": "Cuando crees un perfil aparecerá aquí. Pulsa en Crear perfil para agregar uno.",
   "loginOrCreateOne": "O crea uno",
   "loginCreateProfileButton": "Crear perfil",
-  "loginInProfileTitle": "Iniciar sesión en perfil",
   "loginButton": "Ingresar",
   "registerCreateProfileTitle": "Crear un nuevo perfil",
   "registerCreateProfileSubtitle": "Ingresa el nombre del perfil y la clave maestra para crear un nuevo perfil.",
   "registerCreateProfileButton": "Crear perfil",
   "registerWarningComplexMasterKey": "Por seguridad, usa una clave maestra compleja. Se recomienda al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales.",
   "registerWarningForgetMasterKey": "Si olvidas la clave maestra, no podrás recuperar tus datos.",
+  "registerAcceptPrivacyPolicy": "Acepto la política de privacidad",
+  "registerSeePrivacyPolicy": "Ver política de privacidad",
   "settingsThemeModeTitle": "Modo de tema",
   "settingsThemeModeSubtitle": "Elige entre modo claro y oscuro.",
   "settingsLanguageTitle": "Idioma",
@@ -78,7 +79,6 @@
   "passwordsSearchHint": "Buscar",
   "passwordsNoPasswordsTitle": "No se encontraron contraseñas",
   "passwordsNoPasswordsSubtitle": "Crea una entrada de contraseña para administrar tus cuentas.",
-  "passwordsAccountsTitle": "Cuentas",
   "passwordsNoResultsSubtitle": "No hay resultados para estos filtros",
   "passwordsCleanFilters": "Limpiar filtros",
   "upsertPasswordAddAccountTitle": "Agregar cuenta",
@@ -224,5 +224,24 @@
     "placeholders": {
       "error": {}
     }
-  }
+  },
+  "deletePasswordTitle": "Eliminar contraseña",
+  "passwordExpiredOn": "Contraseña expirada el: {date}",
+  "@passwordExpiredOn": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "deleteGroupTitle": "Eliminar grupo",
+  "deleteGroupSubtitle": "Las entradas de contraseñas que tengan este grupo asociado no se eliminarán pero se quedarán sin grupo asignado.",
+  "logoutTitle": "Cerrar sesión",
+  "settingsRemoveProfileWarning": "Si eliminas el perfil perderás todas tus cuentas y contraseñas y no podrás recuperarlas. Recomendamos exportar tus datos en la sección de \"Exportar\" antes de eliminar el perfil.",
+  "importExportDataExportTitle": "Exportar datos",
+  "importExportDataImportTitle": "Importar datos",
+  "importMasterKeyDialogTitle": "El archivo de respaldo está listo para ser importado. Introduce la clave maestra del perfil para continuar.",
+  "importMasterKeyDialogImportButton": "Importar",
+  "importMasterKeyDialogError": "Error al importar",
+  "importMasterKeyDialogSuccess": "Datos importados correctamente",
+  "masterKeyValidatorExportPrompt": "Introduce tu clave maestra para continuar con la exportación",
+  "masterKeyValidatorContinueButton": "Continuar"
 }

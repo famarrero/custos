@@ -7,6 +7,7 @@ import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/di_container.dart';
 import 'package:custos/presentation/app/generated/assets.gen.dart';
+import 'package:custos/presentation/components/about_us_widget.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
 import 'package:custos/presentation/components/biometric_setup_dialog/biometric_setup_dialog.dart';
@@ -23,7 +24,6 @@ import 'package:custos/presentation/cubit/app/app_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 enum SettingsPageMode { unloged, loged }
@@ -53,6 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final child = SingleChildScrollView(
       child: Column(
         children: [
+          // Profile info
           if (widget.mode == SettingsPageMode.loged && profile?.name != null && profile!.name.trim().isNotEmpty) ...[
             Row(
               children: [
@@ -82,9 +83,12 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SizedBox(height: context.xxxl),
           ],
+
+          // Settings
           CustomContainer(
             child: CustomTilesOptions(
               tiles: [
+                // Theme mode
                 CustomSettingTile(
                   prefixIconPath: isDarkMode ? AppIcons.darkMode : AppIcons.lightMode,
                   title: context.l10n.settingsThemeModeTitle,
@@ -94,6 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
+                // Language
                 CustomSettingTile(
                   prefixIconPath: AppIcons.language,
                   title: context.l10n.settingsLanguageTitle,
@@ -106,6 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
+                // Import/Export
                 CustomSettingTile(
                   prefixIconPath: AppIcons.groupBackup,
                   title:
@@ -135,6 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
+                // Privacy policy
                 CustomSettingTile(
                   prefixIconPath: AppIcons.shield,
                   title: context.l10n.settingsPrivacyPolicyTitle,
@@ -144,6 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
+                // Biometric
                 if (widget.mode == SettingsPageMode.loged && profile != null) ...[
                   CustomSettingTile(
                     prefixIconPath: AppIcons.key,
@@ -161,6 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ],
 
+                // Remove profile
                 if (widget.mode == SettingsPageMode.loged) ...[
                   CustomSettingTile(
                     prefixIconPath: AppIcons.delete,
@@ -168,7 +177,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     subtitle: context.l10n.settingsRemoveProfileSubtitle,
                     onTap: () {
                       context.showConfirmationDialog(
-                        title: context.l10n.settingsRemoveProfileConfirmTitle,
+                        title: context.l10n.settingsRemoveProfileTitle,
+                        subtitle: context.l10n.settingsRemoveProfileConfirmTitle,
+                        subtitle2: context.l10n.settingsRemoveProfileWarning,
                         labelLeftButton: context.l10n.cancel,
                         onPressedLeftButton: (_) => context.pop(),
                         labelRightButton: context.l10n.delete,
@@ -185,11 +196,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ],
 
+                // About us
                 CustomSettingTile(
                   prefixIconPath: AppIcons.info,
                   title: context.l10n.settingsAboutUsTitle,
                   subtitle: context.l10n.settingsAboutUsSubtitle,
-                  onTap: () {},
+                  onTap: () {
+                    context.showCustomModalBottomSheet(title: context.l10n.settingsAboutUsTitle, child: AboutUsWidget());
+                  },
                 ),
               ],
             ),
@@ -197,6 +211,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
           SizedBox(height: context.xxxl),
 
+          // Version
           Padding(
             padding: EdgeInsets.symmetric(horizontal: context.md),
             child: Row(
@@ -219,6 +234,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
 
+    // Return the page depending of the mode
     if (widget.mode == SettingsPageMode.loged) {
       return Padding(padding: EdgeInsets.symmetric(horizontal: context.xl), child: child);
     } else {

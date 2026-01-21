@@ -396,12 +396,6 @@ abstract class AppLocalizations {
   /// **'Crear perfil'**
   String get loginCreateProfileButton;
 
-  /// No description provided for @loginInProfileTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Iniciar sesión en perfil'**
-  String get loginInProfileTitle;
-
   /// No description provided for @loginButton.
   ///
   /// In es, this message translates to:
@@ -437,6 +431,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Si olvidas la clave maestra, no podrás recuperar tus datos.'**
   String get registerWarningForgetMasterKey;
+
+  /// No description provided for @registerAcceptPrivacyPolicy.
+  ///
+  /// In es, this message translates to:
+  /// **'Acepto la política de privacidad'**
+  String get registerAcceptPrivacyPolicy;
+
+  /// No description provided for @registerSeePrivacyPolicy.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver política de privacidad'**
+  String get registerSeePrivacyPolicy;
 
   /// No description provided for @settingsThemeModeTitle.
   ///
@@ -569,12 +575,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Crea una entrada de contraseña para administrar tus cuentas.'**
   String get passwordsNoPasswordsSubtitle;
-
-  /// No description provided for @passwordsAccountsTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Cuentas'**
-  String get passwordsAccountsTitle;
 
   /// No description provided for @passwordsNoResultsSubtitle.
   ///
@@ -1121,6 +1121,90 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Error al configurar biométrica: {error}'**
   String biometricSetupErrorConfigure(Object error);
+
+  /// No description provided for @deletePasswordTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar contraseña'**
+  String get deletePasswordTitle;
+
+  /// No description provided for @passwordExpiredOn.
+  ///
+  /// In es, this message translates to:
+  /// **'Contraseña expirada el: {date}'**
+  String passwordExpiredOn(Object date);
+
+  /// No description provided for @deleteGroupTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar grupo'**
+  String get deleteGroupTitle;
+
+  /// No description provided for @deleteGroupSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Las entradas de contraseñas que tengan este grupo asociado no se eliminarán pero se quedarán sin grupo asignado.'**
+  String get deleteGroupSubtitle;
+
+  /// No description provided for @logoutTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrar sesión'**
+  String get logoutTitle;
+
+  /// No description provided for @settingsRemoveProfileWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'Si eliminas el perfil perderás todas tus cuentas y contraseñas y no podrás recuperarlas. Recomendamos exportar tus datos en la sección de \"Exportar\" antes de eliminar el perfil.'**
+  String get settingsRemoveProfileWarning;
+
+  /// No description provided for @importExportDataExportTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Exportar datos'**
+  String get importExportDataExportTitle;
+
+  /// No description provided for @importExportDataImportTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Importar datos'**
+  String get importExportDataImportTitle;
+
+  /// No description provided for @importMasterKeyDialogTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'El archivo de respaldo está listo para ser importado. Introduce la clave maestra del perfil para continuar.'**
+  String get importMasterKeyDialogTitle;
+
+  /// No description provided for @importMasterKeyDialogImportButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Importar'**
+  String get importMasterKeyDialogImportButton;
+
+  /// No description provided for @importMasterKeyDialogError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al importar'**
+  String get importMasterKeyDialogError;
+
+  /// No description provided for @importMasterKeyDialogSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Datos importados correctamente'**
+  String get importMasterKeyDialogSuccess;
+
+  /// No description provided for @masterKeyValidatorExportPrompt.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce tu clave maestra para continuar con la exportación'**
+  String get masterKeyValidatorExportPrompt;
+
+  /// No description provided for @masterKeyValidatorContinueButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Continuar'**
+  String get masterKeyValidatorContinueButton;
 }
 
 class _AppLocalizationsDelegate

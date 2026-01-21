@@ -84,7 +84,7 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                           Text(
                             context.l10n.biometricSetupDisableSubtitle,
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: context.colorScheme.onSurface.withOpacity(0.7),
+                              color: context.colorScheme.onSurface.withValues(alpha: 0.7),
                             ),
                           ),
                         ],
@@ -125,7 +125,7 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                               Text(
                                 context.l10n.biometricSetupEnableSubtitle,
                                 style: context.textTheme.bodySmall?.copyWith(
-                                  color: context.colorScheme.onSurface.withOpacity(0.7),
+                                  color: context.colorScheme.onSurface.withValues(alpha: 0.7),
                                 ),
                               ),
                             ],
@@ -142,7 +142,7 @@ class _BiometricSetupDialogState extends State<BiometricSetupDialog> {
                           Text(
                             context.l10n.biometricSetupNotAvailableSubtitle,
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: context.colorScheme.onSurface.withOpacity(0.7),
+                              color: context.colorScheme.onSurface.withValues(alpha: 0.7),
                             ),
                           ),
                         ],

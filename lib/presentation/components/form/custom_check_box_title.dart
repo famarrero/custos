@@ -30,6 +30,7 @@ class CustomCheckBoxTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTileTheme(
+      contentPadding: EdgeInsets.zero,
       horizontalTitleGap: 0.0,
       child: CheckboxListTile(
         value: value,

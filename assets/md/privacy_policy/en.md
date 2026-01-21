@@ -1,4 +1,4 @@
-# 🛡️ Privacy Policy
+# Privacy Policy
 
 **Last updated:** June 21, 2025
 

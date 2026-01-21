@@ -15,16 +15,14 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   final AuthRepository authRepository = di();
 
-  Future<void> addProfile({
-    required String profileName,
-    required String masterKey,
-  }) async {
+  void setAcceptPrivacyPolicy(bool value) {
+    emit(state.copyWith(acceptPrivacyPolicy: value));
+  }
+
+  Future<void> addProfile({required String profileName, required String masterKey}) async {
     emit(state.copyWith(addProfile: BaseState.loading()));
 
-    final response = await authRepository.registerProfileWhitMasterKey(
-      profileName: profileName,
-      masterKey: masterKey,
-    );
+    final response = await authRepository.registerProfileWhitMasterKey(profileName: profileName, masterKey: masterKey);
 
     response.fold(
       (failure) => emit(state.copyWith(addProfile: BaseState.error(failure))),

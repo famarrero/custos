@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/utils/app_spacing.dart';
+import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_check_box_title.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class ConfirmationDialog extends StatefulWidget {
   const ConfirmationDialog({
     super.key,
     this.title,
+    this.subtitle,
+    this.subtitle2,
     this.child,
     this.checkBoxTitle,
     this.labelLeftButton,
@@ -34,6 +37,12 @@ class ConfirmationDialog extends StatefulWidget {
   ///
   /// If `null`, defaults to `context.l10n.sureWantPerformThisAction`.
   final String? title;
+
+  /// The subtitle displayed below the title.
+  final String? subtitle;
+
+  /// The subtitle displayed below the title.
+  final String? subtitle2;
 
   /// A widget displayed below the title.
   ///
@@ -122,11 +131,9 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     /// If the checkbox is not visible (checkBoxValue is null), the button will always be enabled.
 
     final enableLeftButton =
-        widget.onPressedLeftButton != null &&
-        (widget.enableLeftButtonOnCheckOnly ? checkBoxValue : true);
+        widget.onPressedLeftButton != null && (widget.enableLeftButtonOnCheckOnly ? checkBoxValue : true);
     final enableRightButton =
-        widget.onPressedRightButton != null &&
-        (widget.enableRightButtonOnCheckOnly ? checkBoxValue : true);
+        widget.onPressedRightButton != null && (widget.enableRightButtonOnCheckOnly ? checkBoxValue : true);
 
     return Center(
       child: Container(
@@ -136,27 +143,38 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
           color: context.colorScheme.surface,
           borderRadius: BorderRadius.circular(context.corner()),
         ),
-        padding: EdgeInsets.all(context.xl),
+        padding: EdgeInsets.all(context.xxxl),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: context.lg,
             children: [
-              SizedBox(height: context.md),
               // Dialog title
               Text(
                 widget.title ?? context.l10n.sureWantPerformThisAction,
-                textAlign: TextAlign.center,
-                style: context.textTheme.bodyMedium?.copyWith(
-                  color: context.colorScheme.onSurface,
-                ),
+                textAlign: TextAlign.start,
+                style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSurface),
               ),
-              SizedBox(height: context.m),
+
+              if (widget.subtitle != null) ...[
+                Text(
+                  widget.subtitle!,
+                  textAlign: TextAlign.start,
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+
+              if (widget.subtitle2 != null) ...[
+                Text(
+                  widget.subtitle2!,
+                  textAlign: TextAlign.start,
+                  style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurface.withValues(alpha: 0.7)),
+                ),
+              ],
 
               // Additional content
-              if (widget.child != null) ...[
-                Align(child: widget.child!),
-                SizedBox(height: context.m),
-              ],
+              if (widget.child != null) ...[Align(child: widget.child!)],
 
               // Checkbox
               if (widget.checkBoxTitle != null) ...[
@@ -165,9 +183,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   child: CustomCheckBoxTitle(
                     title: widget.checkBoxTitle!,
                     value: checkBoxValue,
-                    style: context.textTheme.labelLarge?.copyWith(
-                      color: context.colorScheme.onSurface,
-                    ),
+                    style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onSurface),
                     onChanged: (value) {
                       setState(() {
                         checkBoxValue = value;
@@ -175,39 +191,29 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                     },
                   ),
                 ),
-                SizedBox(height: context.m),
               ],
 
               // Buttons
-              Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      if (widget.labelLeftButton != null) ...[
-                        TextButton(
-                          onPressed:
-                              enableLeftButton
-                                  ? () => widget.onPressedLeftButton?.call(
-                                    checkBoxValue,
-                                  )
-                                  : null,
-                          child: Text(widget.labelLeftButton!),
-                        ),
-                        SizedBox(width: context.xxxl),
-                      ],
-                      if (widget.labelRightButton != null)
-                        TextButton(
-                          onPressed:
-                              enableRightButton
-                                  ? () => widget.onPressedRightButton?.call(
-                                    checkBoxValue,
-                                  )
-                                  : null,
-                          child: Text(widget.labelRightButton!),
-                        ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Wrap(
+                  spacing: context.xs,
+                  runSpacing: context.xs,
+                  alignment: WrapAlignment.end,
+                  children: [
+                    if (widget.labelLeftButton != null) ...[
+                      TextButton(
+                        onPressed: enableLeftButton ? () => widget.onPressedLeftButton?.call(checkBoxValue) : null,
+                        child: Text(widget.labelLeftButton!),
+                      ),
+                      SizedBox(width: context.xxxl),
                     ],
-                  ),
+                    if (widget.labelRightButton != null)
+                      CustomButton(
+                        onPressed: enableRightButton ? () => widget.onPressedRightButton?.call(checkBoxValue) : null,
+                        label: widget.labelRightButton!,
+                      ),
+                  ],
                 ),
               ),
             ],

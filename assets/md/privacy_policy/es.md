@@ -1,4 +1,4 @@
-# 🛡️ Política de Privacidad
+# Política de Privacidad
 
 **Última actualización:** 21 de junio de 2025
 
