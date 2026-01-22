@@ -1,3 +1,4 @@
+import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/presentation/pages/otp/components/otp_code/cubit/otp_code_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,7 @@ class OtpCodeWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 6),
-              Text('Next in ${state.remainingSeconds} s', style: Theme.of(context).textTheme.bodySmall),
+              Text(context.l10n.otpNextIn(state.remainingSeconds), style: Theme.of(context).textTheme.bodySmall),
             ],
           );
         },

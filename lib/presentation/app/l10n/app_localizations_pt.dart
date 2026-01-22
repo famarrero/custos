@@ -625,4 +625,56 @@ class AppLocalizationsPt extends AppLocalizations {
   String invalidOtpLength(int length) {
     return 'O código OTP deve ter $length dígitos';
   }
+
+  @override
+  String get otpSecurityCodeAddedSuccessfully =>
+      'Código de segurança adicionado com sucesso';
+
+  @override
+  String get otpNoAccountsToShow => 'Nenhuma conta para mostrar';
+
+  @override
+  String get otpAddAccountsToGetOtpCodes =>
+      'Adicione contas para obter os códigos OTP';
+
+  @override
+  String get otpScanQR => 'Escanear QR';
+
+  @override
+  String get otpAddManual => 'Adicionar manualmente';
+
+  @override
+  String get otpAddSecurityCode => 'Adicionar código de segurança';
+
+  @override
+  String get otpCodeCopiedToClipboard =>
+      'Código OTP copiado para a área de transferência';
+
+  @override
+  String get otpDeleteAccount => 'Excluir conta';
+
+  @override
+  String get otpDeleteAccountConfirm =>
+      'Tem certeza que deseja excluir esta conta?';
+
+  @override
+  String get otpDeleteAccountWarning =>
+      'Esta ação não pode ser desfeita. Você não poderá mais acessar os códigos OTP desta conta.';
+
+  @override
+  String get otpNameLabel => 'Nome';
+
+  @override
+  String get otpNameHint => ' Ex. Google, GitHub, etc...';
+
+  @override
+  String get otpSecretCodeLabel => 'Código secreto';
+
+  @override
+  String get otpSecretCodeHint => 'Ex. ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567';
+
+  @override
+  String otpNextIn(int seconds) {
+    return 'Próximo em $seconds s';
+  }
 }

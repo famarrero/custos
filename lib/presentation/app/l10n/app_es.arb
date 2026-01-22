@@ -253,5 +253,27 @@
         "type": "int"
       }
     }
+  },
+  "otpSecurityCodeAddedSuccessfully": "Código de seguridad agregado exitosamente",
+  "otpNoAccountsToShow": "No hay cuentas para mostrar",
+  "otpAddAccountsToGetOtpCodes": "Agrega cuentas para obtener los códigos OTP",
+  "otpScanQR": "Escanear QR",
+  "otpAddManual": "Agregar manualmente",
+  "otpAddSecurityCode": "Agregar código de seguridad",
+  "otpCodeCopiedToClipboard": "Código OTP copiado al portapapeles",
+  "otpDeleteAccount": "Eliminar cuenta",
+  "otpDeleteAccountConfirm": "¿Estás seguro que deseas eliminar esta cuenta?",
+  "otpDeleteAccountWarning": "Esta acción no se puede deshacer. Ya no podrás acceder a los códigos OTP de esta cuenta.",
+  "otpNameLabel": "Nombre",
+  "otpNameHint": " Ej. Google, GitHub, etc...",
+  "otpSecretCodeLabel": "Código secreto",
+  "otpSecretCodeHint": "Ej. ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567",
+  "otpNextIn": "Siguiente en {seconds} s",
+  "@otpNextIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
   }
 }

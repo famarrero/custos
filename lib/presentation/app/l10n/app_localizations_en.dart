@@ -617,4 +617,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String invalidOtpLength(int length) {
     return 'OTP must be $length digits';
   }
+
+  @override
+  String get otpSecurityCodeAddedSuccessfully =>
+      'Security code added successfully';
+
+  @override
+  String get otpNoAccountsToShow => 'No accounts to show';
+
+  @override
+  String get otpAddAccountsToGetOtpCodes => 'Add accounts to get the OTP codes';
+
+  @override
+  String get otpScanQR => 'Scan QR';
+
+  @override
+  String get otpAddManual => 'Add manual';
+
+  @override
+  String get otpAddSecurityCode => 'Add security code';
+
+  @override
+  String get otpCodeCopiedToClipboard => 'OTP code copied to clipboard';
+
+  @override
+  String get otpDeleteAccount => 'Delete account';
+
+  @override
+  String get otpDeleteAccountConfirm =>
+      'Are you sure you want to delete this account?';
+
+  @override
+  String get otpDeleteAccountWarning =>
+      'This action cannot be undone. You will no longer be able to access the OTP codes for this account.';
+
+  @override
+  String get otpNameLabel => 'Name';
+
+  @override
+  String get otpNameHint => ' E.g. Google, GitHub, etc...';
+
+  @override
+  String get otpSecretCodeLabel => 'Secret code';
+
+  @override
+  String get otpSecretCodeHint =>
+      'E.g. ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567';
+
+  @override
+  String otpNextIn(int seconds) {
+    return 'Next in $seconds s';
+  }
 }

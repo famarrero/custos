@@ -1223,6 +1223,96 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'El código OTP debe tener {length} dígitos'**
   String invalidOtpLength(int length);
+
+  /// No description provided for @otpSecurityCodeAddedSuccessfully.
+  ///
+  /// In es, this message translates to:
+  /// **'Código de seguridad agregado exitosamente'**
+  String get otpSecurityCodeAddedSuccessfully;
+
+  /// No description provided for @otpNoAccountsToShow.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay cuentas para mostrar'**
+  String get otpNoAccountsToShow;
+
+  /// No description provided for @otpAddAccountsToGetOtpCodes.
+  ///
+  /// In es, this message translates to:
+  /// **'Agrega cuentas para obtener los códigos OTP'**
+  String get otpAddAccountsToGetOtpCodes;
+
+  /// No description provided for @otpScanQR.
+  ///
+  /// In es, this message translates to:
+  /// **'Escanear QR'**
+  String get otpScanQR;
+
+  /// No description provided for @otpAddManual.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar manualmente'**
+  String get otpAddManual;
+
+  /// No description provided for @otpAddSecurityCode.
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar código de seguridad'**
+  String get otpAddSecurityCode;
+
+  /// No description provided for @otpCodeCopiedToClipboard.
+  ///
+  /// In es, this message translates to:
+  /// **'Código OTP copiado al portapapeles'**
+  String get otpCodeCopiedToClipboard;
+
+  /// No description provided for @otpDeleteAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar cuenta'**
+  String get otpDeleteAccount;
+
+  /// No description provided for @otpDeleteAccountConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Estás seguro que deseas eliminar esta cuenta?'**
+  String get otpDeleteAccountConfirm;
+
+  /// No description provided for @otpDeleteAccountWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta acción no se puede deshacer. Ya no podrás acceder a los códigos OTP de esta cuenta.'**
+  String get otpDeleteAccountWarning;
+
+  /// No description provided for @otpNameLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre'**
+  String get otpNameLabel;
+
+  /// No description provided for @otpNameHint.
+  ///
+  /// In es, this message translates to:
+  /// **' Ej. Google, GitHub, etc...'**
+  String get otpNameHint;
+
+  /// No description provided for @otpSecretCodeLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Código secreto'**
+  String get otpSecretCodeLabel;
+
+  /// No description provided for @otpSecretCodeHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567'**
+  String get otpSecretCodeHint;
+
+  /// No description provided for @otpNextIn.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente en {seconds} s'**
+  String otpNextIn(int seconds);
 }
 
 class _AppLocalizationsDelegate

@@ -22,7 +22,7 @@ class OtpPage extends StatelessWidget {
       child: BlocListener<OtpCubit, OtpState>(
         listener: (context, state) {
           if (state.scanQRState.isData && state.scanQRState.data) {
-            context.showSnackBar(message: 'Security code added successfully');
+            context.showSnackBar(message: context.l10n.otpSecurityCodeAddedSuccessfully);
           }
           if (state.scanQRState.isError) {
             context.showSnackBar(
@@ -48,8 +48,8 @@ class OtpPage extends StatelessWidget {
                 onRetryPressed: () => context.read<OtpCubit>().watchOtps(),
                 noDataWidget: NoDataWidget(
                   iconData: AppIcons.key,
-                  title: 'No accounts to show',
-                  subtitle: 'Add accounts to get the OTP codes',
+                  title: context.l10n.otpNoAccountsToShow,
+                  subtitle: context.l10n.otpAddAccountsToGetOtpCodes,
                 ),
                 onDataChild: (otps) {
                   return ListView.builder(
@@ -80,7 +80,7 @@ class OtpPage extends StatelessWidget {
           children: [
             OptionTile(
               icon: AppIcons.qrCode,
-              title: 'Scan QR',
+              title: context.l10n.otpScanQR,
               onTap: () {
                 context.pop();
                 context.read<OtpCubit>().scanQRCode();
@@ -88,10 +88,10 @@ class OtpPage extends StatelessWidget {
             ),
             OptionTile(
               icon: AppIcons.add,
-              title: 'Add manual',
+              title: context.l10n.otpAddManual,
               onTap: () {
                 context.pop();
-                context.showCustomGeneralDialog(title: 'Add security code', child: const UpsertOtp());
+                context.showCustomGeneralDialog(title: context.l10n.otpAddSecurityCode, child: const UpsertOtp());
               },
             ),
           ],

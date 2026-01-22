@@ -63,8 +63,8 @@ class _UpsertOtpState extends State<UpsertOtp> {
               children: [
                 CustomTextFormField(
                   controller: _nameController,
-                  label: 'Name',
-                  hint: ' Ej. Google, GitHub, etc...',
+                  label: context.l10n.otpNameLabel,
+                  hint: context.l10n.otpNameHint,
                   isRequired: true,
                   validator: context.validateRequired,
                   textCapitalization: TextCapitalization.sentences,
@@ -73,8 +73,8 @@ class _UpsertOtpState extends State<UpsertOtp> {
                 ),
                 CustomTextFormField(
                   controller: _secretCodeController,
-                  label: 'Secret code',
-                  hint: 'Ej. ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567',
+                  label: context.l10n.otpSecretCodeLabel,
+                  hint: context.l10n.otpSecretCodeHint,
                   isRequired: true,
                   validator: context.validateOTPSecretCode,
                   textInputAction: TextInputAction.done,
@@ -98,7 +98,7 @@ class _UpsertOtpState extends State<UpsertOtp> {
                     ),
                     // Add/Edit OTP
                     CustomButton(
-                      label: widget.otp == null ? 'Add' : 'Save',
+                      label: widget.otp == null ? context.l10n.add : context.l10n.save,
                       isLoading: state.upsertOtpState.isLoading,
                       onPressed: () => _upsertOtp(context),
                     ),
