@@ -14,13 +14,23 @@ abstract class OtpModel with _$OtpModel {
     @HiveField(0) required String id,
     @HiveField(1) required String name,
     @HiveField(2) required String secretCode,
-    @HiveField(3) required DateTime createdAt,
-    @HiveField(4) required DateTime updatedAt,
+    @HiveField(3) @Default(6) int digits,
+    @HiveField(4) @Default(30) int period,
+    @HiveField(5) required DateTime createdAt,
+    @HiveField(6) required DateTime updatedAt,
   }) = _OtpModel;
 
   factory OtpModel.fromJson(Map<String, dynamic> json) => _$OtpModelFromJson(json);
 
   OtpEntity toEntity() {
-    return OtpEntity(id: id, name: name, secretCode: secretCode, createdAt: createdAt, updatedAt: updatedAt);
+    return OtpEntity(
+      id: id,
+      name: name,
+      secretCode: secretCode,
+      digits: digits,
+      period: period,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
   }
 }

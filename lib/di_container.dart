@@ -6,6 +6,7 @@ import 'package:custos/core/services/file_picker_service.dart';
 import 'package:custos/core/services/hive_database_service.dart';
 import 'package:custos/core/services/logger_service.dart';
 import 'package:custos/core/services/package_info_service.dart';
+import 'package:custos/core/services/qr_scan_service.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
 import 'package:custos/data/providers/group/group_provider_impl.dart';
 import 'package:custos/data/providers/otp/otp_provider.dart';
@@ -82,6 +83,9 @@ Future initInjection() async {
 
   /// EncryptionService
   di.registerLazySingleton<EncryptionService>(() => EncryptionServiceImpl());
+
+  /// QRScanService
+  di.registerLazySingleton<QRScanService>(() => QRScanServiceImpl());
 
   ///-------------------Providers--------------------------------///
 

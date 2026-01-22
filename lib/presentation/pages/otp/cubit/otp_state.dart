@@ -6,5 +6,6 @@ abstract class OtpState with _$OtpState {
 
   const factory OtpState({
     required BaseState<List<OtpEntity>> otps,
+    @Default(BaseState.initial()) BaseState<bool> scanQRState,
   }) = _OtpState;
 }

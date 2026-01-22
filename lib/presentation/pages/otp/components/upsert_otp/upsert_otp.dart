@@ -73,8 +73,8 @@ class _UpsertOtpState extends State<UpsertOtp> {
                 ),
                 CustomTextFormField(
                   controller: _secretCodeController,
-                  label: 'Secret Code',
-                  hint: ' Enter the secret code',
+                  label: 'Secret code',
+                  hint: 'Ej. ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567',
                   isRequired: true,
                   validator: context.validateOTPSecretCode,
                   textInputAction: TextInputAction.done,

@@ -12,6 +12,8 @@ abstract class OtpEntity with _$OtpEntity {
     required String id,
     required String name,
     required String secretCode,
+    @Default(6) int digits,
+    @Default(30) int period,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _OtpEntity;
@@ -23,6 +25,8 @@ abstract class OtpEntity with _$OtpEntity {
       id: id,
       name: name,
       secretCode: secretCode,
+      digits: digits,
+      period: period,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

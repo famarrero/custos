@@ -21,11 +21,11 @@ part 'routes.g.dart';
 final router = GoRouter(
   routes: $appRoutes,
   debugLogDiagnostics: true,
-  navigatorKey: _rootNavigatorKey,
+  navigatorKey: rootNavigatorKey,
   onException: (_, __, router) => router.go(const PageNotFoundRoute().location),
 );
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 @TypedShellRoute<WrapperMainRoute>(
@@ -64,7 +64,7 @@ class LoginRoute extends GoRouteData {
   static const path = 'login';
   static const name = 'login';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   const LoginRoute();
 
@@ -88,7 +88,7 @@ class RegisterRoute extends GoRouteData {
   static const path = 'register';
   static const name = 'register';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   const RegisterRoute();
 
@@ -155,7 +155,7 @@ class SettingsUnlogedRoute extends GoRouteData {
   static const path = 'settings-unloged';
   static const name = 'settings-unloged';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   const SettingsUnlogedRoute();
 
@@ -181,7 +181,7 @@ class UpsertPasswordEntryRoute extends GoRouteData {
   static const path = 'upsert-password-entry/:id';
   static const name = 'upsert-password-entry';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   const UpsertPasswordEntryRoute({required this.id});
 
@@ -197,7 +197,7 @@ class PageNotFoundRoute extends GoRouteData {
   static const path = 'page-not-found';
   static const name = 'page-not-found';
 
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = _rootNavigatorKey;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   const PageNotFoundRoute();
 

@@ -55,7 +55,7 @@ class _OtpTileState extends State<OtpTile> {
             iconSize: 16.0,
             onTap: () {
               Clipboard.setData(ClipboardData(text: tempCode));
-              context.showSnackBar(message: 'Temp code copied to clipboard');
+              context.showSnackBar(message: 'OTP code copied to clipboard');
             },
           ),
           if (widget.showDeleteButton)
@@ -66,9 +66,9 @@ class _OtpTileState extends State<OtpTile> {
               iconSize: 16.0,
               onTap: () {
                 context.showConfirmationDialog(
-                  title: 'Delete OTP',
-                  subtitle: 'Are you sure you want to delete this OTP?',
-                  subtitle2: 'This action cannot be undone.',
+                  title: 'Delete account',
+                  subtitle: 'Are you sure you want to delete this account?',
+                  subtitle2: 'This action cannot be undone. You will no longer be able to access the OTP codes for this account.',
                   labelLeftButton: context.l10n.cancel,
                   onPressedLeftButton: (value) {
                     context.pop();
