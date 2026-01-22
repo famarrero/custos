@@ -1,5 +1,6 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/build_context_form_validators_extension.dart';
+import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/data/models/otp/otp_entity.dart';
 import 'package:custos/presentation/components/custom_button.dart';
 import 'package:custos/presentation/components/form/custom_text_form_field.dart';
@@ -118,7 +119,7 @@ class _UpsertOtpState extends State<UpsertOtp> {
         otp: OtpEntity(
           id: widget.otp?.id ?? Uuid().v4(),
           name: _nameController.text.trim(),
-          secretCode: _secretCodeController.text.trim().toUpperCase(),
+          secretCode: _secretCodeController.text.normalizeSecret,
           createdAt: widget.otp?.createdAt ?? now,
           updatedAt: now,
         ),

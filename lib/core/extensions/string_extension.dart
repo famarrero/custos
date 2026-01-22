@@ -32,6 +32,11 @@ extension StringExtension on String {
   String get toCapitalizedString {
     return this[0].toUpperCase() + substring(1);
   }
+
+  /// Clean the string from all spaces and special characters.
+  String get normalizeSecret {
+    return trim().toUpperCase().replaceAll(RegExp(r'\s+'), '');
+  }
 }
 
 extension NullableStringExtension on String? {

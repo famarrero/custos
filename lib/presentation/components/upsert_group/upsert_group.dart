@@ -129,7 +129,7 @@ class _UpsertGroupState extends State<UpsertGroup> {
       context.read<UpsertGroupCubit>().upsertPasswordEntry(
         group: GroupEntity(
           id: widget.group?.id ?? Uuid().v4(),
-          name: _nameController.text,
+          name: _nameController.text.trim(),
           icon: GroupIcons.iconFor(_iconId),
           color: _color,
           createdAt: widget.group?.createdAt ?? now,
