@@ -9,5 +9,7 @@ abstract class OtpProvider {
 
   Future<OtpModel> upsertOtp({required OtpModel otp});
 
+  Future<OtpModel> upsertOtpWithUpdatedAt({required OtpModel otp});
+
   Future<void> deleteOtp({required String id});
 }

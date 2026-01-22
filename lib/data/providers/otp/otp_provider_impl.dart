@@ -31,6 +31,28 @@ class OtpProviderImpl implements OtpProvider {
   }
 
   @override
+  Future<OtpModel> upsertOtpWithUpdatedAt({required OtpModel otp}) async {
+    final box = hiveDatabase.getOtpBox;
+
+    final OtpModel? existing = box.get(otp.id);
+
+    // Caso 1: no existe → insertar
+    if (existing == null) {
+      await box.put(otp.id, otp);
+      return otp;
+    }
+
+    // Caso 2: existe → comparar updatedAt
+    if (otp.updatedAt.isAfter(existing.updatedAt)) {
+      await box.put(otp.id, otp);
+      return otp;
+    }
+
+    // Caso 3: existe pero es más viejo → no tocar
+    return existing;
+  }
+
+  @override
   Future<void> deleteOtp({required String id}) {
     return hiveDatabase.getOtpBox.delete(id);
   }

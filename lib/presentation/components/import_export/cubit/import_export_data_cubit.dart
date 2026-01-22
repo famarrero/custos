@@ -8,9 +8,11 @@ import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/core/utils/failures.dart';
 import 'package:custos/data/models/group/group_model.dart';
+import 'package:custos/data/models/otp/otp_model.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/data/providers/group/group_provider.dart';
+import 'package:custos/data/providers/otp/otp_provider.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/providers/profile/profile_provider.dart';
 import 'package:custos/data/providers/version/version_provider.dart';
@@ -39,6 +41,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
   final GroupProvider groupProvider = di();
   final VersionProvider versionProvider = di();
   final PasswordEntryProvider passwordEntryProvider = di();
+  final OtpProvider otpProvider = di();
   final AuthRepository authRepository = di();
   final FilePickerService filePickerService = di();
   final ImportExportRepository importExportRepository = di();
@@ -54,6 +57,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
       final groups = await groupProvider.getGroups();
       final passwordEntries = await passwordEntryProvider.getPasswordsEntries();
       final version = await versionProvider.getVersion();
+      final otps = await otpProvider.getOtps();
 
       // Crear estructura de datos para exportar
       final exportData = {
@@ -61,6 +65,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
         'profile': profile.toJson(),
         'groups': groups.map((g) => g.toJson()).toList(),
         'passwordEntries': passwordEntries.map((pe) => pe.toJson()).toList(),
+        'otps': otps.map((o) => o.toJson()).toList(),
       };
 
       // Convertir a JSON
@@ -88,7 +93,7 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
           await file.writeAsString(encryptedJsonString);
 
           // Compartir archivo
-          await Share.shareXFiles([XFile(file.path)], text: 'Exportación de datos Custos - ${profile.name}');
+          await Share.shareXFiles([XFile(file.path)], text: 'Exported data from Custos - ${profile.name}');
 
           // Consideramos éxito si el archivo se creó correctamente
           emit(state.copyWith(exportState: BaseState.data(true)));
@@ -169,14 +174,23 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
           // Registrar y verificar perfil con la master key
           await authRepository.registerProfileWhitMasterKey(importProfile: profile, masterKey: masterKey);
           await authRepository.verifyProfileByMasterKey(profile: profile, masterKey: masterKey);
+          
+          // Import database version
+          final importedVersion = importData['version'] as int;
+          final currentVersion = await versionProvider.getVersion();
+          if (importedVersion > currentVersion) {
+            await versionProvider.upsertVersion(version: importedVersion);
+          }
 
-          // Importar grupos y entradas de contraseñas
+          // Importar grupos y entradas de contraseñas y códigos de seguridad
           final groupsJson = importData['groups'] as List<dynamic>;
           final passwordEntriesJson = importData['passwordEntries'] as List<dynamic>;
+          final otpsJson = importData['otps'] as List<dynamic>;
 
           final groups = groupsJson.map((g) => GroupModel.fromJson(g as Map<String, dynamic>)).toList();
           final passwordEntries =
               passwordEntriesJson.map((pe) => PasswordEntryModel.fromJson(pe as Map<String, dynamic>)).toList();
+          final otps = otpsJson.map((o) => OtpModel.fromJson(o as Map<String, dynamic>)).toList();
 
           for (var group in groups) {
             await groupProvider.upsertGroupWithUpdatedAt(group: group);
@@ -184,10 +198,14 @@ class ImportExportDataCubit extends Cubit<ImportExportDataState> {
           for (var passwordEntry in passwordEntries) {
             await passwordEntryProvider.upsertPasswordEntryWithUpdatedAt(passwordEntry: passwordEntry);
           }
+          for (var otp in otps) {
+            await otpProvider.upsertOtpWithUpdatedAt(otp: otp);
+          }
 
           // Flush boxes to ensure all imported data is persisted
           await hiveDatabase.getGroupBox.flush();
           await hiveDatabase.getPasswordEntryBox.flush();
+          await hiveDatabase.getOtpBox.flush();
           await hiveDatabase.getVersionBox.flush();
 
           emit(state.copyWith(importState: BaseState.data(true)));

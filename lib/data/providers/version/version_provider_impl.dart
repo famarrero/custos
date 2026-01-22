@@ -23,6 +23,16 @@ class VersionProviderImpl implements VersionProvider {
   }
 
   @override
+  Future<int> upsertVersion({required int version}) async {
+    final box = hiveDatabase.getVersionBox;
+
+    final updatedVersion = VersionModel(version: version);
+    
+    await box.put(_versionKey, updatedVersion);
+    return version;
+  }
+
+  @override
   Future<int> incrementVersion() async {
     final box = hiveDatabase.getVersionBox;
 

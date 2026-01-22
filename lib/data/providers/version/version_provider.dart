@@ -3,5 +3,7 @@ abstract class VersionProvider {
 
   Stream<int> watchVersion();
 
+  Future<int> upsertVersion({required int version});
+
   Future<int> incrementVersion();
 }
