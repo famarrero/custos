@@ -12,6 +12,7 @@ extension GoRouterExtension on GoRouter {
       name == const PasswordsEntriesRoute().location ||
       name == const GroupsRoute().location ||
       name == const OtpRoute().location ||
+      name == const AnalyticsRoute().location ||
       name == SettingsRoute().location;
 
   /// Gets the current route name
@@ -22,6 +23,7 @@ extension GoRouterExtension on GoRouter {
       name == PasswordsEntriesRoute.name || 
       name == GroupsRoute.name ||
       name == OtpRoute.name ||
+      name == AnalyticsRoute.name ||
       name == SettingsRoute.name;
 
   /// Return the app bar title based on the current route.
@@ -33,6 +35,8 @@ extension GoRouterExtension on GoRouter {
         return context.l10n.navGroups;
       case OtpRoute.name:
         return 'OTP';
+      case AnalyticsRoute.name:
+        return 'Analytics';
       case SettingsRoute.name:
         return context.l10n.navSettings;
       default:

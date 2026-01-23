@@ -1,4 +1,6 @@
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
+import 'package:custos/data/models/password_strength_groug/password_strength_group_entity.dart';
+import 'package:custos/data/models/repeated_password_group/repeated_password_group_entity.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
 import 'package:custos/data/repositories/version/version_repository.dart';
@@ -43,5 +45,18 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
   Future<void> deletePasswordEntry({required String id}) async {
     await versionRepository.incrementVersion();
     passwordEntryProvider.deletePasswordEntry(id: id);
+  }
+
+  @override
+  Future<List<RepeatedPasswordGroupEntity>> getRepetitivePasswordsGroups() async {
+    final models = await passwordEntryProvider.getRepetitivePasswordsGroups();
+    final entities = await Future.wait(models.map((e) => e.toEntity()));
+    return entities;
+  }
+
+  @override
+  Future<PasswordStrengthGroupEntity> getPasswordsByStrength() async {
+    final passwordStrengthGroupModel = await passwordEntryProvider.getPasswordsByStrength();
+    return passwordStrengthGroupModel.toEntity();
   }
 }

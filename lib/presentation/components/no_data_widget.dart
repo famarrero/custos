@@ -42,10 +42,10 @@ class NoDataWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             iconPath != null
-                ? SvgPicture.asset(height: 48, width: 48, iconPath!)
+                ? SvgPicture.asset(height: 64, width: 64, iconPath!)
                 : const SizedBox.shrink(),
             iconData != null
-                ? Icon(iconData, size: 48)
+                ? Icon(iconData, size: 64)
                 : const SizedBox.shrink(),
             SizedBox(height: context.m),
             Text(

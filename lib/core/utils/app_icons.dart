@@ -67,4 +67,5 @@ final class AppIcons {
   static const IconData clock = FontAwesomeIcons.clock;
   static const IconData otp = FontAwesomeIcons.shieldHalved;
   static const IconData qrCode = FontAwesomeIcons.qrcode;
+  static const IconData analytics = FontAwesomeIcons.chartLine;
 }

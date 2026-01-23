@@ -3,6 +3,7 @@ import 'dart:async';
 // import 'package:custos/data/repositories/auth/auth_repository.dart';
 // import 'package:custos/di_container.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
+import 'package:custos/presentation/pages/analytics/analytics_page.dart';
 import 'package:custos/presentation/pages/groups/groups_page.dart';
 import 'package:custos/presentation/pages/login/login_page.dart';
 import 'package:custos/presentation/pages/otp/otp_page.dart';
@@ -39,6 +40,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(d
         TypedGoRoute<SettingsUnlogedRoute>(path: SettingsUnlogedRoute.path, name: SettingsUnlogedRoute.name),
         TypedGoRoute<GroupsRoute>(path: GroupsRoute.path, name: GroupsRoute.name),
         TypedGoRoute<OtpRoute>(path: OtpRoute.path, name: OtpRoute.name),
+        TypedGoRoute<AnalyticsRoute>(path: AnalyticsRoute.path, name: AnalyticsRoute.name),
         TypedGoRoute<SettingsRoute>(path: SettingsRoute.path, name: SettingsRoute.name),
         TypedGoRoute<UpsertPasswordEntryRoute>(
           path: UpsertPasswordEntryRoute.path,
@@ -148,6 +150,18 @@ class OtpRoute extends GoRouteData {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return _routeTransition(state: state, context: context, child: const OtpPage());
+  }
+}
+
+class AnalyticsRoute extends GoRouteData {
+  static const path = 'analytics';
+  static const name = 'analytics';
+
+  const AnalyticsRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _routeTransition(state: state, context: context, child: const AnalyticsPage());
   }
 }
 

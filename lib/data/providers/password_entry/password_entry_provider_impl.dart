@@ -1,5 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:custos/core/services/hive_database_service.dart';
+import 'package:custos/core/utils/aux_mehods.dart';
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
+import 'package:custos/data/models/password_strength_groug/password_strength_group_model.dart';
+import 'package:custos/data/models/repeated_password_group/repeated_password_group_model.dart';
 import 'package:custos/data/providers/password_entry/password_entry_provider.dart';
 import 'package:custos/di_container.dart';
 
@@ -55,5 +59,52 @@ class PasswordEntryProviderImpl implements PasswordEntryProvider {
   @override
   Future<void> deletePasswordEntry({required String id}) {
     return hiveDatabase.getPasswordEntryBox.delete(id);
+  }
+
+  @override
+  Future<List<RepeatedPasswordGroupModel>> getRepetitivePasswordsGroups() async {
+    final entries = await getPasswordsEntries();
+
+    // Agrupar internamente por contraseña
+    final groupedByPassword = groupBy(entries, (e) => e.password);
+
+    final List<RepeatedPasswordGroupModel> result = [];
+    var index = 1;
+
+    for (final group in groupedByPassword.values) {
+      if (group.length > 1) {
+        result.add(RepeatedPasswordGroupModel(id: 'group$index', passwordsEntries: group));
+        index++;
+      }
+    }
+
+    return result;
+  }
+
+  @override
+  Future<PasswordStrengthGroupModel> getPasswordsByStrength() async {
+    final entries = await getPasswordsEntries();
+
+    final List<PasswordEntryModel> weak = [];
+    final List<PasswordEntryModel> medium = [];
+    final List<PasswordEntryModel> strong = [];
+
+    for (final entry in entries) {
+      final strength = AuxMethods.evaluatePasswordStrength(entry.password);
+
+      switch (strength) {
+        case PasswordStrength.weak:
+          weak.add(entry);
+          break;
+        case PasswordStrength.medium:
+          medium.add(entry);
+          break;
+        case PasswordStrength.strong:
+          strong.add(entry);
+          break;
+      }
+    }
+
+    return PasswordStrengthGroupModel(weak: weak, medium: medium, strong: strong);
   }
 }

@@ -47,7 +47,7 @@ class OtpPage extends StatelessWidget {
                 state: state.otps,
                 onRetryPressed: () => context.read<OtpCubit>().watchOtps(),
                 noDataWidget: NoDataWidget(
-                  iconData: AppIcons.key,
+                  iconData: AppIcons.otp,
                   title: context.l10n.otpNoAccountsToShow,
                   subtitle: context.l10n.otpAddAccountsToGetOtpCodes,
                 ),

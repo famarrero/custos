@@ -1,4 +1,6 @@
 import 'package:custos/data/models/password_entry/password_entry_model.dart';
+import 'package:custos/data/models/password_strength_groug/password_strength_group_model.dart';
+import 'package:custos/data/models/repeated_password_group/repeated_password_group_model.dart';
 
 abstract class PasswordEntryProvider {
   Future<List<PasswordEntryModel>> getPasswordsEntries();
@@ -12,4 +14,8 @@ abstract class PasswordEntryProvider {
   Future<PasswordEntryModel> upsertPasswordEntryWithUpdatedAt({required PasswordEntryModel passwordEntry});
 
   Future<void> deletePasswordEntry({required String id});
+
+  Future<List<RepeatedPasswordGroupModel>> getRepetitivePasswordsGroups();
+
+  Future<PasswordStrengthGroupModel> getPasswordsByStrength();
 }
