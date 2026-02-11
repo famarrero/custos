@@ -33,7 +33,7 @@ class WarningWidget extends StatelessWidget {
             child: Text(
               text,
               style: context.textTheme.labelMedium?.copyWith(
-                color: context.colorScheme.waring ,
+                color: context.colorScheme.waring,
                 fontWeight: FontWeight.w600,
               ),
             ),
