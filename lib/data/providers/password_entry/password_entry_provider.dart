@@ -18,4 +18,6 @@ abstract class PasswordEntryProvider {
   Future<List<RepeatedPasswordGroupModel>> getRepetitivePasswordsGroups();
 
   Future<PasswordStrengthGroupModel> getPasswordsByStrength();
+
+  Future<List<PasswordEntryModel>> getOlderPasswordsEntries({int days = 180});
 }

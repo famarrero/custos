@@ -107,4 +107,11 @@ class PasswordEntryProviderImpl implements PasswordEntryProvider {
 
     return PasswordStrengthGroupModel(weak: weak, medium: medium, strong: strong);
   }
+
+  @override
+  // Get all passwords entries that were edited before a certain number of days
+  Future<List<PasswordEntryModel>> getOlderPasswordsEntries({int days = 180}) async {
+    final entries = await getPasswordsEntries();
+    return entries.where((e) => e.passwordEditedAt.isBefore(DateTime.now().subtract(Duration(days: days)))).toList();
+  }
 }

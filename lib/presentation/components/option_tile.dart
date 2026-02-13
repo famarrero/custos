@@ -14,17 +14,19 @@ class OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      padding: EdgeInsets.all(context.xl),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(context.corner()),
-        child: Row(
-          spacing: context.md,
-          children: [
-            Icon(icon, color: context.colorScheme.primary),
-            Expanded(child: Text(title, style: context.textTheme.bodyLarge)),
-            Icon(AppIcons.chevronRight, color: context.colorScheme.onSurface.withValues(alpha: 0.6)),
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(context.xl),
+          child: Row(
+            spacing: context.md,
+            children: [
+              Icon(icon, color: context.colorScheme.primary),
+              Expanded(child: Text(title, style: context.textTheme.bodyLarge)),
+              Icon(AppIcons.chevronRight, color: context.colorScheme.onSurface.withValues(alpha: 0.6)),
+            ],
+          ),
         ),
       ),
     );

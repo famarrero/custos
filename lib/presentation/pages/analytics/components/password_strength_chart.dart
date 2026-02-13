@@ -36,6 +36,18 @@ class _PasswordStrengthChartState extends State<PasswordStrengthChart> {
     return ((s + m) / _total).round().clamp(0, 100);
   }
 
+  /// Orden de categorías que se muestran en el gráfico (solo las con count > 0).
+  List<int> _getCategoryIndices() {
+    final weakCount = widget.strengthGroup.weak.length;
+    final mediumCount = widget.strengthGroup.medium.length;
+    final strongCount = widget.strengthGroup.strong.length;
+    final indices = <int>[];
+    if (strongCount > 0) indices.add(_indexStrong);
+    if (mediumCount > 0) indices.add(_indexMedium);
+    if (weakCount > 0) indices.add(_indexWeak);
+    return indices;
+  }
+
   List<PieChartSectionData> _showingSections() {
     final theme = Theme.of(context);
     final weakCount = widget.strengthGroup.weak.length;
@@ -43,60 +55,83 @@ class _PasswordStrengthChartState extends State<PasswordStrengthChart> {
     final strongCount = widget.strengthGroup.strong.length;
 
     double radius(int i) => i == touchedIndex ? 58.0 : 50.0;
-    double fontSize(int i) => (i == touchedIndex ? 20.0 : 16.0).toDouble();
-    final textColor = theme.colorScheme.onSurface;
+    double fontSize(int i) => (i == touchedIndex ? 18.0 : 14.0).toDouble();
+    final textColor = Colors.white;
     const shadows = [Shadow(color: Colors.black26, blurRadius: 2)];
 
     final total = weakCount + mediumCount + strongCount;
-    final strongPct = total > 0 ? (strongCount / total * 100).round() : 0;
-    final mediumPct = total > 0 ? (mediumCount / total * 100).round() : 0;
-    final weakPct = total > 0 ? (weakCount / total * 100).round() : 0;
+    if (total == 0) return [];
 
-    return [
-      PieChartSectionData(
-        color: theme.colorScheme.passwordStrengthStrong,
-        value: strongCount > 0 ? strongCount.toDouble() : 0.1,
-        title: '$strongPct%',
-        radius: radius(_indexStrong),
-        titleStyle: TextStyle(
-          fontSize: fontSize(_indexStrong),
-          fontWeight: FontWeight.bold,
-          color: textColor,
-          shadows: shadows,
+    final sections = <PieChartSectionData>[];
+    int sectionIndex = 0;
+
+    if (strongCount > 0) {
+      final pct = (strongCount / total * 100).round();
+      sections.add(
+        PieChartSectionData(
+          color: theme.colorScheme.passwordStrengthStrong,
+          value: strongCount.toDouble(),
+          title: '$pct%',
+          radius: radius(sectionIndex),
+          titleStyle: TextStyle(
+            fontSize: fontSize(sectionIndex),
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            shadows: shadows,
+          ),
         ),
-      ),
-      PieChartSectionData(
-        color: theme.colorScheme.passwordStrengthMedium,
-        value: mediumCount > 0 ? mediumCount.toDouble() : 0.1,
-        title: '$mediumPct%',
-        radius: radius(_indexMedium),
-        titleStyle: TextStyle(
-          fontSize: fontSize(_indexMedium),
-          fontWeight: FontWeight.bold,
-          color: textColor,
-          shadows: shadows,
+      );
+      sectionIndex++;
+    }
+    if (mediumCount > 0) {
+      final pct = (mediumCount / total * 100).round();
+      sections.add(
+        PieChartSectionData(
+          color: theme.colorScheme.passwordStrengthMedium,
+          value: mediumCount.toDouble(),
+          title: '$pct%',
+          radius: radius(sectionIndex),
+          titleStyle: TextStyle(
+            fontSize: fontSize(sectionIndex),
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            shadows: shadows,
+          ),
         ),
-      ),
-      PieChartSectionData(
-        color: theme.colorScheme.passwordStrengthWeak,
-        value: weakCount > 0 ? weakCount.toDouble() : 0.1,
-        title: '$weakPct%',
-        radius: radius(_indexWeak),
-        titleStyle: TextStyle(
-          fontSize: fontSize(_indexWeak),
-          fontWeight: FontWeight.bold,
-          color: textColor,
-          shadows: shadows,
+      );
+      sectionIndex++;
+    }
+    if (weakCount > 0) {
+      final pct = (weakCount / total * 100).round();
+      sections.add(
+        PieChartSectionData(
+          color: theme.colorScheme.passwordStrengthWeak,
+          value: weakCount.toDouble(),
+          title: '$pct%',
+          radius: radius(sectionIndex),
+          titleStyle: TextStyle(
+            fontSize: fontSize(sectionIndex),
+            fontWeight: FontWeight.bold,
+            color: textColor,
+            shadows: shadows,
+          ),
         ),
-      ),
-    ];
+      );
+    }
+
+    return sections;
   }
 
   void _onTapUp() {
     if (touchedIndex < 0) return;
-    final index = touchedIndex;
+    final categoryIndices = _getCategoryIndices();
+    if (touchedIndex >= categoryIndices.length) {
+      setState(() => touchedIndex = -1);
+      return;
+    }
+    final categoryIndex = categoryIndices[touchedIndex];
     setState(() => touchedIndex = -1);
-    _showPasswordsModal(index);
+    _showPasswordsModal(categoryIndex);
   }
 
   void _showPasswordsModal(int sectionIndex) {

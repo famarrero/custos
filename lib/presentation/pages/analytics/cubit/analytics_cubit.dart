@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:custos/core/utils/app_error.dart';
 import 'package:custos/core/utils/base_state/base_state.dart';
 import 'package:custos/core/utils/failures.dart';
+import 'package:custos/data/models/password_entry/password_entry_entity.dart';
 import 'package:custos/data/models/password_strength_groug/password_strength_group_entity.dart';
 import 'package:custos/data/models/repeated_password_group/repeated_password_group_entity.dart';
 import 'package:custos/data/repositories/password_entry/password_entry_repository.dart';
@@ -13,14 +14,21 @@ part 'analytics_state.dart';
 
 class AnalyticsCubit extends Cubit<AnalyticsState> {
   AnalyticsCubit()
-      : super(
-          AnalyticsState(
-            repetitivePasswordsGroups: BaseState.initial(),
-            passwordsByStrength: BaseState.initial(),
-          ),
-        );
+    : super(
+        AnalyticsState(
+          repetitivePasswordsGroups: BaseState.initial(),
+          passwordsByStrength: BaseState.initial(),
+          olderPasswordsEntries: BaseState.initial(),
+        ),
+      );
 
   final PasswordEntryRepository passwordEntryRepository = di();
+
+  Future<void> startAnalysis() async {
+    getRepetitivePasswordsGroups();
+    getPasswordsByStrength();
+    getOlderPasswordsEntries();
+  }
 
   Future<void> getRepetitivePasswordsGroups() async {
     try {
@@ -28,20 +36,10 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
 
       final response = await passwordEntryRepository.getRepetitivePasswordsGroups();
 
-      emit(
-        state.copyWith(
-          repetitivePasswordsGroups: response.isEmpty
-              ? BaseState.empty()
-              : BaseState.data(response),
-        ),
-      );
+      emit(state.copyWith(repetitivePasswordsGroups: response.isEmpty ? BaseState.empty() : BaseState.data(response)));
     } catch (e) {
       emit(
-        state.copyWith(
-          repetitivePasswordsGroups: BaseState.error(
-            AppFailure(AppError.unknown, message: e.toString()),
-          ),
-        ),
+        state.copyWith(repetitivePasswordsGroups: BaseState.error(AppFailure(AppError.unknown, message: e.toString()))),
       );
     }
   }
@@ -52,19 +50,21 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
 
       final response = await passwordEntryRepository.getPasswordsByStrength();
 
-      emit(
-        state.copyWith(
-          passwordsByStrength: BaseState.data(response),
-        ),
-      );
+      emit(state.copyWith(passwordsByStrength: BaseState.data(response)));
     } catch (e) {
-      emit(
-        state.copyWith(
-          passwordsByStrength: BaseState.error(
-            AppFailure(AppError.unknown, message: e.toString()),
-          ),
-        ),
-      );
+      emit(state.copyWith(passwordsByStrength: BaseState.error(AppFailure(AppError.unknown, message: e.toString()))));
+    }
+  }
+
+  Future<void> getOlderPasswordsEntries() async {
+    try {
+      emit(state.copyWith(passwordsByStrength: BaseState.loading()));
+
+      final response = await passwordEntryRepository.getOlderPasswordsEntries();
+
+      emit(state.copyWith(olderPasswordsEntries: BaseState.data(response)));
+    } catch (e) {
+      emit(state.copyWith(olderPasswordsEntries: BaseState.error(AppFailure(AppError.unknown, message: e.toString()))));
     }
   }
 }

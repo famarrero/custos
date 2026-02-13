@@ -17,6 +17,7 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
     required String? email,
     required String? phone,
     required String password,
+    required DateTime passwordEditedAt,
     required String? note,
     required GroupEntity? group,
     required DateTime? expirationDate,
@@ -24,10 +25,11 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
     required DateTime updatedAt,
   }) = _PasswordEntryEntity;
 
-  factory PasswordEntryEntity.fromJson(Map<String, dynamic> json) =>
-      _$PasswordEntryEntityFromJson(json);
+  factory PasswordEntryEntity.fromJson(Map<String, dynamic> json) => _$PasswordEntryEntityFromJson(json);
 
   static PasswordEntryEntity empty() {
+    final now = DateTime.now().toUtc();
+    
     return PasswordEntryEntity(
       id: '',
       name: '',
@@ -36,11 +38,12 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
       email: null,
       phone: null,
       password: '',
+      passwordEditedAt: now,
       note: null,
       group: null,
       expirationDate: null,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      createdAt: now,
+      updatedAt: now,
     );
   }
 
@@ -53,6 +56,7 @@ abstract class PasswordEntryEntity with _$PasswordEntryEntity {
       email: email,
       phone: phone,
       password: password,
+      passwordEditedAt: passwordEditedAt,
       note: note,
       groupId: group?.id,
       expirationDate: expirationDate,

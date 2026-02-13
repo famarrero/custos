@@ -59,4 +59,11 @@ class PasswordEntryRepositoryImpl implements PasswordEntryRepository {
     final passwordStrengthGroupModel = await passwordEntryProvider.getPasswordsByStrength();
     return passwordStrengthGroupModel.toEntity();
   }
+
+  @override
+  Future<List<PasswordEntryEntity>> getOlderPasswordsEntries({int days = 180}) async {
+    final models = await passwordEntryProvider.getOlderPasswordsEntries(days: days);
+    final entities = await Future.wait(models.map((e) => e.toEntity()));
+    return entities;
+  }
 }

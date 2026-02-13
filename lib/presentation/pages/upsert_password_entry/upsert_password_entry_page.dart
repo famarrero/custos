@@ -318,6 +318,7 @@ class _UpsertPasswordEntryPageState extends State<UpsertPasswordEntryPage> {
           email: _emailController.text.trim(),
           phone: _phoneController.text.trim(),
           password: _passwordController.text,
+          passwordEditedAt: _isAdd ? now : state.getPasswordEntryState.data.passwordEditedAt,
           note: _noteController.text.trim(),
           group: _selectedGroup,
           expirationDate: _expirationDate?.toUtc(),

@@ -1,6 +1,8 @@
 import 'package:custos/core/extensions/string_extension.dart';
+import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/data/models/password_entry/password_entry_entity.dart';
+import 'package:custos/presentation/components/no_data_widget.dart';
 import 'package:custos/presentation/pages/passwords_entries/components/password_entry_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +27,9 @@ class PasswordsModalContent extends StatelessWidget {
     if (entries.isEmpty) {
       return Padding(
         padding: EdgeInsets.all(context.xl),
-        child: Center(
-          child: Text(
-            'No hay entradas en esta categoría',
-            style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-          ),
+        child: NoDataWidget(
+          iconData: AppIcons.analytics,
+          subtitle: 'No hay entradas para mostrar.',
         ),
       );
     }
@@ -53,7 +53,7 @@ class PasswordsModalContent extends StatelessWidget {
         SizedBox(height: context.sm),
         ...entries.map(
           (e) =>
-              Padding(padding: EdgeInsets.symmetric(vertical: context.sm), child: PasswordEntryTile(passwordEntry: e)),
+              Padding(padding: EdgeInsets.symmetric(vertical: context.xs), child: PasswordEntryTile(passwordEntry: e)),
         ),
       ],
     );

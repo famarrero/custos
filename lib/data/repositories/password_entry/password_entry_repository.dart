@@ -16,4 +16,6 @@ abstract class PasswordEntryRepository {
   Future<List<RepeatedPasswordGroupEntity>> getRepetitivePasswordsGroups();
 
   Future<PasswordStrengthGroupEntity> getPasswordsByStrength();
+
+  Future<List<PasswordEntryEntity>> getOlderPasswordsEntries({int days = 180});
 }
