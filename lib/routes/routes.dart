@@ -183,6 +183,8 @@ class SettingsRoute extends GoRouteData {
   static const path = 'settings';
   static const name = 'settings';
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
   const SettingsRoute();
 
   @override

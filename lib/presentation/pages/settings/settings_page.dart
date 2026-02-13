@@ -6,7 +6,6 @@ import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/data/models/profile/profile_model.dart';
 import 'package:custos/di_container.dart';
-import 'package:custos/presentation/app/generated/assets.gen.dart';
 import 'package:custos/presentation/components/about_us_widget.dart';
 import 'package:custos/presentation/components/change_language_widget.dart';
 import 'package:custos/presentation/components/avatar_widget.dart';
@@ -202,7 +201,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: context.l10n.settingsAboutUsTitle,
                   subtitle: context.l10n.settingsAboutUsSubtitle,
                   onTap: () {
-                    context.showCustomModalBottomSheet(title: context.l10n.settingsAboutUsTitle, child: AboutUsWidget());
+                    context.showCustomModalBottomSheet(
+                      title: context.l10n.settingsAboutUsTitle,
+                      child: AboutUsWidget(),
+                    );
                   },
                 ),
               ],
@@ -235,15 +237,15 @@ class _SettingsPageState extends State<SettingsPage> {
     );
 
     // Return the page depending of the mode
-    if (widget.mode == SettingsPageMode.loged) {
-      return Padding(padding: EdgeInsets.symmetric(horizontal: context.xl), child: child);
-    } else {
-      return ScaffoldWidget(
-        safeAreaTop: true,
-        appBar: CustomAppBar(title: Text(context.l10n.navSettings)),
-        padding: EdgeInsets.symmetric(horizontal: context.xl, vertical: context.xxxl),
-        child: child,
-      );
-    }
+
+    return ScaffoldWidget(
+      safeAreaTop: true,
+      appBar: CustomAppBar(title: Text(context.l10n.navSettings)),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.xl,
+        vertical: SettingsPageMode.unloged == widget.mode ? context.lg : context.sm,
+      ),
+      child: child,
+    );
   }
 }
