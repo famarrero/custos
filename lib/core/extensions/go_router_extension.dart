@@ -12,19 +12,17 @@ extension GoRouterExtension on GoRouter {
       name == const PasswordsEntriesRoute().location ||
       name == const GroupsRoute().location ||
       name == const OtpRoute().location ||
-      name == const AnalyticsRoute().location ||
-      name == SettingsRoute().location;
+      name == const AnalyticsRoute().location;
 
   /// Gets the current route name
   String get currentRouteName => routerDelegate.currentConfiguration.last.route.name ?? '';
 
   /// Returns whether [name] is considered a main page.
-  bool isMainRouteName(String name) => 
-      name == PasswordsEntriesRoute.name || 
+  bool isMainRouteName(String name) =>
+      name == PasswordsEntriesRoute.name ||
       name == GroupsRoute.name ||
       name == OtpRoute.name ||
-      name == AnalyticsRoute.name ||
-      name == SettingsRoute.name;
+      name == AnalyticsRoute.name;
 
   /// Return the app bar title based on the current route.
   String appBarTitle(BuildContext context) {
@@ -37,8 +35,6 @@ extension GoRouterExtension on GoRouter {
         return 'OTP';
       case AnalyticsRoute.name:
         return 'Analytics';
-      case SettingsRoute.name:
-        return context.l10n.navSettings;
       default:
         return '';
     }
