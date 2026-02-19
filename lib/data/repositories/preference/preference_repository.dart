@@ -18,4 +18,10 @@ abstract class PreferenceRepository {
 
   /// Clear locale selection
   Future<void> get clearLocale;
+
+  /// Returns true if the user has already seen the introduction flow.
+  Future<bool> getHasSeenIntroduction();
+
+  /// Mark the introduction as seen.
+  Future<void> setHasSeenIntroduction({required bool value});
 }

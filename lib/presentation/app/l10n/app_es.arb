@@ -62,6 +62,8 @@
   "settingsLanguageTitle": "Idioma",
   "settingsLanguageSubtitle": "Selecciona tu idioma preferido.",
   "settingsChangeLanguageTitle": "Cambiar idioma",
+  "settingsIntroductionTitle": "Ver introducción",
+  "settingsIntroductionSubtitle": "Repasa el resumen de lo que hace la app.",
   "settingsPrivacyPolicyTitle": "Política de privacidad",
   "settingsPrivacyPolicySubtitle": "Revisa la política de privacidad de la app.",
   "settingsRemoveProfileTitle": "Eliminar perfil",
@@ -275,5 +277,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "introductionSlide1Title": "100% en tu dispositivo",
+  "introductionSlide1Body": "Tus contraseñas y datos se guardan solo en tu dispositivo. Sin nube, sin servidores. Todo queda totalmente offline.",
+  "introductionSlide2Title": "Organiza con grupos",
+  "introductionSlide2Body": "Crea grupos para clasificar tus cuentas: redes sociales, trabajo, correo y más.",
+  "introductionSlide3Title": "Códigos OTP",
+  "introductionSlide3Body": "Genera códigos de dos factores (2FA) para tus cuentas. Escanea el QR o añade la clave manualmente.",
+  "introductionSlide4Title": "Analíticas",
+  "introductionSlide4Body": "Revisa estadísticas de uso: cuántas contraseñas, grupos y cómo usas tu gestor.",
+  "introductionSlide5Title": "Exportar e importar",
+  "introductionSlide5Body": "Exporta e importa tu base de datos cifrada. Respaldos en .custos protegidos con tu clave maestra.",
+  "introductionGetStarted": "Comenzar"
 }

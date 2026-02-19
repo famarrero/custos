@@ -208,6 +208,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsChangeLanguageTitle => 'Changer de langue';
 
   @override
+  String get settingsIntroductionTitle => 'Voir l\'introduction';
+
+  @override
+  String get settingsIntroductionSubtitle =>
+      'Revoir le résumé des fonctionnalités de l\'app.';
+
+  @override
   String get settingsPrivacyPolicyTitle => 'Politique de confidentialité';
 
   @override
@@ -685,4 +692,42 @@ class AppLocalizationsFr extends AppLocalizations {
   String otpNextIn(int seconds) {
     return 'Suivant dans $seconds s';
   }
+
+  @override
+  String get introductionSlide1Title => '100 % sur votre appareil';
+
+  @override
+  String get introductionSlide1Body =>
+      'Vos mots de passe et données sont stockés uniquement sur votre appareil. Pas de cloud, pas de serveurs. Tout reste entièrement hors ligne.';
+
+  @override
+  String get introductionSlide2Title => 'Organisez avec des groupes';
+
+  @override
+  String get introductionSlide2Body =>
+      'Créez des groupes pour classer vos comptes : réseaux sociaux, travail, e-mail et plus.';
+
+  @override
+  String get introductionSlide3Title => 'Codes OTP';
+
+  @override
+  String get introductionSlide3Body =>
+      'Générez des codes à deux facteurs (2FA) pour vos comptes. Scannez le QR ou ajoutez la clé manuellement.';
+
+  @override
+  String get introductionSlide4Title => 'Analytiques';
+
+  @override
+  String get introductionSlide4Body =>
+      'Consultez les statistiques d\'utilisation : nombre de mots de passe, groupes et comment vous utilisez le gestionnaire.';
+
+  @override
+  String get introductionSlide5Title => 'Exporter et importer';
+
+  @override
+  String get introductionSlide5Body =>
+      'Exportez et importez votre base de données chiffrée. Sauvegardes .custos protégées par votre clé maîtresse.';
+
+  @override
+  String get introductionGetStarted => 'Commencer';
 }

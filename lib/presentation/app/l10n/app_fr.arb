@@ -62,6 +62,8 @@
     "settingsLanguageTitle": "Langue",
     "settingsLanguageSubtitle": "Sélectionnez votre langue préférée.",
     "settingsChangeLanguageTitle": "Changer de langue",
+    "settingsIntroductionTitle": "Voir l'introduction",
+    "settingsIntroductionSubtitle": "Revoir le résumé des fonctionnalités de l'app.",
     "settingsPrivacyPolicyTitle": "Politique de confidentialité",
     "settingsPrivacyPolicySubtitle": "Consultez la politique de confidentialité de l'application.",
     "settingsRemoveProfileTitle": "Supprimer le profil",
@@ -275,5 +277,16 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "introductionSlide1Title": "100 % sur votre appareil",
+    "introductionSlide1Body": "Vos mots de passe et données sont stockés uniquement sur votre appareil. Pas de cloud, pas de serveurs. Tout reste entièrement hors ligne.",
+    "introductionSlide2Title": "Organisez avec des groupes",
+    "introductionSlide2Body": "Créez des groupes pour classer vos comptes : réseaux sociaux, travail, e-mail et plus.",
+    "introductionSlide3Title": "Codes OTP",
+    "introductionSlide3Body": "Générez des codes à deux facteurs (2FA) pour vos comptes. Scannez le QR ou ajoutez la clé manuellement.",
+    "introductionSlide4Title": "Analytiques",
+    "introductionSlide4Body": "Consultez les statistiques d'utilisation : nombre de mots de passe, groupes et comment vous utilisez le gestionnaire.",
+    "introductionSlide5Title": "Exporter et importer",
+    "introductionSlide5Body": "Exportez et importez votre base de données chiffrée. Sauvegardes .custos protégées par votre clé maîtresse.",
+    "introductionGetStarted": "Commencer"
 }

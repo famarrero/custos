@@ -202,6 +202,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsChangeLanguageTitle => 'Change language';
 
   @override
+  String get settingsIntroductionTitle => 'View introduction';
+
+  @override
+  String get settingsIntroductionSubtitle => 'Review what the app does.';
+
+  @override
   String get settingsPrivacyPolicyTitle => 'Privacy policy';
 
   @override
@@ -668,4 +674,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String otpNextIn(int seconds) {
     return 'Next in $seconds s';
   }
+
+  @override
+  String get introductionSlide1Title => '100% on your device';
+
+  @override
+  String get introductionSlide1Body =>
+      'Your passwords and data are stored only on your device. No cloud, no servers. Everything stays fully offline.';
+
+  @override
+  String get introductionSlide2Title => 'Organize with groups';
+
+  @override
+  String get introductionSlide2Body =>
+      'Create groups to classify your accounts: social media, work, email and more.';
+
+  @override
+  String get introductionSlide3Title => 'OTP codes';
+
+  @override
+  String get introductionSlide3Body =>
+      'Generate two-factor (2FA) codes for your accounts. Scan the QR code or add the key manually.';
+
+  @override
+  String get introductionSlide4Title => 'Analytics';
+
+  @override
+  String get introductionSlide4Body =>
+      'View usage statistics: how many passwords, groups, and how you use your manager.';
+
+  @override
+  String get introductionSlide5Title => 'Export and import';
+
+  @override
+  String get introductionSlide5Body =>
+      'Export and import your encrypted database. .custos backups protected with your master key.';
+
+  @override
+  String get introductionGetStarted => 'Get started';
 }

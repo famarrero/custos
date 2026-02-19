@@ -204,6 +204,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsChangeLanguageTitle => 'Alterar idioma';
 
   @override
+  String get settingsIntroductionTitle => 'Ver introdução';
+
+  @override
+  String get settingsIntroductionSubtitle =>
+      'Revise o resumo do que o app faz.';
+
+  @override
   String get settingsPrivacyPolicyTitle => 'Política de privacidade';
 
   @override
@@ -677,4 +684,42 @@ class AppLocalizationsPt extends AppLocalizations {
   String otpNextIn(int seconds) {
     return 'Próximo em $seconds s';
   }
+
+  @override
+  String get introductionSlide1Title => '100% no seu dispositivo';
+
+  @override
+  String get introductionSlide1Body =>
+      'Suas senhas e dados ficam apenas no seu dispositivo. Sem nuvem, sem servidores. Tudo fica totalmente offline.';
+
+  @override
+  String get introductionSlide2Title => 'Organize com grupos';
+
+  @override
+  String get introductionSlide2Body =>
+      'Crie grupos para classificar suas contas: redes sociais, trabalho, e-mail e mais.';
+
+  @override
+  String get introductionSlide3Title => 'Códigos OTP';
+
+  @override
+  String get introductionSlide3Body =>
+      'Gere códigos de dois fatores (2FA) para suas contas. Escaneie o QR ou adicione a chave manualmente.';
+
+  @override
+  String get introductionSlide4Title => 'Análises';
+
+  @override
+  String get introductionSlide4Body =>
+      'Veja estatísticas de uso: quantas senhas, grupos e como você usa seu gerenciador.';
+
+  @override
+  String get introductionSlide5Title => 'Exportar e importar';
+
+  @override
+  String get introductionSlide5Body =>
+      'Exporte e importe sua base de dados criptografada. Backups .custos protegidos com sua chave mestra.';
+
+  @override
+  String get introductionGetStarted => 'Começar';
 }

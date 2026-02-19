@@ -62,6 +62,8 @@
     "settingsLanguageTitle": "Idioma",
     "settingsLanguageSubtitle": "Selecione seu idioma preferido.",
     "settingsChangeLanguageTitle": "Alterar idioma",
+    "settingsIntroductionTitle": "Ver introdução",
+    "settingsIntroductionSubtitle": "Revise o resumo do que o app faz.",
     "settingsPrivacyPolicyTitle": "Política de privacidade",
     "settingsPrivacyPolicySubtitle": "Revise a política de privacidade do app.",
     "settingsRemoveProfileTitle": "Remover perfil",
@@ -275,5 +277,16 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "introductionSlide1Title": "100% no seu dispositivo",
+    "introductionSlide1Body": "Suas senhas e dados ficam apenas no seu dispositivo. Sem nuvem, sem servidores. Tudo fica totalmente offline.",
+    "introductionSlide2Title": "Organize com grupos",
+    "introductionSlide2Body": "Crie grupos para classificar suas contas: redes sociais, trabalho, e-mail e mais.",
+    "introductionSlide3Title": "Códigos OTP",
+    "introductionSlide3Body": "Gere códigos de dois fatores (2FA) para suas contas. Escaneie o QR ou adicione a chave manualmente.",
+    "introductionSlide4Title": "Análises",
+    "introductionSlide4Body": "Veja estatísticas de uso: quantas senhas, grupos e como você usa seu gerenciador.",
+    "introductionSlide5Title": "Exportar e importar",
+    "introductionSlide5Body": "Exporte e importe sua base de dados criptografada. Backups .custos protegidos com sua chave mestra.",
+    "introductionGetStarted": "Começar"
 }

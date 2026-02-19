@@ -7,6 +7,7 @@ import 'package:custos/presentation/components/custom_app_bar.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:custos/presentation/components/custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
+import 'package:custos/presentation/components/upgrader_gate.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/core/utils/app_icons.dart';
 import 'package:custos/routes/routes.dart';
@@ -69,16 +70,16 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
         safeAreaTop: true,
         appBar: CustomAppBar(
           titleString: context.router.appBarTitle(context),
-          actions: [
-            CustomIconButton(
+          leading: Padding(
+            padding:  EdgeInsets.only(left: 8),
+            child: CustomIconButton(
               icon: AppIcons.settings,
               onTap: () {
                 context.push(SettingsRoute().location);
               },
             ),
-
-            SizedBox(width: context.xxl),
-
+          ),
+          actions: [
             CustomIconButton(
               icon: AppIcons.logout,
               onTap: () {
@@ -98,7 +99,7 @@ class _WrapperMainPageState extends State<WrapperMainPage> {
           ],
         ),
         bottomNavigationBar: CustomNavigationBar(),
-        child: widget.child,
+        child: UpgradeGate(child: widget.child),
       ),
     );
   }

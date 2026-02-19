@@ -474,6 +474,18 @@ abstract class AppLocalizations {
   /// **'Cambiar idioma'**
   String get settingsChangeLanguageTitle;
 
+  /// No description provided for @settingsIntroductionTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver introducción'**
+  String get settingsIntroductionTitle;
+
+  /// No description provided for @settingsIntroductionSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Repasa el resumen de lo que hace la app.'**
+  String get settingsIntroductionSubtitle;
+
   /// No description provided for @settingsPrivacyPolicyTitle.
   ///
   /// In es, this message translates to:
@@ -1313,6 +1325,72 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Siguiente en {seconds} s'**
   String otpNextIn(int seconds);
+
+  /// No description provided for @introductionSlide1Title.
+  ///
+  /// In es, this message translates to:
+  /// **'100% en tu dispositivo'**
+  String get introductionSlide1Title;
+
+  /// No description provided for @introductionSlide1Body.
+  ///
+  /// In es, this message translates to:
+  /// **'Tus contraseñas y datos se guardan solo en tu dispositivo. Sin nube, sin servidores. Todo queda totalmente offline.'**
+  String get introductionSlide1Body;
+
+  /// No description provided for @introductionSlide2Title.
+  ///
+  /// In es, this message translates to:
+  /// **'Organiza con grupos'**
+  String get introductionSlide2Title;
+
+  /// No description provided for @introductionSlide2Body.
+  ///
+  /// In es, this message translates to:
+  /// **'Crea grupos para clasificar tus cuentas: redes sociales, trabajo, correo y más.'**
+  String get introductionSlide2Body;
+
+  /// No description provided for @introductionSlide3Title.
+  ///
+  /// In es, this message translates to:
+  /// **'Códigos OTP'**
+  String get introductionSlide3Title;
+
+  /// No description provided for @introductionSlide3Body.
+  ///
+  /// In es, this message translates to:
+  /// **'Genera códigos de dos factores (2FA) para tus cuentas. Escanea el QR o añade la clave manualmente.'**
+  String get introductionSlide3Body;
+
+  /// No description provided for @introductionSlide4Title.
+  ///
+  /// In es, this message translates to:
+  /// **'Analíticas'**
+  String get introductionSlide4Title;
+
+  /// No description provided for @introductionSlide4Body.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisa estadísticas de uso: cuántas contraseñas, grupos y cómo usas tu gestor.'**
+  String get introductionSlide4Body;
+
+  /// No description provided for @introductionSlide5Title.
+  ///
+  /// In es, this message translates to:
+  /// **'Exportar e importar'**
+  String get introductionSlide5Title;
+
+  /// No description provided for @introductionSlide5Body.
+  ///
+  /// In es, this message translates to:
+  /// **'Exporta e importa tu base de datos cifrada. Respaldos en .custos protegidos con tu clave maestra.'**
+  String get introductionSlide5Body;
+
+  /// No description provided for @introductionGetStarted.
+  ///
+  /// In es, this message translates to:
+  /// **'Comenzar'**
+  String get introductionGetStarted;
 }
 
 class _AppLocalizationsDelegate

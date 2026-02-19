@@ -1,6 +1,7 @@
 import 'package:custos/core/extensions/build_context_extension.dart';
 import 'package:custos/core/extensions/string_extension.dart';
 import 'package:custos/core/utils/app_icons.dart';
+import 'package:custos/core/utils/app_spacing.dart';
 import 'package:custos/presentation/components/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       actions: actions,
-      actionsPadding: EdgeInsets.symmetric(horizontal: 14.0),
+      actionsPadding: EdgeInsets.symmetric(horizontal: context.xxl),
     );
   }
 

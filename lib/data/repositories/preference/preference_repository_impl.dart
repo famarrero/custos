@@ -15,6 +15,9 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   /// Key use to access to saved locale
   static const String _locale = 'locale';
 
+  /// Key for whether the user has seen the introduction flow
+  static const String _hasSeenIntroduction = 'has_seen_introduction';
+
   @override
   Future<ThemeMode?> getThemeMode() async {
     final themeIndex = await preferencesProvider.getInt(key: _themeMode);
@@ -50,4 +53,12 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   @override
   Future<void> get clearLocale async =>
       await preferencesProvider.remove(key: _locale);
+
+  @override
+  Future<bool> getHasSeenIntroduction() async =>
+      await preferencesProvider.getBool(key: _hasSeenIntroduction) ?? false;
+
+  @override
+  Future<void> setHasSeenIntroduction({required bool value}) async =>
+      await preferencesProvider.setBool(value: value, key: _hasSeenIntroduction);
 }

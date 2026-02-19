@@ -1,10 +1,12 @@
 import 'dart:async';
 
 // import 'package:custos/data/repositories/auth/auth_repository.dart';
-// import 'package:custos/di_container.dart';
+import 'package:custos/data/repositories/preference/preference_repository.dart';
+import 'package:custos/di_container.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:custos/presentation/pages/analytics/analytics_page.dart';
 import 'package:custos/presentation/pages/groups/groups_page.dart';
+import 'package:custos/presentation/pages/introduction/introduction_page.dart';
 import 'package:custos/presentation/pages/login/login_page.dart';
 import 'package:custos/presentation/pages/otp/otp_page.dart';
 import 'package:custos/presentation/pages/upsert_password_entry/upsert_password_entry_page.dart';
@@ -35,6 +37,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(d
       path: PasswordsEntriesRoute.path,
       name: PasswordsEntriesRoute.name,
       routes: [
+        TypedGoRoute<IntroductionRoute>(path: IntroductionRoute.path, name: IntroductionRoute.name),
         TypedGoRoute<LoginRoute>(path: LoginRoute.path, name: LoginRoute.name),
         TypedGoRoute<RegisterRoute>(path: RegisterRoute.path, name: RegisterRoute.name),
         TypedGoRoute<SettingsUnlogedRoute>(path: SettingsUnlogedRoute.path, name: SettingsUnlogedRoute.name),
@@ -59,6 +62,20 @@ class WrapperMainRoute extends ShellRouteData {
   @override
   Page<void> pageBuilder(context, state, navigator) {
     return _routeTransition(state: state, context: context, child: WrapperMainPage(child: navigator));
+  }
+}
+
+class IntroductionRoute extends GoRouteData {
+  static const path = 'introduction';
+  static const name = 'introduction';
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
+  const IntroductionRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return _routeTransition(state: state, context: context, child: const IntroductionPage());
   }
 }
 
@@ -108,15 +125,14 @@ class PasswordsEntriesRoute extends GoRouteData {
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) async {
-    // final AuthRepository authRepository = di();
     final AuthCubit authCubit = context.read<AuthCubit>();
 
     // If the current route is PasswordsEntriesRoute
     if (state.fullPath == const PasswordsEntriesRoute().location) {
       // If user is not authenticated
       if (!authCubit.state.isUserAuthenticated) {
-        // Go to LoginRoute
-        return const LoginRoute().location;
+        final hasSeenIntro = await di<PreferenceRepository>().getHasSeenIntroduction();
+        return hasSeenIntro ? const LoginRoute().location : const IntroductionRoute().location;
       }
     }
 

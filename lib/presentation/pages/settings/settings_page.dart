@@ -19,6 +19,7 @@ import 'package:custos/presentation/components/import_export/cubit/import_export
 import 'package:custos/presentation/components/import_export/import_export_data.dart';
 import 'package:custos/presentation/components/privacy_police_widget.dart';
 import 'package:custos/presentation/components/scaffold_widget.dart';
+import 'package:custos/routes/routes.dart';
 import 'package:custos/presentation/cubit/app/app_cubit.dart';
 import 'package:custos/presentation/cubit/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,16 @@ class _SettingsPageState extends State<SettingsPage> {
           CustomContainer(
             child: CustomTilesOptions(
               tiles: [
+                // Introduction
+                CustomSettingTile(
+                  prefixIconPath: AppIcons.introduction,
+                  title: context.l10n.settingsIntroductionTitle,
+                  subtitle: context.l10n.settingsIntroductionSubtitle,
+                  onTap: () {
+                    context.push(const IntroductionRoute().location);
+                  },
+                ),
+
                 // Theme mode
                 CustomSettingTile(
                   prefixIconPath: isDarkMode ? AppIcons.darkMode : AppIcons.lightMode,

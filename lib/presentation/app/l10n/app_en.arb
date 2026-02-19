@@ -62,6 +62,8 @@
   "settingsLanguageTitle": "Language",
   "settingsLanguageSubtitle": "Select your preferred language.",
   "settingsChangeLanguageTitle": "Change language",
+  "settingsIntroductionTitle": "View introduction",
+  "settingsIntroductionSubtitle": "Review what the app does.",
   "settingsPrivacyPolicyTitle": "Privacy policy",
   "settingsPrivacyPolicySubtitle": "Review the privacy policy of the app.",
   "settingsRemoveProfileTitle": "Remove profile",
@@ -275,5 +277,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "introductionSlide1Title": "100% on your device",
+  "introductionSlide1Body": "Your passwords and data are stored only on your device. No cloud, no servers. Everything stays fully offline.",
+  "introductionSlide2Title": "Organize with groups",
+  "introductionSlide2Body": "Create groups to classify your accounts: social media, work, email and more.",
+  "introductionSlide3Title": "OTP codes",
+  "introductionSlide3Body": "Generate two-factor (2FA) codes for your accounts. Scan the QR code or add the key manually.",
+  "introductionSlide4Title": "Analytics",
+  "introductionSlide4Body": "View usage statistics: how many passwords, groups, and how you use your manager.",
+  "introductionSlide5Title": "Export and import",
+  "introductionSlide5Body": "Export and import your encrypted database. .custos backups protected with your master key.",
+  "introductionGetStarted": "Get started"
 }
