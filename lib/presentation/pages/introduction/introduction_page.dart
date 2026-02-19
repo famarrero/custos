@@ -13,7 +13,9 @@ import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroductionPage extends StatefulWidget {
-  const IntroductionPage({super.key});
+  const IntroductionPage({super.key, required this.isFirstTime});
+
+  final bool isFirstTime;
 
   @override
   State<IntroductionPage> createState() => _IntroductionPageState();
@@ -31,79 +33,80 @@ class _IntroductionPageState extends State<IntroductionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isFirstTime = !context.canPop();
-
-    return ScaffoldWidget(
-      safeAreaTop: true,
-      appBar: CustomAppBar(),
-      padding: EdgeInsets.symmetric(horizontal: context.xl),
-      child: Column(
-        children: [
-          Expanded(
-            child: PageView(
+    return PopScope(
+      canPop: false,
+      child: ScaffoldWidget(
+        safeAreaTop: true,
+        appBar: widget.isFirstTime ? null : CustomAppBar(),
+        padding: EdgeInsets.symmetric(horizontal: context.xl),
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                children: [
+                  _IntroSlide(
+                    icon: AppIcons.groupMobile,
+                    title: context.l10n.introductionSlide1Title,
+                    body: context.l10n.introductionSlide1Body,
+                  ),
+                  _IntroSlide(
+                    icon: AppIcons.groups,
+                    title: context.l10n.introductionSlide2Title,
+                    body: context.l10n.introductionSlide2Body,
+                  ),
+                  _IntroSlide(
+                    icon: AppIcons.otp,
+                    title: context.l10n.introductionSlide3Title,
+                    body: context.l10n.introductionSlide3Body,
+                  ),
+                  _IntroSlide(
+                    icon: AppIcons.analytics,
+                    title: context.l10n.introductionSlide4Title,
+                    body: context.l10n.introductionSlide4Body,
+                  ),
+                  _IntroSlide(
+                    icon: AppIcons.groupBackup,
+                    title: context.l10n.introductionSlide5Title,
+                    body: context.l10n.introductionSlide5Body,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: context.lg),
+            SmoothPageIndicator(
               controller: _pageController,
-              children: [
-                _IntroSlide(
-                  icon: AppIcons.groupMobile,
-                  title: context.l10n.introductionSlide1Title,
-                  body: context.l10n.introductionSlide1Body,
-                ),
-                _IntroSlide(
-                  icon: AppIcons.groups,
-                  title: context.l10n.introductionSlide2Title,
-                  body: context.l10n.introductionSlide2Body,
-                ),
-                _IntroSlide(
-                  icon: AppIcons.otp,
-                  title: context.l10n.introductionSlide3Title,
-                  body: context.l10n.introductionSlide3Body,
-                ),
-                _IntroSlide(
-                  icon: AppIcons.analytics,
-                  title: context.l10n.introductionSlide4Title,
-                  body: context.l10n.introductionSlide4Body,
-                ),
-                _IntroSlide(
-                  icon: AppIcons.groupBackup,
-                  title: context.l10n.introductionSlide5Title,
-                  body: context.l10n.introductionSlide5Body,
-                ),
-              ],
+              count: _pageCount,
+              effect: ExpandingDotsEffect(
+                dotHeight: 8,
+                dotWidth: 8,
+                expansionFactor: 4,
+                spacing: 8,
+                dotColor: context.colorScheme.outline.withValues(alpha: 0.4),
+                activeDotColor: context.colorScheme.primary,
+              ),
             ),
-          ),
-          SizedBox(height: context.lg),
-          SmoothPageIndicator(
-            controller: _pageController,
-            count: _pageCount,
-            effect: ExpandingDotsEffect(
-              dotHeight: 8,
-              dotWidth: 8,
-              expansionFactor: 4,
-              spacing: 8,
-              dotColor: context.colorScheme.outline.withValues(alpha: 0.4),
-              activeDotColor: context.colorScheme.primary,
-            ),
-          ),
-          SizedBox(height: context.xxl),
-          if (isFirstTime)
-            CustomButton(
-              label: context.l10n.introductionGetStarted,
-              onPressed: () async {
-                await di<PreferenceRepository>().setHasSeenIntroduction(value: true);
-                if (!context.mounted) return;
-                context.go(const LoginRoute().location);
-              },
-            )
-          else
-            CustomButton(
-              label: 'Ok',
-              onPressed: () async {
-                context.pop();
-              },
-            ),
+            SizedBox(height: context.xxl),
+            if (widget.isFirstTime)
+              CustomButton(
+                label: context.l10n.introductionGetStarted,
+                onPressed: () async {
+                  await di<PreferenceRepository>().setHasSeenIntroduction(value: true);
+                  if (!context.mounted) return;
+                  context.go(const LoginRoute().location);
+                },
+              )
+            else
+              CustomButton(
+                label: 'Ok',
+                onPressed: () async {
+                  context.pop();
+                },
+              ),
 
-          SizedBox(height: context.xl),
-        ],
+            SizedBox(height: context.xl),
+          ],
+        ),
       ),
     );
   }

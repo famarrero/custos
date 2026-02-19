@@ -71,11 +71,18 @@ class IntroductionRoute extends GoRouteData {
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
-  const IntroductionRoute();
+  const IntroductionRoute({this.isFirstTime = true});
+
+  final bool isFirstTime;
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    return _routeTransition(state: state, context: context, child: const IntroductionPage());
+    final route = $IntroductionRouteExtension._fromState(state);
+    return _routeTransition(
+      state: state,
+      context: context,
+      child: IntroductionPage(isFirstTime: route.isFirstTime),
+    );
   }
 }
 

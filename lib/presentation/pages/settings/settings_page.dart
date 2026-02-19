@@ -94,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: context.l10n.settingsIntroductionTitle,
                   subtitle: context.l10n.settingsIntroductionSubtitle,
                   onTap: () {
-                    context.push(const IntroductionRoute().location);
+                    const IntroductionRoute(isFirstTime: false).push(context);
                   },
                 ),
 
